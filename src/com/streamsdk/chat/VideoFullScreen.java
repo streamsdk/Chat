@@ -40,7 +40,7 @@ public class VideoFullScreen extends Activity {
     int count = 0;
     TextView timeText;
     Timer timer;
-    
+       
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
         Intent intent = getIntent();
