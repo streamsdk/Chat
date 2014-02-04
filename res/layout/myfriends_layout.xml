@@ -1,0 +1,76 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/list_item"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <include layout="@layout/list_item_header" />
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="horizontal"
+        android:padding="10dip" >
+
+      <ImageView
+        android:id="@+id/imgMainPageAvatar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+         android:gravity="center_vertical"
+        android:src="@drawable/yahoo_no_avatar"
+       />
+      
+      <TextView
+            android:id="@+id/txtMyfriendFriendName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="15dp"
+            android:minHeight="?android:attr/listPreferredItemHeight"
+            android:textAppearance="?android:attr/textAppearanceListItem"
+            android:textColor="@color/pinned_header_background"
+            android:layout_toRightOf="@+id/imgMainPageAvatar" />
+      
+      
+      <FrameLayout
+           android:id="@+id/messageCountLayout"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_alignParentRight="true"
+           android:layout_centerVertical="true"
+           android:visibility="gone">
+         <RelativeLayout 
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content">
+            <ImageView
+               android:id="@+id/imageMessageCount"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:src="@drawable/message_count"/>
+            <TextView
+                android:id="@+id/txtMessageCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/imageMessageCount"
+                android:layout_alignLeft="@+id/imageMessageCount"
+                android:layout_alignRight="@+id/imageMessageCount"
+                android:layout_alignTop="@+id/imageMessageCount"
+                android:layout_margin="1dp"
+                android:gravity="center"
+                android:textSize="12dp"
+                android:text="5"
+                android:textColor="@color/firstPageTexColor"/>
+            </RelativeLayout>
+       </FrameLayout>
+      
+        
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/list_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@android:drawable/divider_horizontal_dark" />
+
+</LinearLayout>

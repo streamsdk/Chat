@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) Mehran Maghoumi 2011-2012 -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:drawable="@drawable/background_textbox_focused" android:state_focused="true"/>
+    <item android:drawable="@drawable/background_textbox_focused" android:state_selected="true"/>
+    <item android:drawable="@drawable/background_textbox_normal"/>
+    
+</selector>

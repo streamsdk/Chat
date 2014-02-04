@@ -1,0 +1,87 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/parentLayout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" 
+        >
+
+        <ListView
+            android:id="@+id/listView1"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_above="@+id/footerControls"
+            android:cacheColorHint="#eeeeee"
+            android:divider="#00000000"
+            android:stackFromBottom="true"
+            android:transcriptMode="alwaysScroll" >
+        </ListView>
+
+        <LinearLayout
+            android:id="@+id/footerControls"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
+            android:layout_marginTop="3dp"
+            android:orientation="horizontal" >
+            
+             <ImageView
+                 android:id="@+id/emoticons_button"
+                 android:layout_width="0dp"
+                 android:layout_height="32dp"
+                 android:layout_weight="0.15"
+                  android:src="@drawable/ic_smiley" />
+
+            <ImageButton
+                android:id="@+id/changeStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:background="@drawable/video" />
+
+            <Button
+                android:id="@+id/speakButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:text="Press Hold To Speak"
+                android:textSize="17sp"
+                android:visibility="gone" />
+
+            <EditText
+                android:id="@+id/txtMessage"
+                style="@style/GlossyTextbox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="top"
+                android:hint="Type here..."
+                android:imeActionLabel="Send"
+                android:imeOptions="actionSend"
+                android:maxLines="2" >
+            </EditText>
+
+            <Button
+                android:id="@+id/btnSend"
+                style="@style/GlossyButton"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_marginLeft="3dp"
+                android:text="Send" />
+        </LinearLayout>
+    </RelativeLayout>
+    
+    <LinearLayout
+        android:id="@+id/footer_for_emoticons"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/keyboard_height"
+        android:background="@android:color/transparent"
+        android:visibility="gone" />
+ 
+       
+</LinearLayout>

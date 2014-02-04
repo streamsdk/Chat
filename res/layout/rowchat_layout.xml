@@ -1,0 +1,131 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layoutHolder"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content" >
+
+    <RelativeLayout
+         android:id="@+id/chatRel"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        >
+
+       
+
+
+
+<!-- Friend Bubble -->
+
+        <TextView
+            android:id="@+id/txtTimestamp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="5:10"
+            android:textColor="#888888"
+            android:textSize="10sp" android:visibility="visible"/>
+
+        <ImageView
+            android:id="@+id/imgAvatarFriend"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignBottom="@+id/txtMessageFriend"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/background_imageview"
+            android:src="@drawable/yahoo_no_avatar" />
+
+        <TextView
+            android:id="@+id/txtMessageFriend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtTimestamp"
+            android:layout_toRightOf="@+id/imgAvatarFriend"
+            android:autoLink="web|email|map"
+            android:background="@drawable/bubble_friend"
+            android:text="La Friend!"
+            android:textColor="#000000"
+            android:textStyle="bold"
+            android:textSize="18sp" />
+        
+         <ImageView 
+            android:id="@+id/txtImageFriend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtTimestamp"
+            android:layout_toRightOf="@+id/imgAvatarFriend"
+            android:background="@drawable/bubble_friend"
+            android:visibility="gone"
+         />
+        
+         <Button 
+             android:id="@+id/playFriend"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_below="@+id/txtTimestamp"
+             android:layout_toRightOf="@+id/imgAvatarFriend"
+             android:background="@drawable/bubble_friend"
+             android:layout_alignTop="@+id/imgAvatarFriend"
+             android:visibility="gone"
+             android:textColor="#000000"
+             android:gravity="left|center_vertical"
+             android:textSize="18sp"
+          />
+        
+       
+
+        <!-- Self Bubble -->
+
+         <ImageView
+            android:id="@+id/imgAvatarSelf"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_alignBottom="@+id/txtImageSelf"
+            android:background="@drawable/background_imageview"
+            android:src="@drawable/yahoo_no_avatar" />
+
+        <TextView
+            android:id="@+id/txtMessageSelf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtTimestamp"
+            android:layout_toLeftOf="@+id/imgAvatarSelf"
+            android:autoLink="web|email|map"
+            android:background="@drawable/bubble_self"
+            android:text="La Me!"
+            android:textColor="#000000"
+            android:textStyle="bold"
+            android:textSize="18sp" />
+        
+        <ImageView 
+            android:id="@+id/txtImageSelf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtTimestamp"
+            android:layout_toLeftOf="@+id/imgAvatarSelf"
+            android:background="@drawable/bubble_self"
+            android:gravity="left|center_vertical"
+            android:visibility="gone"
+         />
+        
+         <Button 
+             android:id="@+id/playSelf"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_below="@+id/txtTimestamp"
+             android:layout_toLeftOf="@+id/imgAvatarSelf"
+             android:background="@drawable/bubble_self"
+             android:layout_alignTop="@+id/imgAvatarSelf"
+             android:visibility="gone"
+             android:textColor="#000000"
+             android:gravity="left|center_vertical"
+             android:textSize="18sp"
+          />
+
+        
+    </RelativeLayout>
+
+</FrameLayout> 

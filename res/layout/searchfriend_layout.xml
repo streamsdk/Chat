@@ -1,0 +1,38 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="horizontal"
+    android:cacheColorHint="#00000000"
+    android:background="@drawable/backrepeat"
+    android:padding="10dip" >
+
+    <ImageView
+        android:id="@+id/imgSearchAvatar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:src="@drawable/yahoo_no_avatar"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/txtSearchFriendName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:text="friend name"
+        android:textSize="23sp"
+        android:textStyle="bold"
+        android:gravity="center_vertical"
+        android:layout_toRightOf="@id/imgSearchAvatar" 
+        android:visibility="gone"/>
+
+    <Button
+        android:id="@+id/sendRequestFriend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:gravity="center_vertical"
+        android:text="friend"
+        android:visibility="gone"/>
+
+</RelativeLayout>

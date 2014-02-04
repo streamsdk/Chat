@@ -1,0 +1,223 @@
+package com.streamsdk.chat;
+
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+
+import android.app.Activity;
+import android.content.Context;
+import android.os.Environment;
+import android.os.Handler;
+
+import com.streamsdk.cache.FriendDB;
+import com.streamsdk.cache.InvitationDB;
+import com.streamsdk.cache.MessagingAckDB;
+import com.streamsdk.cache.MessagingCountDB;
+import com.streamsdk.cache.MessagingHistoryDB;
+
+public class ApplicationInstance {
+	
+	//public  static final String APPID = "0093D2FD61600099DE1027E50C6C3F8D";
+	//public  static final String APPID = "7E95CF60694890DCD4CEFBF79BC3BAE4";
+	
+	/*public static String APPID="0093D2FD61600099DE1027E50C6C3F8D";
+	public static String cKey = "01D901D6EFBA42145E54F52E465F407B";
+	public static String sKey = "4EF482C15D849D04BA5D7BC940526EA3";*/
+	
+	/*private static String APPID="C06B58F6700462E5597E94723D7B105C";
+	private static String cKey = "2EC9482AF170B7B3A1558F7EC7C01C7A";
+	private static String sKey = "78771227A606BFD96797E6281D518614";*/
+	
+	public static String APPID="7E95CF60694890DCD4CEFBF79BC3BAE4";
+	public static String cKey = "4768674EDC06477EC63AEEF8FEAB0CF8";
+	public static String sKey = "73B7C757A511B1574FDF63B3FEB638B7";
+	public static final String USER_INFO = "MyPrefsFile";
+
+	
+	
+	private static ApplicationInstance applicationInstance = null;
+	private ChatListener chatListener =  null;
+	private MessagingHistoryDB messagingHistoryDB;
+	private FriendDB friendDB;
+	private InvitationDB inivitationDB; 
+	private Map<String, Handler> handlers = null;
+	private String loginName = "jacky";
+	private String password = "";
+	private long receivedMessageLastTime = 0;
+	private boolean visiable = true;
+	private Context context;
+	private Activity firstPageActivity;
+	private String recordingVideoPath;
+	private String photoTakenPath;
+	private boolean checkConnection = true;
+	private MessagingCountDB messagingCountDB;
+	private MessagingAckDB messagingAckDB;
+	private RefreshUI refreshUI;
+	private int photoTimeout = -1;
+	
+	private static void createDic(){
+		 String path= Environment.getExternalStorageDirectory().getAbsolutePath().toString();
+		 File dicFile = new File(path, "voicetalk");
+		 if (!dicFile.exists())
+             dicFile.mkdir();		 
+	}
+	
+	public static ApplicationInstance getInstance(){
+		
+		if (applicationInstance == null){
+			applicationInstance = new ApplicationInstance();
+			createDic();
+			return applicationInstance;
+		}
+		return applicationInstance;
+	}
+	
+	public InvitationDB getInivitationDB() {
+		return inivitationDB;
+	}
+
+	public void setInivitationDB(InvitationDB inivitationDB) {
+		this.inivitationDB = inivitationDB;
+	}
+
+	public String getLoginName() {
+		return loginName;
+	}
+
+	public void setLoginName(String loginName) {
+		this.loginName = loginName;
+	}
+
+	public void addHandler(String name, Handler handler){
+		if (handlers == null){
+			handlers = new HashMap<String, Handler>();
+		}
+		handlers.put(name, handler);
+	}
+	
+	public Handler getHandler(String name){
+		return handlers.get(name);
+	}
+	
+	public FriendDB getFriendDB() {
+		return friendDB;
+	}
+
+	public void setFriendDB(FriendDB friendDB) {
+		this.friendDB = friendDB;
+	}
+
+	public MessagingHistoryDB getMessagingHistoryDB() {
+		return messagingHistoryDB;
+	}
+	
+	public boolean isVisiable() {
+		return visiable;
+	}
+
+	public void setVisiable(boolean visiable) {
+		this.visiable = visiable;
+	}
+
+	public void setMessagingHistoryDB(MessagingHistoryDB messagingHistoryDB) {
+		this.messagingHistoryDB = messagingHistoryDB;
+	}
+	
+	public void setCurrentChatListener(ChatListener cl){
+		chatListener = cl;
+	}
+	
+	public ChatListener getCurrentChatListener(){
+		return chatListener;
+	}
+
+	public long getReceivedMessageLastTime() {
+		return receivedMessageLastTime;
+	}
+
+	public void setReceivedMessageLastTime(long receivedMessageLastTime) {
+		this.receivedMessageLastTime = receivedMessageLastTime;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public Context getContext() {
+		return context;
+	}
+
+	public void setContext(Context context) {
+		this.context = context;
+	}
+	
+	
+	public Activity getFirstPageActivity() {
+		return firstPageActivity;
+	}
+
+	public void setFirstPageActivity(Activity firstPageActivity) {
+		this.firstPageActivity = firstPageActivity;
+	}
+
+	public boolean isCheckConnection() {
+		return checkConnection;
+	}
+
+	public void setCheckConnection(boolean checkConnection) {
+		this.checkConnection = checkConnection;
+	}
+
+	public String getRecordingVideoPath() {
+		return recordingVideoPath;
+	}
+
+	public void setRecordingVideoPath(String recordingVideoPath) {
+		this.recordingVideoPath = recordingVideoPath;
+	}
+
+	public String getPhotoTakenPath() {
+		return photoTakenPath;
+	}
+
+	public void setPhotoTakenPath(String photoTakenPath) {
+		this.photoTakenPath = photoTakenPath;
+	}
+
+	public MessagingCountDB getMessagingCountDB() {
+		return messagingCountDB;
+	}
+
+	public void setMessagingCountDB(MessagingCountDB messagingCountDB) {
+		this.messagingCountDB = messagingCountDB;
+	}
+
+	public RefreshUI getRefreshUI() {
+		return refreshUI;
+	}
+
+	public void setRefreshUI(RefreshUI refreshUI) {
+		this.refreshUI = refreshUI;
+	}
+
+	public int getPhotoTimeout() {
+		return photoTimeout;
+	}
+
+	public void setPhotoTimeout(int photoTimeout) {
+		this.photoTimeout = photoTimeout;
+	}
+
+	public MessagingAckDB getMessagingAckDB() {
+		return messagingAckDB;
+	}
+
+	public void setMessagingAckDB(MessagingAckDB messagingAckDB) {
+		this.messagingAckDB = messagingAckDB;
+	}
+	
+}

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+    
+    <VideoView android:id="@+id/surface_view"
+        android:layout_width="fill_parent"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
+        android:layout_height="fill_parent">
+    </VideoView>
+    
+    <FrameLayout
+           android:id="@+id/timeCountLayout"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_alignParentRight="true"
+           android:layout_alignParentTop="true"
+           android:visibility="visible">
+         <RelativeLayout 
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content">
+            <ImageView
+               android:id="@+id/imageTimeCount"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:src="@drawable/message_count"/>
+            <TextView
+                android:id="@+id/txtTimeCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/imageTimeCount"
+                android:layout_alignLeft="@+id/imageTimeCount"
+                android:layout_alignRight="@+id/imageTimeCount"
+                android:layout_alignTop="@+id/imageTimeCount"
+                android:layout_margin="1dp"
+                android:gravity="center"
+                android:textSize="12dp"
+                android:text="5"
+                android:textColor="@color/firstPageTexColor"/>
+            </RelativeLayout>
+    </FrameLayout>
+    
+    
+    
+    <Button
+            android:id="@+id/playButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:text="PAUSE"
+            android:textStyle="bold"
+            android:textSize="12dp"/>
+    
+    <Button
+            android:id="@+id/sendButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/playButton"
+            android:layout_alignParentBottom="true"
+            android:text="SEND"
+            android:textSize="12dp"
+            android:textStyle="bold"
+            android:visibility="gone"/>
+    
+    <Button
+            android:id="@+id/retakeButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/playButton"
+            android:layout_alignParentBottom="true"
+            android:text="RETAKE"
+            android:textSize="12dp"
+            android:textStyle="bold"
+            android:visibility="gone"/>
+             
+</RelativeLayout>

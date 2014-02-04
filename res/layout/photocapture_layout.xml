@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/androidPhotoCaptureLayout"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >
+    <RelativeLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        >
+        <FrameLayout
+            android:id="@+id/photoview"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"/>
+        
+        <Button
+            android:id="@+id/takePhotoButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:text="TAKE"
+            android:textStyle="bold"
+            android:textSize="12dp"/>
+        
+        <Button
+            android:id="@+id/changeCam"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:text="CHANGE"
+            android:textSize="12dp"
+            android:textStyle="bold"/>
+        
+        
+    </RelativeLayout>
+</LinearLayout>

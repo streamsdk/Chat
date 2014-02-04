@@ -1,0 +1,48 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/firstPageLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/talk4s"
+    android:cacheColorHint="#00000000" >
+
+    <RelativeLayout
+        android:id="@+id/firstPageRel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <LinearLayout
+            android:id="@+id/firstLinPageLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="30dp"
+            android:orientation="vertical" >
+         
+            <TextView
+                android:id="@+id/loginTextView"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:background="@color/redLogin"
+                android:gravity="center|center_vertical"
+                android:text="LOG IN"
+                android:textColor="@color/firstPageTexColor"
+                android:textSize="30sp"
+                android:textStyle="bold" />
+            
+           <TextView
+                android:id="@+id/signupTextView"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:background="@color/greenSignup"
+                android:gravity="center|center_vertical"
+                android:layout_marginTop="5dp"
+                android:text="SIGN UP"
+                android:textColor="@color/firstPageTexColor"
+                android:textSize="30sp"
+                android:textStyle="bold" />
+            
+            
+        </LinearLayout>
+    </RelativeLayout>
+
+</FrameLayout>

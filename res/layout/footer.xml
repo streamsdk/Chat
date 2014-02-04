@@ -1,0 +1,52 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/footerControls"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+               android:background="@android:color/holo_blue_dark" >
+            
+           <ImageView
+                 android:id="@+id/more_button"
+                 android:layout_width="0dp"
+                 android:layout_height="wrap_content"
+                 android:layout_weight="0.1"
+                  android:src="@drawable/add" />
+
+            <ImageButton
+                android:id="@+id/changeStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.1"
+                android:background="@drawable/video" />
+
+            <Button
+                android:id="@+id/speakButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="0.8"
+                android:text="Press Hold To Speak"
+                android:textSize="17sp"
+                android:visibility="gone" />
+
+            <com.streamsdk.chat.emoji.EmojiEditText
+                android:id="@+id/txtMessage"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.65"
+                android:gravity="top"
+                android:hint="Type here..."
+                android:imeActionLabel="Send"
+                android:imeOptions="actionSend"
+                android:maxLines="2" />
+
+
+            <Button
+                android:background="@android:color/holo_blue_bright"
+                android:id="@+id/btnSend"
+                 android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.15"
+                android:layout_marginLeft="3dp"
+                android:text="Send" />
+        </LinearLayout>
