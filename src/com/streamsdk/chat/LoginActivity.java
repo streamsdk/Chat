@@ -2,6 +2,7 @@ package com.streamsdk.chat;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -101,6 +102,13 @@ public class LoginActivity extends Activity{
 											fr.setStatus(status);
 										}
 										frs.add(fr);
+										final StreamUser sUser = new StreamUser();
+										sUser.loadUserMetadataInbackground(fr.getFriendName(), new StreamCallback() {
+											public void result(boolean succeed, String errorMessage) {
+												Map<String, String> userMetadata = sUser.getUserMetadata();
+												ApplicationInstance.getInstance().updateFriendMetadata(sUser.getUserName(), userMetadata);
+											}
+										});
 									}
 
 									ApplicationInstance.getInstance().getFriendDB().syncUpdate(frs);
