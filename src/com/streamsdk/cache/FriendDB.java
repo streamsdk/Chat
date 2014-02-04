@@ -25,6 +25,7 @@ public class FriendDB {
     private static final String MINSERT = "insert into frienddb (username,status) values (?,?)";
     private DatabaseHelper helper;
     
+    //add some comments here
     public FriendDB(Context context){
     	helper = new DatabaseHelper(context);
     	db = helper.getWritableDatabase();
