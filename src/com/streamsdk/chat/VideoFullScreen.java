@@ -43,18 +43,18 @@ public class VideoFullScreen extends Activity {
     
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
-        setContentView(R.layout.video_layout);
-        final Activity activity = this;
-        getActionBar().setDisplayHomeAsUpEnabled(true);
         Intent intent = getIntent();
-        path = intent.getExtras().getString("path");
-        send = intent.getExtras().getString("send");
         timeout = intent.getExtras().getString("duration");
         if (timeout != null){
             requestWindowFeature(Window.FEATURE_NO_TITLE);
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        }else{
+        	getActionBar().setDisplayHomeAsUpEnabled(true);
         }
-        
+        setContentView(R.layout.video_layout);
+        final Activity activity = this;
+        path = intent.getExtras().getString("path");
+        send = intent.getExtras().getString("send");
         mVideoView = (VideoView) findViewById(R.id.surface_view);
         mVideoView.setVideoPath(path);
         MediaController mc = new MediaController(this);
@@ -107,6 +107,7 @@ public class VideoFullScreen extends Activity {
 		});
         
         FrameLayout fl = (FrameLayout)findViewById(R.id.timeCountLayout);
+        fl.setVisibility(View.GONE);
         if (timeout != null){
         	fl.setVisibility(View.VISIBLE);
             double counter = Double.parseDouble(timeout);
@@ -124,7 +125,6 @@ public class VideoFullScreen extends Activity {
            mVideoView.start();
 		   sendButton.setVisibility(View.GONE);
            retakeButton.setVisibility(View.GONE);
-           fl.setVisibility(View.GONE);
         }
         
         
@@ -134,9 +134,7 @@ public class VideoFullScreen extends Activity {
            mVideoView.seekTo(1);
            sendButton.setVisibility(View.VISIBLE);
            retakeButton.setVisibility(View.VISIBLE);
-           fl.setVisibility(View.GONE);
        }
-        
     }
     
     public static void copyFile(File sourceFile, File destFile) throws IOException {
