@@ -14,6 +14,7 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,7 +22,11 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.MediaController;
+import android.widget.PopupWindow;
+import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.VideoView;
 
@@ -39,8 +44,12 @@ public class VideoFullScreen extends Activity {
     String timeout = "";
     int count = 0;
     TextView timeText;
+    View popupView;
     Timer timer;
-       
+    PopupWindow popupWindow;
+    RadioGroup videoOptionsGroup;
+    boolean disappear = false;
+    
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
         Intent intent = getIntent();
@@ -61,6 +70,11 @@ public class VideoFullScreen extends Activity {
         mc.setAnchorView(mVideoView);
         mVideoView.setMediaController(mc);
         mVideoView.requestFocus();
+        
+        final RelativeLayout parentLayout = (RelativeLayout)findViewById(R.id.fullscreenvideolayout); 
+        popupView = getLayoutInflater().inflate(R.layout.videodisappearoptions_layout, null);
+        popupWindow = new PopupWindow(popupView, LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, false);
+        
         sendButton = (Button)findViewById(R.id.sendButton);
         sendButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
@@ -126,14 +140,45 @@ public class VideoFullScreen extends Activity {
 		   sendButton.setVisibility(View.GONE);
            retakeButton.setVisibility(View.GONE);
         }
-        
-        
+       
+      
+       Button videoOptions = (Button)findViewById(R.id.videoOptionsButton);
+       videoOptions.setVisibility(View.GONE);
+       videoOptions.setOnClickListener(new View.OnClickListener() {
+		   public void onClick(View v) {
+			   popupWindow.showAtLocation(parentLayout, Gravity.BOTTOM, 0, 0);
+		   }
+	   });
+       
+       videoOptionsGroup = (RadioGroup)popupView.findViewById(R.id.radioVideoOptions);
+       
+       Button buttonOK = (Button)popupView.findViewById(R.id.videoOptionsButtonOK);
+       buttonOK.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				 popupWindow.dismiss();
+				 int selectedId = videoOptionsGroup.getCheckedRadioButtonId();
+				 if (selectedId == R.id.radioDis)
+					 disappear = true;
+				 if (selectedId == R.id.radioApp)
+					 disappear = false;
+				 ApplicationInstance.getInstance().setVideoDisappear(disappear);
+			}
+		});
+       
+       Button buttonCancel = (Button)popupView.findViewById(R.id.videoOptionsButtonCancel);
+       buttonCancel.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+			     popupWindow.dismiss();	
+			}
+	   });
+       
        if (send != null){
            play = true;
            playButton.setText("PLAY");
            mVideoView.seekTo(1);
            sendButton.setVisibility(View.VISIBLE);
            retakeButton.setVisibility(View.VISIBLE);
+           videoOptions.setVisibility(View.VISIBLE);
        }
     }
     

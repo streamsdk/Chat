@@ -4,5 +4,8 @@
     <string name="app_name">Chat</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
+    <string name="radioDis">Video disappear after played</string>
+    <string name="radioApp">Keep the video after played</string>
+    
 
 </resources>
