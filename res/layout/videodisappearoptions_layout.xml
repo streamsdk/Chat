@@ -12,17 +12,16 @@
         android:layout_height="wrap_content" >
  
         <RadioButton
-            android:id="@+id/radioDis"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/radioDis" 
-            android:checked="true" />
- 
-        <RadioButton
             android:id="@+id/radioApp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/radioApp" />
+            android:text="@string/radioApp"  />
+        
+        <RadioButton
+            android:id="@+id/radioDis"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/radioDis" />
  
     </RadioGroup>
     

@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.jivesoftware.smack.packet.Message;
+import org.xbill.DNS.MXRecord;
 
 import android.app.Activity;
 import android.app.DialogFragment;
@@ -82,6 +83,7 @@ public class MainActivity extends FragmentActivity implements EditTextEmojSelect
 	static final int REQUEST_IMAGE_CAPTURE = 0;
 	static final int REQUEST_IMAGE_PICK = 1;
 	static final int REQUEST_VIDEO_CAPTURE = 2;
+	static final int MAX_VIDEO_SIZE = 15000000;
 	
 
 	@Override
@@ -309,6 +311,7 @@ public class MainActivity extends FragmentActivity implements EditTextEmojSelect
 		super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
 		if (imageReturnedIntent == null && ApplicationInstance.getInstance().getRecordingVideoPath() != null){
 			sendVideoIM(ApplicationInstance.getInstance().getRecordingVideoPath());
+			return;
 		}
 		if (imageReturnedIntent == null && ApplicationInstance.getInstance().getPhotoTakenPath() != null){
 			sendImageIM(ApplicationInstance.getInstance().getPhotoTakenPath());
@@ -334,11 +337,26 @@ public class MainActivity extends FragmentActivity implements EditTextEmojSelect
 		}
 	}
 
+    private boolean isVideoSizeExceedTheMax(String path){
+    	File file = new File(path);
+    	Log.i("video size", String.valueOf(file.length()));
+    	if (file.length() > MAX_VIDEO_SIZE){
+    		return true;
+    	}
+    	return false;	
+    	
+    }
+   
     private void sendVideoIM(String path){
+    	
+    	if (isVideoSizeExceedTheMax(path)){
+    		return;
+    	}
     	final IM im = ImageHandler.buildImageIMMessage(path);
     	int timeout = ApplicationInstance.getInstance().getPhotoTimeout();
     	if (timeout != -1){
     		im.setDisappear(true);
+    		im.setTimeout(String.valueOf(timeout));
     	}
     	ApplicationInstance.getInstance().setRecordingVideoPath(null);
     	ApplicationInstance.getInstance().setPhotoTimeout(-1);
@@ -404,7 +422,11 @@ public class MainActivity extends FragmentActivity implements EditTextEmojSelect
 	private void sendImageIM(Intent imageReturnedIntent) {
 		String path = ImageHandler.getImgPath(imageReturnedIntent.getData(), this);
 		if (path.endsWith(".mp4")){
-			sendImageIM(path);
+			//sendImageIM(path);
+		    Intent intent = new Intent(this, VideoFullScreen.class);
+		    intent.putExtra("path", path);
+		    intent.putExtra("send", "true");
+		    startActivityForResult(intent, REQUEST_IMAGE_PICK);
 		}else{
 		    Intent intent = new Intent(this, FullScreenImageActivity.class);
 	        intent.putExtra("path", path);
