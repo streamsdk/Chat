@@ -141,7 +141,6 @@ public class VideoFullScreen extends Activity {
            retakeButton.setVisibility(View.GONE);
         }
        
-      
        Button videoOptions = (Button)findViewById(R.id.videoOptionsButton);
        videoOptions.setVisibility(View.GONE);
        videoOptions.setOnClickListener(new View.OnClickListener() {
@@ -161,7 +160,8 @@ public class VideoFullScreen extends Activity {
 					 disappear = true;
 				 if (selectedId == R.id.radioApp)
 					 disappear = false;
-				 ApplicationInstance.getInstance().setVideoDisappear(disappear);
+				 if (disappear)
+				    ApplicationInstance.getInstance().setPhotoTimeout(mVideoView.getDuration());
 			}
 		});
        

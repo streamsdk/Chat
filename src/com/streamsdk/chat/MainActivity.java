@@ -337,6 +337,9 @@ public class MainActivity extends FragmentActivity implements EditTextEmojSelect
     private void sendVideoIM(String path){
     	final IM im = ImageHandler.buildImageIMMessage(path);
     	int timeout = ApplicationInstance.getInstance().getPhotoTimeout();
+    	if (timeout != -1){
+    		im.setDisappear(true);
+    	}
     	ApplicationInstance.getInstance().setRecordingVideoPath(null);
     	ApplicationInstance.getInstance().setPhotoTimeout(-1);
     	final long chatTime = System.currentTimeMillis(); 

@@ -54,7 +54,6 @@ public class ApplicationInstance {
 	private MessagingAckDB messagingAckDB;
 	private RefreshUI refreshUI;
 	private int photoTimeout = -1;
-	private boolean videoDisappear = false;
 	
 	private static void createDic(){
 		 String path= Environment.getExternalStorageDirectory().getAbsolutePath().toString();
@@ -221,11 +220,4 @@ public class ApplicationInstance {
 		this.messagingAckDB = messagingAckDB;
 	}
 
-	public boolean isVideoDisappear() {
-		return videoDisappear;
-	}
-
-	public void setVideoDisappear(boolean videoDisappear) {
-		this.videoDisappear = videoDisappear;
-	}
 }
