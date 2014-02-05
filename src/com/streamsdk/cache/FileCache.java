@@ -8,11 +8,16 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import com.streamsdk.chat.ApplicationInstance;
+
+import android.content.Context;
 import android.os.Environment;
+import android.util.Log;
 
 public class FileCache {
 
 	private static FileCache fileCache;
+	private static String COOL_CHAT = "coolchat";
 	
 	public static FileCache getInstance(){
 		
@@ -50,10 +55,18 @@ public class FileCache {
 	
 	public File getOutputFilePath(){
 		String mFileName = Environment.getExternalStorageDirectory().getAbsolutePath();
-		File file = new File(mFileName, "voicetalk");
-		if (!file.exists())
-			file.mkdir();
-		return file;
+		Context context = ApplicationInstance.getInstance().getContext();
+		File hiddenFile = null;
+		if (context != null){
+			hiddenFile = new File(context.getFilesDir(), COOL_CHAT);
+		}else{
+			hiddenFile = new File(mFileName, "voicetalk");
+		}
+		if (!hiddenFile.exists()){
+			hiddenFile.mkdir();
+		    Log.i("stream sdk hidden file created", hiddenFile.getAbsolutePath());
+		}
+		return hiddenFile;
 	}
 	
 	public boolean generateProfileImagePathIfDoesNotExists(String id){
