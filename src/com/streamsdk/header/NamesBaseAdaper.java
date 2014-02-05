@@ -1,10 +1,14 @@
 package com.streamsdk.header;
 
+import java.io.File;
 import java.util.Map;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,11 +16,14 @@ import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.SectionIndexer;
 import android.widget.TextView;
 
+import com.streamsdk.cache.FileCache;
 import com.streamsdk.chat.ApplicationInstance;
 import com.streamsdk.chat.R;
+import com.streamsdk.util.BitmapUtils;
 
 public class NamesBaseAdaper extends BaseAdapter implements SectionIndexer, OnScrollListener, PinnedHeaderAdapter{
 
@@ -57,6 +64,7 @@ public class NamesBaseAdaper extends BaseAdapter implements SectionIndexer, OnSc
 			v = inflater.inflate(R.layout.myfriends_layout, parent, false);
 			viewHolder = new ViewHolder();
 		    viewHolder.textView = (TextView)v.findViewById(R.id.txtMyfriendFriendName);
+		    viewHolder.imageView = (ImageView)v.findViewById(R.id.imgMainPageAvatar);
 		    viewHolder.messagingCountLayout = (FrameLayout)v.findViewById(R.id.messageCountLayout);
 		}else{
 			v = view;
@@ -64,6 +72,20 @@ public class NamesBaseAdaper extends BaseAdapter implements SectionIndexer, OnSc
 		}
 		
 		viewHolder.textView.setText(friendName);
+		Map<String, String> metaData = ApplicationInstance.getInstance().getFriendMetadata(friendName);
+		if (metaData != null && metaData.containsKey(ApplicationInstance.PROFILE_IMAGE)){
+			String fileId = metaData.get(ApplicationInstance.PROFILE_IMAGE);
+			File imageProfileFile = FileCache.getInstance().loadFile(fileId);
+			if (imageProfileFile.exists()){
+		        Log.i("image file exist", imageProfileFile.getAbsolutePath());
+				Bitmap bitmap = BitmapFactory.decodeFile(imageProfileFile.getAbsolutePath());
+				if (bitmap != null){
+					viewHolder.imageView.setImageBitmap(bitmap);
+				}
+			}	
+		}
+		
+		
 		Map<String, String> mCounts = ApplicationInstance.getInstance().getMessagingCountDB().getMessagingCount(friendName);
 		if (mCounts != null){
 			viewHolder.messagingCountLayout.setVisibility(View.VISIBLE);
@@ -184,6 +206,7 @@ public class NamesBaseAdaper extends BaseAdapter implements SectionIndexer, OnSc
 	
     static class ViewHolder{
 		TextView textView;
+		ImageView imageView;
 		FrameLayout messagingCountLayout;
 	}
 

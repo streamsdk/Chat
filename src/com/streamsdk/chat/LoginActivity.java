@@ -1,5 +1,7 @@
 package com.streamsdk.chat;
 
+import java.io.File;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -19,10 +21,12 @@ import android.widget.TextView;
 
 import com.stream.api.QueryResultsCallback;
 import com.stream.api.StreamCallback;
+import com.stream.api.StreamFile;
 import com.stream.api.StreamObject;
 import com.stream.api.StreamQuery;
 import com.stream.api.StreamUser;
 import com.stream.xmpp.StreamXMPP;
+import com.streamsdk.cache.FileCache;
 import com.streamsdk.chat.domain.FriendRequest;
 import com.streamsdk.xmpp.ApplicationXMPPListener;
 
@@ -102,13 +106,6 @@ public class LoginActivity extends Activity{
 											fr.setStatus(status);
 										}
 										frs.add(fr);
-										final StreamUser sUser = new StreamUser();
-										sUser.loadUserMetadataInbackground(fr.getFriendName(), new StreamCallback() {
-											public void result(boolean succeed, String errorMessage) {
-												Map<String, String> userMetadata = sUser.getUserMetadata();
-												ApplicationInstance.getInstance().updateFriendMetadata(sUser.getUserName(), userMetadata);
-											}
-										});
 									}
 
 									ApplicationInstance.getInstance().getFriendDB().syncUpdate(frs);

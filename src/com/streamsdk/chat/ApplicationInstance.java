@@ -32,7 +32,7 @@ public class ApplicationInstance {
 	public static String cKey = "4768674EDC06477EC63AEEF8FEAB0CF8";
 	public static String sKey = "73B7C757A511B1574FDF63B3FEB638B7";*/
 	public static final String USER_INFO = "MyPrefsFile";
-
+    public static final String PROFILE_IMAGE = "profileImageId";
 	
 	
 	private static ApplicationInstance applicationInstance = null;

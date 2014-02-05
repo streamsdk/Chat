@@ -1,6 +1,9 @@
 package com.streamsdk.chat;
 
+import java.io.File;
+import java.io.InputStream;
 import java.util.List;
+import java.util.Map;
 
 import android.app.Activity;
 import android.app.ListActivity;
@@ -15,6 +18,10 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 
+import com.stream.api.StreamCallback;
+import com.stream.api.StreamFile;
+import com.stream.api.StreamUser;
+import com.streamsdk.cache.FileCache;
 import com.streamsdk.cache.FriendDB;
 import com.streamsdk.cache.InvitationDB;
 import com.streamsdk.cache.MessagingAckDB;
@@ -90,8 +97,16 @@ public class MyFriendsActivity extends ListActivity implements RefreshUI{
 		activity =  this;
 		ru = this;
 		
+		 FriendDB db = ApplicationInstance.getInstance().getFriendDB();
+		 if (db == null){
+			   reiniDB();
+			   db =  ApplicationInstance.getInstance().getFriendDB();
+		  }
 	
-		names = ApplicationInstance.getInstance().getFriendDB().getFriendsArray();
+		names = db.getFriendsArray();
+		
+		for (String friendName : names)
+			loadMetadataAndProfileImage(friendName);
 		
 		ApplicationInstance.getInstance().setContext(getApplicationContext());
 		
@@ -109,6 +124,27 @@ public class MyFriendsActivity extends ListActivity implements RefreshUI{
 	    
 	    Intent intent = new Intent(this, XMPPConnectionService.class);
 	    startService(intent);
+	}
+	
+	private void loadMetadataAndProfileImage(String friendName){
+		final StreamUser sUser = new StreamUser();
+		sUser.loadUserMetadataInbackground(friendName, new StreamCallback() {
+			public void result(boolean succeed, String errorMessage) {
+				Map<String, String> userMetadata = sUser.getUserMetadata();
+				ApplicationInstance.getInstance().updateFriendMetadata(sUser.getUserName(), userMetadata);
+				String fileId = userMetadata.get(ApplicationInstance.PROFILE_IMAGE);
+				if (fileId != null && !fileId.equals("")){
+					boolean exists = FileCache.getInstance().generateProfileImagePathIfDoesNotExists(fileId);
+					if (!exists){
+					    File profileImageFile = FileCache.getInstance().loadFile(fileId);
+						StreamFile sf = new StreamFile();
+						InputStream in = sf.getFileObject(fileId);
+						FileCache.getInstance().writeFileToDisk(profileImageFile, in);
+					}
+					refresh();	
+				}
+			}
+		});
 	}
 	
 	private String[] convertToLowerCase(String strings[]){

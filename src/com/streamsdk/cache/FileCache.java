@@ -56,6 +56,21 @@ public class FileCache {
 		return file;
 	}
 	
+	public boolean generateProfileImagePathIfDoesNotExists(String id){
+
+		File voiceTalkPath = getOutputFilePath();
+		File profileImagePath = new File(voiceTalkPath, id);
+		try {
+			if (!profileImagePath.exists()){
+			    profileImagePath.createNewFile();
+			    return false;
+			}
+		} catch (IOException e) {
+		
+		}
+		return true;
+	}
+	
 	public File generateMediaOutputFilePath(String type){
 		
 		File voiceTalkPath = getOutputFilePath();
@@ -73,7 +88,7 @@ public class FileCache {
 		return file;
 	}
 	
-	private void writeStaff(File file, InputStream is){
+	public void writeStaff(File file, InputStream is){
 		
 
 		try {

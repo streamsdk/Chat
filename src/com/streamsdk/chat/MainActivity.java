@@ -178,7 +178,7 @@ public class MainActivity extends FragmentActivity implements EditTextEmojSelect
 				ApplicationInstance.getInstance().getMessagingHistoryDB().insert(im);
 				messages.add(im);
 				Message packet = new Message();
-		        packet.setTo(ApplicationInstance.APPID + receiver + "@streamsdk.com");
+		        packet.setTo(ApplicationInstance.APPID + receiver + "@streamsdk.cn");
 		        String packetBody = JsonUtils.buildPlainTextMessage(body, ApplicationInstance.getInstance().getLoginName(), String.valueOf(chatTime));
 		        packet.setBody(packetBody);
 		        ApplicationInstance.getInstance().getMessagingAckDB().insertTextMessage(im);
