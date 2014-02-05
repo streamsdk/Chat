@@ -8,6 +8,8 @@ import java.util.Map;
 import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -23,6 +25,7 @@ import com.stream.api.StreamFile;
 import com.stream.api.StreamUser;
 import com.streamsdk.cache.FileCache;
 import com.streamsdk.cache.FriendDB;
+import com.streamsdk.cache.ImageCache;
 import com.streamsdk.cache.InvitationDB;
 import com.streamsdk.cache.MessagingAckDB;
 import com.streamsdk.cache.MessagingCountDB;
@@ -105,9 +108,10 @@ public class MyFriendsActivity extends ListActivity implements RefreshUI{
 	
 		names = db.getFriendsArray();
 		
-		for (String friendName : names)
+		loadMetadataAndProfileImage(ApplicationInstance.getInstance().getLoginName());
+		for (String friendName : names){
 			loadMetadataAndProfileImage(friendName);
-		
+		}
 		ApplicationInstance.getInstance().setContext(getApplicationContext());
 		
 		ApplicationInstance.getInstance().setRefreshUI(this);
@@ -135,12 +139,24 @@ public class MyFriendsActivity extends ListActivity implements RefreshUI{
 				String fileId = userMetadata.get(ApplicationInstance.PROFILE_IMAGE);
 				if (fileId != null && !fileId.equals("")){
 					boolean exists = FileCache.getInstance().generateProfileImagePathIfDoesNotExists(fileId);
+					File profileImageFile;
+					Bitmap bitmap;
 					if (!exists){
-					    File profileImageFile = FileCache.getInstance().loadFile(fileId);
+					    profileImageFile = FileCache.getInstance().loadFile(fileId);
 						StreamFile sf = new StreamFile();
 						InputStream in = sf.getFileObject(fileId);
 						FileCache.getInstance().writeFileToDisk(profileImageFile, in);
+						bitmap = BitmapFactory.decodeFile(profileImageFile.getAbsolutePath());
+					}else{
+						profileImageFile = FileCache.getInstance().loadFile(fileId);
 					}
+					
+				    bitmap = BitmapFactory.decodeFile(profileImageFile.getAbsolutePath());
+					
+				    if (bitmap != null){
+						ImageCache.getInstance().putNew(sUser.getUserName(), bitmap);
+					}
+				    
 					refresh();	
 				}
 			}

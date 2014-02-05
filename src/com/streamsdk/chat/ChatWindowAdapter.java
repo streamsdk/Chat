@@ -8,6 +8,7 @@ import java.util.List;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.text.SpannableStringBuilder;
@@ -24,6 +25,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.streamsdk.cache.ImageCache;
 import com.streamsdk.chat.domain.IM;
 
 public class ChatWindowAdapter extends BaseAdapter{
@@ -119,7 +121,11 @@ public class ChatWindowAdapter extends BaseAdapter{
 		}
 		
 		if (im.isSelf()){
-			
+		   
+		   Bitmap bm = ImageCache.getInstance().getImage(ApplicationInstance.getInstance().getLoginName());
+		   if (bm != null){
+			   viewHolder.imgAvatarSelf.setImageBitmap(bm); 
+		   }
 		   if ((!im.isVoice() && !im.isImage() && !im.isVideo()) || im.isDisappear()){
 			   viewHolder.txtMessageFriend.setVisibility(View.GONE);
 			   viewHolder.imgAvatarFriend.setVisibility(View.GONE);
@@ -196,6 +202,11 @@ public class ChatWindowAdapter extends BaseAdapter{
 		   }
 			
 		}else{
+		   
+		   Bitmap fAvtar = ImageCache.getInstance().getImage(im.getFrom());
+		   if (fAvtar != null){
+			  viewHolder.imgAvatarFriend.setImageBitmap(fAvtar); 
+		   }
 		   if ((!im.isVoice() && !im.isImage() && !im.isVideo()) || im.isDisappear()){
 			  viewHolder.txtMessageFriend.setVisibility(View.VISIBLE);
 			  viewHolder.imgAvatarFriend.setVisibility(View.VISIBLE);

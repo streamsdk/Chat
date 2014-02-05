@@ -1,16 +1,17 @@
 package com.streamsdk.chat;
 
-import java.io.File;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,12 +22,10 @@ import android.widget.TextView;
 
 import com.stream.api.QueryResultsCallback;
 import com.stream.api.StreamCallback;
-import com.stream.api.StreamFile;
 import com.stream.api.StreamObject;
 import com.stream.api.StreamQuery;
 import com.stream.api.StreamUser;
 import com.stream.xmpp.StreamXMPP;
-import com.streamsdk.cache.FileCache;
 import com.streamsdk.chat.domain.FriendRequest;
 import com.streamsdk.xmpp.ApplicationXMPPListener;
 
@@ -70,6 +69,13 @@ public class LoginActivity extends Activity{
 	                getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
 	            }
 	        }
+	    });
+	    
+	    final Handler handler = new Handler(new Handler.Callback() {
+			public boolean handleMessage(Message message) {
+				showAlertDialog();
+				return true;
+			}
 	    });
 	    
 	    final EditText passwordText = (EditText)ll.findViewById(R.id.loginPassword);
@@ -116,6 +122,9 @@ public class LoginActivity extends Activity{
 									ApplicationInstance.getInstance().getFirstPageActivity().finish();
 								}
 							});
+						}else{
+							pd.dismiss();
+							handler.sendEmptyMessage(0);
 						}
 					}
 				});
@@ -123,6 +132,20 @@ public class LoginActivity extends Activity{
 			}
 			
 		});
+	}
+	
+	private void showAlertDialog(){		
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder
+				.setMessage("Login failed, Invalid username or password")
+				.setCancelable(false)
+				.setNegativeButton("TRY AGAIN",new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog,int id) {
+						dialog.cancel();
+					}
+				});
+				AlertDialog alertDialog = alertDialogBuilder.create();
+				alertDialog.show();
 	}
 	
 	private void showDialog(String message) {

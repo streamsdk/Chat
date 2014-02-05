@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.jivesoftware.smack.packet.Message;
-import org.xbill.DNS.MXRecord;
 
 import android.app.Activity;
 import android.app.DialogFragment;
@@ -28,6 +27,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnFocusChangeListener;
 import android.view.View.OnLongClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup.LayoutParams;
@@ -160,6 +160,13 @@ public class MainActivity extends FragmentActivity implements EditTextEmojSelect
 				}
 			}
 		});
+		messageText.setOnFocusChangeListener(new OnFocusChangeListener() {
+			public void onFocusChange(View v, boolean hasFocus) {
+		        if (popupWindow.isShowing()) {
+					popupWindow.dismiss();
+				}
+			}
+		});
 		
 		//this button is used for sending normal messaging
 		button.setOnClickListener(new OnClickListener() {
@@ -184,9 +191,9 @@ public class MainActivity extends FragmentActivity implements EditTextEmojSelect
 		        ApplicationInstance.getInstance().getMessagingAckDB().insertTextMessage(im);
 				StreamXMPP.getInstance().sendPacket(packet);
 			 	adapter.notifyDataSetChanged();
-				InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-				imm.hideSoftInputFromWindow(messageText.getWindowToken(), 0);
-				popupWindow.dismiss();
+				/*InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+				imm.hideSoftInputFromWindow(messageText.getWindowToken(), 0);*/
+				//popupWindow.dismiss();
 
 			}
 		});
