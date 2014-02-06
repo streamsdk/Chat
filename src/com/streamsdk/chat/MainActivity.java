@@ -274,12 +274,16 @@ public class MainActivity extends FragmentActivity implements EditTextEmojSelect
 			}
 		});
 		
-		enablePopUpView();
 		checkKeyboardHeight(parentLayout);
 		setSpeakButtonAction(speakButton);
 		deleteCountHistory();
 		readHistory();
 		
+		try{
+		    enablePopUpView();
+		}catch(Throwable t){
+			Log.i("", t.getMessage());
+		}
 	}
 	
 	private void deleteCountHistory(){
