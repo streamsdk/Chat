@@ -36,7 +36,7 @@ public class XMPPConnectionService extends Service{
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		
 		if (!started){
-			  timer.schedule(new  ReconnectXMPPService(), 10000, 10000);
+			  timer.schedule(new  ReconnectXMPPService(), 10000, 20000);
 			  timer.schedule(new StatusSendService(), 20000, 1000 * 60 * 2);
 			  timer.schedule(new ResendIMService(), 30000, 1000 * 60 * 1);
 			  started = true;
@@ -123,7 +123,7 @@ public class XMPPConnectionService extends Service{
 		  try{	
 			 StreamXMPP.getInstance().sendAvStatus(ApplicationInstance.APPID  + ApplicationInstance.getInstance().getLoginName() + "@streamsdk.com");
 		  }catch(Throwable t){
-			 Log.i("", t.getMessage()); 
+			 Log.i("", "no connection send status"); 
 		  }
 	   }
 		
@@ -134,9 +134,10 @@ public class XMPPConnectionService extends Service{
 	private class ReconnectXMPPService extends TimerTask {
 		
 		public void run() {
-			Log.i("xmpp service", "check connection");
+			
 			if (!StreamXMPP.getInstance().isConnected()){
-			    boolean auth = StreamSession.authenticate(ApplicationInstance.APPID, ApplicationInstance.cKey,ApplicationInstance.sKey, null);
+				Log.i("xmpp service", "check connection");
+				boolean auth = StreamSession.authenticate(ApplicationInstance.APPID, ApplicationInstance.cKey,ApplicationInstance.sKey, null);
 			    if (auth) {
 				 	Log.i("xmpp service", "reconnect");
 					SharedPreferences settings = getSharedPreferences(ApplicationInstance.USER_INFO, 0);

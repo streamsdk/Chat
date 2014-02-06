@@ -47,7 +47,7 @@ public class MessagingCountDB {
 	
 	public int delete(String userName){
 	    	int result = db.delete("mcdb", "toUser=?", new String[]{userName});
-	        Log.i("", String.valueOf(result));
+	        Log.i("delete result", String.valueOf(result));
 	        return result;
 	}
 	

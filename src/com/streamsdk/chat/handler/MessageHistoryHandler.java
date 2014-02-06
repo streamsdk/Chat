@@ -47,6 +47,11 @@ public class MessageHistoryHandler implements Runnable{
 			IM im = new IM();
 			String type = xmppMessage.getType();
 			StreamFile streamFile = new StreamFile();
+			if (!xmppMessage.getTimeout().equals("") && (type.equals("video") ||type.equals("photo"))){
+				   im.setTimeout(xmppMessage.getTimeout());
+				   im.setDisappear(true);
+				   im.setViewed("NO");
+			   }
 			if (type.equals("photo")){
 				  streamFile.setId(xmppMessage.getFileId());
 				  try {
@@ -73,12 +78,6 @@ public class MessageHistoryHandler implements Runnable{
 			  im.setTo(userName);
 			  im.setFrom(xmppMessage.getFrom());
 		      im.setChatTime(Long.parseLong(timeKey));
-		      
-		      if (!xmppMessage.getTimeout().equals("") && (im.isVideo() || im.isImage())){
-				   im.setTimeout(xmppMessage.getTimeout());
-				   im.setDisappear(true);
-				   im.setViewed("NO");
-			   }
 		      
 		      try{
 			      ApplicationInstance.getInstance().getMessagingHistoryDB().insert(im);

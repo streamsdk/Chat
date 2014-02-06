@@ -54,11 +54,13 @@ public class IM {
 	   
 	   if (isVideo && ImageCache.getInstance().getImage(path) == null){
 		   Bitmap thumb = ThumbnailUtils.createVideoThumbnail(path, MediaStore.Images.Thumbnails.MINI_KIND);
-		   Bitmap resizedBitmap = Bitmap.createScaledBitmap(thumb, 230, 230, false);
-		   ImageCache.getInstance().putNew(path, resizedBitmap);
+		   if (thumb != null){
+		      Bitmap resizedBitmap = Bitmap.createScaledBitmap(thumb, 230, 230, false);
+		      ImageCache.getInstance().putNew(path, resizedBitmap);
+		   }
 	   }
 		
-	   if (isImage && ImageCache.getInstance().getImage(path) == null ){
+	   if (isImage && ImageCache.getInstance().getImage(path) == null){
 		   Bitmap sBitMap = BitmapUtils.loadImageForFullScreen(path,  230, 230, 300);
 		   ImageCache.getInstance().putNew(path, sBitMap);
 		}

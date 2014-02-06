@@ -1,0 +1,37 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/signupLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/backrepeat"
+    android:cacheColorHint="#00000000"
+    android:orientation="vertical" >
+
+    <EditText
+        android:id="@+id/signupUserName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:hint="Username"
+        android:textSize="20dp" />
+
+    <EditText
+        android:id="@+id/signupPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:hint="Password"
+        android:textSize="20dp" />
+
+    <TextView
+        android:id="@+id/signupButtonTextView"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/greenSignup"
+        android:gravity="center|center_vertical"
+        android:text="Enter"
+        android:textColor="@color/firstPageTexColor"
+        android:textSize="30sp"
+        android:textStyle="bold" />
+
+</LinearLayout>

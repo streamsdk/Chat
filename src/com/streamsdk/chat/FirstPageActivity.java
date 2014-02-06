@@ -23,6 +23,14 @@ public class FirstPageActivity extends Activity{
                startActivityForResult(intent, 0);
 			}
 		});
+
+	    TextView signupView = (TextView)ll.findViewById(R.id.signupTextView);
+	    signupView.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+               Intent intent = new Intent(activity, SignupActivity.class);
+               startActivityForResult(intent, 1);
+			}
+		});
 	    
 	}
 	
@@ -30,12 +38,17 @@ public class FirstPageActivity extends Activity{
 	 protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) { 
 			super.onActivityResult(requestCode, resultCode, imageReturnedIntent); 
 			switch(requestCode) {
-			
 			 case 0:
 			      if(resultCode == RESULT_OK){        		    	  
 			        finish();
 			      }
+			      break;
+			 case 1:
+			      if(resultCode == RESULT_OK){        		    	  
+			        finish();
+			      }
 			      break; 
+	
 			}
      }
 }

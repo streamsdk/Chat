@@ -77,7 +77,7 @@ public class ApplicationXMPPListener {
 		StreamXMPP.getInstance().addFileReceiveListener(new FileReceiveCallback() {
 			 public void receiveFile(StreamFile streamFile, String body) {
 					   ApplicationInstance.getInstance().setReceivedMessageLastTime(System.currentTimeMillis());
-					   IM im =  null;
+					   IM im =  new IM();
 					   StreamXMPPMessage xmppMessage = JsonUtils.parseMediaMessaging(body);
 					   String type = xmppMessage.getType();
 					   boolean processed = true;
@@ -97,12 +97,12 @@ public class ApplicationXMPPListener {
 						 String duration = xmppMessage.getDuration();
 					     im = AudioHandler.processReceivedFile(streamFile, duration);
 					   }
-					   im.setFrom(xmppMessage.getFrom());
-					   if (!xmppMessage.getTimeout().equals("") && (im.isVideo() || im.isImage())){
+					   if (!xmppMessage.getTimeout().equals("") && ((type.equals("video") || type.equals("photo")))){
 						   im.setTimeout(xmppMessage.getTimeout());
 						   im.setDisappear(true);
 						   im.setViewed("NO");
 					   }
+					   im.setFrom(xmppMessage.getFrom());
 					   im.setTo(ApplicationInstance.getInstance().getLoginName());
 					   im.setChatTime(System.currentTimeMillis());
 					   if (processed){

@@ -17,7 +17,7 @@ import android.util.Log;
 public class FileCache {
 
 	private static FileCache fileCache;
-	private static String COOL_CHAT = "coolchat";
+	private static String COOL_CHAT = "swiftchat";
 	
 	public static FileCache getInstance(){
 		
@@ -52,16 +52,19 @@ public class FileCache {
 	        return mediaFile;
 	    }
 	    
-	
+	public File getHiddenOutputFilePath(){
+		Context context = ApplicationInstance.getInstance().getContext();
+		File hiddenFile = new File(context.getFilesDir(), COOL_CHAT);
+		if (!hiddenFile.exists()){
+			hiddenFile.mkdir();
+		    Log.i("stream sdk hidden file created", hiddenFile.getAbsolutePath());
+		}
+		return hiddenFile;
+	}
+	 	 
 	public File getOutputFilePath(){
 		String mFileName = Environment.getExternalStorageDirectory().getAbsolutePath();
-		Context context = ApplicationInstance.getInstance().getContext();
-		File hiddenFile = null;
-		if (context != null){
-			hiddenFile = new File(context.getFilesDir(), COOL_CHAT);
-		}else{
-			hiddenFile = new File(mFileName, "voicetalk");
-		}
+		File hiddenFile = new File(mFileName, COOL_CHAT);
 		if (!hiddenFile.exists()){
 			hiddenFile.mkdir();
 		    Log.i("stream sdk hidden file created", hiddenFile.getAbsolutePath());
@@ -97,7 +100,8 @@ public class FileCache {
 	}
 	
 	public File loadFile(String fileId){
-		File file = new File(getOutputFilePath(), fileId);
+		File outputFile = getOutputFilePath();
+		File file = new File(outputFile, fileId);
 		return file;
 	}
 	
@@ -114,9 +118,9 @@ public class FileCache {
 			}
 			out.close();
 		} catch (FileNotFoundException e) {
-
+           Log.i("", "");
 		} catch (IOException e) {
-
+		    Log.i("", "");
 		} finally {
 			try {
 				is.close();
@@ -133,7 +137,8 @@ public class FileCache {
 	
 	public void writeFileToDisk(String fileId, InputStream is) {
 
-			File file = new File(getOutputFilePath(), fileId);
+		    File outputFile = getOutputFilePath();
+			File file = new File(outputFile, fileId);
 			try {
 				file.createNewFile();
 			} catch (IOException e) {
