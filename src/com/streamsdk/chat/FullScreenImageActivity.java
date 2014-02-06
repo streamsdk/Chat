@@ -185,8 +185,11 @@ public class FullScreenImageActivity extends Activity{
 					public void run() {
 						timeText.setText(String.valueOf(count));
 						count--;
-						if (count == 0)
+						if (count == 0){
+							File imageFile = new File(path);
+							imageFile.delete();
 						    onBackPressed();
+						}
 					}
 				});
 			}

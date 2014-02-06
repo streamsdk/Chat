@@ -244,8 +244,11 @@ public class VideoFullScreen extends Activity {
 					public void run() {
 						timeText.setText(String.valueOf(count));
 						count--;
-						if (count == -1)
-						    onBackPressed();
+						if (count == -1){
+						    File videoFile = new File(path);
+						    videoFile.delete();
+							onBackPressed();
+						}
 					}
 				});
 			}
