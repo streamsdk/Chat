@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.stream.api.StreamCallback;
+import com.stream.api.StreamCategoryObject;
+import com.stream.api.StreamObject;
 import com.stream.api.StreamUser;
 import com.stream.xmpp.StreamXMPP;
 import com.streamsdk.xmpp.ApplicationXMPPListener;
@@ -71,7 +73,12 @@ public class SignupActivity extends Activity{
 			            	ApplicationInstance.getInstance().setLoginName(userName);
 						    ApplicationInstance.getInstance().setPassword(password);
 						    saveUserInfo();
-							//TODO:CREATE ITS CATEGORY,MESSAGING HISTORY, AUTOMATICALLY ADD FRIENDS
+							//TODO:AUTOMATICALLY ADD FRIENDS
+						    StreamCategoryObject sco = new StreamCategoryObject(userName);
+						    sco.createNewStreamCategory();
+						    StreamObject so = new StreamObject();
+						    so.setId(userName + ApplicationInstance.messageHistory);
+						    so.createNewStreamObject();
 						    establishXMPP();
 							pd.dismiss();
 							Intent intent = new Intent(activity,MyFriendsActivity.class);

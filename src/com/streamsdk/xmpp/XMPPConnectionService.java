@@ -19,6 +19,11 @@ import com.stream.api.StreamObject;
 import com.stream.api.StreamSession;
 import com.stream.xmpp.StreamXMPP;
 import com.stream.xmpp.StreamXMPPMessage;
+import com.streamsdk.cache.FriendDB;
+import com.streamsdk.cache.InvitationDB;
+import com.streamsdk.cache.MessagingAckDB;
+import com.streamsdk.cache.MessagingCountDB;
+import com.streamsdk.cache.MessagingHistoryDB;
 import com.streamsdk.chat.ApplicationInstance;
 import com.streamsdk.chat.handler.MessageHistoryHandler;
 
@@ -54,9 +59,26 @@ public class XMPPConnectionService extends Service{
 		timer = new Timer();
 	}	
 	
+	private void reintiDB(){
+		 MessagingHistoryDB mdb = new MessagingHistoryDB(this);
+		 FriendDB fdb = new FriendDB(this);
+		 InvitationDB idb = new InvitationDB(this);
+		 MessagingCountDB mcdb = new MessagingCountDB(this);
+		 MessagingAckDB mackdb = new MessagingAckDB(this);
+		 ApplicationInstance.getInstance().setMessagingHistoryDB(mdb);
+		 ApplicationInstance.getInstance().setFriendDB(fdb);
+		 ApplicationInstance.getInstance().setInivitationDB(idb);
+		 ApplicationInstance.getInstance().setMessagingCountDB(mcdb);
+		 ApplicationInstance.getInstance().setMessagingAckDB(mackdb);
+	}
+	
 	private class ResendIMService extends TimerTask{
 		
 		public void run(){
+			MessagingAckDB mackdb = ApplicationInstance.getInstance().getMessagingAckDB();
+			if (mackdb == null){
+				reintiDB();
+			}
 			
 			List<StreamXMPPMessage> messages = ApplicationInstance.getInstance().getMessagingAckDB().getIMAcks();
 			for (final StreamXMPPMessage message : messages){

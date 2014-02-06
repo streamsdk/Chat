@@ -19,7 +19,6 @@ import com.streamsdk.chat.emoji.EmojiParser;
 public class MessageHistoryHandler implements Runnable{
 	
 	private String userName = "";
-	public static final String messageHistory = "messaginghistory";
 	public static final String fixedPrefix = "message.body.";
 	private static final int fixedLength = fixedPrefix.length();
 	private Context context;
@@ -32,7 +31,7 @@ public class MessageHistoryHandler implements Runnable{
 	}
 	
 	public void run() {
-		String id = userName + messageHistory;
+		String id = userName + ApplicationInstance.messageHistory;
 		StreamObject history = new StreamObject();
 		history.populateStreamObject(id);
 		Map<String, Object> offlineStaff = history.getData();
@@ -109,7 +108,7 @@ public class MessageHistoryHandler implements Runnable{
         	 index++;
          }
          StreamObject so = new StreamObject();
-         so.setId(userName + messageHistory);
+         so.setId(userName + ApplicationInstance.messageHistory);
          so.removeKeyInBackground(keysRemoved);
   	 
 	 }

@@ -24,6 +24,7 @@ public class MessagingCountDB {
 		helper = new DatabaseHelper(context);
     	db = helper.getWritableDatabase();
     	mInsertStmt = db.compileStatement(MINSERT);
+  
 	}
 	
 	public Map<String, String> getMessagingCount(String to){

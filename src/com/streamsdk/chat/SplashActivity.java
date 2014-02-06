@@ -18,6 +18,7 @@ import com.streamsdk.cache.InvitationDB;
 import com.streamsdk.cache.MessagingAckDB;
 import com.streamsdk.cache.MessagingCountDB;
 import com.streamsdk.cache.MessagingHistoryDB;
+import com.streamsdk.chat.emoji.EmojiParser;
 import com.streamsdk.xmpp.ApplicationXMPPListener;
 
 public class SplashActivity extends Activity{
@@ -37,6 +38,7 @@ public class SplashActivity extends Activity{
 		 super.onCreate(savedInstanceState);
 		 setContentView(R.layout.splash_layout);
 		 
+		 EmojiParser.getInstance(getApplicationContext()).getEmoMap();
 		 MessagingHistoryDB mdb = new MessagingHistoryDB(this);
 		 MessagingCountDB mcdb = new MessagingCountDB(this);
 		 FriendDB fdb = new FriendDB(this);
