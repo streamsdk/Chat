@@ -185,7 +185,7 @@ public class MainActivity extends FragmentActivity implements EditTextEmojSelect
 				ApplicationInstance.getInstance().getMessagingHistoryDB().insert(im);
 				messages.add(im);
 				Message packet = new Message();
-		        packet.setTo(ApplicationInstance.APPID + receiver + "@streamsdk.cn");
+		        packet.setTo(ApplicationInstance.APPID + receiver + "@streamsdk.com");
 		        String packetBody = JsonUtils.buildPlainTextMessage(body, ApplicationInstance.getInstance().getLoginName(), String.valueOf(chatTime));
 		        packet.setBody(packetBody);
 		        ApplicationInstance.getInstance().getMessagingAckDB().insertTextMessage(im);
@@ -204,7 +204,7 @@ public class MainActivity extends FragmentActivity implements EditTextEmojSelect
 			public void onClick(View arg0) {
 			    speak = !speak;
 				if (speak){
-					change.setBackgroundResource(R.drawable.keyboard);
+					change.setBackgroundResource(R.drawable.keyboard512);
 					speakButton.setVisibility(View.VISIBLE);
 					moreButtons.setVisibility(View.GONE);
 					button.setVisibility(View.GONE);
@@ -214,7 +214,7 @@ public class MainActivity extends FragmentActivity implements EditTextEmojSelect
 					imm.hideSoftInputFromWindow(messageText.getWindowToken(), 0);
 					popupWindow.dismiss();
 				}else{
-					change.setBackgroundResource(R.drawable.video);
+					change.setBackgroundResource(R.drawable.microphonefat);
 				    speakButton.setVisibility(View.GONE);
 				    moreOptions.setVisibility(View.GONE);
 				    button.setVisibility(View.VISIBLE);

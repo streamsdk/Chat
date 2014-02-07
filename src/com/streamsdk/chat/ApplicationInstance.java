@@ -20,18 +20,18 @@ public class ApplicationInstance {
 	//public  static final String APPID = "0093D2FD61600099DE1027E50C6C3F8D";
 	//public  static final String APPID = "7E95CF60694890DCD4CEFBF79BC3BAE4";
 	
-	public static String APPID="0093D2FD61600099DE1027E50C6C3F8D";
+	/*public static String APPID="0093D2FD61600099DE1027E50C6C3F8D";
 	public static String cKey = "01D901D6EFBA42145E54F52E465F407B";
-	public static String sKey = "4EF482C15D849D04BA5D7BC940526EA3";
+	public static String sKey = "4EF482C15D849D04BA5D7BC940526EA3";*/
 	public static final String messageHistory = "messaginghistory";
 	
 	/*private static String APPID="C06B58F6700462E5597E94723D7B105C";
 	private static String cKey = "2EC9482AF170B7B3A1558F7EC7C01C7A";
 	private static String sKey = "78771227A606BFD96797E6281D518614";*/
 	
-	/*public static String APPID="7E95CF60694890DCD4CEFBF79BC3BAE4";
+	public static String APPID="7E95CF60694890DCD4CEFBF79BC3BAE4";
 	public static String cKey = "4768674EDC06477EC63AEEF8FEAB0CF8";
-	public static String sKey = "73B7C757A511B1574FDF63B3FEB638B7";*/
+	public static String sKey = "73B7C757A511B1574FDF63B3FEB638B7";
 	public static final String USER_INFO = "MyPrefsFile";
     public static final String PROFILE_IMAGE = "profileImageId";
 	
