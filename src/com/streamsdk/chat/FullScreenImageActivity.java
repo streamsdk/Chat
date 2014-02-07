@@ -25,6 +25,7 @@ import android.widget.NumberPicker;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.LinearLayout.LayoutParams;
 
 import com.streamsdk.util.BitmapUtils;
@@ -164,6 +165,7 @@ public class FullScreenImageActivity extends Activity{
 				} catch (FileNotFoundException e) {
 		
 				}
+			    Toast.makeText(getApplicationContext(), "saved to photo gallery", Toast.LENGTH_LONG).show();
            } else {
 
 			}

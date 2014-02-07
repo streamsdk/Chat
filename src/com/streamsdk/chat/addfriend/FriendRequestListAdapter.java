@@ -4,12 +4,15 @@ import java.util.List;
 
 import com.stream.api.StreamCallback;
 import com.stream.api.StreamObject;
+import com.streamsdk.cache.ImageCache;
 import com.streamsdk.chat.domain.FriendRequest;
 
 import com.streamsdk.chat.ApplicationInstance;
 import com.streamsdk.chat.R;
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -62,6 +65,14 @@ public class FriendRequestListAdapter extends BaseAdapter{
 			v = view;
 			viewHolder = (ViewHolder)view.getTag();
 		}
+		Bitmap bitmap = ImageCache.getInstance().getImage(friendRequest.getFriendName());
+		if (bitmap != null)
+		    viewHolder.imageAvatar.setImageBitmap(bitmap);
+		else{
+			Bitmap bm = BitmapFactory.decodeResource(activity.getResources(), R.drawable.yahoo_no_avatar);
+			viewHolder.imageAvatar.setImageBitmap(bm);
+		}
+		
 		
 		viewHolder.txtFriendName.setText(friendRequest.getFriendName());
 		viewHolder.bFriendStatus.setText(friendRequest.getStatus());

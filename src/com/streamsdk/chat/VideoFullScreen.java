@@ -10,10 +10,13 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -28,6 +31,7 @@ import android.widget.PopupWindow;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.streamsdk.cache.FileCache;
@@ -214,7 +218,8 @@ public class VideoFullScreen extends Activity {
 			return true;
 		case 0:
 			if (title.equals("Save")) {
-			   	File file = FileCache.getInstance().getOutputMediaFile();
+				//MediaStore.Images.Media.insertImag
+				File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), String.valueOf(System.currentTimeMillis()));
 			    File sourceFile = new File(path);
 			   	try {
 				    file.createNewFile();
@@ -222,7 +227,14 @@ public class VideoFullScreen extends Activity {
 			        
 			    } catch (IOException e) {
 				
-			    }	    
+			    }
+			   	
+				ContentValues values = new ContentValues(3);
+			    values.put(MediaStore.Video.Media.TITLE, "My video title");
+			    values.put(MediaStore.Video.Media.MIME_TYPE, "video/mp4");
+			    values.put(MediaStore.Video.Media.DATA, file.getAbsolutePath());
+			    getContentResolver().insert(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, values);
+			    Toast.makeText(getApplicationContext(), "saved to download folder", Toast.LENGTH_LONG).show();
 			   
              } else {
 
