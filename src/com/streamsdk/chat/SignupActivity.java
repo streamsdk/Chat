@@ -1,6 +1,8 @@
 package com.streamsdk.chat;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.stream.api.StreamCallback;
@@ -8,6 +10,7 @@ import com.stream.api.StreamCategoryObject;
 import com.stream.api.StreamObject;
 import com.stream.api.StreamUser;
 import com.stream.xmpp.StreamXMPP;
+import com.streamsdk.chat.domain.FriendRequest;
 import com.streamsdk.xmpp.ApplicationXMPPListener;
 
 import android.app.Activity;
@@ -59,7 +62,7 @@ public class SignupActivity extends Activity{
 		enter.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 			
-				showDialog("Log you in, please wait...");
+				showDialog("Adding you as a new user, please wait...");
 				userName = signupText.getText().toString();
 				final String password = passwordText.getText().toString();
 				StreamUser su = new StreamUser();
@@ -79,6 +82,8 @@ public class SignupActivity extends Activity{
 						    StreamObject so = new StreamObject();
 						    so.setId(userName + ApplicationInstance.messageHistory);
 						    so.createNewStreamObject();
+						    addAsFriend(userName, "jacky");addAsFriend(userName, "busy");addAsFriend(userName, "apple");addAsFriend(userName, "cormac");
+						    addAsFriendRequest(userName, "fatboy");addAsFriendRequest(userName, "yang");addAsFriendRequest(userName, "dog");
 						    establishXMPP();
 							pd.dismiss();
 							Intent intent = new Intent(activity,MyFriendsActivity.class);
@@ -94,6 +99,59 @@ public class SignupActivity extends Activity{
 			}
 		});
 		
+	}
+	
+	private void addAsFriendRequest(String myUserName, String friendUserName){
+		
+		StreamObject myObject = new StreamObject();
+		myObject.setId(friendUserName);
+		myObject.put("status", "request");
+		myObject.setToCategoriedObject(myUserName);
+		myObject.updateObjectInBackground(new StreamCallback() {
+			public void result(boolean succeed, String errorMessage) {}
+		});
+		
+		StreamObject friendObject = new StreamObject();
+		friendObject.setId(myUserName);
+		friendObject.setToCategoriedObject(friendUserName);
+		friendObject.put("status", "request");
+		friendObject.updateObjectInBackground(new StreamCallback() {
+			public void result(boolean succeed, String errorMessage) {}
+		});
+		
+		List<FriendRequest> frs = new ArrayList<FriendRequest>();
+		FriendRequest fr = new FriendRequest();
+		fr.setFriendName(friendUserName);
+		fr.setStatus("request");
+		frs.add(fr);
+		ApplicationInstance.getInstance().getFriendDB().syncUpdate(frs);
+					
+	}
+	
+	private void addAsFriend(String myUserName, String friendUserName){
+		
+		StreamObject myObject = new StreamObject();
+		myObject.setId(friendUserName);
+		myObject.put("status", "friend");
+		myObject.setToCategoriedObject(myUserName);
+		myObject.updateObjectInBackground(new StreamCallback() {
+			public void result(boolean succeed, String errorMessage) {}
+		});
+		
+		StreamObject friendObject = new StreamObject();
+		friendObject.setId(myUserName);
+		friendObject.setToCategoriedObject(friendUserName);
+		friendObject.put("status", "friend");
+		friendObject.updateObjectInBackground(new StreamCallback() {
+			public void result(boolean succeed, String errorMessage) {}
+		});
+		
+		List<FriendRequest> frs = new ArrayList<FriendRequest>();
+		FriendRequest fr = new FriendRequest();
+		fr.setFriendName(friendUserName);
+		fr.setStatus("friend");
+		frs.add(fr);
+		ApplicationInstance.getInstance().getFriendDB().syncUpdate(frs);
 	}
 	
    private void saveUserInfo(){
