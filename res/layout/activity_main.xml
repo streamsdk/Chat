@@ -29,42 +29,52 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/keyboard_height"
         android:background="@android:color/transparent"
+        android:orientation="horizontal"
         android:visibility="gone" />
  
      <LinearLayout
         android:id="@+id/footer_for_more"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="60dp"
         android:orientation="horizontal"
-        android:background="@android:color/darker_gray"
+        android:background="@android:color/white"
+        android:divider="@drawable/vertical_divider_1"
+        android:dividerPadding="12dip"
+        android:showDividers="middle"
         android:visibility="gone" >
-        
-      <ImageView
+    
+     <ImageView
                  android:id="@+id/emoticons_button"
                  android:layout_width="0dp"
-                 android:layout_height="50dp"
+                 android:layout_height="40dp"
                  android:layout_weight="1"
+                  android:layout_gravity="center_vertical"
                  android:src="@drawable/face512" />
       
-       <ImageView
+      <ImageView
                  android:id="@+id/pickpic_button"
                  android:layout_width="0dp"
-                 android:layout_height="50dp"
+                 android:layout_height="40dp"
                  android:layout_weight="1"
+                  android:layout_gravity="center_vertical"
                  android:src="@drawable/photog150" />
+       
        
         <ImageView
                  android:id="@+id/takepic_button"
                  android:layout_width="0dp"
-                 android:layout_height="50dp"
+                 android:layout_height="40dp"
                  android:layout_weight="1"
+                  android:layout_gravity="center_vertical"
                  android:src="@drawable/camera_icon150" />
+        
         
         <ImageView
                  android:id="@+id/takevideo_button"
                  android:layout_width="0dp"
-                 android:layout_height="50dp"
+                 android:layout_height="40dp"
                  android:layout_weight="1"
+                  android:layout_gravity="center_vertical"
                  android:src="@drawable/video150" />
          
      </LinearLayout>

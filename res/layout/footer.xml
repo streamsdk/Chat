@@ -10,23 +10,22 @@
                  android:layout_width="0dp"
                  android:layout_height="30dp"
                  android:layout_weight="0.1"
-                 android:layout_marginTop="8dp"
-                  android:src="@drawable/plus256" />
+                 android:layout_marginTop="10dp"
+                 android:src="@drawable/plus256" />
 
             <ImageButton
                 android:id="@+id/changeStyle"
                 android:layout_width="0dp"
-                android:layout_height="38dp"
+                android:layout_height="35dp"
                 android:layout_weight="0.1"
-                 android:layout_marginTop="5dp"
+                android:layout_marginTop="8dp"
                 android:background="@drawable/microphonefat" />
 
             <Button
                 android:id="@+id/speakButton"
                 android:layout_width="0dp"
                 android:layout_height="48dp"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="0.8"
+                android:layout_weight="0.8" 
                 android:text="Press Hold To Speak"
                 android:textSize="17sp"
                 android:visibility="gone" />

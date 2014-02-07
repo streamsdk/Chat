@@ -143,8 +143,10 @@ public class MainActivity extends FragmentActivity implements EditTextEmojSelect
        moreButtons.setOnClickListener(new OnClickListener() {
 		   public void onClick(View v) {
 			   isMoreOptionShown = !isMoreOptionShown;
-			   if (isMoreOptionShown)
+			   if (isMoreOptionShown){
                    moreOptions.setVisibility(View.VISIBLE);
+                   popupWindow.dismiss();
+			   }
 			   else
                    moreOptions.setVisibility(View.GONE);
 		   }
@@ -282,7 +284,7 @@ public class MainActivity extends FragmentActivity implements EditTextEmojSelect
 		try{
 		    enablePopUpView();
 		}catch(Throwable t){
-			Log.i("", t.getMessage());
+			Log.i("", "why null pointer throw here");
 		}
 	}
 	
