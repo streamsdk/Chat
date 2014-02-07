@@ -2,7 +2,7 @@
     android:id="@+id/firstPageLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/talk4s"
+    android:background="@drawable/splash"
     android:cacheColorHint="#00000000" >
     
 </FrameLayout>
