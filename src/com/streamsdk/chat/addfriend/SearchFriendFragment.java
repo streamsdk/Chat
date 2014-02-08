@@ -1,9 +1,13 @@
 package com.streamsdk.chat.addfriend;
 
+import org.jivesoftware.smack.packet.Message;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.Fragment;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,8 +15,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.stream.api.JsonUtils;
 import com.stream.api.StreamCallback;
 import com.stream.api.StreamObject;
+import com.stream.xmpp.StreamXMPP;
 import com.streamsdk.chat.ApplicationInstance;
 import com.streamsdk.chat.R;
 
@@ -20,6 +26,24 @@ import com.streamsdk.chat.R;
 public class SearchFriendFragment extends Fragment{
 
 	private String userName = "";
+	
+    private String buildFriendRequest(){
+    	
+    	JSONObject friendReuqest = new JSONObject();
+    	try {
+			friendReuqest.put("type", "request");
+		    friendReuqest.put("username", ApplicationInstance.getInstance().getLoginName());
+		    friendReuqest.put("id", String.valueOf(System.currentTimeMillis()));
+	        return friendReuqest.toString();
+	        
+    	} catch (JSONException e) {
+			
+		}
+    	
+    	
+    	return "";
+    }
+	
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		
@@ -35,15 +59,23 @@ public class SearchFriendFragment extends Fragment{
 				 requestUser.put("status", "request");
 				 requestUser.updateObjectInBackground(new StreamCallback() {
 					public void result(boolean succeed, String errorMessage) {
-					    if (succeed)
+					    if (succeed){
 					    	ApplicationInstance.getInstance().getInivitationDB().insert(userName);
+					        String friendRequest = buildFriendRequest();
+					        Message packet = new Message();
+					        String to = ApplicationInstance.APPID + userName + ApplicationInstance.HOST_PREFIX;
+					        Log.i("request to", to);
+					        packet.setTo(to);
+					        packet.setBody(friendRequest);
+					        StreamXMPP.getInstance().sendPacket(packet);
+					    }
 					}
 				});
 			}
 		});
 		
 		Handler handler = new Handler(new Handler.Callback() {
-			public boolean handleMessage(Message message) {
+			public boolean handleMessage(android.os.Message message) {
 				Bundle bundle = message.getData();
 				userName = (String)bundle.getString("userName");				
 				iv.setVisibility(View.VISIBLE);

@@ -46,6 +46,13 @@ public class MessageHistoryHandler implements Runnable{
 			IM im = new IM();
 			String type = xmppMessage.getType();
 			StreamFile streamFile = new StreamFile();
+			if (type.equals("friend") || type.equals("request")){
+				String requestUserName = xmppMessage.getRequestUsername();
+			    try{	
+				    ApplicationInstance.getInstance().getFriendDB().insert(requestUserName, type);
+			    }catch(Throwable t){}
+			    continue;
+			}
 			if (!xmppMessage.getTimeout().equals("") && (type.equals("video") ||type.equals("photo"))){
 				   im.setTimeout(xmppMessage.getTimeout());
 				   im.setDisappear(true);

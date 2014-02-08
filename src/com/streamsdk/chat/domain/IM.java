@@ -24,6 +24,8 @@ public class IM {
 	private String receivedFilePath;
 	private String timeout = "";
 	private String viewed = "";
+	private String requestStatus = "";
+	private String requestType = "";
 	
 	public String getTo() {
 		return to;
@@ -143,4 +145,21 @@ public class IM {
 	public void setViewed(String viewed) {
 		this.viewed = viewed;
 	}
+
+	public String getRequestStatus() {
+		return requestStatus;
+	}
+
+	public void setRequestStatus(String requestStatus) {
+		this.requestStatus = requestStatus;
+	}
+
+	public String getRequestType() {
+		return requestType;
+	}
+
+	public void setRequestType(String requestType) {
+		this.requestType = requestType;
+	}
+	
 }

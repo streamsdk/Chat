@@ -44,6 +44,17 @@ public class ApplicationXMPPListener {
 				   return;
 				}
 				StreamXMPP.getInstance().sendAck(ApplicationInstance.APPID + xmppMessage.getFrom(), xmppMessage.getId());
+				if (xmppMessage.getType().equals("request")){
+					String requestUserName = xmppMessage.getRequestUsername();
+					ApplicationInstance.getInstance().getFriendDB().insert(requestUserName, "request");
+					return;
+				}
+				if (xmppMessage.getType().equals("friend")){
+					String requestUserName = xmppMessage.getRequestUsername();
+					ApplicationInstance.getInstance().getFriendDB().insert(requestUserName, "friend");
+					return;
+				}
+				
 				String parsed = EmojiParser.getInstance(ApplicationInstance.getInstance().getContext()).parseEmoji(xmppMessage.getMessage());
 				IM im = new IM();
 				im.setFrom(xmppMessage.getFrom());

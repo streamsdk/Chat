@@ -2,8 +2,13 @@ package com.streamsdk.chat.addfriend;
 
 import java.util.List;
 
+import org.jivesoftware.smack.packet.Message;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import com.stream.api.StreamCallback;
 import com.stream.api.StreamObject;
+import com.stream.xmpp.StreamXMPP;
 import com.streamsdk.cache.ImageCache;
 import com.streamsdk.chat.domain.FriendRequest;
 
@@ -48,8 +53,24 @@ public class FriendRequestListAdapter extends BaseAdapter{
 		return 0;
 	}
 
-	@Override
-	public View getView(int position, View view, ViewGroup vg) {
+	
+	 private String buildFriend(){
+	    	
+		JSONObject friendReuqest = new JSONObject();
+		try {
+			friendReuqest.put("type", "friend");
+			friendReuqest.put("username", ApplicationInstance.getInstance().getLoginName());
+			friendReuqest.put("id", String.valueOf(System.currentTimeMillis()));
+			return friendReuqest.toString();
+
+		} catch (JSONException e) {
+
+		}
+
+	    	return "";
+	}
+
+    public View getView(int position, View view, ViewGroup vg) {
 	
 		LayoutInflater inflater = (LayoutInflater)activity.getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		final ViewHolder viewHolder;
@@ -87,10 +108,19 @@ public class FriendRequestListAdapter extends BaseAdapter{
 					myStreamCategoryObject.updateObjectInBackground(new StreamCallback() {
 						public void result(boolean succeed, String errorMessage) {
                              if (succeed){
-                            	 if (!ApplicationInstance.getInstance().getFriendDB().userNameExists(friendRequest.getFriendName()))
+                            	 if (!ApplicationInstance.getInstance().getFriendDB().userNameExists(friendRequest.getFriendName())){
                             	     ApplicationInstance.getInstance().getFriendDB().insert(friendRequest.getFriendName(), "friend");
-                            	 else
+                            	 }else{
                             		 ApplicationInstance.getInstance().getFriendDB().update(friendRequest.getFriendName(), "friend");
+                            	 }
+                            	 
+                            	String friendBody = buildFriend();
+     					        Message packet = new Message();
+     					        String to = ApplicationInstance.APPID + friendRequest.getFriendName() + ApplicationInstance.HOST_PREFIX;
+     					        Log.i("request to", to);
+     					        packet.setTo(to);
+     					        packet.setBody(friendBody);
+     					        StreamXMPP.getInstance().sendPacket(packet);
                              }
                          }
 					});
