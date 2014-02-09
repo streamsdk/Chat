@@ -286,9 +286,10 @@ public class AndroidVideoCapture extends Activity{
 
             // start preview with new settings
             try {
-                mCamera.setPreviewDisplay(mHolder);
-                mCamera.startPreview();
-
+              if (mCamera != null){
+                 mCamera.setPreviewDisplay(mHolder);
+                 mCamera.startPreview();
+              }
             } catch (Exception e){
             }
         }
@@ -298,14 +299,12 @@ public class AndroidVideoCapture extends Activity{
             // TODO Auto-generated method stub
             // The Surface has been created, now tell the camera where to draw the preview.
             try {
-            	if (mCamera == null){
-            		Log.i("camera surface null", "something occured");
-            		 myCameraSurfaceView = new MyCameraSurfaceView(activity, myCamera);
-            	}
+              if (mCamera != null){
                 mCamera.setPreviewDisplay(holder);
                 mCamera.setDisplayOrientation(90);
                 mCamera.startPreview();
-            } catch (IOException e) {
+              }
+            } catch (Exception e) {
             }
         }
 

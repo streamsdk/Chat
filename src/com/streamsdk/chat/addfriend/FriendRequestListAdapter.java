@@ -81,7 +81,7 @@ public class FriendRequestListAdapter extends BaseAdapter{
 			viewHolder = new ViewHolder();
 			viewHolder.imageAvatar = (ImageView)v.findViewById(R.id.imgAvatar);
 			viewHolder.txtFriendName = (TextView)v.findViewById(R.id.txtFriendName);
-			viewHolder.bFriendStatus = (Button)v.findViewById(R.id.acceptFriend);
+			viewHolder.bFriendStatus = (ImageView)v.findViewById(R.id.acceptFriend);
 		}else{
 			v = view;
 			viewHolder = (ViewHolder)view.getTag();
@@ -93,10 +93,13 @@ public class FriendRequestListAdapter extends BaseAdapter{
 			Bitmap bm = BitmapFactory.decodeResource(activity.getResources(), R.drawable.yahoo_no_avatar);
 			viewHolder.imageAvatar.setImageBitmap(bm);
 		}
-		
-		
 		viewHolder.txtFriendName.setText(friendRequest.getFriendName());
-		viewHolder.bFriendStatus.setText(friendRequest.getStatus());
+		if (friendRequest.getStatus().equals("friend")){
+		   viewHolder.bFriendStatus.setImageResource(R.drawable.friends);	
+		}
+		if (friendRequest.getStatus().equals("request")){
+		   viewHolder.bFriendStatus.setImageResource(R.drawable.addfriend);
+		}
 		viewHolder.bFriendStatus.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				if (friendRequest.getStatus().equals("request")){
@@ -137,7 +140,7 @@ public class FriendRequestListAdapter extends BaseAdapter{
 						}
 					});
 					
-					viewHolder.bFriendStatus.setText("friend");
+					viewHolder.bFriendStatus.setImageResource(R.drawable.friends);
 					
 				}
 				
@@ -166,7 +169,7 @@ public class FriendRequestListAdapter extends BaseAdapter{
 						}
 					});
 					
-					viewHolder.bFriendStatus.setText("request");
+					viewHolder.bFriendStatus.setImageResource(R.drawable.addfriend);
 					
 				}
 			}
@@ -180,7 +183,7 @@ public class FriendRequestListAdapter extends BaseAdapter{
 	  
 	  ImageView imageAvatar;
 	  TextView txtFriendName;
-	  Button bFriendStatus;
+	  ImageView bFriendStatus;
 	  
   }
 

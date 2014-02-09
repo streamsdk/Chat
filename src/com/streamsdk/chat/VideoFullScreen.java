@@ -140,6 +140,7 @@ public class VideoFullScreen extends Activity {
         
         if (send == null){
            mVideoView.start();
+           playButton.setImageResource(R.drawable.pause);
 		   sendButton.setVisibility(View.GONE);
            retakeButton.setVisibility(View.GONE);
         }

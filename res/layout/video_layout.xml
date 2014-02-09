@@ -13,6 +13,19 @@
         android:layout_height="fill_parent">
     </VideoView>
     
+     <FrameLayout 
+            android:layout_width="fill_parent"
+            android:layout_height="70dp"
+            android:background="#30000000"
+            android:layout_alignParentBottom="true"
+            ></FrameLayout>
+          <FrameLayout 
+            android:layout_width="fill_parent"
+            android:layout_height="70dp"
+            android:background="#30000000"
+            android:layout_alignParentTop="true"
+            ></FrameLayout>
+    
     <FrameLayout
            android:id="@+id/timeCountLayout"
            android:layout_width="wrap_content"
@@ -50,6 +63,7 @@
             android:layout_height="50dp"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
+             android:layout_marginBottom="5dp"
             android:src="@drawable/play"
             />
     
@@ -80,6 +94,7 @@
             android:layout_height="45dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
+            android:layout_marginBottom="5dp"
             android:src="@drawable/settings"
             />
              
