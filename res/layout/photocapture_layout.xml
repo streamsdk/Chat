@@ -15,25 +15,22 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"/>
         
-        <Button
+        <ImageView
             android:id="@+id/takePhotoButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:layout_centerHorizontal="true"
             android:layout_alignParentBottom="true"
-            android:text="TAKE"
-            android:textStyle="bold"
-            android:textSize="12dp"/>
+           android:src="@drawable/record"/>
         
-        <Button
+        <ImageView
             android:id="@+id/changeCam"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
-            android:text="CHANGE"
-            android:textSize="12dp"
-            android:textStyle="bold"/>
+            android:src="@drawable/swi"
+            />
         
         
     </RelativeLayout>

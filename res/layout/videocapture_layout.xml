@@ -26,25 +26,22 @@
             android:visibility="gone"    
             />
         
-        <Button
+        <ImageView
             android:id="@+id/recButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:layout_centerHorizontal="true"
             android:layout_alignParentBottom="true"
-            android:text="REC"
-            android:textStyle="bold"
-            android:textSize="12dp"/>
-        
-         <Button
+            android:src="@drawable/record"
+            />
+ 
+        <ImageView
             android:id="@+id/changeCam"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
-            android:text="CHANGE"
-            android:textSize="12dp"
-            android:textStyle="bold"/>
+            android:src="@drawable/swi"/>
         
     </RelativeLayout>
 </LinearLayout>

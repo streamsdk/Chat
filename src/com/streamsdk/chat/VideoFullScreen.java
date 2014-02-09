@@ -25,6 +25,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.MediaController;
 import android.widget.PopupWindow;
@@ -34,16 +35,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
-import com.streamsdk.cache.FileCache;
-
 public class VideoFullScreen extends Activity {
 
     private String path = "";
     private String send = "";
     private VideoView mVideoView;
-    Button sendButton = null;
-    Button playButton = null;
-    Button retakeButton = null;
+    ImageView sendButton = null;
+    ImageView playButton = null;
+    ImageView retakeButton = null;
     boolean play = false;
     String timeout = "";
     int count = 0;
@@ -79,7 +78,7 @@ public class VideoFullScreen extends Activity {
         popupView = getLayoutInflater().inflate(R.layout.videodisappearoptions_layout, null);
         popupWindow = new PopupWindow(popupView, LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, false);
         
-        sendButton = (Button)findViewById(R.id.sendButton);
+        sendButton = (ImageView)findViewById(R.id.sendButton);
         sendButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				ApplicationInstance.getInstance().setRecordingVideoPath(path);
@@ -88,21 +87,21 @@ public class VideoFullScreen extends Activity {
 			}
 		});
         
-        playButton = (Button)findViewById(R.id.playButton);
+        playButton = (ImageView)findViewById(R.id.playButton);
         playButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				 if (play){
 					 mVideoView.start();
-                     playButton.setText("PAUSE");			
-				 }else{
+					 playButton.setImageResource(R.drawable.pause);
+           	 }else{
 					 mVideoView.pause();
-					 playButton.setText("PLAY");			
-				 }
+			         playButton.setImageResource(R.drawable.play); 
+           	   }
 				 play = !play;
 			}
 		});
         
-        retakeButton = (Button)findViewById(R.id.retakeButton);
+        retakeButton = (ImageView)findViewById(R.id.retakeButton);
         retakeButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				File file  = new File(path);
@@ -116,7 +115,7 @@ public class VideoFullScreen extends Activity {
         mVideoView.setOnCompletionListener(new OnCompletionListener() {
 			public void onCompletion(MediaPlayer mp) {
 				if (timeout == null){
-				  playButton.setText("PLAY");
+					 playButton.setImageResource(R.drawable.play); 
 				  play = true;
 				}else{
 			      finish();		
@@ -145,7 +144,7 @@ public class VideoFullScreen extends Activity {
            retakeButton.setVisibility(View.GONE);
         }
        
-       Button videoOptions = (Button)findViewById(R.id.videoOptionsButton);
+       ImageView videoOptions = (ImageView)findViewById(R.id.videoOptionsButton);
        videoOptions.setVisibility(View.GONE);
        videoOptions.setOnClickListener(new View.OnClickListener() {
 		   public void onClick(View v) {
@@ -178,7 +177,7 @@ public class VideoFullScreen extends Activity {
        
        if (send != null){
            play = true;
-           playButton.setText("PLAY");
+           playButton.setImageResource(R.drawable.play); 
            mVideoView.seekTo(1);
            sendButton.setVisibility(View.VISIBLE);
            retakeButton.setVisibility(View.VISIBLE);

@@ -34,8 +34,8 @@ public class FullScreenImageActivity extends Activity{
 
 	 
 	 String path;
-	 Button retakePhotoButton;
-	 Button sendPhotoButton;
+	 ImageView retakePhotoButton;
+	 ImageView sendPhotoButton;
 	 Activity activity;
 	 String duration;
 	 Timer timer;
@@ -67,7 +67,7 @@ public class FullScreenImageActivity extends Activity{
     		Bitmap bitmap = BitmapUtils.loadImageForFullScreen(path, metrics.widthPixels, metrics.heightPixels, metrics.widthPixels);
             iv.setImageBitmap(bitmap);
             FrameLayout fl = (FrameLayout)findViewById(R.id.timeCountLayout);
-            Button numPicker = (Button)findViewById(R.id.popNum);
+            ImageView numPicker = (ImageView)findViewById(R.id.popNum);
             
             if (duration != null){
             	String countText = duration.substring(0, duration.length()-1);
@@ -101,7 +101,7 @@ public class FullScreenImageActivity extends Activity{
             	
                numPicker.setVisibility(View.VISIBLE);
                 
-               retakePhotoButton = (Button)findViewById(R.id.retakePhotoButton);
+               retakePhotoButton = (ImageView)findViewById(R.id.retakePhotoButton);
 		       retakePhotoButton.setVisibility(View.VISIBLE);
                retakePhotoButton.setOnClickListener(new View.OnClickListener() {
 				  public void onClick(View v) {
@@ -113,7 +113,7 @@ public class FullScreenImageActivity extends Activity{
 				  }
 		  	   });
                
-               sendPhotoButton = (Button)findViewById(R.id.sendPhtotButton);
+               sendPhotoButton = (ImageView)findViewById(R.id.sendPhtotButton);
                sendPhotoButton.setVisibility(View.VISIBLE);
                sendPhotoButton.setOnClickListener(new View.OnClickListener() {
 				   public void onClick(View v) {

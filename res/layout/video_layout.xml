@@ -44,48 +44,43 @@
             </RelativeLayout>
     </FrameLayout>
     
-    
-    
-    <Button
+    <ImageView
             android:id="@+id/playButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+           android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:text="PAUSE"
-            android:textStyle="bold"
-            android:textSize="12dp"/>
+            android:src="@drawable/play"
+            />
     
-    <Button
+    <ImageView
             android:id="@+id/sendButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/playButton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
-            android:text="SEND"
-            android:textSize="12dp"
-            android:textStyle="bold"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/forward"
             android:visibility="gone"/>
     
-    <Button
+    <ImageView
             android:id="@+id/retakeButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toLeftOf="@+id/playButton"
-            android:layout_alignParentBottom="true"
-            android:text="RETAKE"
-            android:textSize="12dp"
-            android:textStyle="bold"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/cancel"
             android:visibility="gone"/>
     
-    <Button
+    <ImageView
             android:id="@+id/videoOptionsButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
-            android:text="OPTIONS"
-            android:textSize="12dp"
-            android:textStyle="bold"/>
+            android:src="@drawable/settings"
+            />
              
 </RelativeLayout>

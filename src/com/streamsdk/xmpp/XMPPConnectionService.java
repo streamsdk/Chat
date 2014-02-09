@@ -101,7 +101,7 @@ public class XMPPConnectionService extends Service{
 					   messageBody = JsonUtils.buildImageVideoMessaing(message.getFileId(), message.getType(), message.getFrom(), message.getDuration(), Long.parseLong(message.getId()));
 					}
 						
-					packet.setTo(ApplicationInstance.APPID + message.getTo() + "@streamsdk.com");
+					packet.setTo(ApplicationInstance.APPID + message.getTo() + ApplicationInstance.HOST_PREFIX);
 			        packet.setBody(messageBody);
 					StreamXMPP.getInstance().sendPacket(packet);
 				}
@@ -143,7 +143,7 @@ public class XMPPConnectionService extends Service{
 			
 		  Log.i("xmpp service", "send status");
 		  try{	
-			 StreamXMPP.getInstance().sendAvStatus(ApplicationInstance.APPID  + ApplicationInstance.getInstance().getLoginName() + "@streamsdk.com");
+			 StreamXMPP.getInstance().sendAvStatus(ApplicationInstance.APPID  + ApplicationInstance.getInstance().getLoginName() + ApplicationInstance.HOST_PREFIX);
 		  }catch(Throwable t){
 			 Log.i("", "no connection send status"); 
 		  }

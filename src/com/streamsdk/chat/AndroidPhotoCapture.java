@@ -21,6 +21,7 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.streamsdk.cache.FileCache;
@@ -29,7 +30,7 @@ public class AndroidPhotoCapture extends Activity{
 
 	private Camera myCamera;
     private MyCameraSurfaceView myCameraSurfaceView;
-    private Button myButton;
+    private ImageView myButton;
     private Activity activity;
     private int cameraId;
     private int rotation = 0;
@@ -58,10 +59,10 @@ public class AndroidPhotoCapture extends Activity{
         myCameraSurfaceView = new MyCameraSurfaceView(this, myCamera);
         final FrameLayout myCameraPreview = (FrameLayout)findViewById(R.id.photoview);
         myCameraPreview.addView(myCameraSurfaceView);
-        myButton = (Button)findViewById(R.id.takePhotoButton);
+        myButton = (ImageView)findViewById(R.id.takePhotoButton);
         myButton.setOnClickListener(myButtonOnClickListener);
         
-        Button change = (Button)findViewById(R.id.changeCam);
+        ImageView change = (ImageView)findViewById(R.id.changeCam);
         change.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				if (cameraId ==  CameraInfo.CAMERA_FACING_FRONT)

@@ -13,26 +13,25 @@
         android:layout_alignParentBottom="true"
         android:scaleType="centerCrop" />
     
-     <Button
+     <ImageView
             android:id="@+id/retakePhotoButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:text="RETAKE"
-            android:textSize="12dp"
-            android:textStyle="bold"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/cancel"
             android:visibility="gone"/>
     
-    <Button
+    <ImageView
             android:id="@+id/sendPhtotButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/retakePhotoButton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
-            android:text="SEND"
-            android:textSize="12dp"
-            android:textStyle="bold"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/forward"
             android:visibility="gone"/>
     
     
@@ -67,14 +66,15 @@
             </RelativeLayout>
        </FrameLayout>
              
-      <Button
+      <ImageView
             android:id="@+id/popNum"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
-            android:text="TIME"
-            android:textSize="12dp"
-            android:textStyle="bold"/>   
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="8dp"
+            android:src="@drawable/settings"
+            />   
 
 </RelativeLayout>

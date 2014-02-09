@@ -40,12 +40,12 @@
                 android:imeOptions="actionSend"
                 android:maxLines="2" />
 
-            <Button
-                android:background="@android:color/background_light"
+            <ImageView
                 android:id="@+id/btnSend"
-                 android:layout_width="0dp"
+                android:layout_width="0dp"
                 android:layout_height="48dp"
                 android:layout_weight="0.15"
                 android:layout_marginLeft="3dp"
-                android:text="Send" />
+                 android:src="@drawable/send"/>
+            
         </LinearLayout>

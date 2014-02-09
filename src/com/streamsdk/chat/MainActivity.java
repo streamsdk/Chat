@@ -34,6 +34,8 @@ import android.view.ViewGroup.LayoutParams;
 import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -79,7 +81,8 @@ public class MainActivity extends FragmentActivity implements EditTextEmojSelect
 	private EmotionPagerAdapter eAdapter;
 	private EmojiEditText messageText;
 	private LinearLayout moreOptions;
-	private boolean isMoreOptionShown = false;
+	private boolean isMoreOptionShown = true;
+	private ImageView moreButtons;
 	static final int REQUEST_IMAGE_CAPTURE = 0;
 	static final int REQUEST_IMAGE_PICK = 1;
 	static final int REQUEST_VIDEO_CAPTURE = 2;
@@ -129,6 +132,13 @@ public class MainActivity extends FragmentActivity implements EditTextEmojSelect
 		getWindowManager().getDefaultDisplay().getMetrics(metrics);
 		setContentView(R.layout.activity_main);
 		view = (ListView)findViewById(R.id.listView1);
+		view.setOnItemClickListener(new OnItemClickListener() {
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+				  Log.i("clicked here", "main chat panel clicked");
+	               dismissKeyboard();				
+			}
+		});
 		messages = new ArrayList<IM>();
 		adapter = new ChatWindowAdapter(messages, this, metrics);
 		view.setAdapter(adapter);
@@ -139,21 +149,24 @@ public class MainActivity extends FragmentActivity implements EditTextEmojSelect
         
         
        final ImageView emoticonsButton = (ImageView) findViewById(R.id.emoticons_button);
-       final ImageView moreButtons = (ImageView)findViewById(R.id.more_button);
+       moreButtons = (ImageView)findViewById(R.id.more_button);
        moreButtons.setOnClickListener(new OnClickListener() {
 		   public void onClick(View v) {
-			   isMoreOptionShown = !isMoreOptionShown;
 			   if (isMoreOptionShown){
                    moreOptions.setVisibility(View.VISIBLE);
+                   moreButtons.setImageResource(R.drawable.close);
                    popupWindow.dismiss();
 			   }
-			   else
+			   else{
                    moreOptions.setVisibility(View.GONE);
+                   moreButtons.setImageResource(R.drawable.plus256);
+			   }
+			   isMoreOptionShown = !isMoreOptionShown;
 		   }
 	   });
        
         
-		final Button button = (Button)findViewById(R.id.btnSend);
+		final ImageView button = (ImageView)findViewById(R.id.btnSend);
 		messageText = (EmojiEditText)findViewById(R.id.txtMessage);
 		messageText.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
@@ -175,6 +188,9 @@ public class MainActivity extends FragmentActivity implements EditTextEmojSelect
 			public void onClick(View v) {
 				IM im = new IM();
 				String mt = messageText.getText().toString();
+				if (mt.equals("")){
+					return;
+				}
 				messageText.setText("");
 				String body = ParseMsgUtil.convertEditTextToParsableFormat(mt, getApplicationContext());
 				String parsed = EmojiParser.getInstance(getApplicationContext()).parseEmoji(body);
@@ -187,16 +203,12 @@ public class MainActivity extends FragmentActivity implements EditTextEmojSelect
 				ApplicationInstance.getInstance().getMessagingHistoryDB().insert(im);
 				messages.add(im);
 				Message packet = new Message();
-		        packet.setTo(ApplicationInstance.APPID + receiver + "@streamsdk.com");
+		        packet.setTo(ApplicationInstance.APPID + receiver + ApplicationInstance.HOST_PREFIX);
 		        String packetBody = JsonUtils.buildPlainTextMessage(body, ApplicationInstance.getInstance().getLoginName(), String.valueOf(chatTime));
 		        packet.setBody(packetBody);
 		        ApplicationInstance.getInstance().getMessagingAckDB().insertTextMessage(im);
 				StreamXMPP.getInstance().sendPacket(packet);
 			 	adapter.notifyDataSetChanged();
-				/*InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-				imm.hideSoftInputFromWindow(messageText.getWindowToken(), 0);*/
-				//popupWindow.dismiss();
-
 			}
 		});
 		
@@ -204,8 +216,7 @@ public class MainActivity extends FragmentActivity implements EditTextEmojSelect
 		final Button speakButton = (Button)findViewById(R.id.speakButton);
 		change.setOnClickListener(new OnClickListener() {		
 			public void onClick(View arg0) {
-			    speak = !speak;
-				if (speak){
+			 	if (speak){
 					change.setBackgroundResource(R.drawable.keyboard512);
 					speakButton.setVisibility(View.VISIBLE);
 					moreButtons.setVisibility(View.GONE);
@@ -218,12 +229,12 @@ public class MainActivity extends FragmentActivity implements EditTextEmojSelect
 				}else{
 					change.setBackgroundResource(R.drawable.microphonefat);
 				    speakButton.setVisibility(View.GONE);
-				    moreOptions.setVisibility(View.GONE);
 				    button.setVisibility(View.VISIBLE);
 					messageText.setVisibility(View.VISIBLE);
 					moreButtons.setVisibility(View.VISIBLE);
-					isMoreOptionShown = false;
+			        dismissMoreOptionPanel();
 				}
+			    speak = !speak;
 			}
 		});
 		
@@ -233,6 +244,7 @@ public class MainActivity extends FragmentActivity implements EditTextEmojSelect
 		emoticonsButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 			    setMoreOptionVisibility(View.GONE);
+			    dismissMoreOptionPanel();
 				if (!popupWindow.isShowing()) {
 					popupWindow.setHeight((int) (keyboardHeight));
 					if (isKeyBoardVisible) {
@@ -298,6 +310,12 @@ public class MainActivity extends FragmentActivity implements EditTextEmojSelect
 		   ApplicationInstance.getInstance().getRefreshUI().refresh();
 	}
 	
+	private void dismissKeyboard(){
+		InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+		imm.hideSoftInputFromWindow(messageText.getWindowToken(), 0);
+		popupWindow.dismiss();
+	}
+	
 	private void readHistory(){
 		List<IM> imHistory = ApplicationInstance.getInstance().getMessagingHistoryDB().getIMHistoryForUser(receiver, ApplicationInstance.getInstance().getLoginName());
 	    for (IM im : imHistory){
@@ -361,7 +379,7 @@ public class MainActivity extends FragmentActivity implements EditTextEmojSelect
     }
    
     private void sendVideoIM(String path){
-    	
+    	dismissMoreOptionPanel();
     	if (isVideoSizeExceedTheMax(path)){
     		return;
     	}
@@ -397,7 +415,14 @@ public class MainActivity extends FragmentActivity implements EditTextEmojSelect
     	sendVideoIM(path);
     }
     
+    private void dismissMoreOptionPanel(){
+    	isMoreOptionShown = true;
+		moreOptions.setVisibility(View.GONE);
+		moreButtons.setImageResource(R.drawable.plus256);
+    }
+    
     private void sendImageIM(String path){
+    	dismissMoreOptionPanel();
     	final IM im = ImageHandler.buildImageIMMessage(path);
 		if (im.isVideo()){
 			sendVideoIM(path);

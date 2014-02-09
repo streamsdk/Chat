@@ -19,6 +19,7 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,7 +31,7 @@ public class AndroidVideoCapture extends Activity{
     private MyCameraSurfaceView myCameraSurfaceView;
     private MediaRecorder mediaRecorder;
 
-    Button myButton;
+    ImageView myButton;
     SurfaceHolder surfaceHolder;
     boolean recording;
     File recordingVideoFile;
@@ -40,12 +41,15 @@ public class AndroidVideoCapture extends Activity{
     Timer timer;
     private SurfaceHolder mHolder;
     private int rotation = 0;
+    private Activity activity;
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
        
         recording = false;
+        
+        activity = this;
        
         setContentView(R.layout.videocapture_layout);
        
@@ -63,13 +67,13 @@ public class AndroidVideoCapture extends Activity{
         FrameLayout myCameraPreview = (FrameLayout)findViewById(R.id.videoview);
         myCameraPreview.addView(myCameraSurfaceView);
        
-        myButton = (Button)findViewById(R.id.recButton);
+        myButton = (ImageView)findViewById(R.id.recButton);
         
         
         timerText = (TextView)findViewById(R.id.myTextVideoTime);
         myButton.setOnClickListener(myButtonOnClickListener);
         
-        Button change = (Button)findViewById(R.id.changeCam);
+        ImageView change = (ImageView)findViewById(R.id.changeCam);
         
         rotation = calculateRotation(cameraId); 	
         //Camera.Parameters params  = myCamera.getParameters();
@@ -125,6 +129,7 @@ public class AndroidVideoCapture extends Activity{
             // TODO Auto-generated method stub
             if(recording){
                 // stop recording and release camera
+            	
             	recording = false;
             	count=0;
             	timer.cancel();
@@ -140,6 +145,7 @@ public class AndroidVideoCapture extends Activity{
             }else{
                
                 //Release Camera before MediaRecorder start
+            	myButton.setImageResource(R.drawable.stop);
                 releaseCamera();
                 if(!prepareMediaRecorder()){
                     Toast.makeText(AndroidVideoCapture.this,
@@ -150,7 +156,7 @@ public class AndroidVideoCapture extends Activity{
                
                 mediaRecorder.start();
                 recording = true;
-                myButton.setText("STOP");
+               // myButton.setText("STOP");
                 timer = new Timer();
                 timer.schedule(new TickClass(), 0, 1000);
                
@@ -292,6 +298,10 @@ public class AndroidVideoCapture extends Activity{
             // TODO Auto-generated method stub
             // The Surface has been created, now tell the camera where to draw the preview.
             try {
+            	if (mCamera == null){
+            		Log.i("camera surface null", "something occured");
+            		 myCameraSurfaceView = new MyCameraSurfaceView(activity, myCamera);
+            	}
                 mCamera.setPreviewDisplay(holder);
                 mCamera.setDisplayOrientation(90);
                 mCamera.startPreview();
