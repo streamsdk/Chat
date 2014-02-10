@@ -53,10 +53,8 @@ public class FullScreenImageActivity extends Activity{
             path = intent.getExtras().getString("path");
             String send = intent.getExtras().getString("send");
             duration = intent.getExtras().getString("duration");
-            if (duration != null){
-                requestWindowFeature(Window.FEATURE_NO_TITLE);
-	            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
-            }
+            requestWindowFeature(Window.FEATURE_NO_TITLE);
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		    setContentView(R.layout.fullscreenimage_layout);
 		    final RelativeLayout parentLayout = (RelativeLayout)findViewById(R.id.fullscreenimageLayout);
 		    activity = this;
@@ -80,8 +78,7 @@ public class FullScreenImageActivity extends Activity{
             }else{
 		        fl.setVisibility(View.GONE);
 		        numPicker.setVisibility(View.GONE);
-            	getActionBar().setDisplayHomeAsUpEnabled(true);
-	        }
+            }
 		    
         	popUpView = getLayoutInflater().inflate(R.layout.numberpicker_layout, null);
             popupWindow = new PopupWindow(popUpView, LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, false);

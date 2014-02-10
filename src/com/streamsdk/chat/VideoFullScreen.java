@@ -57,12 +57,8 @@ public class VideoFullScreen extends Activity {
         super.onCreate(icicle);
         Intent intent = getIntent();
         timeout = intent.getExtras().getString("duration");
-        if (timeout != null){
-            requestWindowFeature(Window.FEATURE_NO_TITLE);
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        }else{
-        	getActionBar().setDisplayHomeAsUpEnabled(true);
-        }
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.video_layout);
         final Activity activity = this;
         path = intent.getExtras().getString("path");
