@@ -25,5 +25,9 @@
         <item name="android:textSize">17sp</item>
         <item name="android:background">@drawable/background_textbox</item>
     </style>
+    
+     <style name="PreferencesTheme">
+         <item name="android:windowBackground">@drawable/bg</item>
+       </style>
 
 </resources>

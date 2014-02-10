@@ -204,6 +204,10 @@ public class MyFriendsActivity extends ListActivity implements RefreshUI{
 			Intent intent = new Intent(activity, AddFriendMainActivity.class);
 			startActivity(intent);
 		}
+		if (title.equals("Settings")) {
+			Intent intent = new Intent(activity, PreferenceScreen.class);
+			startActivity(intent);
+		}
 
 		return super.onOptionsItemSelected(item);
 
@@ -211,6 +215,7 @@ public class MyFriendsActivity extends ListActivity implements RefreshUI{
 	
    public boolean onCreateOptionsMenu(Menu menu){
 		 menu.add("Refresh").setIcon(R.drawable.ic_refresh).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+		 menu.add("Settings").setIcon(R.drawable.ic_search).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 		 return true;
    }
 		

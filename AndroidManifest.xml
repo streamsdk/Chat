@@ -38,6 +38,7 @@
          <activity android:name=".AndroidPhotoCapture" android:label="@string/app_name" android:screenOrientation="portrait"></activity>
          <activity android:name="com.streamsdk.chat.FirstPageActivity" android:label="@string/app_name"  android:theme="@android:style/Theme.NoTitleBar" android:screenOrientation="portrait"></activity>
          <activity android:name="com.streamsdk.chat.addfriend.AddFriendMainActivity" android:label="@string/app_name" android:screenOrientation="portrait"></activity>
+         <activity android:name="com.streamsdk.chat.PreferenceScreen" android:label="@string/app_name" android:theme="@style/PreferencesTheme" android:screenOrientation="portrait"></activity>
          <service android:name="com.streamsdk.xmpp.XMPPConnectionService"/>
     </application>
   <uses-permission android:name="android.permission.INTERNET" />

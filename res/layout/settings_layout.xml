@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="30dip"
+        android:background="@android:color/holo_green_light"
+        android:gravity="center_horizontal"
+        android:paddingLeft="6dip"
+        android:text="BASIC USER INFO"
+        android:textColor="@color/firstPageTexColor"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/basicuserinfo_layout" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="30dip"
+        android:background="@android:color/holo_red_light"
+        android:gravity="center_horizontal"
+        android:paddingLeft="6dip"
+        android:text="INIVITE TO ABSOLUTE CHAT"
+        android:textColor="@color/firstPageTexColor"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/invitation_layout" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="30dip"
+        android:background="@android:color/holo_blue_light"
+        android:gravity="center_horizontal"
+        android:paddingLeft="6dip"
+        android:text="SUPPORT"
+        android:textColor="@color/firstPageTexColor"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/tc_layout" />
+
+</LinearLayout>
