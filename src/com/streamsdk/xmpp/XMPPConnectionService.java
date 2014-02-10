@@ -25,6 +25,8 @@ import com.streamsdk.cache.MessagingAckDB;
 import com.streamsdk.cache.MessagingCountDB;
 import com.streamsdk.cache.MessagingHistoryDB;
 import com.streamsdk.chat.ApplicationInstance;
+import com.streamsdk.chat.ParseMsgUtil;
+import com.streamsdk.chat.emoji.EmojiParser;
 import com.streamsdk.chat.handler.MessageHistoryHandler;
 
 public class XMPPConnectionService extends Service{
@@ -90,7 +92,9 @@ public class XMPPConnectionService extends Service{
 					String messageBody = "";
 					Message packet = new Message();
 					if (message.getType().equals("text")){
-					   messageBody = JsonUtils.buildPlainTextMessage(message.getMessage(), message.getFrom(), message.getId());
+					   String body = ParseMsgUtil.convertEditTextToParsableFormat(message.getMessage(), getApplicationContext());
+					   String parsed = EmojiParser.getInstance(getApplicationContext()).parseEmoji(body);
+					   messageBody = JsonUtils.buildPlainTextMessage(parsed, message.getFrom(), message.getId());
 					}
 					if (message.getType().equals("voice")){
 						packet.setProperty("streamsdk.filetransfer", message.getFileId());
