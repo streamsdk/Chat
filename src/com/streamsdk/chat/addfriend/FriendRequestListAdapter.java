@@ -15,7 +15,9 @@ import com.streamsdk.chat.domain.FriendRequest;
 import com.streamsdk.chat.ApplicationInstance;
 import com.streamsdk.chat.R;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
@@ -66,11 +68,10 @@ public class FriendRequestListAdapter extends BaseAdapter{
 		} catch (JSONException e) {
 
 		}
-
 	    	return "";
 	}
 
-    public View getView(int position, View view, ViewGroup vg) {
+    public View getView(final int position, View view, ViewGroup vg) {
 	
 		LayoutInflater inflater = (LayoutInflater)activity.getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		final ViewHolder viewHolder;
@@ -103,74 +104,112 @@ public class FriendRequestListAdapter extends BaseAdapter{
 		viewHolder.bFriendStatus.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				if (friendRequest.getStatus().equals("request")){
-					// update my friend status (from request->friend) in my category
-					StreamObject myStreamCategoryObject = new StreamObject();
-					myStreamCategoryObject.setToCategoriedObject(ApplicationInstance.getInstance().getLoginName());
-					myStreamCategoryObject.setId(friendRequest.getFriendName());
-					myStreamCategoryObject.put("status", "friend");
-					myStreamCategoryObject.updateObjectInBackground(new StreamCallback() {
-						public void result(boolean succeed, String errorMessage) {
-                             if (succeed){
-                            	 if (!ApplicationInstance.getInstance().getFriendDB().userNameExists(friendRequest.getFriendName())){
-                            	     ApplicationInstance.getInstance().getFriendDB().insert(friendRequest.getFriendName(), "friend");
-                            	 }else{
-                            		 ApplicationInstance.getInstance().getFriendDB().update(friendRequest.getFriendName(), "friend");
-                            	 }
-                            	 
-                            	String friendBody = buildFriend();
-     					        Message packet = new Message();
-     					        String to = ApplicationInstance.APPID + friendRequest.getFriendName() + ApplicationInstance.HOST_PREFIX;
-     					        Log.i("request to", to);
-     					        packet.setTo(to);
-     					        packet.setBody(friendBody);
-     					        StreamXMPP.getInstance().sendPacket(packet);
-                             }
-                         }
-					});
-					
-					// update my friend status (from sendRequest->friend) in my category
-					StreamObject myFriendCategoryObject = new StreamObject();
-					myFriendCategoryObject.setToCategoriedObject(friendRequest.getFriendName());
-					myFriendCategoryObject.setId(ApplicationInstance.getInstance().getLoginName());
-					myFriendCategoryObject.put("status", "friend");
-					myFriendCategoryObject.updateObjectInBackground(new StreamCallback() {
-						public void result(boolean succeed, String errorMessage) {
-							if (succeed)
-								Log.i("", "");
-						}
-					});
-					
-					viewHolder.bFriendStatus.setImageResource(R.drawable.friends);
-					
+					    String message = "add " + friendRequest.getFriendName() + " as your friend?";
+						AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(activity);
+				        alertDialogBuilder
+						.setMessage(message)
+						.setCancelable(false)
+						.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+									public void onClick(DialogInterface dialog, int which) {
+										// update my friend status (from request->friend) in my category
+										((FriendRequest)getItem(position)).setStatus("friend");
+										StreamObject myStreamCategoryObject = new StreamObject();
+										myStreamCategoryObject.setToCategoriedObject(ApplicationInstance.getInstance().getLoginName());
+										myStreamCategoryObject.setId(friendRequest.getFriendName());
+										myStreamCategoryObject.put("status", "friend");
+										myStreamCategoryObject.updateObjectInBackground(new StreamCallback() {
+											public void result(boolean succeed, String errorMessage) {
+					                             if (succeed){
+					                            	 if (!ApplicationInstance.getInstance().getFriendDB().userNameExists(friendRequest.getFriendName())){
+					                            	     ApplicationInstance.getInstance().getFriendDB().insert(friendRequest.getFriendName(), "friend");
+					                            	 }else{
+					                            		 ApplicationInstance.getInstance().getFriendDB().update(friendRequest.getFriendName(), "friend");
+					                            	 }
+					                            	 
+					                            	String friendBody = buildFriend();
+					     					        Message packet = new Message();
+					     					        String to = ApplicationInstance.APPID + friendRequest.getFriendName() + ApplicationInstance.HOST_PREFIX;
+					     					        Log.i("request to", to);
+					     					        packet.setTo(to);
+					     					        packet.setBody(friendBody);
+					     					        StreamXMPP.getInstance().sendPacket(packet);
+					     					     }
+					                         }
+										});
+										
+										// update my friend status (from sendRequest->friend) in my category
+										StreamObject myFriendCategoryObject = new StreamObject();
+										myFriendCategoryObject.setToCategoriedObject(friendRequest.getFriendName());
+										myFriendCategoryObject.setId(ApplicationInstance.getInstance().getLoginName());
+										myFriendCategoryObject.put("status", "friend");
+										myFriendCategoryObject.updateObjectInBackground(new StreamCallback() {
+											public void result(boolean succeed, String errorMessage) {
+												if (succeed)
+													Log.i("", "");
+											}
+										});
+										
+										viewHolder.bFriendStatus.setImageResource(R.drawable.friends);
+										notifyDataSetChanged();
+									}
+						})
+						.setNegativeButton("NO",new DialogInterface.OnClickListener() {
+									public void onClick(DialogInterface dialog,int id) {
+										dialog.cancel();
+									}
+						});
+						AlertDialog alertDialog = alertDialogBuilder.create();
+						alertDialog.show();
 				}
 				
+				
+				
 				if (friendRequest.getStatus().equals("friend")){
-					// update my friend status (from friend->request) in my category
-					StreamObject myStreamCategoryObject = new StreamObject();
-					myStreamCategoryObject.setToCategoriedObject(ApplicationInstance.getInstance().getLoginName());
-					myStreamCategoryObject.setId(friendRequest.getFriendName());
-					myStreamCategoryObject.put("status", "request");
-					myStreamCategoryObject.updateObjectInBackground(new StreamCallback() {
-						public void result(boolean succeed, String errorMessage) {
-                             if (succeed)
-                            	 ApplicationInstance.getInstance().getFriendDB().update(friendRequest.getFriendName(), "request");
-         				}
+					
+					String message = "remove " + friendRequest.getFriendName() + " as your friend?";
+					AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(activity);
+				    alertDialogBuilder
+					.setMessage(message)
+					.setCancelable(false)
+					.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+						  public void onClick(DialogInterface dialog, int which) {
+								// update my friend status (from friend->request) in my category
+								 ((FriendRequest)getItem(position)).setStatus("request");
+								StreamObject myStreamCategoryObject = new StreamObject();
+								myStreamCategoryObject.setToCategoriedObject(ApplicationInstance.getInstance().getLoginName());
+								myStreamCategoryObject.setId(friendRequest.getFriendName());
+								myStreamCategoryObject.put("status", "request");
+								myStreamCategoryObject.updateObjectInBackground(new StreamCallback() {
+									public void result(boolean succeed, String errorMessage) {
+			                             if (succeed){
+			                            	 ApplicationInstance.getInstance().getFriendDB().update(friendRequest.getFriendName(), "request");
+			                             }
+			         				}
+								});
+								
+								// update my friend status (from friend->sendRequest) in my category
+								StreamObject myFriendCategoryObject = new StreamObject();
+								myFriendCategoryObject.setToCategoriedObject(friendRequest.getFriendName());
+								myFriendCategoryObject.setId(ApplicationInstance.getInstance().getLoginName());
+								myFriendCategoryObject.put("status", "sendRequest");
+								myFriendCategoryObject.updateObjectInBackground(new StreamCallback() {
+									public void result(boolean succeed, String errorMessage) {
+										if (succeed)
+											Log.i("", "");
+									}
+								});
+								
+								viewHolder.bFriendStatus.setImageResource(R.drawable.addfriend);
+								notifyDataSetChanged();					 	
+						  }
+					})
+					.setNegativeButton("NO",new DialogInterface.OnClickListener() {
+						  public void onClick(DialogInterface dialog,int id) {
+								dialog.cancel();
+						  }
 					});
-					
-					// update my friend status (from friend->sendRequest) in my category
-					StreamObject myFriendCategoryObject = new StreamObject();
-					myFriendCategoryObject.setToCategoriedObject(friendRequest.getFriendName());
-					myFriendCategoryObject.setId(ApplicationInstance.getInstance().getLoginName());
-					myFriendCategoryObject.put("status", "sendRequest");
-					myFriendCategoryObject.updateObjectInBackground(new StreamCallback() {
-						public void result(boolean succeed, String errorMessage) {
-							if (succeed)
-								Log.i("", "");
-						}
-					});
-					
-					viewHolder.bFriendStatus.setImageResource(R.drawable.addfriend);
-					
+					AlertDialog alertDialog = alertDialogBuilder.create();
+					alertDialog.show();
 				}
 			}
 		});
