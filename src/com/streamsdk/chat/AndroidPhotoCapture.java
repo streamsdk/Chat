@@ -16,9 +16,12 @@ import android.hardware.Camera.PictureCallback;
 import android.hardware.Camera.Size;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -39,6 +42,8 @@ public class AndroidPhotoCapture extends Activity{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.photocapture_layout);
         activity = this;
        // final LinearLayout parentLayout = (LinearLayout)findViewById(R.id.androidPhotoCaptureLayout);
@@ -92,6 +97,14 @@ public class AndroidPhotoCapture extends Activity{
         	myCamera.takePicture(null, null, mPicture);
         }
     };
+    
+    @Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+	     if ((keyCode == KeyEvent.KEYCODE_BACK)) {
+	         releaseCamera();
+	     }
+	    return super.onKeyDown(keyCode, event);
+	}
    
     private Camera.Parameters getCameraParameters(){
     	

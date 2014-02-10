@@ -112,6 +112,7 @@ public class MainActivity extends FragmentActivity implements EditTextEmojSelect
 	protected void onResume(){
 		super.onResume();
 	    ApplicationInstance.getInstance().setVisiable(true);
+	    dismissMoreOptionPanel();
 	    /*if (!StreamXMPP.getInstance().isConnected()){
 	    	 new Thread(new ReconnectThread(this)).start();
 		}*/
