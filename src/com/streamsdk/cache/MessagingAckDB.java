@@ -97,13 +97,13 @@ public class MessagingAckDB {
 	}
 	
 	
-	public void insertTextMessage(IM im){
+	public void insertTextMessage(IM im, String body){
 		
 		mInsertStmt.bindString(1, String.valueOf(im.getChatTime()));
 		mInsertStmt.bindString(2, "text");
 		mInsertStmt.bindString(3, im.getFrom());
 		mInsertStmt.bindString(4, im.getTo());
-		mInsertStmt.bindString(5, im.getChatMessage());
+		mInsertStmt.bindString(5, body);
 		mInsertStmt.bindString(6, "");
 		mInsertStmt.bindString(7, "");
 		mInsertStmt.executeInsert();

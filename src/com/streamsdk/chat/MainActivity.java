@@ -207,7 +207,7 @@ public class MainActivity extends FragmentActivity implements EditTextEmojSelect
 		        packet.setTo(ApplicationInstance.APPID + receiver + ApplicationInstance.HOST_PREFIX);
 		        String packetBody = JsonUtils.buildPlainTextMessage(body, ApplicationInstance.getInstance().getLoginName(), String.valueOf(chatTime));
 		        packet.setBody(packetBody);
-		        ApplicationInstance.getInstance().getMessagingAckDB().insertTextMessage(im);
+		        ApplicationInstance.getInstance().getMessagingAckDB().insertTextMessage(im, body);
 				StreamXMPP.getInstance().sendPacket(packet);
 			 	adapter.notifyDataSetChanged();
 			}

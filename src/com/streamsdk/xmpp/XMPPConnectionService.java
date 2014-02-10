@@ -88,13 +88,11 @@ public class XMPPConnectionService extends Service{
 				long messgeSentTime = Long.parseLong(chatTime);
 				long now = System.currentTimeMillis();
 				long diff = (now - messgeSentTime)/(1000 * 60);
-				if (diff >= 2 && diff <= 8){
+				if (diff >= 2 && diff <= 5){
 					String messageBody = "";
 					Message packet = new Message();
 					if (message.getType().equals("text")){
-					   String body = ParseMsgUtil.convertEditTextToParsableFormat(message.getMessage(), getApplicationContext());
-					   String parsed = EmojiParser.getInstance(getApplicationContext()).parseEmoji(body);
-					   messageBody = JsonUtils.buildPlainTextMessage(parsed, message.getFrom(), message.getId());
+					   messageBody = JsonUtils.buildPlainTextMessage(message.getMessage(), message.getFrom(), message.getId());
 					}
 					if (message.getType().equals("voice")){
 						packet.setProperty("streamsdk.filetransfer", message.getFileId());
@@ -110,7 +108,7 @@ public class XMPPConnectionService extends Service{
 					StreamXMPP.getInstance().sendPacket(packet);
 				}
 				
-				if (diff > 8){
+				if (diff > 5){
 					StreamObject history = new StreamObject();
 		            history.setId(message.getTo() + HISTORY);
 		            String messageBody = "";
