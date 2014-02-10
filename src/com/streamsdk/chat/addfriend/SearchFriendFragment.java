@@ -15,7 +15,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.stream.api.JsonUtils;
 import com.stream.api.StreamCallback;
 import com.stream.api.StreamObject;
 import com.stream.xmpp.StreamXMPP;

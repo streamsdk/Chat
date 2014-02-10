@@ -62,7 +62,7 @@ public class AddFriendMainActivity extends Activity{
 		pd = ProgressDialog.show(this, "", message, true, true);
 	}
 	
-	public boolean onCreateOptionsMenu(Menu menu){
+	public boolean onCreateOptionsMenu(final Menu menu){
 		
 		 final SearchView searchView = new SearchView(getActionBar().getThemedContext());
 		 searchView.setQueryHint("search friends");
