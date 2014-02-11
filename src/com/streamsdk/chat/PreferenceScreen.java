@@ -2,18 +2,28 @@ package com.streamsdk.chat;
 
 
 
-import com.streamsdk.cache.ImageCache;
-
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.stream.api.StreamCallback;
+import com.stream.api.StreamFile;
+import com.stream.api.StreamUser;
+import com.streamsdk.cache.ImageCache;
+import com.streamsdk.chat.handler.ImageHandler;
+import com.streamsdk.util.BitmapUtils;
+
 public class PreferenceScreen extends Activity{
+	
+	static final int REQUEST_IMAGE_PICK = 1;
+	ImageView profileImageView;
 	
 	public void onCreate(Bundle savedInstanceState) {
 		 super.onCreate(savedInstanceState);
@@ -23,7 +33,13 @@ public class PreferenceScreen extends Activity{
 		 LinearLayout userInfo = (LinearLayout)findViewById(R.id.preBasicUserinfo);
 		 TextView userView = (TextView)userInfo.findViewById(R.id.preUsername);
 		 userView.setText(ApplicationInstance.getInstance().getLoginName());
-		 ImageView profileImageView = (ImageView)userInfo.findViewById(R.id.preProfileImage);
+		 profileImageView = (ImageView)userInfo.findViewById(R.id.preProfileImage);
+		 profileImageView.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				Intent pickPhoto = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+				startActivityForResult(pickPhoto , REQUEST_IMAGE_PICK);	
+			}
+		});
 		 Bitmap bitmap = ImageCache.getInstance().getImage(ApplicationInstance.getInstance().getLoginName());
 		 if (bitmap != null)
 			 profileImageView.setImageBitmap(bitmap);
@@ -44,5 +60,32 @@ public class PreferenceScreen extends Activity{
             return super.onOptionsItemSelected(item);
       }
     }
+	
+	protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) { 
+		super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
+		switch(requestCode) {
+		
+		   case REQUEST_IMAGE_PICK:
+		      if(resultCode == RESULT_OK){  
+		    	  String path = ImageHandler.getImgPath(imageReturnedIntent.getData(), this);
+		    	  Bitmap bitmap = BitmapUtils.loadImageForFullScreen(path, 230, 230, 300);
+		    	  profileImageView.setImageBitmap(bitmap);
+		    	  ImageCache.getInstance().putNew(path, bitmap);
+		    	  byte profileImageBytes[] = ImageCache.getInstance().getImageBytes(path);
+		    	  final StreamFile sf = new StreamFile();
+		    	  sf.postBytes(profileImageBytes, new StreamCallback() {
+					public void result(boolean succeed, String errorMessage) {
+					      if (succeed){
+					    	  StreamUser su = new StreamUser();
+					    	  su.updateUserMetadata(ApplicationInstance.PROFILE_IMAGE, sf.getId());
+					    	  su.updateUserMetadataInBackground(ApplicationInstance.getInstance().getLoginName());
+					      }
+					}
+				});
+		      }
+		      break;
+		}
+		
+	}
 
 }

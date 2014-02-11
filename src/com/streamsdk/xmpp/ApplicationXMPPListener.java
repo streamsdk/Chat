@@ -46,7 +46,7 @@ public class ApplicationXMPPListener {
 				StreamXMPP.getInstance().sendAck(ApplicationInstance.APPID + xmppMessage.getFrom(), xmppMessage.getId());
 				if (xmppMessage.getType().equals("request")){
 					String requestUserName = xmppMessage.getRequestUsername();
-					ApplicationInstance.getInstance().getFriendDB().insert(requestUserName, "request");
+				    ApplicationInstance.getInstance().getFriendDB().insert(requestUserName, "request");
 					return;
 				}
 				if (xmppMessage.getType().equals("friend")){

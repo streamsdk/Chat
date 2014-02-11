@@ -2,12 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:cacheColorHint="#00000000"
+    android:background="@drawable/backrepeat"
     android:orientation="vertical" >
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="30dip"
-        android:background="@android:color/holo_green_light"
+        android:background="@android:color/background_dark"
         android:gravity="center_horizontal"
         android:paddingLeft="6dip"
         android:text="BASIC USER INFO"
@@ -23,7 +25,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="30dip"
-        android:background="@android:color/holo_red_light"
+        android:background="@android:color/background_dark"
         android:gravity="center_horizontal"
         android:paddingLeft="6dip"
         android:text="INIVITE TO ABSOLUTE CHAT"
@@ -39,7 +41,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="30dip"
-        android:background="@android:color/holo_blue_light"
+        android:background="@android:color/background_dark"
         android:gravity="center_horizontal"
         android:paddingLeft="6dip"
         android:text="SUPPORT"
