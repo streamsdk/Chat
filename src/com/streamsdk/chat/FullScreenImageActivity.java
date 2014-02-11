@@ -52,6 +52,7 @@ public class FullScreenImageActivity extends Activity{
 		    Intent intent = getIntent();
             path = intent.getExtras().getString("path");
             String send = intent.getExtras().getString("send");
+            final String fromGalleryPick = intent.getExtras().getString("fromgallery");
             duration = intent.getExtras().getString("duration");
             requestWindowFeature(Window.FEATURE_NO_TITLE);
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -102,11 +103,13 @@ public class FullScreenImageActivity extends Activity{
 		       retakePhotoButton.setVisibility(View.VISIBLE);
                retakePhotoButton.setOnClickListener(new View.OnClickListener() {
 				  public void onClick(View v) {
-					  File file  = new File(path);
-					  file.delete();
-				      Intent intent = new Intent(activity, AndroidPhotoCapture.class);
-				      startActivity(intent);
-				      finish();
+					if(fromGalleryPick == null){
+					     File file  = new File(path);
+					     file.delete();
+				         Intent intent = new Intent(activity, AndroidPhotoCapture.class);
+				         startActivity(intent);
+				    }
+					finish();
 				  }
 		  	   });
                

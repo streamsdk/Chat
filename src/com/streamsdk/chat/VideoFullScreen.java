@@ -62,6 +62,7 @@ public class VideoFullScreen extends Activity {
         setContentView(R.layout.video_layout);
         final Activity activity = this;
         path = intent.getExtras().getString("path");
+        final String fromGalleryPick = intent.getExtras().getString("fromgallery");
         send = intent.getExtras().getString("send");
         mVideoView = (VideoView) findViewById(R.id.surface_view);
         mVideoView.setVideoPath(path);
@@ -100,10 +101,12 @@ public class VideoFullScreen extends Activity {
         retakeButton = (ImageView)findViewById(R.id.retakeButton);
         retakeButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				File file  = new File(path);
-				file.delete();
-		        Intent intent = new Intent(activity, AndroidVideoCapture.class);
-		        startActivity(intent);
+			    if (fromGalleryPick == null){
+				   File file  = new File(path);
+				   file.delete();
+		           Intent intent = new Intent(activity, AndroidVideoCapture.class);
+		           startActivity(intent);
+			    }
 		        finish();
 			}
 		});

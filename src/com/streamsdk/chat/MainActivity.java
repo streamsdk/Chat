@@ -465,11 +465,13 @@ public class MainActivity extends FragmentActivity implements EditTextEmojSelect
 		    Intent intent = new Intent(this, VideoFullScreen.class);
 		    intent.putExtra("path", path);
 		    intent.putExtra("send", "true");
+		    intent.putExtra("fromgallery", "true");
 		    startActivityForResult(intent, REQUEST_IMAGE_PICK);
 		}else{
 		    Intent intent = new Intent(this, FullScreenImageActivity.class);
 	        intent.putExtra("path", path);
 	        intent.putExtra("send", "true");
+	        intent.putExtra("fromgallery", "true");
 	        startActivityForResult(intent, REQUEST_IMAGE_PICK);
 		}		
 	}
