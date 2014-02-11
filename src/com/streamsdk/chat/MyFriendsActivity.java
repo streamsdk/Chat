@@ -54,6 +54,7 @@ public class MyFriendsActivity extends ListActivity implements RefreshUI{
     {
         super.onPause();
         ApplicationInstance.getInstance().setVisiable(false);
+        ApplicationInstance.getInstance().setCurrentChatListener(null);
     }
 	
 	private void reiniDB(){

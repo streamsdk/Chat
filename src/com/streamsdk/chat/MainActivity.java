@@ -94,6 +94,7 @@ public class MainActivity extends FragmentActivity implements EditTextEmojSelect
     {
         super.onPause();
         ApplicationInstance.getInstance().setVisiable(false);
+        ApplicationInstance.getInstance().setCurrentChatListener(null);
     }
 	
 	private void reiniDB(){

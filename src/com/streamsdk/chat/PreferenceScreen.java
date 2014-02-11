@@ -70,8 +70,8 @@ public class PreferenceScreen extends Activity{
 		    	  String path = ImageHandler.getImgPath(imageReturnedIntent.getData(), this);
 		    	  Bitmap bitmap = BitmapUtils.loadImageForFullScreen(path, 230, 230, 300);
 		    	  profileImageView.setImageBitmap(bitmap);
-		    	  ImageCache.getInstance().putNew(path, bitmap);
-		    	  byte profileImageBytes[] = ImageCache.getInstance().getImageBytes(path);
+		    	  ImageCache.getInstance().putNew(ApplicationInstance.getInstance().getLoginName(), bitmap);
+		    	  byte profileImageBytes[] = ImageCache.getInstance().getImageBytes(ApplicationInstance.getInstance().getLoginName());
 		    	  final StreamFile sf = new StreamFile();
 		    	  sf.postBytes(profileImageBytes, new StreamCallback() {
 					public void result(boolean succeed, String errorMessage) {

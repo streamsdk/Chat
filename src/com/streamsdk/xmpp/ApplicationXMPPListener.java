@@ -27,8 +27,8 @@ public class ApplicationXMPPListener {
 			return applicationXMPPListener;
 		}
 		return applicationXMPPListener;
-	}
-	
+   }
+   
    public void addListenerForAllUsers() {
 		
 		StreamXMPP.getInstance().setPacketListenerForAll(new PacketListener() {
