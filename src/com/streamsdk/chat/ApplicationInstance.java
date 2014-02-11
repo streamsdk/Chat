@@ -2,7 +2,9 @@ package com.streamsdk.chat;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import android.app.Activity;
 import android.content.Context;
@@ -57,6 +59,7 @@ public class ApplicationInstance {
 	private RefreshUI refreshUI;
 	private int photoTimeout = -1;
 	private Map<String, Map<String, String>> friendUserMetadata;
+	private Set<String> notificationIds = new HashSet<String>();
 	
 	private static void createDic(){
 		 String path= Environment.getExternalStorageDirectory().getAbsolutePath().toString();
@@ -235,5 +238,13 @@ public class ApplicationInstance {
 	public void setMessagingAckDB(MessagingAckDB messagingAckDB) {
 		this.messagingAckDB = messagingAckDB;
 	}
-
+	
+	public void addNotifacaionIds(String id){
+		notificationIds.add(id);
+	}
+	
+	public Set<String> getNotificationIds(){
+		return notificationIds;
+	}
+	
 }

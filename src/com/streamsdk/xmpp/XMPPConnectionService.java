@@ -1,13 +1,18 @@
 package com.streamsdk.xmpp;
 
 import java.util.List;
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.packet.Message;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.IBinder;
@@ -25,11 +30,11 @@ import com.streamsdk.cache.MessagingAckDB;
 import com.streamsdk.cache.MessagingCountDB;
 import com.streamsdk.cache.MessagingHistoryDB;
 import com.streamsdk.chat.ApplicationInstance;
-import com.streamsdk.chat.ParseMsgUtil;
-import com.streamsdk.chat.emoji.EmojiParser;
+import com.streamsdk.chat.MyFriendsActivity;
+import com.streamsdk.chat.R;
 import com.streamsdk.chat.handler.MessageHistoryHandler;
 
-public class XMPPConnectionService extends Service{
+public class XMPPConnectionService extends Service implements NotificationInterface{
 
 	private Timer timer;
 	private static boolean started = false;
@@ -46,6 +51,7 @@ public class XMPPConnectionService extends Service{
 			  timer.schedule(new  ReconnectXMPPService(), 10000, 20000);
 			  timer.schedule(new StatusSendService(), 20000, 1000 * 60 * 2);
 			  timer.schedule(new ResendIMService(), 30000, 1000 * 60 * 1);
+			  ApplicationXMPPListener.getInstance().addNotifier("service", this);
 			  started = true;
 		}
 		return START_STICKY;
@@ -190,5 +196,35 @@ public class XMPPConnectionService extends Service{
 			     }
 		   }
 		}
+	}
+
+	private static int genereateId() {
+        Random foo = new Random();
+        int randomNumber = foo.nextInt(Integer.MAX_VALUE);
+        return randomNumber;
+    }
+
+	@Override
+	public void sendNotification(String expandedTitle, String expandedText,
+			String message) {
+		
+		Intent intent = new Intent(this, MyFriendsActivity.class);
+		intent.putExtra("nMessage", message);
+		StreamSession.nMessage = message;
+		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+		PendingIntent pIntent = PendingIntent.getActivity(this, 0, intent, 0);
+		Notification notification = new Notification (R.drawable.appicon, message, System.currentTimeMillis());
+		notification.flags = Notification.FLAG_AUTO_CANCEL | Notification.FLAG_ONGOING_EVENT;
+		NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+		notification.defaults = Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE;
+		notification.setLatestEventInfo(getApplicationContext(),
+                expandedTitle,
+                expandedText + " " + message,
+                pIntent);
+		int id = genereateId();
+		
+		mNotificationManager.notify(id, notification);
+		ApplicationInstance.getInstance().addNotifacaionIds(String.valueOf(id));
+		
 	}
 }

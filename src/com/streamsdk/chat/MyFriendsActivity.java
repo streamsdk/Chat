@@ -4,9 +4,12 @@ import java.io.File;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import android.app.Activity;
 import android.app.ListActivity;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -88,6 +91,13 @@ public class MyFriendsActivity extends ListActivity implements RefreshUI{
 		   updateData();
 	   }
 	   
+	   Set<String> nIds = ApplicationInstance.getInstance().getNotificationIds();
+	   if (nIds.size() > 0){
+		   for (String nid : nIds){
+			   NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+			   mNotificationManager.cancel(Integer.parseInt(nid));
+		   }
+	   }
 	  /* if ((!StreamXMPP.getInstance().isConnected())){
 		   new Thread(new ReconnectThread(this)).start();
 	   }*/
