@@ -56,6 +56,7 @@ public class ApplicationXMPPListener {
 				Message message = (Message) packet;
 				if (message.getBody().equals(ApplicationInstance.APPID + ApplicationInstance.getInstance().getLoginName() + ApplicationInstance.HOST_PREFIX)){
 					Log.i("returned", "returned");
+					ApplicationInstance.getInstance().setReceiveStatusUpdatedTime(System.currentTimeMillis());
 					return;
 				}
 				String jsonBody = message.getBody();

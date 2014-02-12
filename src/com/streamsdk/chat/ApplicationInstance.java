@@ -60,6 +60,7 @@ public class ApplicationInstance {
 	private int photoTimeout = -1;
 	private Map<String, Map<String, String>> friendUserMetadata;
 	private Set<String> notificationIds = new HashSet<String>();
+	private long receiveStatusUpdatedTime = System.currentTimeMillis();
 	
 	private static void createDic(){
 		 String path= Environment.getExternalStorageDirectory().getAbsolutePath().toString();
@@ -245,6 +246,14 @@ public class ApplicationInstance {
 	
 	public Set<String> getNotificationIds(){
 		return notificationIds;
+	}
+
+	public long getReceiveStatusUpdatedTime() {
+		return receiveStatusUpdatedTime;
+	}
+
+	public void setReceiveStatusUpdatedTime(long receiveStatusUpdatedTime) {
+		this.receiveStatusUpdatedTime = receiveStatusUpdatedTime;
 	}
 	
 }

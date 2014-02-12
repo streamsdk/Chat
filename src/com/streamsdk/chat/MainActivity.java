@@ -113,7 +113,9 @@ public class MainActivity extends FragmentActivity implements EditTextEmojSelect
 	protected void onResume(){
 		super.onResume();
 	    ApplicationInstance.getInstance().setVisiable(true);
+		ApplicationInstance.getInstance().setCurrentChatListener(this);
 	    dismissMoreOptionPanel();
+	    deleteCountHistory();
 	    /*if (!StreamXMPP.getInstance().isConnected()){
 	    	 new Thread(new ReconnectThread(this)).start();
 		}*/
@@ -123,13 +125,12 @@ public class MainActivity extends FragmentActivity implements EditTextEmojSelect
 	protected  void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		final Activity activity = this;
-		ApplicationInstance.getInstance().setCurrentChatListener(this);
+	
 	   
 	    getActionBar().setDisplayHomeAsUpEnabled(true);
 	    Intent intent = getIntent();
         receiver = intent.getExtras().getString("receiver");
-      
-		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 		DisplayMetrics metrics = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(metrics);
 		setContentView(R.layout.activity_main);
@@ -292,7 +293,7 @@ public class MainActivity extends FragmentActivity implements EditTextEmojSelect
 		
 		checkKeyboardHeight(parentLayout);
 		setSpeakButtonAction(speakButton);
-		deleteCountHistory();
+		//deleteCountHistory();
 		readHistory();
 		
 		try{
@@ -308,8 +309,10 @@ public class MainActivity extends FragmentActivity implements EditTextEmojSelect
 			reiniDB();
 		}
 		int res = ApplicationInstance.getInstance().getMessagingCountDB().delete(receiver);
-		if (res > 0)
+		if (res > 0){
 		   ApplicationInstance.getInstance().getRefreshUI().refresh();
+		   refresh();
+		}
 	}
 	
 	private void dismissKeyboard(){

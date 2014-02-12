@@ -48,7 +48,7 @@ public class XMPPConnectionService extends Service implements NotificationInterf
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		
 		if (!started){
-			  timer.schedule(new  ReconnectXMPPService(), 10000, 20000);
+			  timer.schedule(new  ReconnectXMPPService(), 10000, 40000);
 			  timer.schedule(new StatusSendService(), 20000, 1000 * 60 * 2);
 			  timer.schedule(new ResendIMService(), 30000, 1000 * 60 * 1);
 			  ApplicationXMPPListener.getInstance().addNotifier("service", this);
@@ -170,7 +170,15 @@ public class XMPPConnectionService extends Service implements NotificationInterf
 		
 		public void run() {
 			
-			if (!StreamXMPP.getInstance().isConnected()){
+			boolean connected = true;
+			long receivedStatusUpdateLastTime = ApplicationInstance.getInstance().getReceiveStatusUpdatedTime();
+			long diff = (System.currentTimeMillis() - receivedStatusUpdateLastTime)/(60 * 1000);
+			if (diff > 3){
+				connected = false;
+			    Log.i("lost connection", String.valueOf(diff));
+			}
+			
+			if (!StreamXMPP.getInstance().isConnected() || !connected){
 				Log.i("xmpp service", "check connection");
 				boolean auth = StreamSession.authenticate(ApplicationInstance.APPID, ApplicationInstance.cKey,ApplicationInstance.sKey, null);
 			    if (auth) {
@@ -187,6 +195,7 @@ public class XMPPConnectionService extends Service implements NotificationInterf
 					}
 					try {
 						StreamXMPP.getInstance().login(ApplicationInstance.APPID + userName, password);
+						ApplicationInstance.getInstance().setReceiveStatusUpdatedTime(System.currentTimeMillis());
 						ApplicationInstance.getInstance().setCheckConnection(true);
 						ApplicationInstance.getInstance().setLoginName(userName);
 						ApplicationInstance.getInstance().setPassword(password);
