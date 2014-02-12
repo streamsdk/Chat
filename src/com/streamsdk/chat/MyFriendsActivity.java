@@ -58,6 +58,7 @@ public class MyFriendsActivity extends ListActivity implements RefreshUI{
         super.onPause();
         ApplicationInstance.getInstance().setVisiable(false);
         ApplicationInstance.getInstance().setCurrentChatListener(null);
+        ApplicationInstance.getInstance().setRefreshUI(null);
     }
 	
 	private void reiniDB(){
@@ -75,6 +76,7 @@ public class MyFriendsActivity extends ListActivity implements RefreshUI{
 	
 	protected void onResume(){
 	   super.onResume();
+	   ApplicationInstance.getInstance().setRefreshUI(this);
 	   ApplicationInstance.getInstance().setVisiable(true);
 	   FriendDB db = ApplicationInstance.getInstance().getFriendDB();
 	   if (db == null){
@@ -125,9 +127,7 @@ public class MyFriendsActivity extends ListActivity implements RefreshUI{
 		}
 		ApplicationInstance.getInstance().setContext(getApplicationContext());
 		
-		ApplicationInstance.getInstance().setRefreshUI(this);
-		
-		new Thread(new MessageHistoryHandler(ApplicationInstance.getInstance().getLoginName(), getApplicationContext(), ru)).start();
+		new Thread(new MessageHistoryHandler(ApplicationInstance.getInstance().getLoginName(), getApplicationContext())).start();
 		//new Thread(new ConnectionCheck(this)).start();
 		
 	    setContentView(R.layout.mainpage_layout);

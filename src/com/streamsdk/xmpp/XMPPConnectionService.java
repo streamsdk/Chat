@@ -48,7 +48,7 @@ public class XMPPConnectionService extends Service implements NotificationInterf
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		
 		if (!started){
-			  timer.schedule(new  ReconnectXMPPService(), 10000, 40000);
+			  timer.schedule(new  ReconnectXMPPService(), 10000, 15000);
 			  timer.schedule(new StatusSendService(), 20000, 1000 * 60 * 2);
 			  timer.schedule(new ResendIMService(), 30000, 1000 * 60 * 1);
 			  ApplicationXMPPListener.getInstance().addNotifier("service", this);
@@ -201,7 +201,7 @@ public class XMPPConnectionService extends Service implements NotificationInterf
 						ApplicationInstance.getInstance().setPassword(password);
 						ApplicationXMPPListener.getInstance().addListenerForAllUsers();
 						ApplicationXMPPListener.getInstance().addFileReceiveListener();
-						new Thread(new MessageHistoryHandler(ApplicationInstance.getInstance().getLoginName(),getApplicationContext(), null)).start();
+						new Thread(new MessageHistoryHandler(ApplicationInstance.getInstance().getLoginName(),getApplicationContext())).start();
 
 					} catch (XMPPException e) {
 						Log.i("xmpp service", e.getMessage());

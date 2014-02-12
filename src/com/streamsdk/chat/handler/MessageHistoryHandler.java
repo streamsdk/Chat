@@ -24,10 +24,9 @@ public class MessageHistoryHandler implements Runnable{
 	private Context context;
 	private RefreshUI rfreshUI;
 	
-	public MessageHistoryHandler(String userName, Context context, RefreshUI rUi){
+	public MessageHistoryHandler(String userName, Context context){
 		this.userName = userName;
 		this.context = context;
-		this.rfreshUI = rUi;
 	}
 	
 	public void run() {
@@ -93,8 +92,8 @@ public class MessageHistoryHandler implements Runnable{
 		      }
 		      
 		}
-		if (rfreshUI != null)
-		     rfreshUI.refresh();
+		if (ApplicationInstance.getInstance().getRefreshUI() != null)
+			ApplicationInstance.getInstance().getRefreshUI().refresh();
 		Set<String> keys = offlineStaff.keySet();
 		if (keys.size() > 0)
 		     removeKeys(keys);
