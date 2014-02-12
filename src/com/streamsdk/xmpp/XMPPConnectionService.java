@@ -151,7 +151,12 @@ public class XMPPConnectionService extends Service implements NotificationInterf
 			
 		  Log.i("xmpp service", "send status");
 		  try{	
-			 StreamXMPP.getInstance().sendAvStatus(ApplicationInstance.APPID  + ApplicationInstance.getInstance().getLoginName() + ApplicationInstance.HOST_PREFIX);
+		
+		     Message status = new Message();
+		     status.setTo(ApplicationInstance.APPID + "status" + ApplicationInstance.HOST_PREFIX);
+		     status.setBody(ApplicationInstance.APPID  + ApplicationInstance.getInstance().getLoginName() + ApplicationInstance.HOST_PREFIX);
+		     StreamXMPP.getInstance().sendPacket(status);
+		  
 		  }catch(Throwable t){
 			 Log.i("", "no connection send status"); 
 		  }

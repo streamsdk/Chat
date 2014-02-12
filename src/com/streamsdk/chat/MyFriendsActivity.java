@@ -225,8 +225,8 @@ public class MyFriendsActivity extends ListActivity implements RefreshUI{
 	}
 	
    public boolean onCreateOptionsMenu(Menu menu){
-		 menu.add("Refresh").setIcon(R.drawable.ic_refresh).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-		 menu.add("Settings").setIcon(R.drawable.ic_search).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+		 menu.add("Refresh").setIcon(R.drawable.addfri).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+		 menu.add("Settings").setIcon(R.drawable.set).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 		 return true;
    }
 		

@@ -58,6 +58,7 @@ public class SplashActivity extends Activity{
 								 ApplicationInstance.getInstance().setPassword(password);
 								 ApplicationXMPPListener.getInstance().addListenerForAllUsers();
 						    	 ApplicationXMPPListener.getInstance().addFileReceiveListener();
+						    
 						      }
 							} catch (Exception e) {
 								Log.i("", e.getMessage());

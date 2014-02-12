@@ -47,13 +47,17 @@ public class ApplicationXMPPListener {
 		   }
 	   }
    }
-   
+  
     public void addListenerForAllUsers() {
 		
 		StreamXMPP.getInstance().setPacketListenerForAll(new PacketListener() {
 			public void processPacket(Packet packet) {
 				ApplicationInstance.getInstance().setReceivedMessageLastTime(System.currentTimeMillis());
 				Message message = (Message) packet;
+				if (message.getBody().equals(ApplicationInstance.APPID + ApplicationInstance.getInstance().getLoginName() + ApplicationInstance.HOST_PREFIX)){
+					Log.i("returned", "returned");
+					return;
+				}
 				String jsonBody = message.getBody();
 				StreamXMPPMessage xmppMessage = JsonUtils.parseNormalMessage(jsonBody);
 				if (xmppMessage.getType().equals("ack")){
