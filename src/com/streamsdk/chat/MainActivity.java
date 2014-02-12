@@ -295,7 +295,7 @@ public class MainActivity extends FragmentActivity implements EditTextEmojSelect
 		
 		checkKeyboardHeight(parentLayout);
 		setSpeakButtonAction(speakButton);
-		deleteCountHistory();
+		//deleteCountHistory();
 		readHistory();
 		
 		try{

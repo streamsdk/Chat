@@ -90,9 +90,8 @@ public class MyFriendsActivity extends ListActivity implements RefreshUI{
 		 //  mAdapter = new NamesAdapter(this, R.layout.list_item, android.R.id.text1, names);
 		   mAdapter = new NamesBaseAdaper(activity, convertToLowerCase(names));
 		   setListAdapter(mAdapter);
-		   updateData();
 	   }
-	   
+	   updateData();   
 	   Set<String> nIds = ApplicationInstance.getInstance().getNotificationIds();
 	   if (nIds.size() > 0){
 		   for (String nid : nIds){
