@@ -127,11 +127,12 @@ public class MainActivity extends FragmentActivity implements EditTextEmojSelect
 	protected  void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		final Activity activity = this;
-	
+		
 		ApplicationInstance.getInstance().setRefreshUI(this);
 	    getActionBar().setDisplayHomeAsUpEnabled(true);
 	    Intent intent = getIntent();
         receiver = intent.getExtras().getString("receiver");
+        setTitle("chat with " + receiver);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 		DisplayMetrics metrics = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(metrics);

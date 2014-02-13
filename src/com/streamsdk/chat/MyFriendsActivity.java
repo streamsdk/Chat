@@ -20,8 +20,10 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.TextView;
 
 import com.stream.api.StreamCallback;
 import com.stream.api.StreamFile;
@@ -129,7 +131,9 @@ public class MyFriendsActivity extends ListActivity implements RefreshUI{
 		new Thread(new MessageHistoryHandler(ApplicationInstance.getInstance().getLoginName(), getApplicationContext())).start();
 		//new Thread(new ConnectionCheck(this)).start();
 		
-	    setContentView(R.layout.mainpage_layout);
+		setContentView(R.layout.mainpage_layout);
+	    
+		setTitle(ApplicationInstance.getInstance().getLoginName());
 	   // mAdapter = new NamesAdapter(this, R.layout.list_item, android.R.id.text1, convertToLowerCase(names)); 
 	    mAdapter = new NamesBaseAdaper(activity, convertToLowerCase(names));
 	    

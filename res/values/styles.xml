@@ -29,5 +29,5 @@
      <style name="PreferencesTheme">
          <item name="android:windowBackground">@drawable/bg</item>
        </style>
-
+       
 </resources>

@@ -32,7 +32,7 @@
          <activity android:name=".FullScreenImageActivity" android:label="@string/app_name" android:screenOrientation="portrait"></activity>
          <activity android:name=".VideoFullScreen" android:label="@string/app_name" android:screenOrientation="portrait"></activity>
          <activity android:name=".AndroidVideoCapture" android:label="@string/app_name" android:screenOrientation="portrait"></activity>
-         <activity android:name=".MyFriendsActivity" android:label="@string/app_name" android:screenOrientation="portrait"></activity>
+         <activity android:name=".MyFriendsActivity" android:screenOrientation="portrait"></activity>
          <activity android:name=".LoginActivity" android:label="@string/app_name" android:screenOrientation="portrait"></activity>
          <activity android:name=".SignupActivity" android:label="@string/app_name" android:screenOrientation="portrait"></activity>
          <activity android:name=".AndroidPhotoCapture" android:label="@string/app_name" android:screenOrientation="portrait"></activity>
