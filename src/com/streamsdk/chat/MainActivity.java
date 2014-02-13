@@ -308,8 +308,10 @@ public class MainActivity extends FragmentActivity implements EditTextEmojSelect
 	private void deleteCountHistory(){
 		MessagingCountDB mcb = ApplicationInstance.getInstance().getMessagingCountDB();
 		if (mcb == null){
+			Log.i("delete count null", "reiniti db");
 			reiniDB();
 		}
+		Log.i("in delete count", "delete count");
 		int res = ApplicationInstance.getInstance().getMessagingCountDB().delete(receiver);
 		if (res > 0){
 		   ApplicationInstance.getInstance().getRefreshUI().refresh();
@@ -323,6 +325,15 @@ public class MainActivity extends FragmentActivity implements EditTextEmojSelect
 	}
 	
 	private void readHistory(){
+		MessagingHistoryDB mhdb = ApplicationInstance.getInstance().getMessagingHistoryDB();
+		if (mhdb == null){
+			Log.i("read history null", "returned");
+			try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+			}
+		}
+		Log.i("read history ok", "read history ok");
 		List<IM> imHistory = ApplicationInstance.getInstance().getMessagingHistoryDB().getIMHistoryForUser(receiver, ApplicationInstance.getInstance().getLoginName());
 	    for (IM im : imHistory){
 	        if (im.isImage() || im.isVideo() || im.isVoice())
