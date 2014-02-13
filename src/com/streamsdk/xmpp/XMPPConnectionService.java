@@ -32,6 +32,7 @@ import com.streamsdk.cache.MessagingHistoryDB;
 import com.streamsdk.chat.ApplicationInstance;
 import com.streamsdk.chat.MyFriendsActivity;
 import com.streamsdk.chat.R;
+import com.streamsdk.chat.emoji.EmojiParser;
 import com.streamsdk.chat.handler.MessageHistoryHandler;
 
 public class XMPPConnectionService extends Service implements NotificationInterface{
@@ -48,10 +49,11 @@ public class XMPPConnectionService extends Service implements NotificationInterf
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		
 		if (!started){
-			  timer.schedule(new  ReconnectXMPPService(), 10000, 15000);
+			  timer.schedule(new  ReconnectXMPPService(), 30000, 15000);
 			  timer.schedule(new StatusSendService(), 20000, 1000 * 60 * 2);
-			  timer.schedule(new ResendIMService(), 30000, 1000 * 60 * 1);
+			  timer.schedule(new ResendIMService(), 5000, 1000 * 60 * 1);
 			  ApplicationXMPPListener.getInstance().addNotifier("service", this);
+			  EmojiParser.getInstance(this).initiMap(this);
 			  started = true;
 		}
 		return START_STICKY;
@@ -85,6 +87,7 @@ public class XMPPConnectionService extends Service implements NotificationInterf
 		public void run(){
 			MessagingAckDB mackdb = ApplicationInstance.getInstance().getMessagingAckDB();
 			if (mackdb == null){
+				Log.i("in resend IM service", "db null");
 				reintiDB();
 			}
 			

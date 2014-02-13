@@ -11,9 +11,7 @@ import org.xmlpull.v1.XmlPullParserFactory;
 import android.content.Context;
 
 public class EmojiParser {
-	private EmojiParser(Context mContext) {
-		readMap(mContext);
-	}
+	private EmojiParser(Context mContext) {}
 
 	private HashMap<List<Integer>, String> convertMap = new HashMap<List<Integer>, String>();
 	private HashMap<String, ArrayList<String>> emoMap = new HashMap<String, ArrayList<String>>();
@@ -28,6 +26,10 @@ public class EmojiParser {
 	
 	public HashMap<String, ArrayList<String>> getEmoMap(){
 		return emoMap;
+	}
+	
+	public void initiMap(Context mContext){
+		readMap(mContext);
 	}
 
 	public void readMap(Context mContext) {
