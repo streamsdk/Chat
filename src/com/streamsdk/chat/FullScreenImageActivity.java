@@ -41,6 +41,7 @@ public class FullScreenImageActivity extends Activity{
 	 Timer timer;
 	 TextView timeText;
 	 int count;
+	 ImageView savePhotoButton;
 	 private PopupWindow popupWindow;
 	 private View popUpView;
 	 private NumberPicker np;
@@ -67,8 +68,14 @@ public class FullScreenImageActivity extends Activity{
             iv.setImageBitmap(bitmap);
             FrameLayout fl = (FrameLayout)findViewById(R.id.timeCountLayout);
             ImageView numPicker = (ImageView)findViewById(R.id.popNum);
+            savePhotoButton = (ImageView)findViewById(R.id.savePhotoButton);
+        	FrameLayout fTop = (FrameLayout)findViewById(R.id.fullImageFramgeTop);
+        	FrameLayout fBottom = (FrameLayout)findViewById(R.id.fullImageFrameBottom);
             
             if (duration != null){
+            	fTop.setVisibility(View.GONE);
+            	fBottom.setVisibility(View.GONE);
+            	savePhotoButton.setVisibility(View.GONE);
             	String countText = duration.substring(0, duration.length()-1);
                 count = Integer.parseInt(countText);
             	timer = new Timer();
@@ -127,6 +134,7 @@ public class FullScreenImageActivity extends Activity{
 			  });
             }else{
                numPicker.setVisibility(View.GONE);
+               fBottom.setVisibility(View.GONE);
             }
             
             
