@@ -43,7 +43,6 @@ public class AndroidVideoCapture extends Activity{
     Timer timer;
     private SurfaceHolder mHolder;
     private int rotation = 0;
-    private Activity activity;
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -51,7 +50,6 @@ public class AndroidVideoCapture extends Activity{
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         recording = false;
-        activity = this;
         setContentView(R.layout.videocapture_layout);
        
         //Get Camera for preview

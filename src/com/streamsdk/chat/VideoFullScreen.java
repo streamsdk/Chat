@@ -74,6 +74,16 @@ public class VideoFullScreen extends Activity {
         final RelativeLayout parentLayout = (RelativeLayout)findViewById(R.id.fullscreenvideolayout); 
         popupView = getLayoutInflater().inflate(R.layout.videodisappearoptions_layout, null);
         popupWindow = new PopupWindow(popupView, LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, false);
+        FrameLayout flTop = (FrameLayout)findViewById(R.id.videoFullscreenTopFrame);
+        FrameLayout flBottom = (FrameLayout)findViewById(R.id.videoFullscreenBottomFrame);
+        
+        
+        ImageView saveVideoButton = (ImageView)findViewById(R.id.saveVideoButton);
+        saveVideoButton.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+			      saveVideo();
+			}
+		});
         
         sendButton = (ImageView)findViewById(R.id.sendButton);
         sendButton.setOnClickListener(new View.OnClickListener() {
@@ -135,6 +145,9 @@ public class VideoFullScreen extends Activity {
           	sendButton.setVisibility(View.GONE);
             retakeButton.setVisibility(View.GONE);
             playButton.setVisibility(View.GONE);
+            flTop.setVisibility(View.GONE);
+            flBottom.setVisibility(View.GONE);
+            saveVideoButton.setVisibility(View.GONE);
         }
         
         if (send == null){
@@ -208,48 +221,28 @@ public class VideoFullScreen extends Activity {
         }
     }
     
-    @Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		String title = (String)item.getTitle();
-		switch (item.getItemId()) {
-		case android.R.id.home:
-			onBackPressed();
-			return true;
-		case 0:
-			if (title.equals("Save")) {
-				//MediaStore.Images.Media.insertImag
-				File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), String.valueOf(System.currentTimeMillis()));
-			    File sourceFile = new File(path);
-			   	try {
-				    file.createNewFile();
-				    copyFile(sourceFile, file);
-			        
-			    } catch (IOException e) {
-				
-			    }
-			   	
-				ContentValues values = new ContentValues(3);
-			    values.put(MediaStore.Video.Media.TITLE, "My video title");
-			    values.put(MediaStore.Video.Media.MIME_TYPE, "video/mp4");
-			    values.put(MediaStore.Video.Media.DATA, file.getAbsolutePath());
-			    getContentResolver().insert(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, values);
-			    Toast.makeText(getApplicationContext(), "saved to download folder", Toast.LENGTH_LONG).show();
-			   
-             } else {
-
-			}
-			return true;
-		default:
-			return super.onOptionsItemSelected(item);
-		}
-	}
-	 
-	public boolean onCreateOptionsMenu(Menu menu){
-	   menu.add("Save").setIcon(R.drawable.ic_refresh).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-	   return true;
-	}
-	
-	 private class TickClass extends TimerTask{
+    private void saveVideo(){
+    	
+    	File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), String.valueOf(System.currentTimeMillis()));
+	    File sourceFile = new File(path);
+	   	try {
+		    file.createNewFile();
+		    copyFile(sourceFile, file);
+	        
+	    } catch (IOException e) {
+		
+	    }
+	   	
+		ContentValues values = new ContentValues(3);
+	    values.put(MediaStore.Video.Media.TITLE, "My video title");
+	    values.put(MediaStore.Video.Media.MIME_TYPE, "video/mp4");
+	    values.put(MediaStore.Video.Media.DATA, file.getAbsolutePath());
+	    getContentResolver().insert(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, values);
+	    Toast.makeText(getApplicationContext(), "saved to download folder", Toast.LENGTH_LONG).show();
+		
+    }
+  
+	private class TickClass extends TimerTask{
 			public void run() {
 				runOnUiThread(new Runnable() {
 					public void run() {
@@ -263,6 +256,6 @@ public class VideoFullScreen extends Activity {
 					}
 				});
 			}
-	    }
+	   }
 }
 
