@@ -6,14 +6,6 @@ import org.jivesoftware.smack.packet.Message;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.stream.api.StreamCallback;
-import com.stream.api.StreamObject;
-import com.stream.xmpp.StreamXMPP;
-import com.streamsdk.cache.ImageCache;
-import com.streamsdk.chat.domain.FriendRequest;
-
-import com.streamsdk.chat.ApplicationInstance;
-import com.streamsdk.chat.R;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -25,9 +17,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.stream.api.StreamCallback;
+import com.stream.api.StreamObject;
+import com.stream.xmpp.StreamXMPP;
+import com.streamsdk.cache.ImageCache;
+import com.streamsdk.chat.ApplicationInstance;
+import com.streamsdk.chat.R;
+import com.streamsdk.chat.domain.FriendRequest;
 
 public class FriendRequestListAdapter extends BaseAdapter{
 

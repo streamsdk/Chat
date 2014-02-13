@@ -29,9 +29,13 @@ public class AddFriendsTabListener <T extends Fragment> implements TabListener{
 		if (mFragment == null) {
 			// If not, instantiate and add it to the activity
 			mFragment = Fragment.instantiate(mActivity, mClass.getName());
-			ft.add(android.R.id.content, mFragment, mTag);
+			ft.add(android.R.id.content, mFragment, mTag);		
 		} else {
 			ft.attach(mFragment);
+		}
+		if (mFragment  instanceof AddFriendsFragment){
+			AddFriendsFragment aff =(AddFriendsFragment)mFragment;
+			aff.dismissPopup();
 		}
 		ft.commit();
 	}
@@ -47,11 +51,20 @@ public class AddFriendsTabListener <T extends Fragment> implements TabListener{
 		} else {
 			ft.attach(mFragment);
 		}
+		if (mFragment  instanceof AddFriendsFragment){
+			AddFriendsFragment aff =(AddFriendsFragment)mFragment;
+			aff.dismissPopup();
+		}
+	
 		ft.commit();
 	}
 
 	public void onTabUnselected(Tab tab, FragmentTransaction ft) {
 		if (mFragment != null) {
+			if (mFragment  instanceof AddFriendsFragment){
+				AddFriendsFragment aff =(AddFriendsFragment)mFragment;
+				aff.dismissPopup();
+			}
 	        ft.detach(mFragment);
 	    }
 	}

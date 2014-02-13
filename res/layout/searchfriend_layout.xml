@@ -26,13 +26,13 @@
         android:layout_toRightOf="@id/imgSearchAvatar" 
         android:visibility="gone"/>
 
-    <Button
+    <ImageView
         android:id="@+id/sendRequestFriend"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_alignParentRight="true"
         android:gravity="center_vertical"
-        android:text="friend"
+        android:src="@drawable/addfriend" 
         android:visibility="gone"/>
 
 </RelativeLayout>

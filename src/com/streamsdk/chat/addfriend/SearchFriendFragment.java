@@ -11,7 +11,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -49,7 +48,7 @@ public class SearchFriendFragment extends Fragment{
 		final View v = inflater.inflate(R.layout.searchfriend_layout, container, false);
 		final ImageView iv = (ImageView)v.findViewById(R.id.imgSearchAvatar);
 		final TextView tv = (TextView)v.findViewById(R.id.txtSearchFriendName);
-		final Button requestButton  = (Button)v.findViewById(R.id.sendRequestFriend);
+		final ImageView requestButton  = (ImageView)v.findViewById(R.id.sendRequestFriend);
 		requestButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 			     StreamObject requestUser = new StreamObject();
@@ -67,6 +66,7 @@ public class SearchFriendFragment extends Fragment{
 					        packet.setTo(to);
 					        packet.setBody(friendRequest);
 					        StreamXMPP.getInstance().sendPacket(packet);
+					        requestButton.setImageResource(R.drawable.inivi);
 					    }
 					}
 				});

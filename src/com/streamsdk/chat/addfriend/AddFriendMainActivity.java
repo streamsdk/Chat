@@ -39,20 +39,20 @@ public class AddFriendMainActivity extends Activity{
 		setContentView(R.layout.tab_navigation);
 		
 		getActionBar().setDisplayHomeAsUpEnabled(true);
-		 getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+		getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+		
 		 
-		 
-		 addTab =  getActionBar().newTab().setText("Add")
+		addTab =  getActionBar().newTab().setText("Add")
 			        .setTabListener(new AddFriendsTabListener<AddFriendsFragment>(this, "", AddFriendsFragment.class));
 			        
-	     searchTab =  getActionBar().newTab().setText("Search")
-			        .setTabListener(new AddFriendsTabListener<SearchFriendFragment>(this, "", SearchFriendFragment.class));
+	    /* searchTab =  getActionBar().newTab().setText("Search")
+			        .setTabListener(new AddFriendsTabListener<SearchFriendFragment>(this, "", SearchFriendFragment.class));*/
 			        
 	     historyTab =  getActionBar().newTab().setText("History")
 			        .setTabListener(new AddFriendsTabListener<HistoryFragment>(this, "", HistoryFragment.class));
 			        
 	     getActionBar().addTab(addTab);
-		 getActionBar().addTab(searchTab);
+		// getActionBar().addTab(searchTab);
 	     getActionBar().addTab(historyTab);
 	
 	}
@@ -69,7 +69,7 @@ public class AddFriendMainActivity extends Activity{
 			
 		   searchView.setOnQueryTextListener(new OnQueryTextListener() {
 			public boolean onQueryTextSubmit(final String query) {
-				getActionBar().selectTab(searchTab);
+				//getActionBar().selectTab(searchTab);
 				InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
 				imm.hideSoftInputFromWindow(searchView.getWindowToken(), 0);
 				searchView.clearFocus();

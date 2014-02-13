@@ -15,11 +15,21 @@
         android:id="@+id/txtHistoryFriendName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
+        android:layout_marginLeft="40dp"
         android:text="friend name"
         android:textSize="23sp"
         android:textStyle="bold"
         android:layout_centerVertical="true"        
         android:layout_toRightOf="@id/imgHistoryAvatar" />
+    
+    
+       <ImageView
+        android:id="@+id/sendRequestFriend"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="15dp"   
+        android:src="@drawable/inivi" />
 
 </RelativeLayout>
