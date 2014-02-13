@@ -1,7 +1,6 @@
 package com.streamsdk.chat;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -13,20 +12,18 @@ import android.provider.MediaStore;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.NumberPicker;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.LinearLayout.LayoutParams;
 
 import com.streamsdk.util.BitmapUtils;
 
@@ -69,6 +66,16 @@ public class FullScreenImageActivity extends Activity{
             FrameLayout fl = (FrameLayout)findViewById(R.id.timeCountLayout);
             ImageView numPicker = (ImageView)findViewById(R.id.popNum);
             savePhotoButton = (ImageView)findViewById(R.id.savePhotoButton);
+            savePhotoButton.setOnClickListener(new View.OnClickListener() {
+				public void onClick(View v) {
+				   try {
+					      MediaStore.Images.Media.insertImage(getContentResolver(), path, "" , "");
+					      Toast.makeText(getApplicationContext(), "saved to photo gallery", Toast.LENGTH_LONG).show();	
+				    } catch (Throwable t) {
+						  Log.i("saving image failed", t.getMessage());	
+					}
+				}
+			});
         	FrameLayout fTop = (FrameLayout)findViewById(R.id.fullImageFramgeTop);
         	FrameLayout fBottom = (FrameLayout)findViewById(R.id.fullImageFrameBottom);
             
@@ -156,38 +163,6 @@ public class FullScreenImageActivity extends Activity{
             
             
 	 }
-	 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		String title = (String)item.getTitle();
-		switch (item.getItemId()) {
-		case android.R.id.home:
-			onBackPressed();
-			finish();
-			return true;
-		case 0:
-			if (title.equals("Save")) {
-			    try {
-			    	//TODO: out of memory sometimes
-					MediaStore.Images.Media.insertImage(getContentResolver(), path, "" , "");
-				} catch (FileNotFoundException e) {
-		
-				}
-			    Toast.makeText(getApplicationContext(), "saved to photo gallery", Toast.LENGTH_LONG).show();
-           } else {
-
-			}
-			return true;
-		default:
-			return super.onOptionsItemSelected(item);
-		}
-	}
-	 
-	public boolean onCreateOptionsMenu(Menu menu){
-	   if (duration == null)
-	       menu.add("Save").setIcon(R.drawable.ic_refresh).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-	   return true;
-	}
 	
 	 private class TickClass extends TimerTask{
 			public void run() {

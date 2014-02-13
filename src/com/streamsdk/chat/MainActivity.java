@@ -141,7 +141,8 @@ public class MainActivity extends FragmentActivity implements EditTextEmojSelect
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
 				  Log.i("clicked here", "main chat panel clicked");
-	               dismissKeyboard();				
+	              dismissKeyboard();	
+	              dismissMoreOptionPanel();
 			}
 		});
 		messages = new ArrayList<IM>();
