@@ -42,13 +42,13 @@ public class AddFriendMainActivity extends Activity{
 		getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 		
 		 
-		addTab =  getActionBar().newTab().setText("Add")
+		addTab =  getActionBar().newTab().setIcon(R.drawable.plusadd)
 			        .setTabListener(new AddFriendsTabListener<AddFriendsFragment>(this, "", AddFriendsFragment.class));
 			        
 	    /* searchTab =  getActionBar().newTab().setText("Search")
 			        .setTabListener(new AddFriendsTabListener<SearchFriendFragment>(this, "", SearchFriendFragment.class));*/
 			        
-	     historyTab =  getActionBar().newTab().setText("History")
+	     historyTab =  getActionBar().newTab().setIcon(R.drawable.invita)
 			        .setTabListener(new AddFriendsTabListener<HistoryFragment>(this, "", HistoryFragment.class));
 			        
 	     getActionBar().addTab(addTab);
