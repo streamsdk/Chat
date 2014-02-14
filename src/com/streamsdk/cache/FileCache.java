@@ -5,14 +5,12 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import com.streamsdk.chat.ApplicationInstance;
 
 import android.content.Context;
 import android.os.Environment;
 import android.util.Log;
+
+import com.streamsdk.chat.ApplicationInstance;
 
 public class FileCache {
 

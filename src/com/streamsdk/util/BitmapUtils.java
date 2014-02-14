@@ -66,6 +66,8 @@ public class BitmapUtils {
 		  }catch(Throwable t){}
 		    is = new BufferedInputStream(new FileInputStream(path));
 			Bitmap selectImg = BitmapFactory.decodeStream(is, null, options);
+			if (selectImg == null)
+				return null;
 			int w = selectImg.getWidth();
 			int h = selectImg.getHeight();
 			if (w > h){

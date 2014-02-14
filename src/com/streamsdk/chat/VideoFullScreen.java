@@ -221,8 +221,8 @@ public class VideoFullScreen extends Activity {
     
     private void saveVideo(){
     	
-    	File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), String.valueOf(System.currentTimeMillis()));
-	    File sourceFile = new File(path);
+    	File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), String.valueOf(System.currentTimeMillis() + ".mp4"));
+        File sourceFile = new File(path);
 	   	try {
 		    file.createNewFile();
 		    copyFile(sourceFile, file);
