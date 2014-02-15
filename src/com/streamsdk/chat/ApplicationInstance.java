@@ -48,7 +48,7 @@ public class ApplicationInstance {
 	private String loginName = "jacky";
 	private String password = "";
 	private long receivedMessageLastTime = 0;
-	private boolean visiable = true;
+	private boolean visiable = false;
 	private Context context;
 	private Activity firstPageActivity;
 	private String recordingVideoPath;
@@ -101,6 +101,8 @@ public class ApplicationInstance {
 	}
 
 	public String getLoginName() {
+		if (loginName != null)
+			return loginName.toLowerCase();
 		return loginName;
 	}
 

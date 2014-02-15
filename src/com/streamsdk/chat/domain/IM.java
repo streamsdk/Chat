@@ -26,6 +26,7 @@ public class IM {
 	private String viewed = "";
 	private String requestStatus = "";
 	private String requestType = "";
+	private String primaryKey = "";
 	
 	public String getTo() {
 		return to;
@@ -161,5 +162,15 @@ public class IM {
 	public void setRequestType(String requestType) {
 		this.requestType = requestType;
 	}
+
+	public String getPrimaryKey() {
+		return primaryKey;
+	}
+
+	public void setPrimaryKey(String primaryKey) {
+		this.primaryKey = primaryKey;
+	}
+	
+	
 	
 }

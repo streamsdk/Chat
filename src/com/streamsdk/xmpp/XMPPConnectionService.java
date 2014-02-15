@@ -67,6 +67,7 @@ public class XMPPConnectionService extends Service implements NotificationInterf
 	
 	public void onCreate() {
 		timer = new Timer();
+		ApplicationXMPPListener.getInstance().addNotifier("service", this);
 	}	
 	
 	private void reintiDB(){
@@ -109,7 +110,7 @@ public class XMPPConnectionService extends Service implements NotificationInterf
 					}
 					if (message.getType().equals("photo") || message.getType().equals("video")){
 					   packet.setProperty("streamsdk.filetransfer", message.getFileId());
-					   messageBody = JsonUtils.buildImageVideoMessaing(message.getFileId(), message.getType(), message.getFrom(), message.getDuration(), Long.parseLong(message.getId()));
+					   messageBody = JsonUtils.buildImageVideoMessaing(message.getFileId(), message.getType(), message.getFrom(), message.getDuration(), Long.parseLong(message.getId()), "");
 					}
 						
 					packet.setTo(ApplicationInstance.APPID + message.getTo() + ApplicationInstance.HOST_PREFIX);
@@ -128,7 +129,7 @@ public class XMPPConnectionService extends Service implements NotificationInterf
 						messageBody = JsonUtils.buildVoiceMessaging(message.getDuration(), message.getFileId(), message.getFrom(), Long.parseLong(message.getId()));	
 					}
 					if (message.getType().equals("photo") || message.getType().equals("video")){
-					   messageBody = JsonUtils.buildImageVideoMessaing(message.getFileId(), message.getType(), message.getFrom(), message.getDuration(), Long.parseLong(message.getId()));
+					   messageBody = JsonUtils.buildImageVideoMessaing(message.getFileId(), message.getType(), message.getFrom(), message.getDuration(), Long.parseLong(message.getId()), "");
 					}
 		            String key = String.valueOf(System.currentTimeMillis());
 		            history.put(key, BODY_PREFIX + messageBody);
@@ -225,6 +226,7 @@ public class XMPPConnectionService extends Service implements NotificationInterf
 	public void sendNotification(String expandedTitle, String expandedText,
 			String message) {
 		
+		Log.i("In notification message", message);
 		Intent intent = new Intent(this, MyFriendsActivity.class);
 		intent.putExtra("nMessage", message);
 		StreamSession.nMessage = message;
@@ -240,6 +242,7 @@ public class XMPPConnectionService extends Service implements NotificationInterf
                 pIntent);
 		int id = genereateId();
 		
+		Log.i("notify notification message", message);
 		mNotificationManager.notify(id, notification);
 		ApplicationInstance.getInstance().addNotifacaionIds(String.valueOf(id));
 		

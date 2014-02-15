@@ -71,6 +71,14 @@ public class FriendDB {
     	Log.i("", String.valueOf(result));
     }
     
+    public void syncUpdate(String userName, String status){
+    	getFriendRequestList();
+    	if (localUsernames.contains(userName))
+			update(userName, status);
+		else
+			insert(userName, status);
+    }
+    
     public void syncUpdate(List<FriendRequest> requests){
     	
     	getFriendRequestList();

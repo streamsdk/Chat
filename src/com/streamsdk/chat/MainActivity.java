@@ -87,7 +87,7 @@ public class MainActivity extends FragmentActivity implements EditTextEmojSelect
 	static final int REQUEST_IMAGE_PICK = 1;
 	static final int REQUEST_VIDEO_CAPTURE = 2;
 	static final int MAX_VIDEO_SIZE = 15000000;
-	
+	String thumbnailFileId = "";
 
 	@Override
     public void onPause()
@@ -397,7 +397,7 @@ public class MainActivity extends FragmentActivity implements EditTextEmojSelect
     	
     }
    
-    private void sendVideoIM(String path){
+    private void sendVideoIM(final String path){
     	dismissMoreOptionPanel();
     	if (isVideoSizeExceedTheMax(path)){
     		return;
@@ -417,6 +417,7 @@ public class MainActivity extends FragmentActivity implements EditTextEmojSelect
 		File file = new File(path);
 		Map<String, Object> metaData = new HashMap<String, Object>();
 		String type = im.isImage() ? "photo" : "video";
+		final byte bytes[] = ImageCache.getInstance().getImageBytes(path);
 		StreamXMPP.getInstance().sendFile(new StreamCallback() {
 			public void result(boolean succeed, String errorMessage) {
 				if (succeed){
@@ -426,7 +427,7 @@ public class MainActivity extends FragmentActivity implements EditTextEmojSelect
 			    	ApplicationInstance.getInstance().getMessagingHistoryDB().insert(im);
 				}
 			}
-		}, null, file, metaData, ApplicationInstance.APPID + receiver, ApplicationInstance.getInstance().getLoginName(), type, timeout, chatTime);
+		}, null, file, metaData, ApplicationInstance.APPID + receiver, ApplicationInstance.getInstance().getLoginName(), type, timeout, chatTime, bytes);
     }
     
     private void sendVideoIM(Intent intent){
@@ -471,7 +472,7 @@ public class MainActivity extends FragmentActivity implements EditTextEmojSelect
 					    	ApplicationInstance.getInstance().getMessagingHistoryDB().insert(im);
 					    }
 				    }
-			     }, null, imageButes, metaData, ApplicationInstance.APPID + receiver, ApplicationInstance.getInstance().getLoginName(), type, timeout, chatTime);
+			     }, null, imageButes, metaData, ApplicationInstance.APPID + receiver, ApplicationInstance.getInstance().getLoginName(), type, timeout, chatTime, "");
 			 }
 		}
     }
@@ -635,7 +636,7 @@ public class MainActivity extends FragmentActivity implements EditTextEmojSelect
 						ApplicationInstance.getInstance().getMessagingAckDB().insertVoiceMessage(voiceIm, errorMessage);
 					}
 			}
-		 }, null, file, metaData, ApplicationInstance.APPID + receiver,  ApplicationInstance.getInstance().getLoginName(), String.valueOf(rp.getTime()/1000), -1, chatTime);
+		 }, null, file, metaData, ApplicationInstance.APPID + receiver,  ApplicationInstance.getInstance().getLoginName(), String.valueOf(rp.getTime()/1000), -1, chatTime, null);
 	   }
     }
 	

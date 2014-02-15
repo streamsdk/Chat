@@ -12,9 +12,9 @@ import com.stream.api.StreamFile;
 import com.stream.api.StreamObject;
 import com.stream.xmpp.StreamXMPPMessage;
 import com.streamsdk.chat.ApplicationInstance;
-import com.streamsdk.chat.RefreshUI;
 import com.streamsdk.chat.domain.IM;
 import com.streamsdk.chat.emoji.EmojiParser;
+import com.streamsdk.xmpp.NotificationInterface;
 
 public class MessageHistoryHandler implements Runnable{
 	
@@ -22,7 +22,7 @@ public class MessageHistoryHandler implements Runnable{
 	public static final String fixedPrefix = "message.body.";
 	private static final int fixedLength = fixedPrefix.length();
 	private Context context;
-	private RefreshUI rfreshUI;
+	private NotificationInterface notificationInterface;
 	
 	public MessageHistoryHandler(String userName, Context context){
 		this.userName = userName;
@@ -36,6 +36,7 @@ public class MessageHistoryHandler implements Runnable{
 		Map<String, Object> offlineStaff = history.getData();
 		Set<Entry<String, Object>> entrySet = offlineStaff.entrySet();
 		
+		boolean notificationSent = false;
 		for (Entry<String, Object> data : entrySet){
 			String timeKey = data.getKey();
 			String jsonValue = (String)data.getValue();
@@ -48,15 +49,10 @@ public class MessageHistoryHandler implements Runnable{
 			if (type.equals("friend") || type.equals("request")){
 				String requestUserName = xmppMessage.getRequestUsername();
 			    try{	
-				    ApplicationInstance.getInstance().getFriendDB().insert(requestUserName, type);
+				    ApplicationInstance.getInstance().getFriendDB().syncUpdate(requestUserName, type);
 			    }catch(Throwable t){}
 			    continue;
 			}
-			if (!xmppMessage.getTimeout().equals("") && (type.equals("video") ||type.equals("photo"))){
-				   im.setTimeout(xmppMessage.getTimeout());
-				   im.setDisappear(true);
-				   im.setViewed("NO");
-			   }
 			if (type.equals("photo")){
 				  streamFile.setId(xmppMessage.getFileId());
 				  try {
@@ -79,6 +75,13 @@ public class MessageHistoryHandler implements Runnable{
 			        String parsed = EmojiParser.getInstance(context).parseEmoji(xmppMessage.getMessage());
 				    im.setChatMessage(parsed);
 			}
+			
+			if (!xmppMessage.getTimeout().equals("") && (type.equals("video") ||type.equals("photo"))){
+				   im.setTimeout(xmppMessage.getTimeout());
+				   im.setDisappear(true);
+				   im.setViewed("NO");
+			 }
+			
 
 			  im.setTo(userName);
 			  im.setFrom(xmppMessage.getFrom());
@@ -91,6 +94,10 @@ public class MessageHistoryHandler implements Runnable{
 		          Log.i("", t.getMessage());	  
 		      }
 		      
+		      if (!notificationSent){
+		    	 //TODO: SENT NOTIFICATION 
+		      }
+		      
 		}
 		if (ApplicationInstance.getInstance().getRefreshUI() != null)
 			ApplicationInstance.getInstance().getRefreshUI().refresh();
@@ -98,10 +105,17 @@ public class MessageHistoryHandler implements Runnable{
 		if (keys.size() > 0)
 		     removeKeys(keys);
 		
-		
 	 }
 	
-	 private void removeKeys(Set<String> keys){
+	 public NotificationInterface getNotificationInterface() {
+		return notificationInterface;
+	 }
+
+	 public void setNotificationInterface(NotificationInterface notificationInterface) {
+		this.notificationInterface = notificationInterface;
+	 }
+
+	private void removeKeys(Set<String> keys){
 		 
 		 String keysRemoved = "";
 		 int index = 0;

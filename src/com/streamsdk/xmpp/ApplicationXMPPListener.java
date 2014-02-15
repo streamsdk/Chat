@@ -41,8 +41,10 @@ public class ApplicationXMPPListener {
    public void sendNotifications(String expandedTitle, String expandedText, String message){
 	   if (!ApplicationInstance.getInstance().isVisiable()){
 		   Set<String> listeners = nListeners.keySet();
+		   Log.i("ready to send notification message", message);
 		   for (String lis : listeners){
 			   NotificationInterface ni = nListeners.get(lis);
+			   Log.i("send notification message", message);
 			   ni.sendNotification(expandedTitle, expandedText, message);
 		   }
 	   }
@@ -67,25 +69,34 @@ public class ApplicationXMPPListener {
 				   Log.i("ackid", ackId);
 				   return;
 				}
-				StreamXMPP.getInstance().sendAck(ApplicationInstance.APPID + xmppMessage.getFrom(), xmppMessage.getId());
+				
 				if (xmppMessage.getType().equals("request")){
 					String requestUserName = xmppMessage.getRequestUsername();
-				    ApplicationInstance.getInstance().getFriendDB().insert(requestUserName, "request");
+				    ApplicationInstance.getInstance().getFriendDB().syncUpdate(requestUserName, "request");
 					return;
 				}
 				if (xmppMessage.getType().equals("friend")){
 					String requestUserName = xmppMessage.getRequestUsername();
-					ApplicationInstance.getInstance().getFriendDB().insert(requestUserName, "friend");
+					ApplicationInstance.getInstance().getFriendDB().syncUpdate(requestUserName, "friend");
 					return;
 				}
 				
+				StreamXMPP.getInstance().sendAck(ApplicationInstance.APPID + xmppMessage.getFrom(), xmppMessage.getId());
 				String parsed = EmojiParser.getInstance(ApplicationInstance.getInstance().getContext()).parseEmoji(xmppMessage.getMessage());
 				IM im = new IM();
+				im.setPrimaryKey(xmppMessage.getId());
 				im.setFrom(xmppMessage.getFrom());
 				im.setTo(ApplicationInstance.getInstance().getLoginName());
 				im.setChatMessage(parsed);
 				im.setChatTime(System.currentTimeMillis());
-				ApplicationInstance.getInstance().getMessagingHistoryDB().insert(im);
+				
+				try{
+				  ApplicationInstance.getInstance().getMessagingHistoryDB().insert(im);
+				}catch(Throwable t){
+				  Log.i("received double messaging", "return");
+				  return;
+				}
+				  
 				if (ApplicationInstance.getInstance().getCurrentChatListener() != null){
 				    String receiver = ApplicationInstance.getInstance().getCurrentChatListener().getReceiver();
 				    if (receiver.equals(im.getFrom()))
@@ -146,7 +157,13 @@ public class ApplicationXMPPListener {
 					   im.setTo(ApplicationInstance.getInstance().getLoginName());
 					   im.setChatTime(System.currentTimeMillis());
 					   if (processed){
-						   ApplicationInstance.getInstance().getMessagingHistoryDB().insert(im);
+						   im.setPrimaryKey(xmppMessage.getId());
+						   try{
+						     ApplicationInstance.getInstance().getMessagingHistoryDB().insert(im);
+						   }catch(Throwable t){
+							 Log.i("received double file", "return");
+							 return;
+						   }
 						   StreamXMPP.getInstance().sendAck(ApplicationInstance.APPID + xmppMessage.getFrom(), xmppMessage.getId());
 					   }
 					   if (ApplicationInstance.getInstance().getCurrentChatListener() != null && processed){
