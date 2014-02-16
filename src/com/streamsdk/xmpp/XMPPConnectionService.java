@@ -49,9 +49,10 @@ public class XMPPConnectionService extends Service implements NotificationInterf
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		
 		if (!started){
-			  timer.schedule(new  ReconnectXMPPService(), 30000, 15000);
-			  timer.schedule(new StatusSendService(), 20000, 1000 * 60 * 2);
-			  timer.schedule(new ResendIMService(), 5000, 1000 * 60 * 1);
+			  timer.schedule(new  ReconnectXMPPService(), 5000, 15000);
+			  timer.schedule(new StatusSendService(), 30000, 1000 * 60 * 2);
+			  timer.schedule(new ResendIMService(), 90000, 1000 * 60 * 1);
+			  timer.schedule(new CheckMessaingHistoryService(this), 70000, 1000 * 60 * 1);
 			  ApplicationXMPPListener.getInstance().addNotifier("service", this);
 			  EmojiParser.getInstance(this).initiMap(this);
 			  started = true;
@@ -83,14 +84,24 @@ public class XMPPConnectionService extends Service implements NotificationInterf
 		 ApplicationInstance.getInstance().setMessagingAckDB(mackdb);
 	}
 	
+	private class CheckMessaingHistoryService extends TimerTask{
+		
+		private NotificationInterface notificationInterface;
+		public CheckMessaingHistoryService(NotificationInterface ni){
+			this.notificationInterface = ni;
+		}
+		
+		public void run(){
+			MessageHistoryHandler mhh = new MessageHistoryHandler(ApplicationInstance.getInstance().getLoginName(), getApplicationContext());
+			mhh.setNotificationInterface(notificationInterface);
+			mhh.run();
+			
+		}
+	}
+	
 	private class ResendIMService extends TimerTask{
 		
 		public void run(){
-			MessagingAckDB mackdb = ApplicationInstance.getInstance().getMessagingAckDB();
-			if (mackdb == null){
-				Log.i("in resend IM service", "db null");
-				reintiDB();
-			}
 			
 			List<StreamXMPPMessage> messages = ApplicationInstance.getInstance().getMessagingAckDB().getIMAcks();
 			for (final StreamXMPPMessage message : messages){
@@ -174,6 +185,12 @@ public class XMPPConnectionService extends Service implements NotificationInterf
 		
 		public void run() {
 			
+			MessagingAckDB mackdb = ApplicationInstance.getInstance().getMessagingAckDB();
+			if (mackdb == null){
+				Log.i("in reconnect IM service", "db null");
+				reintiDB();
+			}
+			
 			boolean connected = true;
 			long receivedStatusUpdateLastTime = ApplicationInstance.getInstance().getReceiveStatusUpdatedTime();
 			long diff = (System.currentTimeMillis() - receivedStatusUpdateLastTime)/(60 * 1000);
@@ -205,8 +222,7 @@ public class XMPPConnectionService extends Service implements NotificationInterf
 						ApplicationInstance.getInstance().setPassword(password);
 						ApplicationXMPPListener.getInstance().addListenerForAllUsers();
 						ApplicationXMPPListener.getInstance().addFileReceiveListener();
-						new Thread(new MessageHistoryHandler(ApplicationInstance.getInstance().getLoginName(),getApplicationContext())).start();
-
+			
 					} catch (XMPPException e) {
 						Log.i("xmpp service", e.getMessage());
 					}

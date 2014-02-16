@@ -5,7 +5,6 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.stream.api.JsonUtils;
 import com.stream.api.StreamFile;
@@ -91,10 +90,22 @@ public class MessageHistoryHandler implements Runnable{
 			      ApplicationInstance.getInstance().getMessagingHistoryDB().insert(im);
 			      ApplicationInstance.getInstance().getMessagingCountDB().insert(String.valueOf(im.getChatTime()), im.getFrom());
 		      }catch(Throwable t){
-		          Log.i("", t.getMessage());	  
+		         continue;
 		      }
 		      
-		      if (!notificationSent){
+		      if (!notificationSent && notificationInterface != null){
+		    	  String notificationMessage = "";
+		    	  if (im.isImage()){
+		    		  notificationMessage = im.getFrom() + " sent a photo to you";
+		    	  }else if (im.isVideo()){
+		    		  notificationMessage = im.getFrom() + " sent a video to you";
+		    	  }else if (im.isVoice()){
+		    		  notificationMessage = im.getFrom() + " sent a voice message to you";
+		    	  }else{
+		    		  notificationMessage = im.getFrom() + im.getChatMessage(); 
+		    	  }
+		    	  notificationInterface.sendNotification("New Message", "", notificationMessage);
+		    	  notificationSent = true;
 		    	 //TODO: SENT NOTIFICATION 
 		      }
 		      
