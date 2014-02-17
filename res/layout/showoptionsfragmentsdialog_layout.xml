@@ -1,0 +1,31 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/chatsettings"
+    android:layout_width="fill_parent" android:layout_height="wrap_content"
+    android:background="@android:color/background_dark"
+    android:layout_gravity="center" android:orientation="vertical"  >
+
+ <Button
+       android:id="@+id/changeChatBackground"
+       android:layout_width="fill_parent"
+       android:layout_height="wrap_content"
+       android:text="Change Chat Background"
+       android:textSize="18sp"
+       android:textStyle="bold"
+       android:background="@android:color/background_light"    
+       android:textColor="@android:color/darker_gray"
+       android:layout_gravity="center_horizontal"
+       android:layout_margin="15dp"/>
+   
+   <Button
+       android:id="@+id/clearChatHistory"
+       android:layout_width="fill_parent"
+       android:layout_height="wrap_content"
+       android:text="Clear Chat History"
+       android:textSize="18sp"
+       android:textStyle="bold"
+       android:background="@android:color/background_light"    
+       android:textColor="@android:color/darker_gray"
+       android:layout_gravity="center_horizontal"
+       android:layout_margin="15dp"/>
+    
+</LinearLayout>

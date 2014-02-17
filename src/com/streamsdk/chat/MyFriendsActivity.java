@@ -35,6 +35,7 @@ import com.streamsdk.cache.MessagingCountDB;
 import com.streamsdk.cache.MessagingHistoryDB;
 import com.streamsdk.chat.addfriend.AddFriendMainActivity;
 import com.streamsdk.chat.handler.MessageHistoryHandler;
+import com.streamsdk.chat.settings.PreferenceScreen;
 import com.streamsdk.header.NamesBaseAdaper;
 import com.streamsdk.header.PinnedHeaderListView;
 import com.streamsdk.xmpp.XMPPConnectionService;

@@ -3,25 +3,23 @@ package com.streamsdk.chat.emoji;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.streamsdk.chat.EditTextEmojSelected;
-import com.streamsdk.chat.R;
-import com.streamsdk.chat.R.id;
-import com.streamsdk.chat.R.layout;
-
-import android.support.v4.app.FragmentActivity;
+import android.app.Activity;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.GridView;
 
+import com.streamsdk.chat.EditTextEmojSelected;
+import com.streamsdk.chat.R;
+
 public class EmotionPagerAdapter extends PagerAdapter{
 
 	List<String> emoticons;
 	private int num = 30;
-	private FragmentActivity activity;
+	private Activity activity;
 	private EditTextEmojSelected ete;
 	
-	public EmotionPagerAdapter(FragmentActivity activity, List<String> emo, EditTextEmojSelected se){
+	public EmotionPagerAdapter(Activity activity, List<String> emo, EditTextEmojSelected se){
 		this.activity = activity;
 		this.emoticons = emo;
 		this.ete = se;

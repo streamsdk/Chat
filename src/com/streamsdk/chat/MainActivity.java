@@ -11,13 +11,12 @@ import org.jivesoftware.smack.packet.Message;
 
 import android.app.Activity;
 import android.app.DialogFragment;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.media.MediaRecorder;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -59,9 +58,10 @@ import com.streamsdk.chat.emoji.EmojiParser;
 import com.streamsdk.chat.emoji.EmotionPagerAdapter;
 import com.streamsdk.chat.handler.AudioHandler;
 import com.streamsdk.chat.handler.ImageHandler;
+import com.streamsdk.chat.settings.ChatSettingsDialog;
 
 
-public class MainActivity extends FragmentActivity implements EditTextEmojSelected, ChatListener, RefreshUI{
+public class MainActivity extends Activity implements EditTextEmojSelected, ChatListener, RefreshUI{
 
 	private String receiver = "jacky";
 	
@@ -116,11 +116,7 @@ public class MainActivity extends FragmentActivity implements EditTextEmojSelect
 		ApplicationInstance.getInstance().setCurrentChatListener(this);
 		ApplicationInstance.getInstance().setRefreshUI(this);
 		deleteCountHistory();
-		
 	    dismissMoreOptionPanel();
-	    /*if (!StreamXMPP.getInstance().isConnected()){
-	    	 new Thread(new ReconnectThread(this)).start();
-		}*/
 	}
 	
 	@Override
@@ -352,6 +348,8 @@ public class MainActivity extends FragmentActivity implements EditTextEmojSelect
 			 ApplicationInstance.getInstance().setCurrentChatListener(null);
 			 onBackPressed();
 			 return true;
+		case 0:
+		     showChatSettingDialog();
 		default:
 			 return super.onOptionsItemSelected(item);
 		}
@@ -675,7 +673,7 @@ public class MainActivity extends FragmentActivity implements EditTextEmojSelect
 	}
 	
 	private void showRecordingProgress(){
-		 FragmentManager fm = getSupportFragmentManager();
+		 FragmentManager fm = getFragmentManager();
 		 rp = new RecordingProgress();
 		 rp.setStyle(DialogFragment.STYLE_NO_TITLE, 0);
 		 rp.show(fm, "");
@@ -722,12 +720,18 @@ public class MainActivity extends FragmentActivity implements EditTextEmojSelect
 		updateData();		
 	}
 	
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
+	public boolean onCreateOptionsMenu(Menu menu){
+		 menu.add("Settings").setIcon(R.drawable.set).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+		 return true;
+    }
+	
+	private void showChatSettingDialog(){
+		
+		FragmentManager fm = getFragmentManager();
+		ChatSettingsDialog csd = new ChatSettingsDialog();
+		csd.show(fm, "chatsettings");
 	}
-
+   
 	@Override
 	public void clicked(String hexString) {
 		  

@@ -93,7 +93,7 @@ public class MessageHistoryHandler implements Runnable{
 		         continue;
 		      }
 		      
-		      if (!notificationSent && notificationInterface != null){
+		      if (!notificationSent && notificationInterface != null && !ApplicationInstance.getInstance().isVisiable()){
 		    	  String notificationMessage = "";
 		    	  if (im.isImage()){
 		    		  notificationMessage = im.getFrom() + " sent a photo to you";
