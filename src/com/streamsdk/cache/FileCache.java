@@ -15,7 +15,7 @@ import com.streamsdk.chat.ApplicationInstance;
 public class FileCache {
 
 	private static FileCache fileCache;
-	private static String COOL_CHAT = "swiftchat";
+	private static String COOL_CHAT = "coolchat";
 	
 	public static FileCache getInstance(){
 		
@@ -45,6 +45,7 @@ public class FileCache {
 		    Log.i("stream sdk hidden file created", hiddenFile.getAbsolutePath());
 		}
 		return hiddenFile;
+		//return getHiddenOutputFilePath();
 	}
 	
 	public boolean generateProfileImagePathIfDoesNotExists(String id){

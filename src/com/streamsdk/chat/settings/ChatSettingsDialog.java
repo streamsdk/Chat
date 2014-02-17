@@ -2,8 +2,10 @@ package com.streamsdk.chat.settings;
 
 import com.streamsdk.chat.R;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +15,9 @@ import android.widget.Button;
 
 public class ChatSettingsDialog extends DialogFragment{
 	
+	Activity activity;
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
+	  activity = getActivity();
 	  Dialog dialog = super.onCreateDialog(savedInstanceState);
 	  dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
 	  return dialog;
@@ -24,7 +28,9 @@ public class ChatSettingsDialog extends DialogFragment{
 		 Button background = (Button)view.findViewById(R.id.changeChatBackground);
 		 background.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				
+				  dismiss();
+			      Intent intent = new Intent(activity, ChatBackgroundGrid.class);
+				  startActivity(intent);
 			}
 		});
 		 

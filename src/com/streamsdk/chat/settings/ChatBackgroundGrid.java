@@ -3,22 +3,42 @@ package com.streamsdk.chat.settings;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.streamsdk.chat.R;
-import android.graphics.Bitmap;
 import android.app.Activity;
 import android.os.Bundle;
+import android.widget.GridView;
+
+import com.streamsdk.chat.R;
 
 public class ChatBackgroundGrid extends Activity{
 	
-	 List<Bitmap> images = new ArrayList<Bitmap>(); 
 	 public void onCreate(Bundle savedInstanceState) {
 		  
 		  super.onCreate(savedInstanceState);
 		  setContentView(R.layout.chatbackgroundgrid_layout);
+		  GridView gv = (GridView)findViewById(R.id.gridviewchatbackground);
+		  BackgroundImageAdapter bia = new BackgroundImageAdapter(this, getLocalImages());
+		  gv.setAdapter(bia);
 		  
 	  }
 	  
-	  public void loadLocalImages(){
+	  public List<Integer> getLocalImages(){
+	
+		  List<Integer> localImages = new ArrayList<Integer>();
+		  localImages.add(R.drawable.b1);
+		  localImages.add(R.drawable.b2);
+		  localImages.add(R.drawable.b3);
+		  localImages.add(R.drawable.b4);
+		  localImages.add(R.drawable.b5);
+		  localImages.add(R.drawable.b6);
+		  localImages.add(R.drawable.b7);
+		  localImages.add(R.drawable.b8);
+		  localImages.add(R.drawable.b9);
+		  localImages.add(R.drawable.b12);
+		  /*localImages.add(R.drawable.b10);
+		  localImages.add(R.drawable.b11);
+		  localImages.add(R.drawable.b12);
+		  localImages.add(R.drawable.b13);*/
+		  return localImages;
 		  
 	  }
 

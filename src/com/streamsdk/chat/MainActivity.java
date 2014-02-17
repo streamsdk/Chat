@@ -117,6 +117,10 @@ public class MainActivity extends Activity implements EditTextEmojSelected, Chat
 		ApplicationInstance.getInstance().setRefreshUI(this);
 		deleteCountHistory();
 	    dismissMoreOptionPanel();
+	    int backgroundDrawable = ApplicationInstance.getInstance().getBackgroundResource();
+	    if (backgroundDrawable != -1){
+	    	view.setBackgroundResource(backgroundDrawable);
+	    }
 	}
 	
 	@Override
@@ -411,6 +415,9 @@ public class MainActivity extends Activity implements EditTextEmojSelected, Chat
     	final long chatTime = System.currentTimeMillis(); 
 		im.setChatTime(chatTime);
 		messages.add(im);
+		im.setFrom(ApplicationInstance.getInstance().getLoginName());
+    	im.setTo(receiver);
+    	ApplicationInstance.getInstance().getMessagingHistoryDB().insert(im);
 		updateData();
 		File file = new File(path);
 		Map<String, Object> metaData = new HashMap<String, Object>();
@@ -419,10 +426,7 @@ public class MainActivity extends Activity implements EditTextEmojSelected, Chat
 		StreamXMPP.getInstance().sendFile(new StreamCallback() {
 			public void result(boolean succeed, String errorMessage) {
 				if (succeed){
-					im.setFrom(ApplicationInstance.getInstance().getLoginName());
-			    	im.setTo(receiver);
-			    	ApplicationInstance.getInstance().getMessagingAckDB().insertVideoImage(im, errorMessage);
-			    	ApplicationInstance.getInstance().getMessagingHistoryDB().insert(im);
+					ApplicationInstance.getInstance().getMessagingAckDB().insertVideoImage(im, errorMessage);
 				}
 			}
 		}, null, file, metaData, ApplicationInstance.APPID + receiver, ApplicationInstance.getInstance().getLoginName(), type, timeout, chatTime, bytes);
@@ -455,7 +459,10 @@ public class MainActivity extends Activity implements EditTextEmojSelected, Chat
 	    		im.setTimeout(String.valueOf(timeout) + "s");
 	    	}
 			messages.add(im);
-			updateData();
+		 	im.setFrom(ApplicationInstance.getInstance().getLoginName());
+	    	im.setTo(receiver);
+	    	ApplicationInstance.getInstance().getMessagingHistoryDB().insert(im);
+	     	updateData();
 			byte imageButes[] = ImageCache.getInstance().getImageBytes(path);
 			if (imageButes != null){
 			    //int len = imageButes.length;
@@ -464,10 +471,7 @@ public class MainActivity extends Activity implements EditTextEmojSelected, Chat
 			    StreamXMPP.getInstance().sendBytes(new StreamCallback() {
 				    public void result(boolean succeed, String errorMessage) {
 					    if (succeed){
-					    	im.setFrom(ApplicationInstance.getInstance().getLoginName());
-					    	im.setTo(receiver);
 					    	ApplicationInstance.getInstance().getMessagingAckDB().insertImageMessage(im, errorMessage);
-					    	ApplicationInstance.getInstance().getMessagingHistoryDB().insert(im);
 					    }
 				    }
 			     }, null, imageButes, metaData, ApplicationInstance.APPID + receiver, ApplicationInstance.getInstance().getLoginName(), type, timeout, chatTime, "");

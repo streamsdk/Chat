@@ -6,11 +6,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import android.os.Environment;
 import android.util.Log;
 
 import com.stream.api.StreamFile;
 import com.stream.api.StreamUtils;
+import com.streamsdk.cache.FileCache;
 import com.streamsdk.chat.domain.IM;
 
 public class AudioHandler {
@@ -27,17 +27,18 @@ public class AudioHandler {
 	}
 	
 	public static File getOutputFilePath(){
-		String mFileName = Environment.getExternalStorageDirectory().getAbsolutePath();
+		/*String mFileName = Environment.getExternalStorageDirectory().getAbsolutePath();
 		File file = new File(mFileName, "voicetalk");
 		if (!file.exists())
 			file.mkdir();
-		return file;
+		return file;*/
+		return FileCache.getInstance().getOutputFilePath();
 	}
 	
 	public static IM processReceivedFile(StreamFile streamFile, String body){
 		
 		long currentTime = System.currentTimeMillis();
-		File file = new File(getOutputFilePath(), String.valueOf(currentTime));
+		File file = new File(FileCache.getInstance().getOutputFilePath(), String.valueOf(currentTime));
 		try {
 			file.createNewFile();
 		} catch (IOException e1) {

@@ -61,6 +61,7 @@ public class ApplicationInstance {
 	private Map<String, Map<String, String>> friendUserMetadata;
 	private Set<String> notificationIds = new HashSet<String>();
 	private long receiveStatusUpdatedTime = System.currentTimeMillis();
+	private Integer backgroundResource = -1;
 	
 	private static void createDic(){
 		 String path= Environment.getExternalStorageDirectory().getAbsolutePath().toString();
@@ -256,6 +257,14 @@ public class ApplicationInstance {
 
 	public void setReceiveStatusUpdatedTime(long receiveStatusUpdatedTime) {
 		this.receiveStatusUpdatedTime = receiveStatusUpdatedTime;
+	}
+
+	public Integer getBackgroundResource() {
+		return backgroundResource;
+	}
+
+	public void setBackgroundResource(Integer backgroundResource) {
+		this.backgroundResource = backgroundResource;
 	}
 	
 }
