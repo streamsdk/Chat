@@ -83,7 +83,7 @@ public class SignupActivity extends Activity{
 						    StreamObject so = new StreamObject();
 						    so.setId(userName + ApplicationInstance.messageHistory);
 						    so.createNewStreamObject();
-						    addAsFriend(userName, "jacky");addAsFriend(userName, "busy");addAsFriend(userName, "apple");addAsFriend(userName, "cormac");
+						    addAsFriend(userName, "jacky");addAsFriend(userName, "busy");addAsFriend(userName, "apple");addAsFriend(userName, "cormac");addAsFriend(userName, "android");
 						    addAsFriendRequest(userName, "fatboy");addAsFriendRequest(userName, "yang");addAsFriendRequest(userName, "dog");
 						    establishXMPP();
 							pd.dismiss();
