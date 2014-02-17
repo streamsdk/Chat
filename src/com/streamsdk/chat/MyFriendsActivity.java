@@ -26,6 +26,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import com.stream.api.StreamCallback;
 import com.stream.api.StreamFile;
 import com.stream.api.StreamUser;
+import com.streamsdk.cache.ChatBackgroundDB;
 import com.streamsdk.cache.FileCache;
 import com.streamsdk.cache.FriendDB;
 import com.streamsdk.cache.ImageCache;
@@ -68,6 +69,8 @@ public class MyFriendsActivity extends ListActivity implements RefreshUI{
 		 InvitationDB idb = new InvitationDB(this);
 		 MessagingCountDB mcdb = new MessagingCountDB(this);
 		 MessagingAckDB mackdb = new MessagingAckDB(this);
+		 ChatBackgroundDB cdb = new ChatBackgroundDB(this);
+		 ApplicationInstance.getInstance().setChatBackgroundDB(cdb);
 		 ApplicationInstance.getInstance().setMessagingHistoryDB(mdb);
 		 ApplicationInstance.getInstance().setFriendDB(fdb);
 		 ApplicationInstance.getInstance().setInivitationDB(idb);

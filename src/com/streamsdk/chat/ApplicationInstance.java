@@ -11,6 +11,7 @@ import android.content.Context;
 import android.os.Environment;
 import android.os.Handler;
 
+import com.streamsdk.cache.ChatBackgroundDB;
 import com.streamsdk.cache.FriendDB;
 import com.streamsdk.cache.InvitationDB;
 import com.streamsdk.cache.MessagingAckDB;
@@ -61,7 +62,8 @@ public class ApplicationInstance {
 	private Map<String, Map<String, String>> friendUserMetadata;
 	private Set<String> notificationIds = new HashSet<String>();
 	private long receiveStatusUpdatedTime = System.currentTimeMillis();
-	private Integer backgroundResource = -1;
+	private ChatBackgroundDB chatBackgroundDB;
+	private String currentChatbackgroundReceiver;
 	
 	private static void createDic(){
 		 String path= Environment.getExternalStorageDirectory().getAbsolutePath().toString();
@@ -258,13 +260,22 @@ public class ApplicationInstance {
 	public void setReceiveStatusUpdatedTime(long receiveStatusUpdatedTime) {
 		this.receiveStatusUpdatedTime = receiveStatusUpdatedTime;
 	}
-
-	public Integer getBackgroundResource() {
-		return backgroundResource;
+	
+	public ChatBackgroundDB getChatBackgroundDB() {
+		return chatBackgroundDB;
 	}
 
-	public void setBackgroundResource(Integer backgroundResource) {
-		this.backgroundResource = backgroundResource;
+	public void setChatBackgroundDB(ChatBackgroundDB chatBackgroundDB) {
+		this.chatBackgroundDB = chatBackgroundDB;
 	}
+
+	public String getCurrentChatbackgroundReceiver() {
+		return currentChatbackgroundReceiver;
+	}
+
+	public void setCurrentChatbackgroundReceiver(String currentChatbackgroundReceiver) {
+		this.currentChatbackgroundReceiver = currentChatbackgroundReceiver;
+	}
+	
 	
 }

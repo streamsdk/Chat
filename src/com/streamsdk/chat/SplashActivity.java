@@ -17,6 +17,7 @@ import com.stream.api.StreamFile;
 import com.stream.api.StreamSession;
 import com.stream.api.StreamUser;
 import com.stream.xmpp.StreamXMPP;
+import com.streamsdk.cache.ChatBackgroundDB;
 import com.streamsdk.cache.FriendDB;
 import com.streamsdk.cache.InvitationDB;
 import com.streamsdk.cache.MessagingAckDB;
@@ -100,11 +101,14 @@ public class SplashActivity extends Activity{
 		 FriendDB fdb = new FriendDB(this);
 		 InvitationDB idb = new InvitationDB(this);
 		 MessagingAckDB mackdb = new MessagingAckDB(this);
+		 ChatBackgroundDB cdb = new ChatBackgroundDB(this);
+		 ApplicationInstance.getInstance().setChatBackgroundDB(cdb);
 		 ApplicationInstance.getInstance().setMessagingHistoryDB(mdb);
 		 ApplicationInstance.getInstance().setFriendDB(fdb);
 		 ApplicationInstance.getInstance().setInivitationDB(idb);
 		 ApplicationInstance.getInstance().setMessagingCountDB(mcdb);
 		 ApplicationInstance.getInstance().setMessagingAckDB(mackdb);
+		
 	     activity = this;
 		 SharedPreferences settings = getSharedPreferences(ApplicationInstance.USER_INFO, 0);
 		 if (settings != null){

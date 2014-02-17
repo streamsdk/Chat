@@ -24,6 +24,7 @@ import com.stream.api.StreamObject;
 import com.stream.api.StreamSession;
 import com.stream.xmpp.StreamXMPP;
 import com.stream.xmpp.StreamXMPPMessage;
+import com.streamsdk.cache.ChatBackgroundDB;
 import com.streamsdk.cache.FriendDB;
 import com.streamsdk.cache.InvitationDB;
 import com.streamsdk.cache.MessagingAckDB;
@@ -77,6 +78,8 @@ public class XMPPConnectionService extends Service implements NotificationInterf
 		 InvitationDB idb = new InvitationDB(this);
 		 MessagingCountDB mcdb = new MessagingCountDB(this);
 		 MessagingAckDB mackdb = new MessagingAckDB(this);
+		 ChatBackgroundDB cdb = new ChatBackgroundDB(this);
+		 ApplicationInstance.getInstance().setChatBackgroundDB(cdb);
 		 ApplicationInstance.getInstance().setMessagingHistoryDB(mdb);
 		 ApplicationInstance.getInstance().setFriendDB(fdb);
 		 ApplicationInstance.getInstance().setInivitationDB(idb);

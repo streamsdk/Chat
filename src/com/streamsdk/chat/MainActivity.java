@@ -46,6 +46,7 @@ import android.widget.PopupWindow.OnDismissListener;
 import com.stream.api.JsonUtils;
 import com.stream.api.StreamCallback;
 import com.stream.xmpp.StreamXMPP;
+import com.streamsdk.cache.ChatBackgroundDB;
 import com.streamsdk.cache.FriendDB;
 import com.streamsdk.cache.ImageCache;
 import com.streamsdk.cache.InvitationDB;
@@ -103,6 +104,8 @@ public class MainActivity extends Activity implements EditTextEmojSelected, Chat
 		 InvitationDB idb = new InvitationDB(this);
 		 MessagingCountDB mcdb = new MessagingCountDB(this);
 		 MessagingAckDB mackdb = new MessagingAckDB(this);
+		 ChatBackgroundDB cdb = new ChatBackgroundDB(this);
+		 ApplicationInstance.getInstance().setChatBackgroundDB(cdb);
 		 ApplicationInstance.getInstance().setMessagingHistoryDB(mdb);
 		 ApplicationInstance.getInstance().setFriendDB(fdb);
 		 ApplicationInstance.getInstance().setInivitationDB(idb);
@@ -117,9 +120,12 @@ public class MainActivity extends Activity implements EditTextEmojSelected, Chat
 		ApplicationInstance.getInstance().setRefreshUI(this);
 		deleteCountHistory();
 	    dismissMoreOptionPanel();
-	    int backgroundDrawable = ApplicationInstance.getInstance().getBackgroundResource();
-	    if (backgroundDrawable != -1){
-	    	view.setBackgroundResource(backgroundDrawable);
+	    Object objectImageResource = ApplicationInstance.getInstance().getChatBackgroundDB().selectChatBackground(receiver);
+	    ApplicationInstance.getInstance().setCurrentChatbackgroundReceiver(receiver);
+	    if (objectImageResource != null){
+	    	if (objectImageResource instanceof Integer){
+	        	view.setBackgroundResource((Integer)objectImageResource);
+	       }
 	    }
 	}
 	

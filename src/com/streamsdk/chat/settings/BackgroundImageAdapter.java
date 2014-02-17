@@ -13,7 +13,7 @@ import com.streamsdk.chat.ApplicationInstance;
 
 public class BackgroundImageAdapter extends BaseAdapter{
 
-   private int imageCount = 10;
+   private int imageCount = 11;
    private List<Integer> localImages;
    private Activity context;
    
@@ -48,7 +48,8 @@ public class BackgroundImageAdapter extends BaseAdapter{
 		  imageView.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				 if (item instanceof Integer){
-				     ApplicationInstance.getInstance().setBackgroundResource((Integer)item);	 
+					 String userName = ApplicationInstance.getInstance().getCurrentChatbackgroundReceiver();
+				     ApplicationInstance.getInstance().getChatBackgroundDB().updateChatBackground(userName, String.valueOf((Integer)item), "");
 				 }
 				context.finish();
 			}

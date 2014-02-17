@@ -34,6 +34,7 @@ public class ChatBackgroundGrid extends Activity{
 		  localImages.add(R.drawable.b8);
 		  localImages.add(R.drawable.b9);
 		  localImages.add(R.drawable.b12);
+		  localImages.add(R.drawable.b10);
 		  /*localImages.add(R.drawable.b10);
 		  localImages.add(R.drawable.b11);
 		  localImages.add(R.drawable.b12);
