@@ -145,7 +145,7 @@ public class ChatWindowAdapter extends BaseAdapter{
 			   viewHolder.txtMessageSelf.setTextColor(Color.BLACK);
 			   if (im.isDisappear()){
 				   String word = im.isImage() ? "photo" : "video";
-				   viewHolder.txtMessageSelf.setText("I sent you a " + word);
+				   viewHolder.txtMessageSelf.setText("I sent a " + word + " to you");
 				   viewHolder.txtMessageSelf.setTextColor(activity.getResources().getColor(R.color.redLogin));
 			   }
 			
