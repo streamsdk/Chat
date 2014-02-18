@@ -48,7 +48,7 @@
             android:textStyle="bold"
             android:textSize="18sp" />
         
-         <ImageView 
+         <com.streamsdk.chat.VideoIconImageView  
             android:id="@+id/txtImageFriend"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -100,7 +100,7 @@
             android:textStyle="bold"
             android:textSize="18sp" />
         
-        <ImageView 
+        <com.streamsdk.chat.VideoIconImageView 
             android:id="@+id/txtImageSelf"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

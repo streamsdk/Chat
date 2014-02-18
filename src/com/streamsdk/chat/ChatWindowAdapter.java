@@ -69,7 +69,6 @@ public class ChatWindowAdapter extends BaseAdapter{
 	
 	private String dateConvert(long millionSeconds) {
 	        SimpleDateFormat sdf = new SimpleDateFormat("dd MMM, yyyy HH:mm");
-	        long s  = System.currentTimeMillis();
 	        Date resultdate = new Date(millionSeconds);
 	        String str = sdf.format(resultdate);
 	        return str;
@@ -102,8 +101,8 @@ public class ChatWindowAdapter extends BaseAdapter{
 			viewHolder.imgAvatarSelf = (ImageView) v.findViewById(R.id.imgAvatarSelf);
 			viewHolder.bSelfVoicePlay = (Button) v.findViewById(R.id.playSelf);
 			viewHolder.bPlayFriend = (Button)v.findViewById(R.id.playFriend);
-			viewHolder.selfPickImage = (ImageView)v.findViewById(R.id.txtImageSelf); 
-			viewHolder.friendPickImage = (ImageView)v.findViewById(R.id.txtImageFriend);
+			viewHolder.selfPickImage = (VideoIconImageView)v.findViewById(R.id.txtImageSelf); 
+			viewHolder.friendPickImage = (VideoIconImageView)v.findViewById(R.id.txtImageFriend);
 		}
 		else
 		{
@@ -151,6 +150,12 @@ public class ChatWindowAdapter extends BaseAdapter{
 			   }
 			
 		   }else if(im.isImage() || im.isVideo()){
+			   
+			   if (im.isVideo())
+				   viewHolder.selfPickImage.setVideo(true);
+			   else{
+				   viewHolder.selfPickImage.setVideo(false);
+			   }
 			   
 			   viewHolder.txtMessageFriend.setVisibility(View.GONE);
 			   viewHolder.imgAvatarFriend.setVisibility(View.GONE);
@@ -259,6 +264,11 @@ public class ChatWindowAdapter extends BaseAdapter{
 			
 		   }else if (im.isImage() || im.isVideo()){
 			
+			  if (im.isVideo()){
+				  viewHolder.friendPickImage.setVideo(true);
+			  }else{
+				  viewHolder.friendPickImage.setVideo(false);
+			  }
 			  viewHolder.txtMessageFriend.setVisibility(View.GONE);
 			  viewHolder.bSelfVoicePlay.setVisibility(View.GONE);
 			  viewHolder.bPlayFriend.setVisibility(View.GONE);
@@ -321,8 +331,8 @@ public class ChatWindowAdapter extends BaseAdapter{
 		ImageView imgAvatarFriend;
 		TextView txtMessageSelf;
 		ImageView imgAvatarSelf;
-		ImageView friendPickImage;
-		ImageView selfPickImage;
+		VideoIconImageView  friendPickImage;
+		VideoIconImageView selfPickImage;
 		Button bSelfVoicePlay;
 		Button bPlayFriend;
 	}
