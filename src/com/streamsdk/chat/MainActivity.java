@@ -45,6 +45,7 @@ import android.widget.PopupWindow.OnDismissListener;
 
 import com.stream.api.JsonUtils;
 import com.stream.api.StreamCallback;
+import com.stream.xmpp.PacketSendCallback;
 import com.stream.xmpp.StreamXMPP;
 import com.streamsdk.cache.ChatBackgroundDB;
 import com.streamsdk.cache.FriendDB;
@@ -428,11 +429,21 @@ public class MainActivity extends Activity implements EditTextEmojSelected, Chat
 		File file = new File(path);
 		Map<String, Object> metaData = new HashMap<String, Object>();
 		String type = im.isImage() ? "photo" : "video";
-		final byte bytes[] = ImageCache.getInstance().getImageBytes(path);
-		StreamXMPP.getInstance().sendFile(new StreamCallback() {
+		final byte bytes[] = !im.isDisappear() ? ImageCache.getInstance().getImageBytes(path) : null;
+		StreamXMPP.getInstance().sendFile(new PacketSendCallback() {
+			public void sendData(Object object) {
+				String tid = (String)object;
+				if (tid != null && !tid.equals("")){
+					im.setThumbNailId(tid);
+				  try{
+					ApplicationInstance.getInstance().getMessagingAckDB().updateVideoImageTid(im, tid);
+				  }catch(Throwable t){}
+				}
+			}
+		}, new StreamCallback() {
 			public void result(boolean succeed, String errorMessage) {
 				if (succeed){
-					ApplicationInstance.getInstance().getMessagingAckDB().insertVideoImage(im, errorMessage);
+					ApplicationInstance.getInstance().getMessagingAckDB().insertVideoImage(im, errorMessage);	
 				}
 			}
 		}, null, file, metaData, ApplicationInstance.APPID + receiver, ApplicationInstance.getInstance().getLoginName(), type, timeout, chatTime, bytes);
@@ -637,7 +648,7 @@ public class MainActivity extends Activity implements EditTextEmojSelected, Chat
 		updateData();
 		currentRecordingFileName = "";
 	
-         StreamXMPP.getInstance().sendFile(new StreamCallback() {
+         StreamXMPP.getInstance().sendFile(null, new StreamCallback() {
 			     public void result(boolean succeed, String errorMessage) {
 					if (succeed) {
 						ApplicationInstance.getInstance().getMessagingHistoryDB().insert(voiceIm);

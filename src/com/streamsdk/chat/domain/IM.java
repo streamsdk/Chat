@@ -27,6 +27,7 @@ public class IM {
 	private String requestStatus = "";
 	private String requestType = "";
 	private String primaryKey = "";
+	private String thumbNailId;
 	
 	public String getTo() {
 		return to;
@@ -170,7 +171,13 @@ public class IM {
 	public void setPrimaryKey(String primaryKey) {
 		this.primaryKey = primaryKey;
 	}
-	
-	
+
+	public String getThumbNailId() {
+		return thumbNailId;
+	}
+
+	public void setThumbNailId(String thumbNailId) {
+		this.thumbNailId = thumbNailId;
+	}
 	
 }

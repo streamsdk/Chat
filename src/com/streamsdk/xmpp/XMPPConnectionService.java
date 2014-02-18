@@ -109,6 +109,10 @@ public class XMPPConnectionService extends Service implements NotificationInterf
 			List<StreamXMPPMessage> messages = ApplicationInstance.getInstance().getMessagingAckDB().getIMAcks();
 			for (final StreamXMPPMessage message : messages){
 				String chatTime = message.getId();
+				if (chatTime == null){
+					Log.i("vatal error", "chat time null");
+					continue;
+				}
 				long messgeSentTime = Long.parseLong(chatTime);
 				long now = System.currentTimeMillis();
 				long diff = (now - messgeSentTime)/(1000 * 60);
@@ -124,7 +128,7 @@ public class XMPPConnectionService extends Service implements NotificationInterf
 					}
 					if (message.getType().equals("photo") || message.getType().equals("video")){
 					   packet.setProperty("streamsdk.filetransfer", message.getFileId());
-					   messageBody = JsonUtils.buildImageVideoMessaing(message.getFileId(), message.getType(), message.getFrom(), message.getDuration(), Long.parseLong(message.getId()), "");
+					   messageBody = JsonUtils.buildImageVideoMessaing(message.getFileId(), message.getType(), message.getFrom(), message.getDuration(), Long.parseLong(message.getId()), message.getThumbnailId());
 					}
 						
 					packet.setTo(ApplicationInstance.APPID + message.getTo() + ApplicationInstance.HOST_PREFIX);
@@ -143,7 +147,7 @@ public class XMPPConnectionService extends Service implements NotificationInterf
 						messageBody = JsonUtils.buildVoiceMessaging(message.getDuration(), message.getFileId(), message.getFrom(), Long.parseLong(message.getId()));	
 					}
 					if (message.getType().equals("photo") || message.getType().equals("video")){
-					   messageBody = JsonUtils.buildImageVideoMessaing(message.getFileId(), message.getType(), message.getFrom(), message.getDuration(), Long.parseLong(message.getId()), "");
+					   messageBody = JsonUtils.buildImageVideoMessaing(message.getFileId(), message.getType(), message.getFrom(), message.getDuration(), Long.parseLong(message.getId()), message.getThumbnailId());
 					}
 		            String key = String.valueOf(System.currentTimeMillis());
 		            history.put(key, BODY_PREFIX + messageBody);

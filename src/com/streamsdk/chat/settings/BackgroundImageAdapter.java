@@ -13,7 +13,7 @@ import com.streamsdk.chat.ApplicationInstance;
 
 public class BackgroundImageAdapter extends BaseAdapter{
 
-   private int imageCount = 8;
+   private int imageCount = 11;
    private List<Integer> localImages;
    private Activity context;
    

@@ -6,6 +6,7 @@ import java.util.List;
 import com.stream.xmpp.StreamXMPPMessage;
 import com.streamsdk.chat.domain.IM;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -20,7 +21,7 @@ public class MessagingAckDB {
     private SQLiteDatabase db;
     private SQLiteStatement mInsertStmt;
 	private DatabaseHelper helper;
-    private static final String MINSERT = "insert into mrdb (id, type, fromuser, touser, message, fileid, duration) values (?,?,?,?,?,?,?)";
+    private static final String MINSERT = "insert into mrdb (id, type, fromuser, touser, message, fileid, duration, tid) values (?,?,?,?,?,?,?,?)";
 	
 	
 	public MessagingAckDB(Context context){
@@ -41,6 +42,7 @@ public class MessagingAckDB {
               String message = c.getString(4);
               String fileid = c.getString(5);
               String duration = c.getString(6);
+              String tid = c.getString(7);
               StreamXMPPMessage xmpp = new StreamXMPPMessage();
               xmpp.setId(id);
               xmpp.setType(type);
@@ -49,6 +51,8 @@ public class MessagingAckDB {
               xmpp.setMessage(message);
               xmpp.setFileId(fileid);
               xmpp.setDuration(duration);
+              xmpp.setThumbnailId(tid);
+              
               acks.add(xmpp);
              	
             }while(c.moveToNext());
@@ -83,6 +87,13 @@ public class MessagingAckDB {
 		
 	}
 	
+	public void updateVideoImageTid(IM im, String tid){
+		ContentValues cvs = new ContentValues();
+		cvs.put("tid", tid);
+		int result = db.update("mrdb", cvs, "id=?", new String[]{String.valueOf(im.getChatTime())});
+    	Log.i("update tid result", String.valueOf(result));
+	}
+	
 	public void insertVideoImage(IM im, String fileId){
 		
 		mInsertStmt.bindString(1, String.valueOf(im.getChatTime()));
@@ -91,7 +102,8 @@ public class MessagingAckDB {
 		mInsertStmt.bindString(4, im.getTo());
 		mInsertStmt.bindString(5, "");
 		mInsertStmt.bindString(6, fileId);
-		mInsertStmt.bindString(7, "");
+		mInsertStmt.bindString(7, im.getTimeout());
+		mInsertStmt.bindString(8, "");
 		mInsertStmt.executeInsert();
 		
 	}
@@ -124,7 +136,7 @@ public class MessagingAckDB {
         }
 
         public void onCreate(SQLiteDatabase db) {
-			 db.execSQL("CREATE TABLE mrdb (id TEXT PRIMARY KEY, type TEXT, fromuser TEXT, touser TEXT, message TEXT,fileid TEXT, duration TEXT)");
+			 db.execSQL("CREATE TABLE mrdb (id TEXT PRIMARY KEY, type TEXT, fromuser TEXT, touser TEXT, message TEXT,fileid TEXT, duration TEXT, tid TEXT)");
 		}
 
 		public void onUpgrade(SQLiteDatabase db, int arg1, int arg2) {
