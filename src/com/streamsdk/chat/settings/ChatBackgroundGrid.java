@@ -24,7 +24,16 @@ public class ChatBackgroundGrid extends Activity{
 	  public List<Integer> getLocalImages(){
 	
 		  List<Integer> localImages = new ArrayList<Integer>();
-		  localImages.add(R.drawable.b1);
+		  localImages.add(R.drawable.back1);
+		  localImages.add(R.drawable.back2);
+		  localImages.add(R.drawable.back3);
+		  localImages.add(R.drawable.back4);
+		  localImages.add(R.drawable.back5);
+		  localImages.add(R.drawable.back6);
+		  localImages.add(R.drawable.back7);
+		  localImages.add(R.drawable.back8);
+					  
+		  /*localImages.add(R.drawable.b1);
 		  localImages.add(R.drawable.b2);
 		  localImages.add(R.drawable.b3);
 		  localImages.add(R.drawable.b4);
