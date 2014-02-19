@@ -26,6 +26,17 @@ public class FileCache {
 			
 		return fileCache;
 	}
+	
+	public void deleteAllFiles(){
+		
+		String mFileName = Environment.getExternalStorageDirectory().getAbsolutePath();
+		File hiddenFile = new File(mFileName, COOL_CHAT);
+        String listFiles[] = hiddenFile.list();          		
+		for (String strFile : listFiles){
+			File file = new File(hiddenFile, strFile);
+			file.delete();
+		}
+	}
 	    
 	public File getHiddenOutputFilePath(){
 		Context context = ApplicationInstance.getInstance().getContext();

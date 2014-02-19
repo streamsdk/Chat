@@ -222,11 +222,22 @@ public class MyFriendsActivity extends ListActivity implements RefreshUI{
 		}
 		if (title.equals("Settings")) {
 			Intent intent = new Intent(activity, PreferenceScreen.class);
-			startActivity(intent);
+			startActivityForResult(intent, ApplicationInstance.FINISH_ALL);
 		}
 
 		return super.onOptionsItemSelected(item);
 
+	}
+	
+	protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) { 
+		super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
+		switch(requestCode) {
+		 case  ApplicationInstance.FINISH_ALL:
+		      if(resultCode == RESULT_OK){        		    	  
+		    	  finish();
+		       }
+		       break; 
+		}
 	}
 	
    public boolean onCreateOptionsMenu(Menu menu){

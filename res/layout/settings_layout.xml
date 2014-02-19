@@ -53,5 +53,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         layout="@layout/tc_layout" />
+    
+    <TextView
+        android:id="@+id/logout"  
+        android:layout_width="match_parent"
+        android:layout_height="40dip"
+        android:background="@color/redLogin"
+        android:gravity="center_horizontal"
+        android:paddingLeft="6dip"
+        android:text="Log Out"
+        android:textColor="@color/firstPageTexColor"
+        android:textSize="18sp"
+        android:layout_marginTop="10dp"
+        android:textStyle="bold" />
 
 </LinearLayout>

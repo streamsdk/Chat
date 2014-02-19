@@ -64,7 +64,9 @@ public class SignupActivity extends Activity{
 			public void onClick(View v) {
 			
 				showDialog("Adding you as a new user, please wait...");
-				userName = signupText.getText().toString();
+				String inputUserName = signupText.getText().toString();
+				//TODO: check user names
+				userName = inputUserName.toLowerCase();
 				final String password = passwordText.getText().toString();
 				StreamUser su = new StreamUser();
 			    Map<String, String> metaData = new HashMap<String, String>();

@@ -36,6 +36,11 @@ public class FriendDB {
         helper.close();	
     }
     
+    public void deleteAll(){
+		int result = db.delete(DATABASE_NAME, null, null);
+	 	Log.i("delete all" + DATABASE_NAME, String.valueOf(result));
+	}
+    
     public void insert(String userName, String status){
 	    mInsertStmt.bindString(1, userName);
 	    mInsertStmt.bindString(2, status);

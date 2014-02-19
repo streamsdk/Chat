@@ -27,6 +27,11 @@ public class MessagingCountDB {
   
 	}
 	
+	public void deleteAll(){
+		int result = db.delete(DATABASE_NAME, null, null);
+	 	Log.i("delete all" + DATABASE_NAME, String.valueOf(result));
+	}
+	
 	public Map<String, String> getMessagingCount(String to){
 		
 		Cursor c = db.rawQuery("SELECT * FROM mcdb WHERE toUser=?", new String[] {to});

@@ -24,6 +24,11 @@ public class ChatBackgroundDB {
     	mInsertStmt = db.compileStatement(MINSERT);
 	}
 	
+	public void deleteAll(){
+		int result = db.delete(DATABASE_NAME, null, null);
+	 	Log.i("delete all" + DATABASE_NAME, String.valueOf(result));
+	}
+	
 	public void updateChatBackground(String userName, String resource, String path){		
 		Object backImage = selectChatBackground(userName);
 		if (backImage  != null){

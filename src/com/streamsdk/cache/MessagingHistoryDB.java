@@ -31,6 +31,11 @@ public class MessagingHistoryDB {
     	mInsertStmt = db.compileStatement(MINSERT);
 	}
 	
+	public void deleteAll(){
+		int result = db.delete(DATABASE_NAME, null, null);
+	 	Log.i("delete all" + DATABASE_NAME, String.valueOf(result));
+	}
+	
 	public void close(){
 		helper.close();
 	}

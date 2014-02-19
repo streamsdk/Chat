@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteStatement;
+import android.util.Log;
 
 public class InvitationDB {
 
@@ -26,6 +27,11 @@ public class InvitationDB {
 	
 	public void close(){
 		helper.close();
+	}
+	
+	public void deleteAll(){
+		int result = db.delete(DATABASE_NAME, null, null);
+	 	Log.i("delete all" + DATABASE_NAME, String.valueOf(result));
 	}
 	
 	public void insert(String userName){

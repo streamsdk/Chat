@@ -38,6 +38,7 @@ public class ApplicationInstance {
 	public static String HOST_PREFIX = "@streamsdk.com";
 	public static final String USER_INFO = "MyPrefsFile";
     public static final String PROFILE_IMAGE = "profileImageId";
+    public static final int FINISH_ALL= 1515;
 	
 	
 	private static ApplicationInstance applicationInstance = null;
