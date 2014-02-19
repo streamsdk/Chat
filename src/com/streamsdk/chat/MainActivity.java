@@ -366,6 +366,12 @@ public class MainActivity extends Activity implements EditTextEmojSelected, Chat
 		}
 	}
 	
+	public void removeHistory(){
+		 messages.clear();
+		 updateData();
+		 ApplicationInstance.getInstance().getMessagingHistoryDB().delete(receiver, ApplicationInstance.getInstance().getLoginName());
+	}
+	
    protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) { 
 		super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
 		if (imageReturnedIntent == null && ApplicationInstance.getInstance().getRecordingVideoPath() != null){

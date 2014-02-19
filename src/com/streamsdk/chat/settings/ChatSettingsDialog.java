@@ -1,7 +1,5 @@
 package com.streamsdk.chat.settings;
 
-import com.streamsdk.chat.R;
-
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.DialogFragment;
@@ -12,6 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+
+import com.streamsdk.chat.ApplicationInstance;
+import com.streamsdk.chat.R;
 
 public class ChatSettingsDialog extends DialogFragment{
 	
@@ -33,6 +34,14 @@ public class ChatSettingsDialog extends DialogFragment{
 				  startActivity(intent);
 			}
 		});
+		
+		 Button clearHistory = (Button)view.findViewById(R.id.clearChatHistory);
+		 clearHistory.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+                dismiss();
+				ApplicationInstance.getInstance().getCurrentChatListener().removeHistory();
+		   }
+		 });
 		 
 		return view;
 	}

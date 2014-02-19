@@ -10,4 +10,6 @@ public interface ChatListener {
 	
 	public String getReceiver();
 	
+	public void removeHistory();
+	
 }

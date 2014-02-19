@@ -42,6 +42,27 @@ public class MessagingHistoryDB {
     	Log.i("", String.valueOf(result));
 	}
 	
+	public void delete(String fromUser, String toUser){
+		
+		Cursor c = db.rawQuery("SELECT * FROM mhdb WHERE (fromuser=? AND touser=?) OR (fromuser=? AND touser=?)", new String[] {fromUser, toUser, toUser, fromUser});
+		if  (c!= null && c.moveToFirst()) {
+            do {
+            	  String type = c.getString(2);
+            	  String content = c.getString(3);
+               	  if (!type.equals("text")){
+            		 File file = new File(content); 
+                	 if (file.exists()){
+                         file.delete();
+                	 }	  
+            	  }
+            	 
+            }while (c.moveToNext());
+            c.close();
+		}
+		int result = db.delete("mhdb", "(fromuser=? AND touser=?) OR (fromuser=? AND touser=?)", new String[]{fromUser, toUser, toUser, fromUser});
+	    Log.i("", String.valueOf(result));
+	}
+	
 	public List<IM> getIMHistoryForUser(String fromUser, String toUser){
 		List<IM> history = new ArrayList<IM>();
 		Cursor c = db.rawQuery("SELECT * FROM mhdb WHERE (fromuser=? AND touser=?) OR (fromuser=? AND touser=?)", new String[] {fromUser, toUser, toUser, fromUser});
