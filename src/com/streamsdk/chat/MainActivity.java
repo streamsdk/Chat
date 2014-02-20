@@ -128,6 +128,7 @@ public class MainActivity extends Activity implements EditTextEmojSelected, Chat
 	        	view.setBackgroundResource((Integer)objectImageResource);
 	       }
 	    }
+	    updateData();
 	}
 	
 	@Override

@@ -72,7 +72,7 @@ public class FullScreenImageActivity extends Activity{
 					      MediaStore.Images.Media.insertImage(getContentResolver(), path, "" , "");
 					      Toast.makeText(getApplicationContext(), "saved to photo gallery", Toast.LENGTH_LONG).show();	
 				    } catch (Throwable t) {
-						  Log.i("saving image failed", t.getMessage());	
+						  Log.i("saving image failed", "failed because of out of memory");	
 					}
 				}
 			});

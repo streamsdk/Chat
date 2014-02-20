@@ -1,6 +1,8 @@
 package com.streamsdk.chat.settings;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -56,30 +58,45 @@ public class PreferenceScreen extends Activity{
 		 TextView logout = (TextView)findViewById(R.id.logout);
 		 logout.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View arg0) {
-				SharedPreferences settings = getSharedPreferences(ApplicationInstance.USER_INFO, 0);
-			    SharedPreferences.Editor editor = settings.edit();
-			    editor.remove("username");
-			    editor.remove("password");
-			    editor.commit();
-				FileCache.getInstance().deleteAllFiles();
-				ApplicationInstance.getInstance().getMessagingHistoryDB().deleteAll();
-				ApplicationInstance.getInstance().getFriendDB().deleteAll();
-				ApplicationInstance.getInstance().getChatBackgroundDB().deleteAll();
-				ApplicationInstance.getInstance().getInivitationDB().deleteAll();
-				ApplicationInstance.getInstance().getMessagingCountDB().deleteAll();
-				Intent intent = new Intent(activity, FirstPageActivity.class);
-				startActivity(intent);
-				setResult(RESULT_OK);
-				finish();
-				ApplicationInstance.getInstance().logout();
-				new Thread(new Runnable(){
-					public void run(){
-					   StreamXMPP.getInstance().disconnect();
-					}
-				}).start();
-			}
-		});
-		 
+				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(activity);
+		        alertDialogBuilder
+						.setMessage("All your local data will be removed, are you sure to log out this account?")
+						.setCancelable(false)
+						.setPositiveButton("No",new DialogInterface.OnClickListener() {
+					         public void onClick(DialogInterface dialog,int id) {
+					        	 dialog.cancel();
+							  }
+				         })
+						.setNegativeButton("Log Out",new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog,int id) {
+								dialog.cancel();
+								SharedPreferences settings = getSharedPreferences(ApplicationInstance.USER_INFO, 0);
+							    SharedPreferences.Editor editor = settings.edit();
+							    editor.remove("username");
+							    editor.remove("password");
+							    editor.commit();
+								FileCache.getInstance().deleteAllFiles();
+								ApplicationInstance.getInstance().getMessagingHistoryDB().deleteAll();
+								ApplicationInstance.getInstance().getFriendDB().deleteAll();
+								ApplicationInstance.getInstance().getChatBackgroundDB().deleteAll();
+								ApplicationInstance.getInstance().getInivitationDB().deleteAll();
+								ApplicationInstance.getInstance().getMessagingCountDB().deleteAll();
+								Intent intent = new Intent(activity, FirstPageActivity.class);
+								startActivity(intent);
+								setResult(RESULT_OK);
+								finish();
+								ApplicationInstance.getInstance().logout();
+								new Thread(new Runnable(){
+									public void run(){
+									   StreamXMPP.getInstance().disconnect();
+									}
+								}).start();
+							}
+						});
+						AlertDialog alertDialog = alertDialogBuilder.create();
+						alertDialog.show();
+			  }
+		  });
 	}
 	
 	@Override

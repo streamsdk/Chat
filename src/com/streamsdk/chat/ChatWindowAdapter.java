@@ -144,8 +144,8 @@ public class ChatWindowAdapter extends BaseAdapter{
 			   viewHolder.txtMessageSelf.setText(ssb);
 			   viewHolder.txtMessageSelf.setTextColor(Color.BLACK);
 			   if (im.isDisappear()){
-				   String word = im.isImage() ? "photo" : "video";
-				   viewHolder.txtMessageSelf.setText("I sent a " + word + " to you");
+				   String word = im.isImage() ? "Photo" : "Video";
+				   viewHolder.txtMessageSelf.setText(word + " for you");
 				   viewHolder.txtMessageSelf.setTextColor(activity.getResources().getColor(R.color.redLogin));
 			   }
 			
@@ -231,9 +231,9 @@ public class ChatWindowAdapter extends BaseAdapter{
 			  viewHolder.txtMessageFriend.setText(ssb);
 			  viewHolder.txtMessageFriend.setTextColor(Color.BLACK);
 			  if (im.isDisappear()){
-				  String word = im.isImage() ? "photo" : "video";
-				  String readWord = im.getViewed().equals("NO") ? "Click to view" : "Viewed";
-				  viewHolder.txtMessageFriend.setText("I sent you a " + word + ". " + readWord);
+				  String word = im.isImage() ? "Photo" : "Video";
+				  String readWord = im.getViewed().equals("NO") ? "Click to view" : "Deleted";
+				  viewHolder.txtMessageFriend.setText(word + " for you. " + readWord);
 				  viewHolder.txtMessageFriend.setTextColor(activity.getResources().getColor(R.color.redLogin));
 			  }
 			  viewHolder.txtMessageFriend.setOnClickListener(new View.OnClickListener() {
@@ -247,8 +247,7 @@ public class ChatWindowAdapter extends BaseAdapter{
 				    	  intent.putExtra("path", im.getReceivedFilePath());
 				    	  intent.putExtra("duration", im.getTimeout());
 				    	  activity.startActivity(intent);
-				    	  notifyDataSetChanged();
-			          }
+				      }
 			          if (im.isVideo()){
 			        	  ((IM)getItem(postion)).setViewed("YES");
 			        	  ApplicationInstance.getInstance().getMessagingHistoryDB().updateViewStatus(String.valueOf(im.getChatTime()));
@@ -256,8 +255,7 @@ public class ChatWindowAdapter extends BaseAdapter{
 				    	  intent.putExtra("path", im.getReceivedFilePath());
 				    	  intent.putExtra("duration", im.getTimeout());
 				    	  activity.startActivity(intent);
-				    	  notifyDataSetChanged();
-					  }
+				 	  }
 				    }
 				  }
 			  });
