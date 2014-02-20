@@ -42,13 +42,14 @@ public class XMPPConnectionService extends Service implements NotificationInterf
 	private static boolean started = false;
 	public static final String HISTORY = "messaginghistory";
 	public static final String BODY_PREFIX = "message.body.";
+	private String userName;
+	private String password;
 	
 	public IBinder onBind(Intent arg0) {
 		return null;
 	}
 	
 	public int onStartCommand(Intent intent, int flags, int startId) {
-		
 		if (!started){
 			  timer.schedule(new  ReconnectXMPPService(), 5000, 15000);
 			  timer.schedule(new StatusSendService(), 30000, 1000 * 60 * 2);
@@ -95,19 +96,20 @@ public class XMPPConnectionService extends Service implements NotificationInterf
 		}
 		
 		public void run(){
-			MessageHistoryHandler mhh = new MessageHistoryHandler(ApplicationInstance.getInstance().getLoginName(), getApplicationContext());
-			mhh.setNotificationInterface(notificationInterface);
-			mhh.run();
-			
+		  if (loggedIn()){
+			 MessageHistoryHandler mhh = new MessageHistoryHandler(ApplicationInstance.getInstance().getLoginName(), getApplicationContext());
+			 mhh.setNotificationInterface(notificationInterface);
+			 mhh.run();
+		  }
 		}
 	}
 	
 	private class ResendIMService extends TimerTask{
 		
 		public void run(){
-			
-			List<StreamXMPPMessage> messages = ApplicationInstance.getInstance().getMessagingAckDB().getIMAcks();
-			for (final StreamXMPPMessage message : messages){
+		  if (loggedIn()){
+			 List<StreamXMPPMessage> messages = ApplicationInstance.getInstance().getMessagingAckDB().getIMAcks();
+			 for (final StreamXMPPMessage message : messages){
 				String chatTime = message.getId();
 				if (chatTime == null){
 					Log.i("vatal error", "chat time null");
@@ -161,8 +163,8 @@ public class XMPPConnectionService extends Service implements NotificationInterf
 					});
 					
 				}
-				
-			}			
+			 }
+		  }
 		}		
 	}
 	
@@ -171,14 +173,14 @@ public class XMPPConnectionService extends Service implements NotificationInterf
 		
 	  public void run(){
 			
-		  Log.i("xmpp service", "send status");
-		  try{	
-		
-		     Message status = new Message();
-		     status.setTo(ApplicationInstance.APPID + "status" + ApplicationInstance.HOST_PREFIX);
-		     status.setBody(ApplicationInstance.APPID  + ApplicationInstance.getInstance().getLoginName() + ApplicationInstance.HOST_PREFIX);
-		     StreamXMPP.getInstance().sendPacket(status);
-		  
+		   Log.i("xmpp service", "send status");
+		   try{	
+		   if (loggedIn()){
+		      Message status = new Message();
+		      status.setTo(ApplicationInstance.APPID + "status" + ApplicationInstance.HOST_PREFIX);
+		      status.setBody(ApplicationInstance.APPID  + ApplicationInstance.getInstance().getLoginName() + ApplicationInstance.HOST_PREFIX);
+		      StreamXMPP.getInstance().sendPacket(status);
+		    }
 		  }catch(Throwable t){
 			 Log.i("", "no connection send status"); 
 		  }
@@ -186,7 +188,24 @@ public class XMPPConnectionService extends Service implements NotificationInterf
 		
 	}
 	
-	
+	private boolean loggedIn(){
+		
+		SharedPreferences settings = getSharedPreferences(ApplicationInstance.USER_INFO, 0);
+		if (settings != null) {
+			userName = (String) settings.getString("username", "");
+			password = (String) settings.getString("password", "");
+		} else {
+			userName = null;
+			password = null;
+		}
+		
+		if (userName != null && password != null && !userName.equals("") && !password.equals("")){
+			return true;
+		}
+		Log.i("logged out", "logged out");
+		return false;
+		
+	}
 	
 	private class ReconnectXMPPService extends TimerTask {
 		
@@ -208,33 +227,25 @@ public class XMPPConnectionService extends Service implements NotificationInterf
 			
 			if (!StreamXMPP.getInstance().isConnected() || !connected){
 				Log.i("xmpp service", "check connection");
-				boolean auth = StreamSession.authenticate(ApplicationInstance.APPID, ApplicationInstance.cKey,ApplicationInstance.sKey, null);
-			    if (auth) {
-				 	Log.i("xmpp service", "reconnect");
-					SharedPreferences settings = getSharedPreferences(ApplicationInstance.USER_INFO, 0);
-					final String userName;
-					final String password;
-					if (settings != null) {
-						userName = (String) settings.getString("username", "");
-						password = (String) settings.getString("password", "");
-					} else {
-						userName = null;
-						password = null;
-					}
-					try {
+			   if (loggedIn()){
+				  boolean auth = StreamSession.authenticate(ApplicationInstance.APPID, ApplicationInstance.cKey,ApplicationInstance.sKey, getApplicationContext());
+			      if (auth) {
+				 	 Log.i("xmpp service", "reconnect");
+					
+					 try {
+						StreamXMPP.getInstance().disconnect(); 
 						StreamXMPP.getInstance().login(ApplicationInstance.APPID + userName, password);
 						ApplicationInstance.getInstance().setReceiveStatusUpdatedTime(System.currentTimeMillis());
-						ApplicationInstance.getInstance().setCheckConnection(true);
 						ApplicationInstance.getInstance().setLoginName(userName);
 						ApplicationInstance.getInstance().setPassword(password);
 						ApplicationXMPPListener.getInstance().addListenerForAllUsers();
 						ApplicationXMPPListener.getInstance().addFileReceiveListener();
 			
-					} catch (XMPPException e) {
+					 } catch (XMPPException e) {
 						Log.i("xmpp service", e.getMessage());
-					}
-				
-			     }
+					 }
+				  }
+			   }
 		   }
 		}
 	}

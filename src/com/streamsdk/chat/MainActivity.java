@@ -69,7 +69,7 @@ public class MainActivity extends Activity implements EditTextEmojSelected, Chat
 	
     private boolean speak = true;
 	ChatWindowAdapter adapter;
-	List<IM> messages;
+	List<IM> messages = new ArrayList<IM>();;
 	ListView view;
 	private MediaRecorder mRecorder = null;
 	private String currentRecordingFileName = "";
@@ -153,7 +153,7 @@ public class MainActivity extends Activity implements EditTextEmojSelected, Chat
 	              dismissMoreOptionPanel();
 			}
 		});
-		messages = new ArrayList<IM>();
+		
 		adapter = new ChatWindowAdapter(messages, this, metrics);
 		view.setAdapter(adapter);
 		popUpView = getLayoutInflater().inflate(R.layout.emoticons_popup, null);

@@ -1,6 +1,5 @@
 package com.streamsdk.chat;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -8,7 +7,6 @@ import java.util.Set;
 
 import android.app.Activity;
 import android.content.Context;
-import android.os.Environment;
 import android.os.Handler;
 
 import com.streamsdk.cache.ChatBackgroundDB;
@@ -40,47 +38,49 @@ public class ApplicationInstance {
     public static final String PROFILE_IMAGE = "profileImageId";
     public static final int FINISH_ALL= 1515;
 	
-	
 	private static ApplicationInstance applicationInstance = null;
 	private ChatListener chatListener =  null;
-	private MessagingHistoryDB messagingHistoryDB;
-	private FriendDB friendDB;
-	private InvitationDB inivitationDB; 
 	private Map<String, Handler> handlers = null;
-	private String loginName = "jacky";
+	private String loginName = "";
 	private String password = "";
-	private long receivedMessageLastTime = 0;
 	private boolean visiable = false;
 	private Context context;
 	private Activity firstPageActivity;
 	private String recordingVideoPath;
 	private String photoTakenPath;
-	private boolean checkConnection = true;
+	
 	private MessagingCountDB messagingCountDB;
 	private MessagingAckDB messagingAckDB;
+	private ChatBackgroundDB chatBackgroundDB;
+	private MessagingHistoryDB messagingHistoryDB;
+	private FriendDB friendDB;
+	private InvitationDB inivitationDB; 
+	
 	private RefreshUI refreshUI;
 	private int photoTimeout = -1;
 	private Map<String, Map<String, String>> friendUserMetadata;
 	private Set<String> notificationIds = new HashSet<String>();
 	private long receiveStatusUpdatedTime = System.currentTimeMillis();
-	private ChatBackgroundDB chatBackgroundDB;
 	private String currentChatbackgroundReceiver;
 	
-	private static void createDic(){
-		 String path= Environment.getExternalStorageDirectory().getAbsolutePath().toString();
-		 File dicFile = new File(path, "voicetalk");
-		 if (!dicFile.exists())
-             dicFile.mkdir();		 
-	}
 	
 	public static ApplicationInstance getInstance(){
 		
 		if (applicationInstance == null){
 			applicationInstance = new ApplicationInstance();
-			createDic();
 			return applicationInstance;
 		}
 		return applicationInstance;
+	}
+	
+	public void logout(){
+		loginName = "";
+		password = "";
+		visiable = false;
+		context = null;
+	    firstPageActivity = null;
+		recordingVideoPath = null;
+		photoTakenPath = null;
 	}
 	
 	public synchronized void updateFriendMetadata(String id, Map<String, String> data){
@@ -157,14 +157,6 @@ public class ApplicationInstance {
 		return chatListener;
 	}
 
-	public long getReceivedMessageLastTime() {
-		return receivedMessageLastTime;
-	}
-
-	public void setReceivedMessageLastTime(long receivedMessageLastTime) {
-		this.receivedMessageLastTime = receivedMessageLastTime;
-	}
-
 	public String getPassword() {
 		return password;
 	}
@@ -188,14 +180,6 @@ public class ApplicationInstance {
 
 	public void setFirstPageActivity(Activity firstPageActivity) {
 		this.firstPageActivity = firstPageActivity;
-	}
-
-	public boolean isCheckConnection() {
-		return checkConnection;
-	}
-
-	public void setCheckConnection(boolean checkConnection) {
-		this.checkConnection = checkConnection;
 	}
 
 	public String getRecordingVideoPath() {

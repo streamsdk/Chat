@@ -54,7 +54,6 @@ public class ApplicationXMPPListener {
 		
 		StreamXMPP.getInstance().setPacketListenerForAll(new PacketListener() {
 			public void processPacket(Packet packet) {
-				ApplicationInstance.getInstance().setReceivedMessageLastTime(System.currentTimeMillis());
 				Message message = (Message) packet;
 				if (message.getBody().equals(ApplicationInstance.APPID + ApplicationInstance.getInstance().getLoginName() + ApplicationInstance.HOST_PREFIX)){
 					Log.i("returned", "returned");
@@ -123,7 +122,6 @@ public class ApplicationXMPPListener {
 		
 		StreamXMPP.getInstance().addFileReceiveListener(new FileReceiveCallback() {
 			 public void receiveFile(StreamFile streamFile, String body) {
-					   ApplicationInstance.getInstance().setReceivedMessageLastTime(System.currentTimeMillis());
 					   IM im =  new IM();
 					   StreamXMPPMessage xmppMessage = JsonUtils.parseMediaMessaging(body);
 					   String type = xmppMessage.getType();

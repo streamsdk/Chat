@@ -54,7 +54,6 @@ public class SplashActivity extends Activity{
 							try {
 							  if (!StreamXMPP.getInstance().isConnected()){	
 								 StreamXMPP.getInstance().login(ApplicationInstance.APPID + userName, password);
-								 ApplicationInstance.getInstance().setCheckConnection(true);
 								 ApplicationInstance.getInstance().setLoginName(userName);
 								 ApplicationInstance.getInstance().setPassword(password);
 								 ApplicationXMPPListener.getInstance().addListenerForAllUsers();

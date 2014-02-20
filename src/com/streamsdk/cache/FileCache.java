@@ -6,11 +6,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import android.content.Context;
 import android.os.Environment;
 import android.util.Log;
-
-import com.streamsdk.chat.ApplicationInstance;
 
 public class FileCache {
 
@@ -37,16 +34,6 @@ public class FileCache {
 			file.delete();
 		}
 	}
-	    
-	public File getHiddenOutputFilePath(){
-		Context context = ApplicationInstance.getInstance().getContext();
-		File hiddenFile = new File(context.getFilesDir(), COOL_CHAT);
-		if (!hiddenFile.exists()){
-			hiddenFile.mkdir();
-		    Log.i("stream sdk hidden file created", hiddenFile.getAbsolutePath());
-		}
-		return hiddenFile;
-	}
 	 	 
 	public File getOutputFilePath(){
 		String mFileName = Environment.getExternalStorageDirectory().getAbsolutePath();
@@ -56,7 +43,6 @@ public class FileCache {
 		    Log.i("stream sdk hidden file created", hiddenFile.getAbsolutePath());
 		}
 		return hiddenFile;
-		//return getHiddenOutputFilePath();
 	}
 	
 	public boolean generateProfileImagePathIfDoesNotExists(String id){

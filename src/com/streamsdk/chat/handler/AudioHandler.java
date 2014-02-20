@@ -27,11 +27,6 @@ public class AudioHandler {
 	}
 	
 	public static File getOutputFilePath(){
-		/*String mFileName = Environment.getExternalStorageDirectory().getAbsolutePath();
-		File file = new File(mFileName, "voicetalk");
-		if (!file.exists())
-			file.mkdir();
-		return file;*/
 		return FileCache.getInstance().getOutputFilePath();
 	}
 	

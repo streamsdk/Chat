@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.stream.api.StreamCallback;
 import com.stream.api.StreamFile;
 import com.stream.api.StreamUser;
+import com.stream.xmpp.StreamXMPP;
 import com.streamsdk.cache.FileCache;
 import com.streamsdk.cache.ImageCache;
 import com.streamsdk.chat.ApplicationInstance;
@@ -70,6 +71,12 @@ public class PreferenceScreen extends Activity{
 				startActivity(intent);
 				setResult(RESULT_OK);
 				finish();
+				ApplicationInstance.getInstance().logout();
+				new Thread(new Runnable(){
+					public void run(){
+					   StreamXMPP.getInstance().disconnect();
+					}
+				}).start();
 			}
 		});
 		 
