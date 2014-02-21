@@ -45,7 +45,6 @@ public class SplashActivity extends Activity{
 	
 	public void connect(){
 		
-		EmojiParser.getInstance(this).initiMap(this);
 	     StreamSession.authenticate(ApplicationInstance.APPID, ApplicationInstance.cKey, ApplicationInstance.sKey, new StreamCallback() {
 				public void result(boolean succeed, String errorMessage) {
 					if (succeed){

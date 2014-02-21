@@ -38,11 +38,13 @@ public class VideoIconImageView extends ImageView{
            bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.video1);
            ImageCache.getInstance().putNew("videoicon", bitmap);   	
         }        	
-        int w = getWidth();
+        int w = getWidth(); 
         int h = getHeight();
-        if (video == true)
-            canvas.drawBitmap(bitmap , w - 100 , h - 85 , null);
-  
+        int bw  = bitmap.getWidth();
+        int bh = bitmap.getHeight();
+        if (video == true){
+            canvas.drawBitmap(bitmap , w - 2*bw, h - 2*bh , null);
+       }
     }
 
 	public boolean isVideo() {

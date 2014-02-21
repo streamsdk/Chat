@@ -10,7 +10,7 @@
        android:layout_height="wrap_content"
        android:text="Invite By SMS"
        android:textSize="18sp"
-       android:background="@android:color/background_light"    
+       android:background="@android:color/white"    
        android:textColor="@android:color/darker_gray"
        android:layout_gravity="center_horizontal"
        android:layout_marginTop="10dp"/>
@@ -20,7 +20,7 @@
        android:layout_height="wrap_content"
        android:text="Invite By Email"
        android:textSize="18sp"
-       android:background="@android:color/background_light"    
+       android:background="@android:color/white"    
        android:textColor="@android:color/darker_gray"
         android:layout_gravity="center_horizontal"
        android:layout_marginTop="10dp"

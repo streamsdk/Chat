@@ -2,8 +2,8 @@
     android:id="@+id/firstPageLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/firstpagenew"
-    android:cacheColorHint="#00000000" >
+    android:background="@drawable/splashnew"
+   >
 
     <RelativeLayout
         android:id="@+id/firstPageRel"

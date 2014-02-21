@@ -19,8 +19,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-        android:cacheColorHint="#00000000"
-    android:background="@drawable/backrepeat" >
+     >
 
 	<view class="com.streamsdk.header.PinnedHeaderListView"
         android:id="@android:id/list"
