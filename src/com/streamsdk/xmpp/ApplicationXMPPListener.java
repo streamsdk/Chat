@@ -80,6 +80,10 @@ public class ApplicationXMPPListener {
 					return;
 				}
 				
+				if (xmppMessage.getType().equals("sendRequest")){
+					return;
+				}
+				
 				StreamXMPP.getInstance().sendAck(ApplicationInstance.APPID + xmppMessage.getFrom(), xmppMessage.getId());
 				String parsed = EmojiParser.getInstance(ApplicationInstance.getInstance().getContext()).parseEmoji(xmppMessage.getMessage());
 				IM im = new IM();

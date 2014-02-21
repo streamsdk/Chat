@@ -55,12 +55,13 @@ public class FriendRequestListAdapter extends BaseAdapter{
 	}
 
 	
-	 private String buildFriend(){
+	 private String buildFriend(String friendName){
 	    	
 		JSONObject friendReuqest = new JSONObject();
 		try {
 			friendReuqest.put("type", "friend");
 			friendReuqest.put("username", ApplicationInstance.getInstance().getLoginName());
+			friendReuqest.put("friendname", friendName);
 			friendReuqest.put("id", String.valueOf(System.currentTimeMillis()));
 			return friendReuqest.toString();
 
@@ -125,7 +126,7 @@ public class FriendRequestListAdapter extends BaseAdapter{
 					                            		 ApplicationInstance.getInstance().getFriendDB().update(friendRequest.getFriendName(), "friend");
 					                            	 }
 					                            	 
-					                            	String friendBody = buildFriend();
+					                            	String friendBody = buildFriend(friendRequest.getFriendName());
 					     					        Message packet = new Message();
 					     					        String to = ApplicationInstance.APPID + friendRequest.getFriendName() + ApplicationInstance.HOST_PREFIX;
 					     					        Log.i("request to", to);

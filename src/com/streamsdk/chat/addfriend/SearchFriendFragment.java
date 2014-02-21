@@ -25,12 +25,13 @@ public class SearchFriendFragment extends Fragment{
 
 	private String userName = "";
 	
-    private String buildFriendRequest(){
+    private String buildFriendRequest(String friendname){
     	
     	JSONObject friendReuqest = new JSONObject();
     	try {
 			friendReuqest.put("type", "request");
 		    friendReuqest.put("username", ApplicationInstance.getInstance().getLoginName());
+		    friendReuqest.put("friendname", friendname);
 		    friendReuqest.put("id", String.valueOf(System.currentTimeMillis()));
 	        return friendReuqest.toString();
 	        
@@ -59,7 +60,7 @@ public class SearchFriendFragment extends Fragment{
 					public void result(boolean succeed, String errorMessage) {
 					    if (succeed){
 					    	ApplicationInstance.getInstance().getInivitationDB().insert(userName);
-					        String friendRequest = buildFriendRequest();
+					        String friendRequest = buildFriendRequest(userName);
 					        Message packet = new Message();
 					        String to = ApplicationInstance.APPID + userName + ApplicationInstance.HOST_PREFIX;
 					        Log.i("request to", to);
