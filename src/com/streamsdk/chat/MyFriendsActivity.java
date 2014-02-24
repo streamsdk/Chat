@@ -43,7 +43,6 @@ import com.streamsdk.xmpp.XMPPConnectionService;
 
 public class MyFriendsActivity extends ListActivity implements RefreshUI{
 
-	private RefreshUI ru;
 	private static String [] names = {};
 	
 	static {
@@ -114,7 +113,6 @@ public class MyFriendsActivity extends ListActivity implements RefreshUI{
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
 		activity =  this;
-		ru = this;
 		
 		 FriendDB db = ApplicationInstance.getInstance().getFriendDB();
 		 if (db == null){

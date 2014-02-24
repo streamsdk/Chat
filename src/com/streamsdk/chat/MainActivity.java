@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.jivesoftware.smack.packet.Message;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.app.Activity;
 import android.app.DialogFragment;
@@ -220,6 +222,10 @@ public class MainActivity extends Activity implements EditTextEmojSelected, Chat
 				Message packet = new Message();
 		        packet.setTo(ApplicationInstance.APPID + receiver + ApplicationInstance.HOST_PREFIX);
 		        String packetBody = JsonUtils.buildPlainTextMessage(body, ApplicationInstance.getInstance().getLoginName(), String.valueOf(chatTime));
+		        Map<String, String> metaData = ApplicationInstance.getInstance().getFriendMetadata(receiver);
+		        if (metaData != null && metaData.containsKey(ApplicationInstance.TOEKN)){
+		        	packetBody = addTokenToBody(metaData.get(ApplicationInstance.TOEKN), packetBody);
+		        }
 		        packet.setBody(packetBody);
 		        ApplicationInstance.getInstance().getMessagingAckDB().insertTextMessage(im, body);
 				StreamXMPP.getInstance().sendPacket(packet);
@@ -313,6 +319,18 @@ public class MainActivity extends Activity implements EditTextEmojSelected, Chat
 		}catch(Throwable t){
 			Log.i("", "why null pointer throw here");
 		}
+	}
+	
+	private String addTokenToBody(String token, String json){
+		
+		try {
+			JSONObject jsonWithToken = new JSONObject(json);
+			jsonWithToken.put(ApplicationInstance.TOEKN, token);
+			return jsonWithToken.toString();
+		} catch (JSONException e) {
+	
+		}
+		return json;
 	}
 	
 	private void deleteCountHistory(){
@@ -416,6 +434,8 @@ public class MainActivity extends Activity implements EditTextEmojSelected, Chat
     private void sendVideoIM(final String path){
     	dismissMoreOptionPanel();
     	if (isVideoSizeExceedTheMax(path)){
+    		ApplicationInstance.getInstance().setRecordingVideoPath(null);
+        	ApplicationInstance.getInstance().setPhotoTimeout(-1);
     		return;
     	}
     	final IM im = ImageHandler.buildImageIMMessage(path);
@@ -437,6 +457,8 @@ public class MainActivity extends Activity implements EditTextEmojSelected, Chat
 		Map<String, Object> metaData = new HashMap<String, Object>();
 		String type = im.isImage() ? "photo" : "video";
 		final byte bytes[] = !im.isDisappear() ? ImageCache.getInstance().getImageBytes(path) : null;
+		Map<String, String> usermetaData = ApplicationInstance.getInstance().getFriendMetadata(receiver);
+        final String token = usermetaData != null ? usermetaData.get(ApplicationInstance.TOEKN) : "";
 		StreamXMPP.getInstance().sendFile(new PacketSendCallback() {
 			public void sendData(Object object) {
 				String tid = (String)object;
@@ -453,7 +475,7 @@ public class MainActivity extends Activity implements EditTextEmojSelected, Chat
 					ApplicationInstance.getInstance().getMessagingAckDB().insertVideoImage(im, errorMessage);	
 				}
 			}
-		}, null, file, metaData, ApplicationInstance.APPID + receiver, ApplicationInstance.getInstance().getLoginName(), type, timeout, chatTime, bytes);
+		}, null, file, metaData, ApplicationInstance.APPID + receiver, ApplicationInstance.getInstance().getLoginName(), type, timeout, chatTime, bytes, token);
     }
     
     private void sendVideoIM(Intent intent){
@@ -488,6 +510,9 @@ public class MainActivity extends Activity implements EditTextEmojSelected, Chat
 	    	ApplicationInstance.getInstance().getMessagingHistoryDB().insert(im);
 	     	updateData();
 			byte imageButes[] = ImageCache.getInstance().getImageBytes(path);
+			Map<String, String> usermetaData = ApplicationInstance.getInstance().getFriendMetadata(receiver);
+	        String token = usermetaData != null ? usermetaData.get(ApplicationInstance.TOEKN) : "";
+			
 			if (imageButes != null){
 			    //int len = imageButes.length;
 			    Map<String, Object> metaData = new HashMap<String, Object>();
@@ -498,7 +523,7 @@ public class MainActivity extends Activity implements EditTextEmojSelected, Chat
 					    	ApplicationInstance.getInstance().getMessagingAckDB().insertImageMessage(im, errorMessage);
 					    }
 				    }
-			     }, null, imageButes, metaData, ApplicationInstance.APPID + receiver, ApplicationInstance.getInstance().getLoginName(), type, timeout, chatTime, "");
+			     }, null, imageButes, metaData, ApplicationInstance.APPID + receiver, ApplicationInstance.getInstance().getLoginName(), type, timeout, chatTime, "", token);
 			 }
 		}
     }
@@ -654,15 +679,17 @@ public class MainActivity extends Activity implements EditTextEmojSelected, Chat
 		messages.add(voiceIm);
 		updateData();
 		currentRecordingFileName = "";
-	
-         StreamXMPP.getInstance().sendFile(null, new StreamCallback() {
+		Map<String, String> usermetaData = ApplicationInstance.getInstance().getFriendMetadata(receiver);
+        String token = usermetaData != null ? usermetaData.get(ApplicationInstance.TOEKN) : "";
+		
+        StreamXMPP.getInstance().sendFile(null, new StreamCallback() {
 			     public void result(boolean succeed, String errorMessage) {
 					if (succeed) {
 						ApplicationInstance.getInstance().getMessagingHistoryDB().insert(voiceIm);
 						ApplicationInstance.getInstance().getMessagingAckDB().insertVoiceMessage(voiceIm, errorMessage);
 					}
 			}
-		 }, null, file, metaData, ApplicationInstance.APPID + receiver,  ApplicationInstance.getInstance().getLoginName(), String.valueOf(rp.getTime()/1000), -1, chatTime, null);
+		 }, null, file, metaData, ApplicationInstance.APPID + receiver,  ApplicationInstance.getInstance().getLoginName(), String.valueOf(rp.getTime()/1000), -1, chatTime, null, token);
 	   }
     }
 	
