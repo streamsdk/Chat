@@ -177,7 +177,7 @@ public class XMPPConnectionService extends Service implements NotificationInterf
 		   try{	
 		   if (loggedIn()){
 		      Message status = new Message();
-		      status.setTo(ApplicationInstance.APPID + "status" + ApplicationInstance.HOST_PREFIX);
+		      status.setTo(ApplicationInstance.STATUS_APPID + "status" + ApplicationInstance.HOST_PREFIX);
 		      status.setBody(ApplicationInstance.APPID  + ApplicationInstance.getInstance().getLoginName() + ApplicationInstance.HOST_PREFIX);
 		      StreamXMPP.getInstance().sendPacket(status);
 		    }
