@@ -79,20 +79,31 @@ public class SignupActivity extends Activity{
 			            	ApplicationInstance.getInstance().setLoginName(userName);
 						    ApplicationInstance.getInstance().setPassword(password);
 						    saveUserInfo();
-							//TODO:AUTOMATICALLY ADD FRIENDS
-						    StreamCategoryObject sco = new StreamCategoryObject(userName);
+						    
+							StreamCategoryObject sco = new StreamCategoryObject(userName);
 						    sco.createNewStreamCategory();
+						    
 						    StreamObject so = new StreamObject();
 						    so.setId(userName + ApplicationInstance.messageHistory);
-						    so.createNewStreamObject();
-						    addAsFriend(userName, "jacky");addAsFriend(userName, "busy");addAsFriend(userName, "apple");addAsFriend(userName, "cormac");addAsFriend(userName, "android");
-						    addAsFriendRequest(userName, "fatboy");addAsFriendRequest(userName, "yang");addAsFriendRequest(userName, "dog");
+						    so.createNewStreamObjectInBackground(new StreamCallback() {
+								public void result(boolean succeed, String errorMessage) {}
+							});
+						    
+						    StreamObject myObject = new StreamObject();
+						    myObject.setId(userName);
+						    myObject.createNewStreamObjectInBackground(new StreamCallback() {
+								public void result(boolean succeed, String errorMessage) {}
+							});
+						   // addAsFriend(userName, "jacky");addAsFriend(userName, "busy");addAsFriend(userName, "apple");addAsFriend(userName, "cormac");addAsFriend(userName, "android");
+						   // addAsFriendRequest(userName, "fatboy");addAsFriendRequest(userName, "yang");addAsFriendRequest(userName, "dog");
+						    
 						    establishXMPP();
 							pd.dismiss();
 							Intent intent = new Intent(activity,MyFriendsActivity.class);
 							startActivity(intent);
 							finish();
 							ApplicationInstance.getInstance().getFirstPageActivity().finish();
+			             
 			             }else{
 			                pd.dismiss();
 						    handler.sendEmptyMessage(0); 
