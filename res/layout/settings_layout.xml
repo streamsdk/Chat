@@ -43,7 +43,7 @@
         android:background="@android:color/background_dark"
         android:gravity="center_horizontal"
         android:paddingLeft="6dip"
-        android:text="SUPPORT"
+        android:text="ABOUT"
         android:textColor="@color/firstPageTexColor"
         android:textSize="18sp"
         android:textStyle="bold" />

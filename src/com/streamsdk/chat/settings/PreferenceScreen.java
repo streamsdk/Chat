@@ -7,9 +7,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -37,6 +39,8 @@ public class PreferenceScreen extends Activity{
 		 getActionBar().setDisplayHomeAsUpEnabled(true);
 		 setContentView(R.layout.settings_layout);
 		 activity = this;
+		 
+		 //basic user info
 		 LinearLayout userInfo = (LinearLayout)findViewById(R.id.preBasicUserinfo);
 		 TextView userView = (TextView)userInfo.findViewById(R.id.preUsername);
 		 userView.setText(ApplicationInstance.getInstance().getLoginName());
@@ -55,6 +59,56 @@ public class PreferenceScreen extends Activity{
 			profileImageView.setImageBitmap(bm);
 		  }
 		 
+		 
+		 //invitation section
+		 LinearLayout invitationLayout = (LinearLayout)findViewById(R.id.inviLayout);
+		 Button inviSMS = (Button)invitationLayout.findViewById(R.id.inviSMSButton);
+		 inviSMS.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				 Intent smsIntent = new Intent(android.content.Intent.ACTION_VIEW);
+				 smsIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			     smsIntent.setType("vnd.android-dir/mms-sms");
+			     String smsBody = "I am using CoolChat now. Download CoolChat from Apple App store or Google Play Store. My user name is " + ApplicationInstance.getInstance().getLoginName() + ". Add me as your friend";
+			     smsIntent.putExtra("sms_body", smsBody);
+			     startActivity(Intent.createChooser(smsIntent, "SMS:"));
+			}
+		 });
+		 
+		 Button inviEmButton = (Button)invitationLayout.findViewById(R.id.inviEmailButton);
+		 inviEmButton.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				String body = "I am using CoolChat now. Download CoolChat from Apple App store or Google Play Store. My user name is " + ApplicationInstance.getInstance().getLoginName() + ". Add me as your friend";
+				String subject =  "Invitation To CoolChat";   
+				String uri="mailto:?subject=" + subject + "&body=" + body;
+				Intent intent = new Intent(Intent.ACTION_VIEW);
+				Uri data = Uri.parse(uri);
+				intent.setData(data);
+				startActivity(intent);
+			}
+		});
+		 
+		
+		 //TC section
+		 LinearLayout tcLayout = (LinearLayout)findViewById(R.id.tcLayout);
+		 Button tsButton = (Button)tcLayout.findViewById(R.id.tsButton);
+		 tsButton.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				Intent intent = new Intent(activity, WebViewActivity.class);
+			    intent.putExtra("url", "http://streamsdk.com/coolchat/termsofuse.html");
+				startActivity(intent);
+			}
+		 });
+		 
+		
+		 Button ppButton = (Button)findViewById(R.id.ppButton);
+		 ppButton.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				Intent intent = new Intent(activity, WebViewActivity.class);
+			    intent.putExtra("url", "http://streamsdk.com/coolchat/privacypolicy.html");
+				startActivity(intent);
+			}
+		 });
+		
 		 TextView logout = (TextView)findViewById(R.id.logout);
 		 logout.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View arg0) {

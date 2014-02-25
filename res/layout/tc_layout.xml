@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tcLayout"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical">
     
    <Button
+       android:id="@+id/tsButton"
        android:layout_width="fill_parent"
        android:layout_height="wrap_content"
        android:text="Terms Of Service"
@@ -16,6 +17,7 @@
        android:layout_marginTop="10dp"/>
    
    <Button
+       android:id="@+id/ppButton"
        android:layout_width="fill_parent"
        android:layout_height="wrap_content"
        android:text="Privacy Policy"
@@ -25,14 +27,5 @@
         android:layout_gravity="center_horizontal"
        android:layout_marginTop="10dp"/>
    
-   <Button
-       android:layout_width="fill_parent"
-       android:layout_height="wrap_content"
-       android:text="About"
-       android:textSize="18sp"
-       android:background="@android:color/background_light"    
-       android:textColor="@android:color/darker_gray"
-        android:layout_gravity="center_horizontal"
-       android:layout_marginTop="10dp"/>
-
+  
 </LinearLayout>
