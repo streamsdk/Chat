@@ -17,9 +17,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.PopupWindow;
 import android.widget.TextView;
-import android.widget.LinearLayout.LayoutParams;
+import android.widget.Toast;
 
 import com.stream.api.StreamCallback;
 import com.stream.api.StreamObject;
@@ -53,7 +54,7 @@ public class AddFriendsFragment extends ListFragment{
 	    	
 	    	return "";
 	}
-	
+     	
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		
@@ -83,8 +84,14 @@ public class AddFriendsFragment extends ListFragment{
 			public boolean handleMessage(android.os.Message message) {
 				Bundle bundle = message.getData();
 				userName = (String)bundle.getString("userName");
-				txtView.setText("Do you want to add "  +  userName + " as your friend?");
-				popupWindow.showAtLocation(v, Gravity.BOTTOM, 0, 0);
+				String notFound = (String)bundle.getString("userNameNotFound");
+				if (!userName.equals("")){
+				   txtView.setText("Do you want to send a friend request to "  +  userName);
+				   popupWindow.showAtLocation(v, Gravity.BOTTOM, 0, 0);
+				}else{
+					if(notFound != null)
+				      Toast.makeText(getActivity().getApplicationContext(), notFound + " is not a registered user", Toast.LENGTH_SHORT).show();
+				}
 				return true;
  			}
 		});

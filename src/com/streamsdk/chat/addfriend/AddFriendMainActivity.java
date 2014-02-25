@@ -7,14 +7,17 @@ import java.util.List;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Message;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.SearchView;
+import android.widget.Toast;
 import android.widget.SearchView.OnQueryTextListener;
 
 import com.stream.api.QueryResultsCallback;
@@ -57,7 +60,6 @@ public class AddFriendMainActivity extends Activity{
 	
 	}
 	
-	
     private void showDialog(String message) {
 		pd = ProgressDialog.show(this, "", message, true, true);
 	}
@@ -85,7 +87,14 @@ public class AddFriendMainActivity extends Activity{
 					    	 data.putString("userName", query);
 					    	 message.setData(data);
 					    	 ApplicationInstance.getInstance().getHandler("search").sendMessage(message);
-					      }
+					      }else{
+					    	 Message message = new Message();
+						     Bundle data = new Bundle();
+						     data.putString("userNameNotFound", query);
+						     data.putString("userName", "");
+						     message.setData(data);
+						     ApplicationInstance.getInstance().getHandler("search").sendMessage(message); 
+						  }
 					}
 				});
 				return false;
