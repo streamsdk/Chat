@@ -43,6 +43,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.Toast;
 import android.widget.PopupWindow.OnDismissListener;
 
 import com.stream.api.JsonUtils;
@@ -436,7 +437,8 @@ public class MainActivity extends Activity implements EditTextEmojSelected, Chat
     	if (isVideoSizeExceedTheMax(path)){
     		ApplicationInstance.getInstance().setRecordingVideoPath(null);
         	ApplicationInstance.getInstance().setPhotoTimeout(-1);
-    		return;
+  	        Toast.makeText(getApplicationContext(), "Exceed the maximum allowed video size 15MB", Toast.LENGTH_LONG).show();
+			return;
     	}
     	final IM im = ImageHandler.buildImageIMMessage(path);
     	int timeout = ApplicationInstance.getInstance().getPhotoTimeout();

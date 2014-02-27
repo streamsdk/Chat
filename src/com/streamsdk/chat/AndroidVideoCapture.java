@@ -121,6 +121,19 @@ public class AndroidVideoCapture extends Activity{
    	
    }
    
+   private void stopRecording(){
+	   recording = false;
+   	   count=0;
+   	   timer.cancel();
+       mediaRecorder.stop();  // stop the recording
+       releaseMediaRecorder(); // release the MediaRecorder object
+       Intent intent = new Intent(getApplicationContext(),VideoFullScreen.class);
+	   intent.putExtra("path", recordingVideoFile.getAbsolutePath());
+	   intent.putExtra("send", "true");
+   	   startActivity(intent);
+       finish();
+   }
+    
     Button.OnClickListener myButtonOnClickListener = new Button.OnClickListener(){
 
         @Override
@@ -128,19 +141,7 @@ public class AndroidVideoCapture extends Activity{
             // TODO Auto-generated method stub
             if(recording){
                 // stop recording and release camera
-            	
-            	recording = false;
-            	count=0;
-            	timer.cancel();
-                mediaRecorder.stop();  // stop the recording
-                releaseMediaRecorder(); // release the MediaRecorder object
-                
-            	Intent intent = new Intent(getApplicationContext(),VideoFullScreen.class);
-	    		intent.putExtra("path", recordingVideoFile.getAbsolutePath());
-	    		intent.putExtra("send", "true");
-		    	startActivity(intent);
-                finish();
-                
+            	stopRecording();
             }else{
                
                 //Release Camera before MediaRecorder start
@@ -242,6 +243,9 @@ public class AndroidVideoCapture extends Activity{
 					timerText.setVisibility(View.VISIBLE);
 					timerText.setText(String.valueOf(count));
 					count++;
+					if (count == 30){
+						stopRecording();
+					}
 				}
 			});
 		}
