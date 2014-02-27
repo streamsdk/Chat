@@ -266,7 +266,7 @@ public class XMPPConnectionService extends Service implements NotificationInterf
 		StreamSession.nMessage = message;
 		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 		PendingIntent pIntent = PendingIntent.getActivity(this, 0, intent, 0);
-		Notification notification = new Notification (R.drawable.appicon, message, System.currentTimeMillis());
+		Notification notification = new Notification (R.drawable.appicon1, message, System.currentTimeMillis());
 		notification.flags = Notification.FLAG_AUTO_CANCEL | Notification.FLAG_ONGOING_EVENT;
 		NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 		notification.defaults = Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE;
