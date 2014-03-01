@@ -94,6 +94,9 @@ public class SignupActivity extends Activity{
 						    myObject.createNewStreamObjectInBackground(new StreamCallback() {
 								public void result(boolean succeed, String errorMessage) {}
 							});
+						    addAsFriend(userName, "coolchat");
+						    addAsFriendRequest(userName, "maria");
+						    
 						   // addAsFriend(userName, "jacky");addAsFriend(userName, "busy");addAsFriend(userName, "apple");addAsFriend(userName, "cormac");addAsFriend(userName, "android");
 						   // addAsFriendRequest(userName, "fatboy");addAsFriendRequest(userName, "yang");addAsFriendRequest(userName, "dog");
 						    

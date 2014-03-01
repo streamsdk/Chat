@@ -19,14 +19,14 @@
                 android:layout_height="35dp"
                 android:layout_weight="0.1"
                 android:layout_marginTop="8dp"
-                android:background="@drawable/microphonefat" />
+                android:background="@drawable/microphonefat150" />
 
             <Button
                 android:id="@+id/speakButton"
                 android:layout_width="0dp"
                 android:layout_height="48dp"
                 android:layout_weight="0.8" 
-                android:text="Press Hold To Speak"
+                android:text="Hold To Talk"
                 android:textSize="17sp"
                 android:visibility="gone" />
 

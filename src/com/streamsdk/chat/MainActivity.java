@@ -172,7 +172,7 @@ public class MainActivity extends Activity implements EditTextEmojSelected, Chat
 		   public void onClick(View v) {
 			   if (isMoreOptionShown){
                    moreOptions.setVisibility(View.VISIBLE);
-                   moreButtons.setImageResource(R.drawable.close);
+                   moreButtons.setImageResource(R.drawable.close128);
                    popupWindow.dismiss();
 			   }
 			   else{
@@ -239,7 +239,7 @@ public class MainActivity extends Activity implements EditTextEmojSelected, Chat
 		change.setOnClickListener(new OnClickListener() {		
 			public void onClick(View arg0) {
 			 	if (speak){
-					change.setBackgroundResource(R.drawable.keyboard512);
+					change.setBackgroundResource(R.drawable.keyboard150);
 					speakButton.setVisibility(View.VISIBLE);
 					moreButtons.setVisibility(View.GONE);
 					button.setVisibility(View.GONE);
@@ -249,7 +249,7 @@ public class MainActivity extends Activity implements EditTextEmojSelected, Chat
 					imm.hideSoftInputFromWindow(messageText.getWindowToken(), 0);
 					popupWindow.dismiss();
 				}else{
-					change.setBackgroundResource(R.drawable.microphonefat);
+					change.setBackgroundResource(R.drawable.microphonefat150);
 				    speakButton.setVisibility(View.GONE);
 				    button.setVisibility(View.VISIBLE);
 					messageText.setVisibility(View.VISIBLE);
