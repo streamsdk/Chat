@@ -41,6 +41,7 @@ public class SplashActivity extends Activity{
 			stf.delete();
 			Log.i("delete file", stf.getId());
 		}
+		// i am testing branch
 	}
 	
 	public void connect(){
