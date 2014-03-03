@@ -153,7 +153,6 @@ public class XMPPConnectionService extends Service implements NotificationInterf
 					}
 		            String key = String.valueOf(System.currentTimeMillis());
 		            history.put(key, BODY_PREFIX + messageBody);
-		            Log.i("send as history", messageBody);
 		            history.updateObjectInBackground(new StreamCallback() {
 						public void result(boolean succeed, String errorMessage) {
 						    if (succeed){
@@ -173,7 +172,6 @@ public class XMPPConnectionService extends Service implements NotificationInterf
 		
 	  public void run(){
 			
-		   Log.i("xmpp service", "send status");
 		   try{	
 		   if (loggedIn()){
 		      Message status = new Message();
@@ -202,7 +200,6 @@ public class XMPPConnectionService extends Service implements NotificationInterf
 		if (userName != null && password != null && !userName.equals("") && !password.equals("")){
 			return true;
 		}
-		Log.i("logged out", "logged out");
 		return false;
 		
 	}
@@ -213,7 +210,6 @@ public class XMPPConnectionService extends Service implements NotificationInterf
 			
 			MessagingAckDB mackdb = ApplicationInstance.getInstance().getMessagingAckDB();
 			if (mackdb == null){
-				Log.i("in reconnect IM service", "db null");
 				reintiDB();
 			}
 			
@@ -222,15 +218,12 @@ public class XMPPConnectionService extends Service implements NotificationInterf
 			long diff = (System.currentTimeMillis() - receivedStatusUpdateLastTime)/(60 * 1000);
 			if (diff > 3){
 				connected = false;
-			    Log.i("lost connection", String.valueOf(diff));
 			}
 			
 			if (!StreamXMPP.getInstance().isConnected() || !connected){
-				Log.i("xmpp service", "check connection");
 			   if (loggedIn()){
 				  boolean auth = StreamSession.authenticate(ApplicationInstance.APPID, ApplicationInstance.cKey,ApplicationInstance.sKey, getApplicationContext());
 			      if (auth) {
-				 	 Log.i("xmpp service", "reconnect");
 					
 					 try {
 						StreamXMPP.getInstance().disconnect(); 
@@ -260,7 +253,6 @@ public class XMPPConnectionService extends Service implements NotificationInterf
 	public void sendNotification(String expandedTitle, String expandedText,
 			String message) {
 		
-		Log.i("In notification message", message);
 		Intent intent = new Intent(this, MyFriendsActivity.class);
 		intent.putExtra("nMessage", message);
 		StreamSession.nMessage = message;
@@ -276,7 +268,6 @@ public class XMPPConnectionService extends Service implements NotificationInterf
                 pIntent);
 		int id = genereateId();
 		
-		Log.i("notify notification message", message);
 		mNotificationManager.notify(id, notification);
 		ApplicationInstance.getInstance().addNotifacaionIds(String.valueOf(id));
 		
