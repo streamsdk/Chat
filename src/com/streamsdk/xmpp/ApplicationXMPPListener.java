@@ -15,6 +15,7 @@ import com.stream.api.StreamFile;
 import com.stream.xmpp.FileReceiveCallback;
 import com.stream.xmpp.StreamXMPP;
 import com.stream.xmpp.StreamXMPPMessage;
+import com.streamsdk.cache.ImageCache;
 import com.streamsdk.chat.ApplicationInstance;
 import com.streamsdk.chat.domain.IM;
 import com.streamsdk.chat.emoji.EmojiParser;
@@ -115,6 +116,7 @@ public class ApplicationXMPPListener {
 					if (ApplicationInstance.getInstance().getRefreshUI() != null){
 						ApplicationInstance.getInstance().getRefreshUI().refresh();
 					}
+					ImageCache.getInstance().removeAll();
 					sendNotifications("New Message", "", im.getFrom() + ": " + xmppMessage.getMessage());
 			   }
 			}
@@ -183,7 +185,7 @@ public class ApplicationXMPPListener {
 							if (ApplicationInstance.getInstance().getRefreshUI() != null){
 								ApplicationInstance.getInstance().getRefreshUI().refresh();
 							}
-							
+							ImageCache.getInstance().removeAll();
 							sendNotifications("New Message", "", im.getFrom() + notificationMessage);
 					   }
 					}

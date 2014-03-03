@@ -100,6 +100,7 @@ public class MainActivity extends Activity implements EditTextEmojSelected, Chat
         super.onPause();
         ApplicationInstance.getInstance().setVisiable(false);
         ApplicationInstance.getInstance().setCurrentChatListener(null);
+        ApplicationInstance.getInstance().setRefreshUI(null);
     }
 	
 	private void reiniDB(){

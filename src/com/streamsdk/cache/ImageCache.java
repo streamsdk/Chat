@@ -2,9 +2,13 @@ package com.streamsdk.cache;
 
 import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import android.graphics.Bitmap;
+import android.os.Environment;
+import android.util.Log;
 
 public class ImageCache {
 
@@ -27,6 +31,23 @@ public class ImageCache {
 	
 	public Bitmap getImage(String id){
 		return images.get(id);
+	}
+	
+	public void removeAll(){
+		
+		String mFileName = Environment.getExternalStorageDirectory().getAbsolutePath();
+		Set<String> keyPath = images.keySet();
+		Set<String> keyToBeRemoved = new HashSet<String>();
+		for (String key : keyPath){
+			if (key.startsWith(mFileName)){
+				keyToBeRemoved.add(key);
+			}
+		}
+		
+		for (String kr : keyToBeRemoved){
+			Log.i("remove path", kr);
+			images.remove(kr);
+		}
 	}
 	
 	public byte[] getImageBytes(String path){
