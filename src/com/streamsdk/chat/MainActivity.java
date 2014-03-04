@@ -43,8 +43,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
-import android.widget.Toast;
 import android.widget.PopupWindow.OnDismissListener;
+import android.widget.Toast;
 
 import com.stream.api.JsonUtils;
 import com.stream.api.StreamCallback;

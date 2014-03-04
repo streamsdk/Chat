@@ -93,6 +93,7 @@ public class ApplicationXMPPListener {
 				im.setTo(ApplicationInstance.getInstance().getLoginName());
 				im.setChatMessage(parsed);
 				im.setChatTime(System.currentTimeMillis());
+				im.setBodyJSON(jsonBody);
 				
 				try{
 				  ApplicationInstance.getInstance().getMessagingHistoryDB().insert(im);
@@ -170,6 +171,7 @@ public class ApplicationXMPPListener {
 						   }
 						   StreamXMPP.getInstance().sendAck(ApplicationInstance.APPID + xmppMessage.getFrom(), xmppMessage.getId());
 					   }
+					   im.setBodyJSON(body);
 					   if (ApplicationInstance.getInstance().getCurrentChatListener() != null && processed){
 						    String receiver = ApplicationInstance.getInstance().getCurrentChatListener().getReceiver();
 						    if (receiver.equals(im.getFrom()))

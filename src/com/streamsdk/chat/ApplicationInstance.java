@@ -15,6 +15,7 @@ import com.streamsdk.cache.InvitationDB;
 import com.streamsdk.cache.MessagingAckDB;
 import com.streamsdk.cache.MessagingCountDB;
 import com.streamsdk.cache.MessagingHistoryDB;
+import com.streamsdk.chat.domain.IM;
 
 public class ApplicationInstance {
 	
@@ -71,6 +72,7 @@ public class ApplicationInstance {
 	private Set<String> notificationIds = new HashSet<String>();
 	private long receiveStatusUpdatedTime = System.currentTimeMillis();
 	private String currentChatbackgroundReceiver;
+	private IM currentEditedIm;
 	
 	
 	public static ApplicationInstance getInstance(){
@@ -270,6 +272,13 @@ public class ApplicationInstance {
 	public void setCurrentChatbackgroundReceiver(String currentChatbackgroundReceiver) {
 		this.currentChatbackgroundReceiver = currentChatbackgroundReceiver;
 	}
-	
+
+	public IM getCurrentEditedIm() {
+		return currentEditedIm;
+	}
+
+	public void setCurrentEditedIm(IM setCurrentEditedIm) {
+		this.currentEditedIm = setCurrentEditedIm;
+	}
 	
 }

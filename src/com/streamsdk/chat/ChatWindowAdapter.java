@@ -14,7 +14,11 @@ import android.media.MediaPlayer;
 import android.text.SpannableStringBuilder;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.ActionMode;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -34,6 +38,7 @@ public class ChatWindowAdapter extends BaseAdapter{
 	Activity activity;
 	MediaPlayer mPlayer;
 	DisplayMetrics metrics;
+	Object mActionMode;
 	
 	public ChatWindowAdapter(List<IM> messages, Activity activity, DisplayMetrics metrics){
 		this.messages = messages;
@@ -147,6 +152,19 @@ public class ChatWindowAdapter extends BaseAdapter{
 				   String word = im.isImage() ? "Photo" : "Video";
 				   viewHolder.txtMessageSelf.setText(word + " for you");
 				   viewHolder.txtMessageSelf.setTextColor(activity.getResources().getColor(R.color.redLogin));
+			   }else{
+				   viewHolder.txtMessageSelf.setOnLongClickListener(new View.OnLongClickListener() {
+					public boolean onLongClick(View view) {
+						if (mActionMode != null) {
+				            return false;
+				        }
+				        mActionMode = activity.startActionMode(mActionModeCallback);
+				        view.setSelected(true);
+				        ApplicationInstance.getInstance().setCurrentEditedIm(im);
+				        return true;
+
+					  }
+				   });
 			   }
 			
 		   }else if(im.isImage() || im.isVideo()){
@@ -180,6 +198,17 @@ public class ChatWindowAdapter extends BaseAdapter{
 					    }
 				    }
 			   });
+			   
+			   viewHolder.selfPickImage.setOnLongClickListener(new View.OnLongClickListener() {
+				   public boolean onLongClick(View view) {
+					   if (mActionMode != null) {
+				            return false;
+				        }
+				        mActionMode = activity.startActionMode(mActionModeMediaCallback);
+				        view.setSelected(true);
+				        return true;
+				   }
+			  });
 			   
 			   RelativeLayout.LayoutParams params =  (android.widget.RelativeLayout.LayoutParams) viewHolder.imgAvatarSelf.getLayoutParams();
 			   params.addRule(RelativeLayout.ALIGN_BOTTOM, viewHolder.selfPickImage.getId());
@@ -334,6 +363,90 @@ public class ChatWindowAdapter extends BaseAdapter{
 		Button bSelfVoicePlay;
 		Button bPlayFriend;
 	}
+	
+	private ActionMode.Callback mActionModeMediaCallback = new ActionMode.Callback() {
+
+	    // Called when the action mode is created; startActionMode() was called
+	    @Override
+	    public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+	        // Inflate a menu resource providing context menu items
+	        MenuInflater inflater = mode.getMenuInflater();
+	        inflater.inflate(R.menu.mediacontext_menu, menu);
+	        return true;
+	    }
+
+	    // Called each time the action mode is shown. Always called after onCreateActionMode, but
+	    // may be called multiple times if the mode is invalidated.
+	    @Override
+	    public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+	        return false; // Return false if nothing is done
+	    }
+
+	    // Called when the user selects a contextual menu item
+	    @Override
+	    public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+	        switch (item.getItemId()) {
+	            case R.id.mediamenu_delete:
+	                mode.finish(); // Action picked, so close the CAB
+	                return true;
+	            case R.id.mediamenu_forward:
+	                mode.finish(); // Action picked, so close the CAB
+	                return true;
+	            default:
+	                return false;
+	        }
+	    }
+
+	    // Called when the user exits the action mode
+	    @Override
+	    public void onDestroyActionMode(ActionMode mode) {
+	    	 mActionMode = null;
+	    }
+	};
+	
+	
+	private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
+
+	    // Called when the action mode is created; startActionMode() was called
+	    @Override
+	    public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+	        // Inflate a menu resource providing context menu items
+	        MenuInflater inflater = mode.getMenuInflater();
+	        inflater.inflate(R.menu.context_menu, menu);
+	        return true;
+	    }
+
+	    // Called each time the action mode is shown. Always called after onCreateActionMode, but
+	    // may be called multiple times if the mode is invalidated.
+	    @Override
+	    public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+	        return false; // Return false if nothing is done
+	    }
+
+	    // Called when the user selects a contextual menu item
+	    @Override
+	    public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+	        switch (item.getItemId()) {
+	            case R.id.menu_copy:
+	                mode.finish(); // Action picked, so close the CAB
+	                return true;
+	            case R.id.menu_delete:
+	                mode.finish(); // Action picked, so close the CAB
+	                return true;
+	            case R.id.menu_forward:
+	                mode.finish(); // Action picked, so close the CAB
+	                return true;
+	            default:
+	                return false;
+	        }
+	    }
+
+	    // Called when the user exits the action mode
+	    @Override
+	    public void onDestroyActionMode(ActionMode mode) {
+	    	 mActionMode = null;
+	    }
+	};
 	
 	
 

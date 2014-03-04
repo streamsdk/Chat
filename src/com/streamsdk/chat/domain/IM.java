@@ -28,7 +28,16 @@ public class IM {
 	private String requestType = "";
 	private String primaryKey = "";
 	private String thumbNailId;
+	private String bodyJSON;
 	
+	public String getBodyJSON() {
+		return bodyJSON;
+	}
+
+	public void setBodyJSON(String bodyJSON) {
+		this.bodyJSON = bodyJSON;
+	}
+
 	public String getTo() {
 		return to;
 	}
@@ -179,5 +188,13 @@ public class IM {
 	public void setThumbNailId(String thumbNailId) {
 		this.thumbNailId = thumbNailId;
 	}
+	
+	public boolean equals(Object obj) {
+        return chatTime == ((IM)obj).getChatTime() && primaryKey.equals(((IM)obj).getPrimaryKey());
+	}
+	
+	public int hashCode(){
+		return String.valueOf(chatTime).hashCode() + primaryKey.hashCode();
+    }
 	
 }
