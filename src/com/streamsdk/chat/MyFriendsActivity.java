@@ -103,10 +103,8 @@ public class MyFriendsActivity extends ListActivity implements RefreshUI{
 			   mNotificationManager.cancel(Integer.parseInt(nid));
 		   }
 	   }
-	  /* if ((!StreamXMPP.getInstance().isConnected())){
-		   new Thread(new ReconnectThread(this)).start();
-	   }*/
-		   
+	 
+	   ImageCache.getInstance().removeAll();
 	   Log.i("", "");	
 	}
 	
