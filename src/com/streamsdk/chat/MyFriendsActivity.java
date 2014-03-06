@@ -35,6 +35,7 @@ import com.streamsdk.cache.MessagingAckDB;
 import com.streamsdk.cache.MessagingCountDB;
 import com.streamsdk.cache.MessagingHistoryDB;
 import com.streamsdk.chat.addfriend.AddFriendMainActivity;
+import com.streamsdk.chat.addfriend.UsersLoadThread;
 import com.streamsdk.chat.handler.MessageHistoryHandler;
 import com.streamsdk.chat.settings.PreferenceScreen;
 import com.streamsdk.header.NamesBaseAdaper;
@@ -130,6 +131,7 @@ public class MyFriendsActivity extends ListActivity implements RefreshUI{
 		
 		new Thread(new MessageHistoryHandler(ApplicationInstance.getInstance().getLoginName(), getApplicationContext())).start();
 		//new Thread(new ConnectionCheck(this)).start();
+		new Thread(new UsersLoadThread()).start();
 		
 		setContentView(R.layout.mainpage_layout);
 	    

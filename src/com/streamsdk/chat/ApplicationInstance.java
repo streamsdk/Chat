@@ -1,7 +1,9 @@
 package com.streamsdk.chat;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -73,7 +75,7 @@ public class ApplicationInstance {
 	private long receiveStatusUpdatedTime = System.currentTimeMillis();
 	private String currentChatbackgroundReceiver;
 	private IM currentEditedIm;
-	
+	private List<Map<String, String>> allUsers = new ArrayList<Map<String, String>>();
 	
 	public static ApplicationInstance getInstance(){
 		
@@ -280,5 +282,14 @@ public class ApplicationInstance {
 	public void setCurrentEditedIm(IM setCurrentEditedIm) {
 		this.currentEditedIm = setCurrentEditedIm;
 	}
+
+	public List<Map<String, String>> getAllUsers() {
+		return allUsers;
+	}
+
+	public void setAllUsers(List<Map<String, String>> allUsers) {
+		this.allUsers = allUsers;
+	}
+	
 	
 }

@@ -7,17 +7,14 @@ import java.util.List;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Message;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.SearchView;
-import android.widget.Toast;
 import android.widget.SearchView.OnQueryTextListener;
 
 import com.stream.api.QueryResultsCallback;
@@ -35,6 +32,7 @@ public class AddFriendMainActivity extends Activity{
 	Tab addTab;
 	Tab searchTab;
 	Tab historyTab;
+	Tab newUsersTab;
 	
 	public void onCreate(Bundle savedInstanceState) {
 	 
@@ -53,10 +51,13 @@ public class AddFriendMainActivity extends Activity{
 			        
 	     historyTab =  getActionBar().newTab().setIcon(R.drawable.invita)
 			        .setTabListener(new AddFriendsTabListener<HistoryFragment>(this, "", HistoryFragment.class));
+	     
+	     newUsersTab = getActionBar().newTab().setText("all").setTabListener(new AddFriendsTabListener<AlluserFragment>(this, "", AlluserFragment.class));
 			        
 	     getActionBar().addTab(addTab);
 		// getActionBar().addTab(searchTab);
 	     getActionBar().addTab(historyTab);
+	     getActionBar().addTab(newUsersTab);
 	
 	}
 	

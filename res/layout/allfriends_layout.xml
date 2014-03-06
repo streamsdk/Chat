@@ -1,0 +1,35 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="horizontal"
+    android:padding="10dip" >
+
+    <ImageView
+        android:id="@+id/allImgAvatar"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:scaleType="centerCrop"
+        android:layout_marginLeft="5dp"
+        android:src="@drawable/yahoo_no_avatar" />
+
+    <TextView
+        android:id="@+id/allTxtFriendName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:text="friend name"
+        android:textSize="23sp"
+        android:textStyle="bold"
+        android:layout_centerVertical="true"        
+        android:layout_toRightOf="@id/allImgAvatar" />
+
+    <ImageView
+        android:id="@+id/allAcceptFriend"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/addfriend" 
+        />
+
+</RelativeLayout>
