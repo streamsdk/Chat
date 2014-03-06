@@ -12,4 +12,6 @@ public interface ChatListener {
 	
 	public void removeHistory();
 	
+	public void removeRecord(String chatTime);
+	
 }

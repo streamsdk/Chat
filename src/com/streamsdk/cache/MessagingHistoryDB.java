@@ -47,6 +47,11 @@ public class MessagingHistoryDB {
     	Log.i("", String.valueOf(result));
 	}
 	
+	public void deleteHistory(String chatTime){
+		int result = db.delete(DATABASE_NAME, "chattime=?", new String[]{chatTime});
+	 	Log.i("", String.valueOf(result));
+	}
+	
 	public void delete(String fromUser, String toUser){
 		
 		Cursor c = db.rawQuery("SELECT * FROM mhdb WHERE (fromuser=? AND touser=?) OR (fromuser=? AND touser=?)", new String[] {fromUser, toUser, toUser, fromUser});

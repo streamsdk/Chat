@@ -7,10 +7,4 @@
         android:title="delete"
         android:orderInCategory="0"
         android:showAsAction="always" />
-
-    <item android:id="@+id/menu_forward"
-        android:title="forward"
-        android:orderInCategory="1"
-        android:showAsAction="always" />
-    
 </menu>

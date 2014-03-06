@@ -393,6 +393,10 @@ public class MainActivity extends Activity implements EditTextEmojSelected, Chat
 		 ApplicationInstance.getInstance().getMessagingHistoryDB().delete(receiver, ApplicationInstance.getInstance().getLoginName());
 	}
 	
+	public void removeRecord(String chatTime){
+		 ApplicationInstance.getInstance().getMessagingHistoryDB().deleteHistory(chatTime);
+	}
+	
    protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) { 
 		super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
 		if (imageReturnedIntent == null && ApplicationInstance.getInstance().getRecordingVideoPath() != null){

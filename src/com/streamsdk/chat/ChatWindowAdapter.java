@@ -6,6 +6,8 @@ import java.util.Date;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -155,15 +157,16 @@ public class ChatWindowAdapter extends BaseAdapter{
 			   }else{
 				   viewHolder.txtMessageSelf.setOnLongClickListener(new View.OnLongClickListener() {
 					public boolean onLongClick(View view) {
-						if (mActionMode != null) {
-				            return false;
-				        }
-				        mActionMode = activity.startActionMode(mActionModeCallback);
-				        view.setSelected(true);
-				        ApplicationInstance.getInstance().setCurrentEditedIm(im);
-				        return true;
-
-					  }
+						 if (!im.isImage() && !im.isVideo()){
+						    if (mActionMode != null) {
+				                return false;
+				            }
+				            mActionMode = activity.startActionMode(mActionModeCallback);
+				            view.setSelected(true);
+				            ApplicationInstance.getInstance().setCurrentEditedIm(im);
+				         }
+						return true;
+					 }
 				   });
 			   }
 			
@@ -200,14 +203,16 @@ public class ChatWindowAdapter extends BaseAdapter{
 			   });
 			   
 			   viewHolder.selfPickImage.setOnLongClickListener(new View.OnLongClickListener() {
-				   public boolean onLongClick(View view) {
-					   if (mActionMode != null) {
-				            return false;
-				        }
-				        mActionMode = activity.startActionMode(mActionModeMediaCallback);
-				        view.setSelected(true);
-				        return true;
-				   }
+				@Override
+				public boolean onLongClick(View view) {
+					 if (mActionMode != null) {
+			                return false;
+			            }
+			         mActionMode = activity.startActionMode(mActionModeMediaCallback);
+			         view.setSelected(true);
+			         ApplicationInstance.getInstance().setCurrentEditedIm(im);
+					 return true;
+				}
 			  });
 			   
 			   RelativeLayout.LayoutParams params =  (android.widget.RelativeLayout.LayoutParams) viewHolder.imgAvatarSelf.getLayoutParams();
@@ -264,6 +269,20 @@ public class ChatWindowAdapter extends BaseAdapter{
 				  String readWord = im.getViewed().equals("NO") ? "Click to view" : "Deleted";
 				  viewHolder.txtMessageFriend.setText(word + " for you. " + readWord);
 				  viewHolder.txtMessageFriend.setTextColor(activity.getResources().getColor(R.color.redLogin));
+			  }else{
+				  viewHolder.txtMessageFriend.setOnLongClickListener(new View.OnLongClickListener() {
+						public boolean onLongClick(View view) {
+							 if (!im.isImage() && !im.isVideo()){
+							    if (mActionMode != null) {
+					                return false;
+					            }
+					            mActionMode = activity.startActionMode(mActionModeCallback);
+					            view.setSelected(true);
+					            ApplicationInstance.getInstance().setCurrentEditedIm(im);
+					         }
+							return true;
+						 }
+				   });
 			  }
 			  viewHolder.txtMessageFriend.setOnClickListener(new View.OnClickListener() {
 				public void onClick(View v) {
@@ -387,9 +406,14 @@ public class ChatWindowAdapter extends BaseAdapter{
 	    public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
 	        switch (item.getItemId()) {
 	            case R.id.mediamenu_delete:
-	                mode.finish(); // Action picked, so close the CAB
-	                return true;
-	            case R.id.mediamenu_forward:
+	            	IM im = ApplicationInstance.getInstance().getCurrentEditedIm();
+	            	if (im != null){
+	            		messages.remove(im);
+		                ApplicationInstance.getInstance().getCurrentChatListener().removeRecord(String.valueOf(im.getChatTime()));
+		                notifyDataSetChanged();
+	            	}
+	            	ApplicationInstance.getInstance().setCurrentEditedIm(null);
+	            	mode.finish(); 
 	                mode.finish(); // Action picked, so close the CAB
 	                return true;
 	            default:
@@ -428,13 +452,24 @@ public class ChatWindowAdapter extends BaseAdapter{
 	    public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
 	        switch (item.getItemId()) {
 	            case R.id.menu_copy:
+	            	ClipboardManager clipboard =  (ClipboardManager)activity.getSystemService(Context.CLIPBOARD_SERVICE);
+	            	IM im = ApplicationInstance.getInstance().getCurrentEditedIm();
+		            if (im != null){
+	            	   ClipData clip = ClipData.newPlainText("", im.getChatMessage());
+                       clipboard.setPrimaryClip(clip);
+	            	}
+                    ApplicationInstance.getInstance().setCurrentEditedIm(null);
 	                mode.finish(); // Action picked, so close the CAB
 	                return true;
 	            case R.id.menu_delete:
-	                mode.finish(); // Action picked, so close the CAB
-	                return true;
-	            case R.id.menu_forward:
-	                mode.finish(); // Action picked, so close the CAB
+	            	im = ApplicationInstance.getInstance().getCurrentEditedIm();
+	            	if (im != null){
+	            		messages.remove(im);
+		                ApplicationInstance.getInstance().getCurrentChatListener().removeRecord(String.valueOf(im.getChatTime()));
+		                notifyDataSetChanged();
+	            	}
+	            	ApplicationInstance.getInstance().setCurrentEditedIm(null);
+	            	mode.finish(); // Action picked, so close the CAB
 	                return true;
 	            default:
 	                return false;

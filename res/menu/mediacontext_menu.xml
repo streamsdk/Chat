@@ -3,9 +3,4 @@
         android:title="delete"
         android:orderInCategory="0"
         android:showAsAction="always" />
-
-    <item android:id="@+id/mediamenu_forward"
-        android:title="forward"
-        android:orderInCategory="1"
-        android:showAsAction="always" />    
 </menu>
