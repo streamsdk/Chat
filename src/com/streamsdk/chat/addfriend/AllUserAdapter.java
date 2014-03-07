@@ -1,5 +1,6 @@
 package com.streamsdk.chat.addfriend;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -32,12 +33,32 @@ public class AllUserAdapter extends BaseAdapter{
 
 	private List<Map<String, String>> users;
 	private Activity activity;
-	List<String> history;
+	
 	
 	public AllUserAdapter(Activity ac){
-	     users = ApplicationInstance.getInstance().getAllUsers();
+		 users = new ArrayList<Map<String, String>>();
+		 List<Map<String, String>> tempUsers = ApplicationInstance.getInstance().getAllUsers();
 	     activity = ac;
-	     history = ApplicationInstance.getInstance().getInivitationDB().getInvitations();
+	     List<String> history = ApplicationInstance.getInstance().getInivitationDB().getInvitations();
+	     List<String> names = ApplicationInstance.getInstance().getFriendDB().getFriends();
+	     for (Map<String, String> user : tempUsers){
+	    	 String nId = user.get("name");
+	    	 if (!history.contains(nId) && !names.contains(nId)){
+	    		users.add(user);
+	    	 }
+	     }
+	     
+	}
+	
+	private void removeUser(String name){
+		for (int i=0; i<users.size(); i++){
+			Map<String, String> user = users.get(i);
+			String n = user.get("name");
+			if (name.equals(n)){
+				users.remove(i);
+				break;
+			}
+		}
 	}
 	
 	@Override
@@ -105,10 +126,12 @@ public class AllUserAdapter extends BaseAdapter{
 			public void onClick(View v) {
 				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(activity);
 		        alertDialogBuilder
-				.setMessage("")
+				.setMessage("Would you like to send a friend request to " + userName + " ?")
 				.setCancelable(false)
 				.setPositiveButton("YES", new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog, int which) {
+								 removeUser(userName);
+								 notifyDataSetChanged();
 								 StreamObject requestUser = new StreamObject();
 							     requestUser.setId(ApplicationInstance.getInstance().getLoginName());
 								 requestUser.setToCategoriedObject(userName);
