@@ -1,5 +1,6 @@
 package com.streamsdk.chat;
 
+import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -339,6 +340,19 @@ public class ChatWindowAdapter extends BaseAdapter{
 				}
 			  });
 			  
+			  viewHolder.friendPickImage.setOnLongClickListener(new View.OnLongClickListener() {
+					@Override
+					public boolean onLongClick(View view) {
+						 if (mActionMode != null) {
+				                return false;
+				            }
+				         mActionMode = activity.startActionMode(mActionModeMediaCallback);
+				         view.setSelected(true);
+				         ApplicationInstance.getInstance().setCurrentEditedIm(im);
+						 return true;
+					}
+				  });
+			  
 			  RelativeLayout.LayoutParams params =  (android.widget.RelativeLayout.LayoutParams) viewHolder.imgAvatarFriend.getLayoutParams();
 			  params.addRule(RelativeLayout.ALIGN_BOTTOM, viewHolder.friendPickImage.getId());
 			  params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
@@ -409,6 +423,15 @@ public class ChatWindowAdapter extends BaseAdapter{
 	            	IM im = ApplicationInstance.getInstance().getCurrentEditedIm();
 	            	if (im != null){
 	            		messages.remove(im);
+	            		if (im.isSelf()){
+	            			String path = im.getSelfSendImagePath();
+	            			File file = new File(path);
+	            			file.delete();
+	            		}else{
+	            			String path = im.getReceivedFilePath();
+	            			File file = new File(path);
+	            			file.delete();
+	            		}
 		                ApplicationInstance.getInstance().getCurrentChatListener().removeRecord(String.valueOf(im.getChatTime()));
 		                notifyDataSetChanged();
 	            	}
