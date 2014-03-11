@@ -84,6 +84,11 @@ public class SignupActivity extends Activity{
 			    	handler.sendEmptyMessage(0); 
 			    	return;
 			    }
+				if (userName.contains(" ")){
+					errorMessage = "user name can not contain space";
+				 	handler.sendEmptyMessage(0); 
+			    	return;
+			    }
 				
 				showDialog("Adding you as a new user, please wait...");
 				final String password = passwordText.getText().toString();
