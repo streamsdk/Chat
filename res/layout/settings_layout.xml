@@ -27,7 +27,7 @@
         android:background="@android:color/background_dark"
         android:gravity="center_horizontal"
         android:paddingLeft="6dip"
-        android:text="INIVITE TO ABSOLUTE CHAT"
+        android:text="INIVITE TO COOLCHAT"
         android:textColor="@color/firstPageTexColor"
         android:textSize="18sp"
         android:textStyle="bold" />

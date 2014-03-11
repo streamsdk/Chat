@@ -17,4 +17,5 @@ public class FriendRequest {
 		this.friendName = friendName;
 	}
 	
+	
 }

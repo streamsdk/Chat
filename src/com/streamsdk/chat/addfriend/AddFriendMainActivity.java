@@ -52,13 +52,13 @@ public class AddFriendMainActivity extends Activity{
 	     historyTab =  getActionBar().newTab().setIcon(R.drawable.invita)
 			        .setTabListener(new AddFriendsTabListener<HistoryFragment>(this, "", HistoryFragment.class));
 	     
-	     newUsersTab = getActionBar().newTab().setText("all").setTabListener(new AddFriendsTabListener<AlluserFragment>(this, "", AlluserFragment.class));
+	     newUsersTab = getActionBar().newTab().setIcon(R.drawable.groups).setTabListener(new AddFriendsTabListener<AlluserFragment>(this, "", AlluserFragment.class));
 			        
 	     getActionBar().addTab(addTab);
 		// getActionBar().addTab(searchTab);
-	     getActionBar().addTab(historyTab);
 	     getActionBar().addTab(newUsersTab);
-	
+	     getActionBar().addTab(historyTab);
+		    
 	}
 	
     private void showDialog(String message) {

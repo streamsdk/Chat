@@ -34,6 +34,20 @@ public class SignupActivity extends Activity{
 
 	ProgressDialog pd;
 	String userName;
+	String errorMessage = "";
+	
+	private boolean isUserNameValid(String userName){
+		
+		CharSequence invalidChat = "!*'();:@&=+$,/?%#[].";
+		for (int i=0; i < invalidChat.length(); i++){
+			char c = invalidChat.charAt(i);
+			if (userName.contains(Character.toString(c))){
+				return false;
+			}
+		}
+		return true;
+	}
+	
 	public void onCreate(Bundle savedInstanceState) {
 		
 		super.onCreate(savedInstanceState);
@@ -62,17 +76,23 @@ public class SignupActivity extends Activity{
 		TextView enter = (TextView)ll.findViewById(R.id.signupButtonTextView);
 		enter.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-			
-				showDialog("Adding you as a new user, please wait...");
 				String inputUserName = signupText.getText().toString();
 				//TODO: check user names
 				userName = inputUserName.toLowerCase();
+				if (!isUserNameValid(userName)){
+			    	errorMessage = "user name can not include " + "!*'();:@&=+$,/?%#[].";
+			    	handler.sendEmptyMessage(0); 
+			    	return;
+			    }
+				
+				showDialog("Adding you as a new user, please wait...");
 				final String password = passwordText.getText().toString();
 				StreamUser su = new StreamUser();
 			    Map<String, String> metaData = new HashMap<String, String>();
 			    metaData.put(ApplicationInstance.PROFILE_IMAGE, "");
 			    metaData.put("name", userName);
 			    metaData.put("password", password);
+			    metaData.put("OS", "android");
 				su.signUp(userName, password, metaData, new StreamCallback() {
 					public void result(boolean succeed, String errorMessage) {
 			             if (succeed){
@@ -92,11 +112,13 @@ public class SignupActivity extends Activity{
 						    StreamObject myObject = new StreamObject();
 						    myObject.setId(userName);
 						    myObject.createNewStreamObjectInBackground(new StreamCallback() {
-								public void result(boolean succeed, String errorMessage) {}
+								public void result(boolean succeed, String errorMessage) {
+									if (succeed){
+									   addAsFriend(userName, "coolchat");
+									   addAsFriendRequest(userName, "maria");
+									}
+								}
 							});
-						    addAsFriend(userName, "coolchat");
-						    addAsFriendRequest(userName, "maria");
-						    
 						   // addAsFriend(userName, "jacky");addAsFriend(userName, "busy");addAsFriend(userName, "apple");addAsFriend(userName, "cormac");addAsFriend(userName, "android");
 						   // addAsFriendRequest(userName, "fatboy");addAsFriendRequest(userName, "yang");addAsFriendRequest(userName, "dog");
 						    
@@ -109,6 +131,7 @@ public class SignupActivity extends Activity{
 			             
 			             }else{
 			                pd.dismiss();
+			                errorMessage = userName + " is already a registered user, please change your user name";
 						    handler.sendEmptyMessage(0); 
 			             }
 					}
@@ -209,7 +232,7 @@ public class SignupActivity extends Activity{
 	private void showAlertDialog(){		
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder
-				.setMessage(userName + " is already a registered user, please change your user name")
+				.setMessage(errorMessage)
 				.setCancelable(false)
 				.setNegativeButton("TRY AGAIN",new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog,int id) {

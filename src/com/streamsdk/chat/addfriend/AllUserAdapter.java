@@ -28,6 +28,7 @@ import com.stream.xmpp.StreamXMPP;
 import com.streamsdk.cache.ImageCache;
 import com.streamsdk.chat.ApplicationInstance;
 import com.streamsdk.chat.R;
+import com.streamsdk.chat.domain.FriendRequest;
 
 public class AllUserAdapter extends BaseAdapter{
 
@@ -40,9 +41,15 @@ public class AllUserAdapter extends BaseAdapter{
 		 List<Map<String, String>> tempUsers = ApplicationInstance.getInstance().getAllUsers();
 	     activity = ac;
 	     List<String> history = ApplicationInstance.getInstance().getInivitationDB().getInvitations();
-	     List<String> names = ApplicationInstance.getInstance().getFriendDB().getFriends();
+	     List<FriendRequest> all = ApplicationInstance.getInstance().getFriendDB().getFriendRequestList();
+	     List<String> names = new ArrayList<String>();
+	     for (int i=0; i<all.size(); i++){
+	    	 names.add(all.get(i).getFriendName());
+	     }
+	     
 	     for (Map<String, String> user : tempUsers){
 	    	 String nId = user.get("name");
+	    	 
 	    	 if (!history.contains(nId) && !names.contains(nId)){
 	    		users.add(user);
 	    	 }
@@ -119,7 +126,7 @@ public class AllUserAdapter extends BaseAdapter{
 			viewHolder.allImageAvatar.setImageBitmap(bm);
 		}
 		viewHolder.allTxtFriendName.setText(userName);
-		viewHolder.allBFriendStatus.setImageResource(R.drawable.addfriend);
+		viewHolder.allBFriendStatus.setImageResource(R.drawable.request);
 		v.setTag(viewHolder);
 		
 		viewHolder.allBFriendStatus.setOnClickListener(new View.OnClickListener() {
