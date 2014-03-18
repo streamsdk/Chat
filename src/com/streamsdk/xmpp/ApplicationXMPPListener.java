@@ -73,6 +73,10 @@ public class ApplicationXMPPListener {
 				if (xmppMessage.getType().equals("request")){
 					String requestUserName = xmppMessage.getRequestUsername();
 				    ApplicationInstance.getInstance().getFriendDB().syncUpdate(requestUserName, "request");
+				    ApplicationInstance.getInstance().setShowNotification(true);
+				    if (ApplicationInstance.getInstance().getRefreshUI() != null){
+						ApplicationInstance.getInstance().getRefreshUI().refresh();
+					}
 					return;
 				}
 				if (xmppMessage.getType().equals("friend")){

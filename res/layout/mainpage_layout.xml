@@ -20,7 +20,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
      >
-
+     <TextView
+            android:id="@+id/friendRequestNotifi" 
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/redLogin"
+            android:text="You Got New Friend Requests"
+            android:gravity="center_horizontal"
+            android:textSize="18sp"
+            android:textColor="@android:color/white"
+            android:visibility="gone"/>
+ 
 	<view class="com.streamsdk.header.PinnedHeaderListView"
         android:id="@android:id/list"
         android:layout_width="match_parent"

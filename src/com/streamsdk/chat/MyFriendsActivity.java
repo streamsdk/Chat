@@ -22,6 +22,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.TextView;
 
 import com.stream.api.StreamCallback;
 import com.stream.api.StreamFile;
@@ -53,6 +54,7 @@ public class MyFriendsActivity extends ListActivity implements RefreshUI{
 	//private NamesAdapter mAdapter;
 	private NamesBaseAdaper mAdapter;
 	private Activity activity;
+	private TextView friendRequestNotification;
 	
 	@Override
     public void onPause()
@@ -105,6 +107,7 @@ public class MyFriendsActivity extends ListActivity implements RefreshUI{
 	   }
 	 
 	   ImageCache.getInstance().removeAll();
+	  
 	   Log.i("", "");	
 	}
 	
@@ -136,6 +139,13 @@ public class MyFriendsActivity extends ListActivity implements RefreshUI{
 		setTitle(ApplicationInstance.getInstance().getLoginName());
 	   // mAdapter = new NamesAdapter(this, R.layout.list_item, android.R.id.text1, convertToLowerCase(names)); 
 	    mAdapter = new NamesBaseAdaper(activity, convertToLowerCase(names));
+	    friendRequestNotification = (TextView)findViewById(R.id.friendRequestNotifi);
+	    friendRequestNotification.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				ApplicationInstance.getInstance().setShowNotification(false);
+				friendRequestNotification.setVisibility(View.GONE);
+			}
+		});
 	    
 	    setListAdapter(mAdapter);
 	    setupListView();
@@ -249,9 +259,15 @@ public class MyFriendsActivity extends ListActivity implements RefreshUI{
 		
 		runOnUiThread(new Runnable(){
 			public void run() {
-				mAdapter.notifyDataSetChanged();
-			}
+			  mAdapter.notifyDataSetChanged();
+			  if (ApplicationInstance.getInstance().isShowNotification() && friendRequestNotification!=null){
+				   friendRequestNotification.setVisibility(View.VISIBLE);
+		       }
+		 	}
 		});
+	    if (ApplicationInstance.getInstance().isShowNotification() && friendRequestNotification!=null){
+		    friendRequestNotification.setVisibility(View.VISIBLE);
+		}
 	 }
 	
 	 public void refresh() {
