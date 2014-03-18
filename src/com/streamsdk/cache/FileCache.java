@@ -12,7 +12,7 @@ import android.util.Log;
 public class FileCache {
 
 	private static FileCache fileCache;
-	private static String COOL_CHAT = "coolchat";
+	public static String COOL_CHAT = "coolchat";
 	
 	public static FileCache getInstance(){
 		

@@ -36,7 +36,7 @@ public class UsersLoadThread implements Runnable{
 			Map<String, String> metaData = allUsers.get(i);
 			String fileId = metaData.get(ApplicationInstance.PROFILE_IMAGE);
 			String name = metaData.get("name");
-			if (fileId != null && !fileId.equals("") && !nameSet.contains(name)){
+			if (fileId != null && !fileId.equals("") && !nameSet.contains(name) && name!=null){
 				boolean exists = FileCache.getInstance().generateProfileImagePathIfDoesNotExists(fileId);
 				File profileImageFile;
 				Bitmap bitmap;

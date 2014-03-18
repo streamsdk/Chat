@@ -32,6 +32,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.streamsdk.cache.FileCache;
 import com.streamsdk.cache.ImageCache;
 import com.streamsdk.chat.domain.IM;
 
@@ -426,12 +427,16 @@ public class ChatWindowAdapter extends BaseAdapter{
 	            		messages.remove(im);
 	            		if (im.isSelf()){
 	            			String path = im.getSelfSendImagePath();
-	            			File file = new File(path);
-	            			file.delete();
+	            			if (path.contains(FileCache.COOL_CHAT)){
+	            			   File file = new File(path);
+	            			   file.delete();
+	            			}
 	            		}else{
 	            			String path = im.getReceivedFilePath();
-	            			File file = new File(path);
-	            			file.delete();
+	            			if (path.contains(FileCache.COOL_CHAT)){
+	            			   File file = new File(path);
+	            			   file.delete();
+	            			}
 	            		}
 		                ApplicationInstance.getInstance().getCurrentChatListener().removeRecord(String.valueOf(im.getChatTime()));
 		                notifyDataSetChanged();

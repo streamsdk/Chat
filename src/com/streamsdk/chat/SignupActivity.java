@@ -78,12 +78,19 @@ public class SignupActivity extends Activity{
 			public void onClick(View v) {
 				String inputUserName = signupText.getText().toString();
 				//TODO: check user names
+				if (inputUserName == null || inputUserName.equals("")){
+					errorMessage = "user name can not be empty";
+				 	handler.sendEmptyMessage(0); 
+			    	return;
+			    }
+				
 				userName = inputUserName.toLowerCase();
 				if (!isUserNameValid(userName)){
 			    	errorMessage = "user name can not include " + "!*'();:@&=+$,/?%#[].";
 			    	handler.sendEmptyMessage(0); 
 			    	return;
 			    }
+				
 				if (userName.contains(" ")){
 					errorMessage = "user name can not contain space";
 				 	handler.sendEmptyMessage(0); 

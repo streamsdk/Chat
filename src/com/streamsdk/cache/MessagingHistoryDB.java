@@ -60,10 +60,12 @@ public class MessagingHistoryDB {
             	  String type = c.getString(2);
             	  String content = c.getString(3);
                	  if (!type.equals("text")){
-            		 File file = new File(content); 
-                	 if (file.exists()){
-                         file.delete();
-                	 }	  
+               		 if (content.contains(FileCache.COOL_CHAT)){
+               		    File file = new File(content); 
+                	    if (file.exists()){
+                            file.delete();
+                	     }
+               		 }
             	  }
             	 
             }while (c.moveToNext());
