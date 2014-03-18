@@ -419,6 +419,7 @@ public class ChatWindowAdapter extends BaseAdapter{
 	    @Override
 	    public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
 	        switch (item.getItemId()) {
+	            //hi
 	            case R.id.mediamenu_delete:
 	            	IM im = ApplicationInstance.getInstance().getCurrentEditedIm();
 	            	if (im != null){
