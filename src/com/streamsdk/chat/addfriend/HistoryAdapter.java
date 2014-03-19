@@ -4,6 +4,8 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.streamsdk.cache.ImageCache;
 import com.streamsdk.chat.R;
 
 public class HistoryAdapter extends BaseAdapter{
@@ -47,6 +50,13 @@ public class HistoryAdapter extends BaseAdapter{
 		}else{
 			v = view;
 			viewHolder = (ViewHolder)view.getTag();
+		}
+		Bitmap bitmap = ImageCache.getInstance().getFriendImage(friendName);
+		if (bitmap != null)
+		    viewHolder.imageView.setImageBitmap(bitmap);
+		else{
+			Bitmap bm = BitmapFactory.decodeResource(activity.getResources(), R.drawable.yahoo_no_avatar);
+			viewHolder.imageView.setImageBitmap(bm);
 		}
 		
 		viewHolder.textView.setText(friendName);
