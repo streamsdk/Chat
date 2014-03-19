@@ -49,12 +49,7 @@ public class MessageHistoryHandler implements Runnable{
 				String requestUserName = xmppMessage.getRequestUsername();
 			    try{	
 				    ApplicationInstance.getInstance().getFriendDB().syncUpdate(requestUserName, type);
-				    if (type.equals("request")){
-				        ApplicationInstance.getInstance().setShowNotification(true);
-				        if (ApplicationInstance.getInstance().getRefreshUI() != null)
-							ApplicationInstance.getInstance().getRefreshUI().refresh();
-				    }
-			    }catch(Throwable t){}
+				}catch(Throwable t){}
 			    continue;
 			}
 			if (type.equals("photo")){

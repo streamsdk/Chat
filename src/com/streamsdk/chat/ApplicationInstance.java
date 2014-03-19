@@ -77,7 +77,6 @@ public class ApplicationInstance {
 	private String currentChatbackgroundReceiver;
 	private IM currentEditedIm;
 	private List<Map<String, String>> allUsers = new ArrayList<Map<String, String>>();
-	private boolean showNotification = false;
 	
 	public static ApplicationInstance getInstance(){
 		
@@ -291,14 +290,6 @@ public class ApplicationInstance {
 
 	public void setAllUsers(List<Map<String, String>> allUsers) {
 		this.allUsers = allUsers;
-	}
-
-	public boolean isShowNotification() {
-		return showNotification;
-	}
-
-	public void setShowNotification(boolean showNotification) {
-		this.showNotification = showNotification;
 	}
 	
 }

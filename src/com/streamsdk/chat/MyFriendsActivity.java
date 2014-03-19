@@ -142,7 +142,6 @@ public class MyFriendsActivity extends ListActivity implements RefreshUI{
 	    friendRequestNotification = (TextView)findViewById(R.id.friendRequestNotifi);
 	    friendRequestNotification.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				ApplicationInstance.getInstance().setShowNotification(false);
 				friendRequestNotification.setVisibility(View.GONE);
 			}
 		});
@@ -260,15 +259,9 @@ public class MyFriendsActivity extends ListActivity implements RefreshUI{
 		runOnUiThread(new Runnable(){
 			public void run() {
 			  mAdapter.notifyDataSetChanged();
-			  if (ApplicationInstance.getInstance().isShowNotification() && friendRequestNotification!=null){
-				   friendRequestNotification.setVisibility(View.VISIBLE);
-		       }
-		 	}
+			}
 		});
-	    if (ApplicationInstance.getInstance().isShowNotification() && friendRequestNotification!=null){
-		    friendRequestNotification.setVisibility(View.VISIBLE);
-		}
-	 }
+   }
 	
 	 public void refresh() {
 		 updateData();	     	 
