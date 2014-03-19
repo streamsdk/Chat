@@ -100,7 +100,7 @@ public class FriendDB {
     	
     	List<FriendRequest> names = new ArrayList<FriendRequest>();
     	localUsernames = new HashSet<String>();
-    	Cursor c = db.rawQuery("SELECT username,status FROM frienddb", null);
+    	Cursor c = db.rawQuery("SELECT username,status FROM frienddb ORDER BY status DESC", null);
 		if  (c!= null && c.moveToFirst()) {
             do {
             	

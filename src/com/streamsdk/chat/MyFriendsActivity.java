@@ -37,6 +37,7 @@ import com.streamsdk.cache.MessagingCountDB;
 import com.streamsdk.cache.MessagingHistoryDB;
 import com.streamsdk.chat.addfriend.AddFriendMainActivity;
 import com.streamsdk.chat.addfriend.UsersLoadThread;
+import com.streamsdk.chat.domain.FriendRequest;
 import com.streamsdk.chat.handler.MessageHistoryHandler;
 import com.streamsdk.chat.settings.PreferenceScreen;
 import com.streamsdk.header.NamesBaseAdaper;
@@ -125,9 +126,12 @@ public class MyFriendsActivity extends ListActivity implements RefreshUI{
 		names = db.getFriendsArray();
 		
 		loadMetadataAndProfileImage(ApplicationInstance.getInstance().getLoginName());
-		for (String friendName : names){
-			loadMetadataAndProfileImage(friendName);
+		
+		List<FriendRequest> frs = db.getFriendRequestList();
+		for (FriendRequest fr : frs){
+			loadMetadataAndProfileImage(fr.getFriendName());
 		}
+		
 		ApplicationInstance.getInstance().setContext(getApplicationContext());
 		
 		new Thread(new MessageHistoryHandler(ApplicationInstance.getInstance().getLoginName(), getApplicationContext())).start();
@@ -178,6 +182,7 @@ public class MyFriendsActivity extends ListActivity implements RefreshUI{
 					
 				    if (bitmap != null){
 						ImageCache.getInstance().putNew(sUser.getUserName(), bitmap);
+						ApplicationInstance.getInstance().addUserProfile(sUser.getUserName(), fileId);
 					}
 				    
 					refresh();	

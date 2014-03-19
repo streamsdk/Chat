@@ -69,7 +69,7 @@ public class NamesBaseAdaper extends BaseAdapter implements SectionIndexer, OnSc
 		}
 		
 		viewHolder.textView.setText(friendName);
-		Bitmap bitmap = ImageCache.getInstance().getImage(friendName);
+		Bitmap bitmap = ImageCache.getInstance().getFriendImage(friendName);
 		if (bitmap != null)
 		    viewHolder.imageView.setImageBitmap(bitmap);
 		else{

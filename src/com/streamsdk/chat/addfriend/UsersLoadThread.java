@@ -55,6 +55,7 @@ public class UsersLoadThread implements Runnable{
 				
 			    if (bitmap != null){
 					ImageCache.getInstance().putNew(name, bitmap);
+					ApplicationInstance.getInstance().addUserProfile(name, fileId);
 				}
 			}
 		}

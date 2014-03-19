@@ -87,7 +87,7 @@ public class FriendRequestListAdapter extends BaseAdapter{
 			v = view;
 			viewHolder = (ViewHolder)view.getTag();
 		}
-		Bitmap bitmap = ImageCache.getInstance().getImage(friendRequest.getFriendName());
+		Bitmap bitmap = ImageCache.getInstance().getFriendImage(friendRequest.getFriendName());
 		if (bitmap != null)
 		    viewHolder.imageAvatar.setImageBitmap(bitmap);
 		else{

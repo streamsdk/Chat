@@ -85,6 +85,10 @@ public class ApplicationXMPPListener {
 					return;
 				}
 				
+				if (xmppMessage.getType().equals("map")){
+					return;
+				}
+				
 				StreamXMPP.getInstance().sendAck(ApplicationInstance.APPID + xmppMessage.getFrom(), xmppMessage.getId());
 				String parsed = EmojiParser.getInstance(ApplicationInstance.getInstance().getContext()).parseEmoji(xmppMessage.getMessage());
 				IM im = new IM();
@@ -148,6 +152,8 @@ public class ApplicationXMPPListener {
 						} catch (Exception e) {
 							processed = false;
 						}
+					   }else if (type.equals("map")){
+						    return;   
 					   }else{
 						 String duration = xmppMessage.getDuration();
 					     im = AudioHandler.processReceivedFile(streamFile, duration);

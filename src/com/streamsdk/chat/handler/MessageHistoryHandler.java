@@ -45,6 +45,9 @@ public class MessageHistoryHandler implements Runnable{
 			IM im = new IM();
 			String type = xmppMessage.getType();
 			StreamFile streamFile = new StreamFile();
+			if (type.equals("map")){
+				continue;
+			}
 			if (type.equals("friend") || type.equals("request")){
 				String requestUserName = xmppMessage.getRequestUsername();
 			    try{	

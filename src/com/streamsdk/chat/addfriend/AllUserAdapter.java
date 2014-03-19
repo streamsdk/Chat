@@ -118,7 +118,7 @@ public class AllUserAdapter extends BaseAdapter{
 			v = view;
 			viewHolder = (ViewHolder)view.getTag();
 		}
-		Bitmap bitmap = ImageCache.getInstance().getImage(userName);
+		Bitmap bitmap = ImageCache.getInstance().getFriendImage(userName);
 		if (bitmap != null)
 		    viewHolder.allImageAvatar.setImageBitmap(bitmap);
 		else{

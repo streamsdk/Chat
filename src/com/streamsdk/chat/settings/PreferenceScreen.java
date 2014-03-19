@@ -51,7 +51,7 @@ public class PreferenceScreen extends Activity{
 				startActivityForResult(pickPhoto , REQUEST_IMAGE_PICK);	
 			}
 		});
-		 Bitmap bitmap = ImageCache.getInstance().getImage(ApplicationInstance.getInstance().getLoginName());
+		 Bitmap bitmap = ImageCache.getInstance().getFriendImage(ApplicationInstance.getInstance().getLoginName());
 		 if (bitmap != null)
 			 profileImageView.setImageBitmap(bitmap);
 		 else{
