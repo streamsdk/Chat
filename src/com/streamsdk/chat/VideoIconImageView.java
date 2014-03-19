@@ -33,11 +33,7 @@ public class VideoIconImageView extends ImageView{
     protected void onDraw(Canvas canvas)
     {
         super.onDraw(canvas);
-        Bitmap bitmap = ImageCache.getInstance().getImage("videoicon");
-        if (bitmap == null){
-           bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.video1);
-           ImageCache.getInstance().putNew("videoicon", bitmap);   	
-        }        	
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.video1);
         int w = getWidth(); 
         int h = getHeight();
         int bw  = bitmap.getWidth();

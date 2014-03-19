@@ -59,13 +59,13 @@ public class ImageHandler {
 		if (isImage){
 		   im.setImage(true);
 		   Bitmap sBitMap = BitmapUtils.loadImageForFullScreen(file.getAbsolutePath(), 230, 230, 300);
-		   ImageCache.getInstance().putNew(file.getAbsolutePath(), sBitMap);	
+		   ImageCache.getInstance().putChatImages(file.getAbsolutePath(), sBitMap);	
 		}else{
 		   im.setVideo(true);
 		   long length = file.length();
 		   Bitmap thumb = ThumbnailUtils.createVideoThumbnail(file.getAbsolutePath(), MediaStore.Images.Thumbnails.MINI_KIND);
 		   Bitmap resizedBitmap = Bitmap.createScaledBitmap(thumb, 230, 230, false);
-		   ImageCache.getInstance().putNew(file.getAbsolutePath(), resizedBitmap);
+		   ImageCache.getInstance().putChatImages(file.getAbsolutePath(), resizedBitmap);
 		   
 		}
 		im.setReceivedFilePath(file.getAbsolutePath());

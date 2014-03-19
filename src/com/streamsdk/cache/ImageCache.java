@@ -20,6 +20,7 @@ public class ImageCache {
 
 	private static ImageCache imageCache;
 	private Map<String, Bitmap> images = new HashMap<String, Bitmap>();
+	private Map<String, Bitmap> chatImages = new HashMap<String, Bitmap>();
 	private List<String> ids = new ArrayList<String>();
 	
 	public static ImageCache getInstance(){
@@ -32,7 +33,7 @@ public class ImageCache {
 	}
 	
 	public void putNew(String id, Bitmap bitMap){
-		if (ids.size() > 30){
+		if (ids.size() > 5){
 		    String idStr = ids.remove(0);
 		    images.remove(idStr);
 		    ids.add(id);
@@ -43,9 +44,12 @@ public class ImageCache {
 		}
 	}
 	
+	public void putChatImages(String path, Bitmap bm){
+		chatImages.put(path, bm);
+	}
 	
-	public Bitmap getImage(String id){
-		return images.get(id);
+	public Bitmap getChatImage(String path){
+		return chatImages.get(path);
 	}
 	
 	public Bitmap getFriendImage(String id){
@@ -69,20 +73,7 @@ public class ImageCache {
 	}
 	
 	public void removeAll(){
-		
-		String mFileName = Environment.getExternalStorageDirectory().getAbsolutePath();
-		Set<String> keyPath = images.keySet();
-		Set<String> keyToBeRemoved = new HashSet<String>();
-		for (String key : keyPath){
-			if (key.startsWith(mFileName)){
-				keyToBeRemoved.add(key);
-			}
-		}
-		
-		for (String kr : keyToBeRemoved){
-			Log.i("remove path", kr);
-			images.remove(kr);
-		}
+		chatImages.clear();
 	}
 	
 	public byte[] getImageBytes(String path){

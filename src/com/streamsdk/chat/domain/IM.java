@@ -55,7 +55,7 @@ public class IM {
 	}
 
 	public Bitmap getSelfSendImage(){
-		return ImageCache.getInstance().getImage(selfSendImagePath);
+		return ImageCache.getInstance().getChatImage(selfSendImagePath);
 	}
 		
 
@@ -65,23 +65,23 @@ public class IM {
 	
 	public void storeSendImage(String path){
 	   
-	   if (isVideo && ImageCache.getInstance().getImage(path) == null){
+	   if (isVideo && ImageCache.getInstance().getChatImage(path) == null){
 		   Bitmap thumb = ThumbnailUtils.createVideoThumbnail(path, MediaStore.Images.Thumbnails.MINI_KIND);
 		   if (thumb != null){
 		      Bitmap resizedBitmap = Bitmap.createScaledBitmap(thumb, 230, 230, false);
-		      ImageCache.getInstance().putNew(path, resizedBitmap);
+		      ImageCache.getInstance().putChatImages(path, resizedBitmap);
 		   }
 	   }
 		
-	   if (isImage && ImageCache.getInstance().getImage(path) == null){
+	   if (isImage && ImageCache.getInstance().getChatImage(path) == null){
 		   Bitmap sBitMap = BitmapUtils.loadImageForFullScreen(path,  230, 230, 300);
-		   ImageCache.getInstance().putNew(path, sBitMap);
+		   ImageCache.getInstance().putChatImages(path, sBitMap);
 		}
 		selfSendImagePath = path;
 	}
 	
 	public Bitmap getReceivedFriendImageBitmap() {
-		return ImageCache.getInstance().getImage(receivedFilePath);
+		return ImageCache.getInstance().getChatImage(receivedFilePath);
 	}
 	
 	public boolean isVideo() {
