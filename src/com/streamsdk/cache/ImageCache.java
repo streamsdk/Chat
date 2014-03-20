@@ -77,7 +77,7 @@ public class ImageCache {
 	}
 	
 	public byte[] getImageBytes(String path){
-		Bitmap b = images.get(path);
+		Bitmap b = chatImages.get(path);
 		if (b != null){
 			ByteArrayOutputStream stream = new ByteArrayOutputStream();
 			b.compress(Bitmap.CompressFormat.JPEG, 100, stream);
