@@ -33,7 +33,7 @@ public class ImageCache {
 	}
 	
 	public void putNew(String id, Bitmap bitMap){
-		if (ids.size() > 5){
+		if (ids.size() > 40){
 		    String idStr = ids.remove(0);
 		    images.remove(idStr);
 		    ids.add(id);

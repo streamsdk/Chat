@@ -54,7 +54,7 @@ public class XMPPConnectionService extends Service implements NotificationInterf
 			  timer.schedule(new  ReconnectXMPPService(), 5000, 15000);
 			  timer.schedule(new StatusSendService(), 30000, 1000 * 60 * 2);
 			  timer.schedule(new ResendIMService(), 90000, 1000 * 60 * 1);
-			  timer.schedule(new CheckMessaingHistoryService(this), 70000, 1000 * 60 * 1);
+			  timer.schedule(new CheckMessaingHistoryService(this), 70000, 1000 * 60 * 2);
 			  ApplicationXMPPListener.getInstance().addNotifier("service", this);
 			  EmojiParser.getInstance(this).initiMap(this);
 			  started = true;
