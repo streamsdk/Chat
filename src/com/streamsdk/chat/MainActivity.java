@@ -364,13 +364,17 @@ public class MainActivity extends Activity implements EditTextEmojSelected, Chat
 			}
 		}
 		Log.i("read history ok", "read history ok");
-		List<IM> imHistory = ApplicationInstance.getInstance().getMessagingHistoryDB().getIMHistoryForUser(receiver, ApplicationInstance.getInstance().getLoginName());
-	    for (IM im : imHistory){
-	        if (im.isImage() || im.isVideo() || im.isVoice())
-	           receiveFile(im);
-	        else
-	           receiveMessage(im);
-	     }
+		try{
+		   List<IM> imHistory = ApplicationInstance.getInstance().getMessagingHistoryDB().getIMHistoryForUser(receiver, ApplicationInstance.getInstance().getLoginName());
+	       for (IM im : imHistory){
+	          if (im.isImage() || im.isVideo() || im.isVoice())
+	              receiveFile(im);
+	          else
+	              receiveMessage(im);
+	        }
+		}catch(Throwable t){
+			//for some reason this is failed with null pointer
+		}
 	}
 		
 	@Override
@@ -463,6 +467,10 @@ public class MainActivity extends Activity implements EditTextEmojSelected, Chat
 		File file = new File(path);
 		Map<String, Object> metaData = new HashMap<String, Object>();
 		String type = im.isImage() ? "photo" : "video";
+		metaData.put("from", im.getFrom());
+		metaData.put("to", im.getTo());
+		metaData.put("type", type);
+		metaData.put("disappear", String.valueOf(im.isDisappear()));
 		final byte bytes[] = !im.isDisappear() ? ImageCache.getInstance().getImageBytes(path) : null;
 		Map<String, String> usermetaData = ApplicationInstance.getInstance().getFriendMetadata(receiver);
         final String token = usermetaData != null ? usermetaData.get(ApplicationInstance.TOEKN) : "";
@@ -524,6 +532,10 @@ public class MainActivity extends Activity implements EditTextEmojSelected, Chat
 			    //int len = imageButes.length;
 			    Map<String, Object> metaData = new HashMap<String, Object>();
 			    String type = im.isImage() ? "photo" : "video";
+			    metaData.put("from", im.getFrom());
+				metaData.put("to", im.getTo());
+				metaData.put("type", type);
+				metaData.put("disappear", String.valueOf(im.isDisappear()));
 			    StreamXMPP.getInstance().sendBytes(new StreamCallback() {
 				    public void result(boolean succeed, String errorMessage) {
 					    if (succeed){
@@ -676,11 +688,16 @@ public class MainActivity extends Activity implements EditTextEmojSelected, Chat
          
          File file = new File(currentRecordingFileName);
          Map<String, Object> metaData = new HashMap<String, Object>();
+         
          //start sending this as a file
      	final IM voiceIm = AudioHandler.buildIMMessage(currentRecordingFileName, rp.getTime()/1000);
      	voiceIm.setFrom(ApplicationInstance.getInstance().getLoginName());
      	voiceIm.setTo(receiver);
      	
+     	metaData.put("from", voiceIm.getFrom());
+		metaData.put("to", voiceIm.getTo());
+		metaData.put("type", "voice");
+		
      	long chatTime = System.currentTimeMillis();
 		voiceIm.setChatTime(chatTime);
 		messages.add(voiceIm);
