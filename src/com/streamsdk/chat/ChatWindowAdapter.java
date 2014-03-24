@@ -130,7 +130,7 @@ public class ChatWindowAdapter extends BaseAdapter{
 		
 		if (im.isSelf()){
 		   
-		   Bitmap bm = ImageCache.getInstance().getFriendImage(ApplicationInstance.getInstance().getLoginName());
+		   Bitmap bm = ImageCache.getInstance().getPermImage(ApplicationInstance.getInstance().getLoginName());
 		   if (bm != null){
 			   viewHolder.imgAvatarSelf.setImageBitmap(bm); 
 		   }

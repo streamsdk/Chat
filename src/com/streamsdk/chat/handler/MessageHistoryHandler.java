@@ -45,7 +45,7 @@ public class MessageHistoryHandler implements Runnable{
 			IM im = new IM();
 			String type = xmppMessage.getType();
 			StreamFile streamFile = new StreamFile();
-			if (type.equals("map")){
+			if (type.equals("") || type.equals("map")){
 				continue;
 			}
 			if (type.equals("friend") || type.equals("request")){
@@ -105,7 +105,7 @@ public class MessageHistoryHandler implements Runnable{
 		    	  }else if (im.isVoice()){
 		    		  notificationMessage = im.getFrom() + " sent a voice message to you";
 		    	  }else{
-		    		  notificationMessage = im.getFrom() + im.getChatMessage(); 
+		    		  notificationMessage = im.getFrom() + ": " + im.getChatMessage(); 
 		    	  }
 		    	  notificationInterface.sendNotification("New Message", "", notificationMessage);
 		    	  notificationSent = true;

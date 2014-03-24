@@ -181,8 +181,11 @@ public class MyFriendsActivity extends ListActivity implements RefreshUI{
 				    bitmap = BitmapFactory.decodeFile(profileImageFile.getAbsolutePath());
 					
 				    if (bitmap != null){
+				      if (!sUser.getUserName().equals(ApplicationInstance.getInstance().getLoginName()))
 						ImageCache.getInstance().putNew(sUser.getUserName(), bitmap);
-						ApplicationInstance.getInstance().addUserProfile(sUser.getUserName(), fileId);
+				      else
+				    	ImageCache.getInstance().addPermnent(ApplicationInstance.getInstance().getLoginName(), bitmap);
+				        ApplicationInstance.getInstance().addUserProfile(sUser.getUserName(), fileId);
 					}
 				    
 					refresh();	

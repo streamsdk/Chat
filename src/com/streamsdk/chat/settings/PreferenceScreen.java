@@ -51,7 +51,7 @@ public class PreferenceScreen extends Activity{
 				startActivityForResult(pickPhoto , REQUEST_IMAGE_PICK);	
 			}
 		});
-		 Bitmap bitmap = ImageCache.getInstance().getFriendImage(ApplicationInstance.getInstance().getLoginName());
+		 Bitmap bitmap = ImageCache.getInstance().getPermImage(ApplicationInstance.getInstance().getLoginName());
 		 if (bitmap != null)
 			 profileImageView.setImageBitmap(bitmap);
 		 else{
@@ -173,8 +173,8 @@ public class PreferenceScreen extends Activity{
 		    	  String path = ImageHandler.getImgPath(imageReturnedIntent.getData(), this);
 		    	  Bitmap bitmap = BitmapUtils.loadImageForFullScreen(path, 230, 230, 300);
 		    	  profileImageView.setImageBitmap(bitmap);
-		    	  ImageCache.getInstance().putNew(ApplicationInstance.getInstance().getLoginName(), bitmap);
-		    	  byte profileImageBytes[] = ImageCache.getInstance().getImageBytes(ApplicationInstance.getInstance().getLoginName());
+		    	  ImageCache.getInstance().addPermnent(ApplicationInstance.getInstance().getLoginName(), bitmap);
+		    	  byte profileImageBytes[] = ImageCache.getInstance().getImagePem(ApplicationInstance.getInstance().getLoginName());
 		    	  final StreamFile sf = new StreamFile();
 		    	  sf.postBytes(profileImageBytes, new StreamCallback() {
 					public void result(boolean succeed, String errorMessage) {

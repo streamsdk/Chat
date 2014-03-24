@@ -22,6 +22,7 @@ public class ImageCache {
 	private Map<String, Bitmap> images = new HashMap<String, Bitmap>();
 	private Map<String, Bitmap> chatImages = new HashMap<String, Bitmap>();
 	private List<String> ids = new ArrayList<String>();
+	private Map<String, Bitmap> permnent = new HashMap<String, Bitmap>();
 	
 	public static ImageCache getInstance(){
 		
@@ -31,6 +32,26 @@ public class ImageCache {
 		}
 		return imageCache;		
 	}
+	
+	public void addPermnent(String id, Bitmap bm){
+		permnent.put(id, bm);
+	}
+	
+	public byte[] getImagePem(String path){
+		Bitmap b = permnent.get(path);
+		if (b != null){
+			ByteArrayOutputStream stream = new ByteArrayOutputStream();
+			b.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+			byte[] byteArray = stream.toByteArray();
+		    return byteArray;
+		 }
+		return null;		
+	}
+	
+	public Bitmap getPermImage(String path){
+		return permnent.get(path);
+	}
+	
 	
 	public void putNew(String id, Bitmap bitMap){
 		if (ids.size() > 40){
