@@ -34,6 +34,17 @@ public class PreferenceScreen extends Activity{
 	ImageView profileImageView;
 	Activity activity;
 	
+	@Override
+    public void onPause(){
+		super.onPause();
+		ApplicationInstance.getInstance().setVisiable(false);
+    }
+	
+	protected void onResume(){
+		super.onResume();
+		ApplicationInstance.getInstance().setVisiable(true);		
+	}
+	
 	public void onCreate(Bundle savedInstanceState) {
 		 super.onCreate(savedInstanceState);
 		 getActionBar().setDisplayHomeAsUpEnabled(true);

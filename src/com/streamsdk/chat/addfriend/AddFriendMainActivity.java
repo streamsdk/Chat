@@ -11,6 +11,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Message;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.inputmethod.InputMethodManager;
@@ -33,6 +34,17 @@ public class AddFriendMainActivity extends Activity{
 	Tab searchTab;
 	Tab historyTab;
 	Tab newUsersTab;
+	
+	@Override
+    public void onPause(){
+		super.onPause();
+        ApplicationInstance.getInstance().setVisiable(false);
+	}
+	
+	protected void onResume(){
+		super.onResume();
+		ApplicationInstance.getInstance().setVisiable(true);
+	}
 	
 	public void onCreate(Bundle savedInstanceState) {
 	 

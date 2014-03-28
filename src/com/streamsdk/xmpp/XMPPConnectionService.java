@@ -33,6 +33,7 @@ import com.streamsdk.cache.MessagingHistoryDB;
 import com.streamsdk.chat.ApplicationInstance;
 import com.streamsdk.chat.MyFriendsActivity;
 import com.streamsdk.chat.R;
+import com.streamsdk.chat.domain.OnlineOffineUpdate;
 import com.streamsdk.chat.emoji.EmojiParser;
 import com.streamsdk.chat.handler.MessageHistoryHandler;
 
@@ -55,6 +56,7 @@ public class XMPPConnectionService extends Service implements NotificationInterf
 			  timer.schedule(new StatusSendService(), 30000, 1000 * 60 * 2);
 			  timer.schedule(new ResendIMService(), 90000, 1000 * 60 * 1);
 			  timer.schedule(new CheckMessaingHistoryService(this), 70000, 1000 * 60 * 2);
+			  timer.schedule(new OnlineOfflineStatusUpdate(), 1000, 1000 * 40);
 			  ApplicationXMPPListener.getInstance().addNotifier("service", this);
 			  EmojiParser.getInstance(this).initiMap(this);
 			  started = true;
@@ -102,6 +104,76 @@ public class XMPPConnectionService extends Service implements NotificationInterf
 			 mhh.run();
 		  }
 		}
+	}
+	
+	private class OnlineOfflineStatusUpdate extends TimerTask{
+		public void run(){
+			OnlineOffineUpdate oou = ApplicationInstance.getInstance().getOnlineOfflineUpdate();
+			if (ApplicationInstance.getInstance().isVisiable()){
+				if (oou == null){
+				   Log.i("update to online", "oou is null");
+		           updateOnline();        			
+				}else{
+					long lastUpdateTime = oou.getLastUpdatedTime();
+					long diff = (System.currentTimeMillis() -  lastUpdateTime) / (1000 * 60);
+					if (diff > 3 || oou.isUpdateToOffline()){
+						updateOnline();
+						Log.i("update to online", "oou is greater than 3 and just come back from offline");
+					}
+				}
+			}else{
+				if (oou != null && oou.isUpdateToOnline()){
+					updateOffline();
+					Log.i("update to offine", "oou goes not background");
+				}
+			}
+		}
+		
+		private void updateOnline(){
+			if (userName != null && !userName.equals("")){
+				final StreamObject so = new StreamObject();
+				so.setId(userName);
+				so.put("online", "YES");
+				so.put("lastseen", String.valueOf(System.currentTimeMillis()));
+				so.updateObjectInBackground(new StreamCallback() {
+					public void result(boolean succeed, String errorMessage) {
+					    if (succeed){
+					    	OnlineOffineUpdate oou = new OnlineOffineUpdate();
+					    	oou.setLastUpdatedTime(System.currentTimeMillis());
+					    	oou.setUpdateToOffline(false);
+					    	oou.setUpdateToOnline(true);
+					    	ApplicationInstance.getInstance().setOnlineOfflineUpdate(oou);
+					    }else{
+					    	so.deleteObject();
+					    	so.createNewStreamObject();
+					    }
+					}
+				});
+			}
+		}
+		
+		private void updateOffline(){
+			if (userName != null && !userName.equals("")){
+				final StreamObject so = new StreamObject();
+				so.setId(userName);
+				so.put("online", "NO");
+				so.updateObjectInBackground(new StreamCallback() {
+					public void result(boolean succeed, String errorMessage) {
+					    if (succeed){
+					    	OnlineOffineUpdate oou = new OnlineOffineUpdate();
+					    	oou.setLastUpdatedTime(System.currentTimeMillis());
+					    	oou.setUpdateToOffline(true);
+					    	oou.setUpdateToOnline(false);
+					    	ApplicationInstance.getInstance().setOnlineOfflineUpdate(oou);
+					    }else{
+					    	so.deleteObject();
+					    	so.createNewStreamObject();
+					    }
+					}
+				});
+			}
+		}
+		
 	}
 	
 	private class ResendIMService extends TimerTask{

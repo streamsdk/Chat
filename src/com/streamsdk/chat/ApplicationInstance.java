@@ -18,6 +18,7 @@ import com.streamsdk.cache.MessagingAckDB;
 import com.streamsdk.cache.MessagingCountDB;
 import com.streamsdk.cache.MessagingHistoryDB;
 import com.streamsdk.chat.domain.IM;
+import com.streamsdk.chat.domain.OnlineOffineUpdate;
 
 public class ApplicationInstance {
 	
@@ -43,8 +44,8 @@ public class ApplicationInstance {
 	//pro
 	/*public static String APPID="A82C2F6E73F3D911F5E424953A1C8E62";
 	public static String cKey = "C8BB14A1A961E9D391196D9F411B18D8";
-	public static String sKey = "A3C7D9386C4A4063CDE1B4A8B3820BD2";
-	*/
+	public static String sKey = "A3C7D9386C4A4063CDE1B4A8B3820BD2";*/
+	
 	public static String HOST_PREFIX = "@streamsdk.cn";
 	public static final String USER_INFO = "MyPrefsFile";
     public static final String PROFILE_IMAGE = "profileImageId";
@@ -78,6 +79,7 @@ public class ApplicationInstance {
 	private IM currentEditedIm;
 	private List<Map<String, String>> allUsers = new ArrayList<Map<String, String>>();
 	private Map<String, String> userProfileImage = new HashMap<String, String>();
+	private OnlineOffineUpdate onlineOfflineUpdate;
 	
 	public static ApplicationInstance getInstance(){
 		
@@ -88,6 +90,14 @@ public class ApplicationInstance {
 		return applicationInstance;
 	}
 	
+	public OnlineOffineUpdate getOnlineOfflineUpdate() {
+		return onlineOfflineUpdate;
+	}
+
+	public void setOnlineOfflineUpdate(OnlineOffineUpdate onlineOfflineUpdate) {
+		this.onlineOfflineUpdate = onlineOfflineUpdate;
+	}
+
 	public void addUserProfile(String name, String fileId){
 		userProfileImage.put(name, fileId);
 	}
