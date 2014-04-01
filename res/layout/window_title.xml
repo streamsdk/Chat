@@ -1,0 +1,25 @@
+<RelativeLayout
+         xmlns:android="http://schemas.android.com/apk/res/android"
+         android:layout_width="fill_parent"
+         android:layout_height="fill_parent"
+         android:orientation="horizontal">
+    
+    <TextView
+        android:id="@+id/chatName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:textSize="22dp"
+        android:textStyle="bold"
+        />
+    
+    <TextView
+        android:id="@+id/onlineInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/chatName"
+        android:textSize="15dp"
+     />
+    
+</RelativeLayout>

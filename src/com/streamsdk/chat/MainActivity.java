@@ -2,7 +2,9 @@ package com.streamsdk.chat;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +13,7 @@ import org.jivesoftware.smack.packet.Message;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.DialogFragment;
 import android.app.FragmentManager;
@@ -33,6 +36,7 @@ import android.view.View.OnLongClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup.LayoutParams;
 import android.view.ViewTreeObserver;
+import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -44,10 +48,12 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.PopupWindow.OnDismissListener;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.stream.api.JsonUtils;
 import com.stream.api.StreamCallback;
+import com.stream.api.StreamObject;
 import com.stream.xmpp.PacketSendCallback;
 import com.stream.xmpp.StreamXMPP;
 import com.streamsdk.cache.ChatBackgroundDB;
@@ -139,14 +145,19 @@ public class MainActivity extends Activity implements EditTextEmojSelected, Chat
 	protected  void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		final Activity activity = this;
-		
 		ApplicationInstance.getInstance().setRefreshUI(this);
-	    getActionBar().setDisplayHomeAsUpEnabled(true);
+	  
 	    Intent intent = getIntent();
         receiver = intent.getExtras().getString("receiver");
-        setTitle("chat with " + receiver);
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-		DisplayMetrics metrics = new DisplayMetrics();
+      //  setTitle(receiver);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getActionBar().setDisplayShowCustomEnabled(true); 
+        getActionBar().setCustomView(R.layout.window_title);
+        TextView chatName = (TextView)findViewById(R.id.chatName);
+        chatName.setText(receiver);
+        TextView onlineInfo = (TextView)findViewById(R.id.onlineInfo);
+        updateLastSeen(onlineInfo);
+        DisplayMetrics metrics = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(metrics);
 		setContentView(R.layout.activity_main);
 		view = (ListView)findViewById(R.id.listView1);
@@ -321,6 +332,38 @@ public class MainActivity extends Activity implements EditTextEmojSelected, Chat
 		}catch(Throwable t){
 			Log.i("", "why null pointer throw here");
 		}
+		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+	}
+	
+	private void updateLastSeen(final TextView tv){
+		final StreamObject so = new StreamObject();
+		so.loadStreamObject(receiver + "status", new StreamCallback() {
+			public void result(boolean succeed, String errorMessage) {
+				if (succeed){
+					String lastSeen = (String)so.get("lastseen");
+					String online = (String)so.get("online");
+					String displayString = "";
+					if (online != null && online.equals("YES")){
+						displayString = "online";
+					}else if (lastSeen != null && !lastSeen.equals("")){
+						SimpleDateFormat sdf = new SimpleDateFormat("dd MMM, yyyy HH:mm");
+					    Date resultdate = new Date(Long.parseLong(lastSeen));
+					    displayString = sdf.format(resultdate);
+					}
+					if (!displayString.equals("")){
+						final String displayStr = displayString;
+						runOnUiThread(new Runnable(){
+							public void run() {
+								if (!displayStr.equals("online"))
+								    tv.setText("last seen " + displayStr);
+								else
+								    tv.setText(displayStr);
+							}
+						});
+					}
+				}
+			}
+		});
 	}
 	
 	private String addTokenToBody(String token, String json){
@@ -351,7 +394,8 @@ public class MainActivity extends Activity implements EditTextEmojSelected, Chat
 	private void dismissKeyboard(){
 		InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
 		imm.hideSoftInputFromWindow(messageText.getWindowToken(), 0);
-		popupWindow.dismiss();
+		if (popupWindow != null)
+		     popupWindow.dismiss();
 	}
 	
 	private void readHistory(){

@@ -27,6 +27,7 @@ import com.streamsdk.chat.FirstPageActivity;
 import com.streamsdk.chat.R;
 import com.streamsdk.chat.handler.ImageHandler;
 import com.streamsdk.util.BitmapUtils;
+import com.streamsdk.util.UpdateUtils;
 
 public class PreferenceScreen extends Activity{
 	
@@ -135,12 +136,13 @@ public class PreferenceScreen extends Activity{
 						.setNegativeButton("Log Out",new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog,int id) {
 								dialog.cancel();
+								UpdateUtils.updateOffline(ApplicationInstance.getInstance().getLoginName());
 								SharedPreferences settings = getSharedPreferences(ApplicationInstance.USER_INFO, 0);
 							    SharedPreferences.Editor editor = settings.edit();
 							    editor.remove("username");
 							    editor.remove("password");
 							    editor.commit();
-								FileCache.getInstance().deleteAllFiles();
+							    FileCache.getInstance().deleteAllFiles();
 								ApplicationInstance.getInstance().getMessagingHistoryDB().deleteAll();
 								ApplicationInstance.getInstance().getFriendDB().deleteAll();
 								ApplicationInstance.getInstance().getChatBackgroundDB().deleteAll();

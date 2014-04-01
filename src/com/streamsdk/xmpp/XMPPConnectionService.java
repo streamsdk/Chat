@@ -36,6 +36,7 @@ import com.streamsdk.chat.R;
 import com.streamsdk.chat.domain.OnlineOffineUpdate;
 import com.streamsdk.chat.emoji.EmojiParser;
 import com.streamsdk.chat.handler.MessageHistoryHandler;
+import com.streamsdk.util.UpdateUtils;
 
 public class XMPPConnectionService extends Service implements NotificationInterface{
 
@@ -131,46 +132,13 @@ public class XMPPConnectionService extends Service implements NotificationInterf
 		
 		private void updateOnline(){
 			if (userName != null && !userName.equals("")){
-				final StreamObject so = new StreamObject();
-				so.setId(userName);
-				so.put("online", "YES");
-				so.put("lastseen", String.valueOf(System.currentTimeMillis()));
-				so.updateObjectInBackground(new StreamCallback() {
-					public void result(boolean succeed, String errorMessage) {
-					    if (succeed){
-					    	OnlineOffineUpdate oou = new OnlineOffineUpdate();
-					    	oou.setLastUpdatedTime(System.currentTimeMillis());
-					    	oou.setUpdateToOffline(false);
-					    	oou.setUpdateToOnline(true);
-					    	ApplicationInstance.getInstance().setOnlineOfflineUpdate(oou);
-					    }else{
-					    	so.deleteObject();
-					    	so.createNewStreamObject();
-					    }
-					}
-				});
+				UpdateUtils.updateOnline(userName);
 			}
 		}
 		
 		private void updateOffline(){
 			if (userName != null && !userName.equals("")){
-				final StreamObject so = new StreamObject();
-				so.setId(userName);
-				so.put("online", "NO");
-				so.updateObjectInBackground(new StreamCallback() {
-					public void result(boolean succeed, String errorMessage) {
-					    if (succeed){
-					    	OnlineOffineUpdate oou = new OnlineOffineUpdate();
-					    	oou.setLastUpdatedTime(System.currentTimeMillis());
-					    	oou.setUpdateToOffline(true);
-					    	oou.setUpdateToOnline(false);
-					    	ApplicationInstance.getInstance().setOnlineOfflineUpdate(oou);
-					    }else{
-					    	so.deleteObject();
-					    	so.createNewStreamObject();
-					    }
-					}
-				});
+				UpdateUtils.updateOnline(userName);
 			}
 		}
 		
