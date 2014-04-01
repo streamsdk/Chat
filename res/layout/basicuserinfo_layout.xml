@@ -40,6 +40,17 @@
       </TextView>
      
   </RelativeLayout>
+  
+  <Button
+       android:id="@+id/userStatus"
+       android:layout_width="fill_parent"
+       android:layout_height="wrap_content"
+       android:text="Hey there! I am using CoolChat"
+       android:textSize="18sp"
+       android:background="@android:color/white"    
+       android:textColor="@android:color/darker_gray"
+       android:layout_gravity="center_horizontal"
+       android:layout_marginTop="10dp"/>
     
 
 </LinearLayout>
