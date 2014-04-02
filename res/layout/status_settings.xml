@@ -1,0 +1,94 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@android:color/darker_gray"
+    android:orientation="vertical" >
+
+   
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textSize="15sp"
+        android:layout_marginTop="20dp" 
+        android:text="SELECT YOUR NEW STATUS"/>
+    
+  <LinearLayout 
+    android:id="@+id/statusSettingLayout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+    
+   <CheckedTextView
+            android:id="@+id/myCurrentStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checkMark="?android:attr/listChoiceIndicatorSingle"
+            android:clickable="true"
+            android:checked="true"
+            android:gravity="left"
+            android:background="@android:color/white"    
+            android:textColor="@android:color/darker_gray"
+            android:textSize="16sp"
+            android:layout_marginTop="10dp"
+            android:text="Hey there, I am using CoolChat. It is great"
+      />
+   
+   <CheckedTextView
+            android:id="@+id/myCurrentStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:gravity="left"
+            android:checkMark="?android:attr/listChoiceIndicatorSingle"
+            android:background="@android:color/white"    
+            android:textColor="@android:color/darker_gray"
+            android:textSize="16sp"
+            android:layout_marginTop="10dp"
+            android:text="I am working"
+     />
+   
+    <CheckedTextView
+            android:id="@+id/myCurrentStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:gravity="left"
+            android:checkMark="?android:attr/listChoiceIndicatorSingle"
+            android:background="@android:color/white"    
+            android:textColor="@android:color/darker_gray"
+            android:textSize="16sp"
+            android:layout_marginTop="10dp"
+            android:text="At school"
+     />
+    
+    <CheckedTextView
+            android:id="@+id/myCurrentStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:gravity="left"
+            android:checkMark="?android:attr/listChoiceIndicatorSingle"
+            android:background="@android:color/white"    
+            android:textColor="@android:color/darker_gray"
+            android:textSize="16sp"
+            android:layout_marginTop="10dp"
+            android:text="Available"
+     />
+    
+    <CheckedTextView
+            android:id="@+id/myCurrentStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:gravity="left"
+            android:checkMark="?android:attr/listChoiceIndicatorSingle"
+            android:background="@android:color/white"    
+            android:textColor="@android:color/darker_gray"
+            android:textSize="16sp"
+            android:layout_marginTop="10dp"
+            android:text="Battery about to die"
+     />
+   </LinearLayout> 
+    
+</LinearLayout>

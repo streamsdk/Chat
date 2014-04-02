@@ -34,7 +34,7 @@ public class PreferenceScreen extends Activity{
 	static final int REQUEST_IMAGE_PICK = 1;
 	ImageView profileImageView;
 	Activity activity;
-	
+	Button setStatus;
 	@Override
     public void onPause(){
 		super.onPause();
@@ -43,7 +43,10 @@ public class PreferenceScreen extends Activity{
 	
 	protected void onResume(){
 		super.onResume();
-		ApplicationInstance.getInstance().setVisiable(true);		
+		ApplicationInstance.getInstance().setVisiable(true);
+		if (setStatus != null){
+			 setStatus.setText(ApplicationInstance.getInstance().getCurrentStatus());
+		}
 	}
 	
 	public void onCreate(Bundle savedInstanceState) {
@@ -70,6 +73,16 @@ public class PreferenceScreen extends Activity{
 			Bitmap bm = BitmapFactory.decodeResource(getResources(), R.drawable.yahoo_no_avatar);
 			profileImageView.setImageBitmap(bm);
 		  }
+		 
+		 
+		 setStatus = (Button)userInfo.findViewById(R.id.userStatus);
+		 setStatus.setText(ApplicationInstance.getInstance().getCurrentStatus());
+		 setStatus.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+		        Intent intent = new Intent(activity, StatusSettingActivity.class);
+		        startActivity(intent);
+			}
+		 });
 		 
 		 
 		 //invitation section

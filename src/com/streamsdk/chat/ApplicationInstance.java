@@ -46,7 +46,7 @@ public class ApplicationInstance {
 	public static String cKey = "C8BB14A1A961E9D391196D9F411B18D8";
 	public static String sKey = "A3C7D9386C4A4063CDE1B4A8B3820BD2";*/
 	
-	public static String HOST_PREFIX = "@streamsdk.cn";
+	public static String HOST_PREFIX = "@streamsdk.com";
 	public static final String USER_INFO = "MyPrefsFile";
     public static final String PROFILE_IMAGE = "profileImageId";
     public static final String TOEKN = "token";
@@ -80,6 +80,7 @@ public class ApplicationInstance {
 	private List<Map<String, String>> allUsers = new ArrayList<Map<String, String>>();
 	private Map<String, String> userProfileImage = new HashMap<String, String>();
 	private OnlineOffineUpdate onlineOfflineUpdate;
+	private String currentStatus = "Hey there, I am using CoolChat. It is great";
 	
 	public static ApplicationInstance getInstance(){
 		
@@ -309,6 +310,14 @@ public class ApplicationInstance {
 
 	public void setAllUsers(List<Map<String, String>> allUsers) {
 		this.allUsers = allUsers;
+	}
+
+	public String getCurrentStatus() {
+		return currentStatus;
+	}
+
+	public void setCurrentStatus(String currentStatus) {
+		this.currentStatus = currentStatus;
 	}
 	
 }

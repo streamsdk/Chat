@@ -346,8 +346,12 @@ public class MainActivity extends Activity implements EditTextEmojSelected, Chat
 					if (online != null && online.equals("YES")){
 						displayString = "online";
 					}else if (lastSeen != null && !lastSeen.equals("")){
+						long lastSeenLong = Long.parseLong(lastSeen);
+						if (lastSeen.length() == 10){
+							lastSeenLong = lastSeenLong * 1000;
+						}
 						SimpleDateFormat sdf = new SimpleDateFormat("dd MMM, yyyy HH:mm");
-					    Date resultdate = new Date(Long.parseLong(lastSeen));
+					    Date resultdate = new Date(lastSeenLong);
 					    displayString = sdf.format(resultdate);
 					}
 					if (!displayString.equals("")){
