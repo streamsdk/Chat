@@ -138,7 +138,7 @@ public class XMPPConnectionService extends Service implements NotificationInterf
 		
 		private void updateOffline(){
 			if (userName != null && !userName.equals("")){
-				UpdateUtils.updateOnline(userName);
+				UpdateUtils.updateOffline(userName);
 			}
 		}
 		
