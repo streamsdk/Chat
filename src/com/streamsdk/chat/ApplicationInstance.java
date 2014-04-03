@@ -17,6 +17,7 @@ import com.streamsdk.cache.InvitationDB;
 import com.streamsdk.cache.MessagingAckDB;
 import com.streamsdk.cache.MessagingCountDB;
 import com.streamsdk.cache.MessagingHistoryDB;
+import com.streamsdk.cache.StatusDB;
 import com.streamsdk.chat.domain.IM;
 import com.streamsdk.chat.domain.OnlineOffineUpdate;
 
@@ -69,6 +70,7 @@ public class ApplicationInstance {
 	private MessagingHistoryDB messagingHistoryDB;
 	private FriendDB friendDB;
 	private InvitationDB inivitationDB; 
+	private StatusDB statusDB;
 	
 	private RefreshUI refreshUI;
 	private int photoTimeout = -1;
@@ -80,7 +82,7 @@ public class ApplicationInstance {
 	private List<Map<String, String>> allUsers = new ArrayList<Map<String, String>>();
 	private Map<String, String> userProfileImage = new HashMap<String, String>();
 	private OnlineOffineUpdate onlineOfflineUpdate;
-	private String currentStatus = "Hey there, I am using CoolChat. It is great";
+	private String currentStatus = "Hey there, I am using CoolChat";
 	
 	public static ApplicationInstance getInstance(){
 		
@@ -318,6 +320,14 @@ public class ApplicationInstance {
 
 	public void setCurrentStatus(String currentStatus) {
 		this.currentStatus = currentStatus;
+	}
+
+	public StatusDB getStatusDB() {
+		return statusDB;
+	}
+
+	public void setStatusDB(StatusDB statusDB) {
+		this.statusDB = statusDB;
 	}
 	
 }

@@ -30,6 +30,7 @@ import com.streamsdk.cache.InvitationDB;
 import com.streamsdk.cache.MessagingAckDB;
 import com.streamsdk.cache.MessagingCountDB;
 import com.streamsdk.cache.MessagingHistoryDB;
+import com.streamsdk.cache.StatusDB;
 import com.streamsdk.chat.ApplicationInstance;
 import com.streamsdk.chat.MyFriendsActivity;
 import com.streamsdk.chat.R;
@@ -83,12 +84,14 @@ public class XMPPConnectionService extends Service implements NotificationInterf
 		 MessagingCountDB mcdb = new MessagingCountDB(this);
 		 MessagingAckDB mackdb = new MessagingAckDB(this);
 		 ChatBackgroundDB cdb = new ChatBackgroundDB(this);
+		 StatusDB sdb = new StatusDB(this);
 		 ApplicationInstance.getInstance().setChatBackgroundDB(cdb);
 		 ApplicationInstance.getInstance().setMessagingHistoryDB(mdb);
 		 ApplicationInstance.getInstance().setFriendDB(fdb);
 		 ApplicationInstance.getInstance().setInivitationDB(idb);
 		 ApplicationInstance.getInstance().setMessagingCountDB(mcdb);
 		 ApplicationInstance.getInstance().setMessagingAckDB(mackdb);
+		 ApplicationInstance.getInstance().setStatusDB(sdb);
 	}
 	
 	private class CheckMessaingHistoryService extends TimerTask{

@@ -22,6 +22,7 @@ import com.stream.api.StreamUser;
 import com.stream.xmpp.StreamXMPP;
 import com.streamsdk.cache.FileCache;
 import com.streamsdk.cache.ImageCache;
+import com.streamsdk.cache.StatusDB;
 import com.streamsdk.chat.ApplicationInstance;
 import com.streamsdk.chat.FirstPageActivity;
 import com.streamsdk.chat.R;
@@ -47,6 +48,32 @@ public class PreferenceScreen extends Activity{
 		if (setStatus != null){
 			 setStatus.setText(ApplicationInstance.getInstance().getCurrentStatus());
 		}
+	}
+	
+	private void insertStatus(){
+		 StatusDB sdb = ApplicationInstance.getInstance().getStatusDB();
+		 sdb.insert("Hey there! I am using CoolChat.");
+		 sdb.insert("Available");
+		 sdb.insert("Busy");
+		 sdb.insert("At school");
+		 sdb.insert("At work");
+		 sdb.insert("Sleeping");
+		 SharedPreferences settings = getSharedPreferences(ApplicationInstance.USER_INFO, 0);
+	     SharedPreferences.Editor editor = settings.edit();
+	     editor.putString("status", "Hey there! I am using CoolChat.");
+	     editor.commit();
+	}
+	
+	private boolean shouldInsertStatus(){
+		 SharedPreferences settings = getSharedPreferences(ApplicationInstance.USER_INFO, 0);
+		 String inserted = settings.getString("status", "");
+		 return inserted.equals("");
+	}
+	
+	private String getCurrentStatus(){
+		 SharedPreferences settings = getSharedPreferences(ApplicationInstance.USER_INFO, 0);
+		 String status = settings.getString("status", "Hey there! I am using CoolChat.");
+		 return status;
 	}
 	
 	public void onCreate(Bundle savedInstanceState) {
@@ -76,6 +103,10 @@ public class PreferenceScreen extends Activity{
 		 
 		 
 		 setStatus = (Button)userInfo.findViewById(R.id.userStatus);
+		 if (shouldInsertStatus()){
+			 insertStatus();
+		 }
+         ApplicationInstance.getInstance().setCurrentStatus(getCurrentStatus());
 		 setStatus.setText(ApplicationInstance.getInstance().getCurrentStatus());
 		 setStatus.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {

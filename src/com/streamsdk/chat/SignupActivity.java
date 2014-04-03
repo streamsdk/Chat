@@ -10,6 +10,7 @@ import com.stream.api.StreamCategoryObject;
 import com.stream.api.StreamObject;
 import com.stream.api.StreamUser;
 import com.stream.xmpp.StreamXMPP;
+import com.streamsdk.cache.StatusDB;
 import com.streamsdk.chat.domain.FriendRequest;
 import com.streamsdk.xmpp.ApplicationXMPPListener;
 
@@ -118,19 +119,12 @@ public class SignupActivity extends Activity{
 						    StreamObject so = new StreamObject();
 						    so.setId(userName + ApplicationInstance.messageHistory);
 						    so.createNewStreamObjectInBackground(new StreamCallback() {
-								public void result(boolean succeed, String errorMessage) {}
-							});
-						    
-						    StreamObject myObject = new StreamObject();
-						    myObject.setId(userName);
-						    myObject.createNewStreamObjectInBackground(new StreamCallback() {
 								public void result(boolean succeed, String errorMessage) {
-									if (succeed){
-									   addAsFriend(userName, "coolchat");
-									   addAsFriendRequest(userName, "maria");
-									}
+									addAsFriend(userName, "coolchat");
+									addAsFriendRequest(userName, "maria");
 								}
 							});
+						    
 						   // addAsFriend(userName, "jacky");addAsFriend(userName, "busy");addAsFriend(userName, "apple");addAsFriend(userName, "cormac");addAsFriend(userName, "android");
 						   // addAsFriendRequest(userName, "fatboy");addAsFriendRequest(userName, "yang");addAsFriendRequest(userName, "dog");
 						    

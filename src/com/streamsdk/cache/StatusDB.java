@@ -10,16 +10,17 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteStatement;
 import android.util.Log;
 
-public class InvitationDB {
 
-	private static final String DATABASE_NAME = "inivitationdb";
+public class StatusDB {
+
+	private static final String DATABASE_NAME = "statusdb";
     private static final int DATABASE_VERSION = 1;
     private SQLiteDatabase db;
     private SQLiteStatement mInsertStmt;
-    private static final String MINSERT = "insert into inivitationdb (username) values (?)";
+    private static final String MINSERT = "insert into statusdb (status) values (?)";
     private DatabaseHelper helper;
     
-	public InvitationDB(Context context){
+	public StatusDB(Context context){
 		helper = new DatabaseHelper(context);
     	db = helper.getWritableDatabase();
     	mInsertStmt = db.compileStatement(MINSERT);
@@ -34,15 +35,15 @@ public class InvitationDB {
 	 	Log.i("delete all" + DATABASE_NAME, String.valueOf(result));
 	}
 	
-	public void insert(String userName){
-		    mInsertStmt.bindString(1, userName);
+	public void insert(String status){
+		    mInsertStmt.bindString(1, status);
 		    mInsertStmt.executeInsert();
 	}
 	
-	public List<String> getInvitations(){
+	public List<String> getAllStatus(){
 		
 		List<String> names = new ArrayList<String>();
-    	Cursor c = db.rawQuery("SELECT username FROM inivitationdb", null);
+    	Cursor c = db.rawQuery("SELECT status FROM statusdb", null);
 		if  (c!= null && c.moveToFirst()) {
             do {
             	
@@ -63,11 +64,11 @@ public class InvitationDB {
 		}
 
 		public void onCreate(SQLiteDatabase db) {
-			db.execSQL("CREATE TABLE inivitationdb (username TEXT PRIMARY KEY)");
+			db.execSQL("CREATE TABLE statusdb (status TEXT PRIMARY KEY)");
 		}
 
 		public void onUpgrade(SQLiteDatabase db, int arg1, int arg2) {
-			db.execSQL("DROP TABLE IF EXISTS inivitationdb");
+			db.execSQL("DROP TABLE IF EXISTS statusdb");
 			onCreate(db);
 		}
 	}

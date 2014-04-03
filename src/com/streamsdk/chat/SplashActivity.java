@@ -23,6 +23,7 @@ import com.streamsdk.cache.InvitationDB;
 import com.streamsdk.cache.MessagingAckDB;
 import com.streamsdk.cache.MessagingCountDB;
 import com.streamsdk.cache.MessagingHistoryDB;
+import com.streamsdk.cache.StatusDB;
 import com.streamsdk.chat.emoji.EmojiParser;
 import com.streamsdk.xmpp.ApplicationXMPPListener;
 
@@ -100,12 +101,14 @@ public class SplashActivity extends Activity{
 		 InvitationDB idb = new InvitationDB(this);
 		 MessagingAckDB mackdb = new MessagingAckDB(this);
 		 ChatBackgroundDB cdb = new ChatBackgroundDB(this);
+		 StatusDB sdb = new StatusDB(this);
 		 ApplicationInstance.getInstance().setChatBackgroundDB(cdb);
 		 ApplicationInstance.getInstance().setMessagingHistoryDB(mdb);
 		 ApplicationInstance.getInstance().setFriendDB(fdb);
 		 ApplicationInstance.getInstance().setInivitationDB(idb);
 		 ApplicationInstance.getInstance().setMessagingCountDB(mcdb);
 		 ApplicationInstance.getInstance().setMessagingAckDB(mackdb);
+		 ApplicationInstance.getInstance().setStatusDB(sdb);
 		
 	     activity = this;
 		 SharedPreferences settings = getSharedPreferences(ApplicationInstance.USER_INFO, 0);
