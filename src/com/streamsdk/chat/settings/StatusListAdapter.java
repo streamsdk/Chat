@@ -10,18 +10,25 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckedTextView;
 
+import com.streamsdk.cache.StatusDB;
 import com.streamsdk.chat.ApplicationInstance;
 import com.streamsdk.chat.R;
 
 public class StatusListAdapter extends BaseAdapter{
 
-    private List<String> statuses;	
     private Activity activity;
+    private List<String> statuses;
     private CheckedTextView checkedView;
     
-	public StatusListAdapter(List<String> statuses, Activity ac){
-		this.statuses = statuses;
+	public StatusListAdapter(Activity ac){
+		StatusDB sdb = ApplicationInstance.getInstance().getStatusDB();
+		this.statuses = sdb.getAllStatus();
 		this.activity = ac;
+	}
+	
+	public void setNewStatus(){
+		StatusDB sdb = ApplicationInstance.getInstance().getStatusDB();
+		this.statuses = sdb.getAllStatus();
 	}
 	
 	@Override
