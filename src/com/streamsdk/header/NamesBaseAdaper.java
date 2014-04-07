@@ -61,6 +61,7 @@ public class NamesBaseAdaper extends BaseAdapter implements SectionIndexer, OnSc
 			v = inflater.inflate(R.layout.myfriends_layout, parent, false);
 			viewHolder = new ViewHolder();
 		    viewHolder.textView = (TextView)v.findViewById(R.id.txtMyfriendFriendName);
+		    viewHolder.statusTextView = (TextView)v.findViewById(R.id.txtMyfriendstatus);
 		    viewHolder.imageView = (ImageView)v.findViewById(R.id.imgMainPageAvatar);
 		    viewHolder.messagingCountLayout = (FrameLayout)v.findViewById(R.id.messageCountLayout);
 		}else{
@@ -68,7 +69,19 @@ public class NamesBaseAdaper extends BaseAdapter implements SectionIndexer, OnSc
 			viewHolder = (ViewHolder)view.getTag();
 		}
 		
+		// friend name text
 		viewHolder.textView.setText(friendName);
+		
+		// friend status
+		Map<String, String> metaData = ApplicationInstance.getInstance().getFriendMetadata(friendName);
+		if (metaData != null){
+			String status = metaData.get("status");
+			if (status != null && !status.equals("")){
+				viewHolder.statusTextView.setText(status);
+			}
+		}
+		
+		//friend profile image
 		Bitmap bitmap = ImageCache.getInstance().getFriendImage(friendName);
 		if (bitmap != null)
 		    viewHolder.imageView.setImageBitmap(bitmap);
@@ -77,6 +90,7 @@ public class NamesBaseAdaper extends BaseAdapter implements SectionIndexer, OnSc
 			viewHolder.imageView.setImageBitmap(bm);
 		}
 		
+		//friend message count
 		Map<String, String> mCounts = ApplicationInstance.getInstance().getMessagingCountDB().getMessagingCount(friendName);
 		if (mCounts != null){
 			viewHolder.messagingCountLayout.setVisibility(View.VISIBLE);
@@ -197,6 +211,7 @@ public class NamesBaseAdaper extends BaseAdapter implements SectionIndexer, OnSc
 	
     static class ViewHolder{
 		TextView textView;
+		TextView statusTextView;
 		ImageView imageView;
 		FrameLayout messagingCountLayout;
 	}

@@ -47,7 +47,7 @@ public class ApplicationInstance {
 	public static String cKey = "C8BB14A1A961E9D391196D9F411B18D8";
 	public static String sKey = "A3C7D9386C4A4063CDE1B4A8B3820BD2";*/
 	
-	public static String HOST_PREFIX = "@streamsdk.com";
+	public static String HOST_PREFIX = "@streamsdk.cn";
 	public static final String USER_INFO = "MyPrefsFile";
     public static final String PROFILE_IMAGE = "profileImageId";
     public static final String TOEKN = "token";

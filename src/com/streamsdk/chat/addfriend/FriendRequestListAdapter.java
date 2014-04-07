@@ -1,6 +1,7 @@
 package com.streamsdk.chat.addfriend;
 
 import java.util.List;
+import java.util.Map;
 
 import org.jivesoftware.smack.packet.Message;
 import org.json.JSONException;
@@ -82,6 +83,7 @@ public class FriendRequestListAdapter extends BaseAdapter{
 			viewHolder = new ViewHolder();
 			viewHolder.imageAvatar = (ImageView)v.findViewById(R.id.imgAvatar);
 			viewHolder.txtFriendName = (TextView)v.findViewById(R.id.txtFriendName);
+			viewHolder.txtFriendStatus = (TextView)v.findViewById(R.id.txtMyfriendstatusInAddFriendPage);
 			viewHolder.bFriendStatus = (ImageView)v.findViewById(R.id.acceptFriend);
 		}else{
 			v = view;
@@ -95,6 +97,16 @@ public class FriendRequestListAdapter extends BaseAdapter{
 			viewHolder.imageAvatar.setImageBitmap(bm);
 		}
 		viewHolder.txtFriendName.setText(friendRequest.getFriendName());
+		
+		// friend status
+		Map<String, String> metaData = ApplicationInstance.getInstance().getFriendMetadata(friendRequest.getFriendName());
+		if (metaData != null){
+			String status = metaData.get("status");
+			if (status != null && !status.equals("")){
+				viewHolder.txtFriendStatus.setText(status);
+			}
+		}
+		
 		if (friendRequest.getStatus().equals("friend")){
 		   viewHolder.bFriendStatus.setImageResource(R.drawable.friends);	
 		}
@@ -222,6 +234,7 @@ public class FriendRequestListAdapter extends BaseAdapter{
 	  
 	  ImageView imageAvatar;
 	  TextView txtFriendName;
+	  TextView txtFriendStatus;
 	  ImageView bFriendStatus;
 	  
   }

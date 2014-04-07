@@ -8,7 +8,7 @@
 
     <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="5dip" >
 
@@ -28,11 +28,20 @@
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:layout_marginLeft="15dp"
-            android:minHeight="?android:attr/listPreferredItemHeight"
             android:textAppearance="?android:attr/textAppearanceListItem"
             android:textColor="@color/pinned_header_background"
             android:layout_toRightOf="@+id/imgMainPageAvatar" />
       
+      <TextView
+            android:id="@+id/txtMyfriendstatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="5dp"
+            android:textSize="15sp"
+            android:text="Hey there! I am using CoolChat."
+            android:layout_toRightOf="@+id/imgMainPageAvatar"
+            android:layout_below="@+id/txtMyfriendFriendName" />
       
       <FrameLayout
            android:id="@+id/messageCountLayout"

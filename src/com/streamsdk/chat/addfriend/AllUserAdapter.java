@@ -114,6 +114,7 @@ public class AllUserAdapter extends BaseAdapter{
 			viewHolder.allImageAvatar = (ImageView)v.findViewById(R.id.allImgAvatar);
 			viewHolder.allTxtFriendName = (TextView)v.findViewById(R.id.allTxtFriendName);
 			viewHolder.allBFriendStatus = (ImageView)v.findViewById(R.id.allAcceptFriend);
+			viewHolder.allFriendCurrentStatus = (TextView)v.findViewById(R.id.txtMyfriendstatusInAllFriendPage);
 		}else{
 			v = view;
 			viewHolder = (ViewHolder)view.getTag();
@@ -126,6 +127,15 @@ public class AllUserAdapter extends BaseAdapter{
 			viewHolder.allImageAvatar.setImageBitmap(bm);
 		}
 		viewHolder.allTxtFriendName.setText(userName);
+		
+		// friend status
+		if (user != null){
+			String status = user.get("status");
+			if (status != null && !status.equals("")){
+				viewHolder.allFriendCurrentStatus.setText(status);
+			}
+		}
+		
 		viewHolder.allBFriendStatus.setImageResource(R.drawable.request);
 		v.setTag(viewHolder);
 		
@@ -181,6 +191,7 @@ public class AllUserAdapter extends BaseAdapter{
 		  
 		  ImageView allImageAvatar;
 		  TextView allTxtFriendName;
+		  TextView allFriendCurrentStatus;
 		  ImageView allBFriendStatus;
 		  
 	  }

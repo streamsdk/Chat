@@ -20,8 +20,20 @@
         android:text="friend name"
         android:textSize="23sp"
         android:textStyle="bold"
-        android:layout_centerVertical="true"        
+        android:gravity="center_vertical"      
         android:layout_toRightOf="@id/imgAvatar" />
+    
+     <TextView
+            android:id="@+id/txtMyfriendstatusInAddFriendPage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp"
+            android:textSize="15sp"
+            android:text="Hey there! I am using CoolChat."
+            android:layout_toRightOf="@+id/imgAvatar"
+            android:layout_below="@+id/txtFriendName" />
+    
 
     <ImageView
         android:id="@+id/acceptFriend"
