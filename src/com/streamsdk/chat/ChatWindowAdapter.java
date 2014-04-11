@@ -35,6 +35,7 @@ import android.widget.TextView;
 import com.streamsdk.cache.FileCache;
 import com.streamsdk.cache.ImageCache;
 import com.streamsdk.chat.domain.IM;
+import com.streamsdk.util.BitmapUtils;
 
 public class ChatWindowAdapter extends BaseAdapter{
 
@@ -248,7 +249,7 @@ public class ChatWindowAdapter extends BaseAdapter{
 		   if (fAvtar != null){
 			  viewHolder.imgAvatarFriend.setImageBitmap(fAvtar); 
 		   }
-		   if ((!im.isVoice() && !im.isImage() && !im.isVideo()) || im.isDisappear()){
+		   if ((!im.isVoice() && !im.isImage() && !im.isVideo() && !im.isMap())|| im.isDisappear()){
 			  viewHolder.txtMessageFriend.setVisibility(View.VISIBLE);
 			  viewHolder.imgAvatarFriend.setVisibility(View.VISIBLE);
 			  viewHolder.txtMessageSelf.setVisibility(View.GONE);
@@ -359,6 +360,23 @@ public class ChatWindowAdapter extends BaseAdapter{
 			  params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
 			  viewHolder.imgAvatarFriend.setLayoutParams(params);
 			  
+			}else if (im.isMap()){
+				viewHolder.friendPickImage.setVideo(false);
+				viewHolder.txtMessageFriend.setVisibility(View.GONE);
+				viewHolder.bSelfVoicePlay.setVisibility(View.GONE);
+				viewHolder.bPlayFriend.setVisibility(View.GONE);
+				viewHolder.txtMessageSelf.setVisibility(View.GONE);
+				viewHolder.imgAvatarSelf.setVisibility(View.GONE);
+				viewHolder.selfPickImage.setVisibility(View.GONE);
+				viewHolder.imgAvatarFriend.setVisibility(View.VISIBLE);
+				viewHolder.friendPickImage.setVisibility(View.VISIBLE);
+				Bitmap bm = im.getReceivedFriendImageBitmap();
+				Bitmap snapshot = BitmapUtils.drawText(im.getAddress(), bm);
+				viewHolder.friendPickImage.setImageBitmap(snapshot);
+				RelativeLayout.LayoutParams params =  (android.widget.RelativeLayout.LayoutParams) viewHolder.imgAvatarFriend.getLayoutParams();
+				params.addRule(RelativeLayout.ALIGN_BOTTOM, viewHolder.friendPickImage.getId());
+				params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+				viewHolder.imgAvatarFriend.setLayoutParams(params);
 			}else{
 			  viewHolder.txtMessageSelf.setVisibility(View.GONE);
 			  viewHolder.imgAvatarSelf.setVisibility(View.GONE);

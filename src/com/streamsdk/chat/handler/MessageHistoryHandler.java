@@ -58,14 +58,14 @@ public class MessageHistoryHandler implements Runnable{
 			if (type.equals("photo")){
 				  streamFile.setId(xmppMessage.getFileId());
 				  try {
-					  im = ImageHandler.processReceivedFriendImage(streamFile, true);
+					  im = ImageHandler.processReceivedFriendImage(streamFile, true, false);
 				  } catch (Exception e) {
 					  continue;
 				  }
 			}else if (type.equals("video")){
 				   streamFile.setId(xmppMessage.getFileId());
 				   try {
-					   im = ImageHandler.processReceivedFriendImage(streamFile, false);
+					   im = ImageHandler.processReceivedFriendImage(streamFile, false, false);
 				   } catch (Exception e) {
                        continue;
 				   }

@@ -22,7 +22,7 @@ public class MessagingHistoryDB {
     private static final int DATABASE_VERSION = 1;
     private SQLiteDatabase db;
     private SQLiteStatement mInsertStmt;
-    private static final String MINSERT = "insert into mhdb (id, chattime, type, content, fromuser, touser,recordingtime,duration,viewed) values (?,?,?,?,?,?,?,?,?)";
+    private static final String MINSERT = "insert into mhdb (id, chattime, type, content, fromuser, touser,recordingtime,duration,viewed,lat,longt,address) values (?,?,?,?,?,?,?,?,?,?,?,?)";
 	private DatabaseHelper helper;
     
 	public MessagingHistoryDB(Context context){
@@ -90,6 +90,10 @@ public class MessagingHistoryDB {
               String recordingTime = c.getString(6);
               String duration = c.getString(7);
               String viewed = c.getString(8);
+              String lat = c.getString(9);
+              String longt = c.getString(10);
+              String address = c.getString(11);
+              
               IM im = new IM();
               if (time != null && !time.isEmpty())
                   im.setChatTime(Long.parseLong(time));
@@ -126,6 +130,15 @@ public class MessagingHistoryDB {
             	  if (!im.isSelf())
             		  im.setReceivedFilePath(content);
               }
+              if (type.equals("map")){
+            	  im.setMap(true);
+            	  im.setLatitude(lat);
+            	  im.setLongitude(longt);
+            	  im.setAddress(address);
+            	  im.storeSendImage(content);
+            	  if (!im.isSelf())
+            		  im.setReceivedFilePath(content);
+              }
               if (type.equals("voice")){
             	  im.setVoice(true);
             	  im.setRecordingTime(Integer.parseInt(recordingTime));
@@ -147,6 +160,9 @@ public class MessagingHistoryDB {
 		String content = "";
 		String recordingtime = "";
 		String viewd = "NO";
+		String lat = "";
+		String longt = "";
+		String address = "";
 		String duration = im.getTimeout();
 		if (im.isImage()){
 			type = "photo";
@@ -164,6 +180,15 @@ public class MessagingHistoryDB {
 			type = "voice";
 			content = im.getVoiceImFileName();
 			recordingtime = String.valueOf(im.getRecordingTime());
+		}else if (im.isMap()){
+			type= "map";
+			lat = im.getLatitude();
+			longt = im.getLongitude();
+			address = im.getAddress();
+			if (im.isSelf())
+				content = im.getSelfSendImagePath();
+			else
+			    content = im.getReceivedFilePath();
 		}else{
 			type = "text";
 			content = im.getChatMessage();
@@ -178,6 +203,10 @@ public class MessagingHistoryDB {
 	    mInsertStmt.bindString(7, recordingtime);
 	    mInsertStmt.bindString(8, duration);
 	    mInsertStmt.bindString(9, viewd);
+	    mInsertStmt.bindString(10, lat);
+	    mInsertStmt.bindString(11, longt);
+	    mInsertStmt.bindString(12, address);
+	    
 	    mInsertStmt.executeInsert();
   }
 	
@@ -189,7 +218,7 @@ public class MessagingHistoryDB {
         }
 
         public void onCreate(SQLiteDatabase db) {
-			 db.execSQL("CREATE TABLE mhdb (id TEXT PRIMARY KEY, chattime TEXT, type TEXT, content TEXT, fromuser TEXT, touser TEXT,recordingtime TEXT, duration TEXT, viewed TEXT)");
+			 db.execSQL("CREATE TABLE mhdb (id TEXT PRIMARY KEY, chattime TEXT, type TEXT, content TEXT, fromuser TEXT, touser TEXT,recordingtime TEXT, duration TEXT, viewed TEXT, lat TEXT, longt TEXT, address TEXT)");
 		}
 
 		public void onUpgrade(SQLiteDatabase db, int arg1, int arg2) {

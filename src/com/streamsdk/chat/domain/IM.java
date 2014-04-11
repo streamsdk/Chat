@@ -18,6 +18,7 @@ public class IM {
 	private boolean isImage = false;
 	private boolean isVideo = false;
 	private boolean disappear = false;
+	private boolean isMap = false;
 	private String voiceImFileName = "";
 	private int recordingTime;
 	private String selfSendImagePath;
@@ -29,6 +30,9 @@ public class IM {
 	private String primaryKey = "";
 	private String thumbNailId;
 	private String bodyJSON;
+	private String latitude="";
+	private String longitude="";
+	private String address="";
 	
 	public String getBodyJSON() {
 		return bodyJSON;
@@ -74,6 +78,11 @@ public class IM {
 	   }
 		
 	   if (isImage && ImageCache.getInstance().getChatImage(path) == null){
+		   Bitmap sBitMap = BitmapUtils.loadImageForFullScreen(path,  230, 230, 300);
+		   ImageCache.getInstance().putChatImages(path, sBitMap);
+		}
+	   
+	   if (isMap && ImageCache.getInstance().getChatImage(path) == null){
 		   Bitmap sBitMap = BitmapUtils.loadImageForFullScreen(path,  230, 230, 300);
 		   ImageCache.getInstance().putChatImages(path, sBitMap);
 		}
@@ -189,6 +198,38 @@ public class IM {
 		this.thumbNailId = thumbNailId;
 	}
 	
+	public boolean isMap() {
+		return isMap;
+	}
+
+	public void setMap(boolean isMap) {
+		this.isMap = isMap;
+	}
+
+	public String getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(String latitude) {
+		this.latitude = latitude;
+	}
+
+	public String getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(String longitude) {
+		this.longitude = longitude;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
 	public boolean equals(Object obj) {
         return chatTime == ((IM)obj).getChatTime() && primaryKey.equals(((IM)obj).getPrimaryKey());
 	}

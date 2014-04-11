@@ -49,30 +49,32 @@ public class ImageHandler {
 		}
     }
 	
-	public static IM processReceivedFriendImage(StreamFile streamFile, boolean isImage) throws Exception{
+	public static IM processReceivedFriendImage(StreamFile streamFile, boolean isImage, boolean isMap) throws Exception{
 		
 		IM im = new IM();
 		im.setSelf(false);
 		InputStream in = streamFile.getFileObject(streamFile.getId());
 		FileCache.getInstance().writeFileToDisk(streamFile.getId(), in);
 		File file = FileCache.getInstance().loadFile(streamFile.getId());
-		if (isImage){
-		   im.setImage(true);
-		   Bitmap sBitMap = BitmapUtils.loadImageForFullScreen(file.getAbsolutePath(), 230, 230, 300);
-		   ImageCache.getInstance().putChatImages(file.getAbsolutePath(), sBitMap);	
+		if (isMap){
+			im.setMap(true);
+			Bitmap sBitMap = BitmapUtils.loadImageForFullScreen(file.getAbsolutePath(), 230, 230, 300);
+			ImageCache.getInstance().putChatImages(file.getAbsolutePath(), sBitMap);	
 		}else{
-		   im.setVideo(true);
-		   long length = file.length();
-		   Bitmap thumb = ThumbnailUtils.createVideoThumbnail(file.getAbsolutePath(), MediaStore.Images.Thumbnails.MINI_KIND);
-		   Bitmap resizedBitmap = Bitmap.createScaledBitmap(thumb, 230, 230, false);
-		   ImageCache.getInstance().putChatImages(file.getAbsolutePath(), resizedBitmap);
-		   
+			if (isImage){
+				   im.setImage(true);
+				   Bitmap sBitMap = BitmapUtils.loadImageForFullScreen(file.getAbsolutePath(), 230, 230, 300);
+				   ImageCache.getInstance().putChatImages(file.getAbsolutePath(), sBitMap);	
+				}else{
+				   im.setVideo(true);
+				   long length = file.length();
+				   Bitmap thumb = ThumbnailUtils.createVideoThumbnail(file.getAbsolutePath(), MediaStore.Images.Thumbnails.MINI_KIND);
+				   Bitmap resizedBitmap = Bitmap.createScaledBitmap(thumb, 230, 230, false);
+				   ImageCache.getInstance().putChatImages(file.getAbsolutePath(), resizedBitmap);
+				}
 		}
 		im.setReceivedFilePath(file.getAbsolutePath());
 		return im;
-		
 	}
-	
-	
 	
 }

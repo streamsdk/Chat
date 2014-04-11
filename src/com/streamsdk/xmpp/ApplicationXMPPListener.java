@@ -140,20 +140,28 @@ public class ApplicationXMPPListener {
 					   boolean processed = true;
 					   if (type.equals("photo")){
 					     try {
-							im = ImageHandler.processReceivedFriendImage(streamFile, true);
+							im = ImageHandler.processReceivedFriendImage(streamFile, true, false);
 							notificationMessage = " sent a photo to you";
 						} catch (Exception e) {
 							processed = false;
 						}
 					   }else if (type.equals("video")){
 						 try {
-							im = ImageHandler.processReceivedFriendImage(streamFile, false);
+							im = ImageHandler.processReceivedFriendImage(streamFile, false, false);
 							notificationMessage = " sent a video to you";
 						} catch (Exception e) {
 							processed = false;
 						}
 					   }else if (type.equals("map")){
-						    return;   
+						  try {
+								im = ImageHandler.processReceivedFriendImage(streamFile, false, true);
+								im.setAddress(xmppMessage.getAddress());
+								im.setLatitude(xmppMessage.getLatitude());
+								im.setLongitude(xmppMessage.getLongitude());
+								notificationMessage = " sent location info to you";
+							} catch (Exception e) {
+								processed = false;
+							}
 					   }else{
 						 String duration = xmppMessage.getDuration();
 					     im = AudioHandler.processReceivedFile(streamFile, duration);

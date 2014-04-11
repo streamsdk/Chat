@@ -8,12 +8,40 @@ import java.io.InputStream;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Matrix;
+import android.graphics.Paint;
+import android.graphics.Rect;
 import android.media.ExifInterface;
 import android.util.Log;
 
 public class BitmapUtils {
 
+	public static Bitmap drawText(String text, Bitmap snapshot){
+		
+    	snapshot = snapshot.copy(snapshot.getConfig(), true);
+        Canvas canvas = new Canvas(snapshot);
+        // new antialised Paint
+        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        // text color - #3D3D3D
+        paint.setColor(Color.RED);
+        // text size in pixels
+        paint.setTextSize(13);
+        // text shadow
+        paint.setShadowLayer(1f, 0f, 1f, Color.DKGRAY);
+
+        // draw text to the Canvas center
+        Rect bounds = new Rect();
+        paint.getTextBounds(text, 0, text.length(), bounds);
+        int movey=10;
+        for(String line: text.split(",")){
+        	canvas.drawText(line, 10, movey, paint);
+            movey=movey+20;
+        }
+        return snapshot;
+   }
+	
 	
 	public static int getRotation(String path){
 	
