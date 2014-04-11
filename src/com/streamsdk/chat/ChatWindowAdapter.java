@@ -373,6 +373,15 @@ public class ChatWindowAdapter extends BaseAdapter{
 				Bitmap bm = im.getReceivedFriendImageBitmap();
 				Bitmap snapshot = BitmapUtils.drawText(im.getAddress(), bm);
 				viewHolder.friendPickImage.setImageBitmap(snapshot);
+				viewHolder.friendPickImage.setOnClickListener(new View.OnClickListener() {
+					public void onClick(View v) {
+					    Intent intent = new Intent(activity.getApplicationContext(), MapViewActivity.class);
+					    intent.putExtra("lat", im.getLatitude());
+					    intent.putExtra("longt", im.getLongitude());
+					    intent.putExtra("address", im.getAddress());
+					    activity.startActivity(intent);
+					}
+				});
 				RelativeLayout.LayoutParams params =  (android.widget.RelativeLayout.LayoutParams) viewHolder.imgAvatarFriend.getLayoutParams();
 				params.addRule(RelativeLayout.ALIGN_BOTTOM, viewHolder.friendPickImage.getId());
 				params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
