@@ -13,7 +13,6 @@ import org.jivesoftware.smack.packet.Message;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.DialogFragment;
 import android.app.FragmentManager;
@@ -36,7 +35,6 @@ import android.view.View.OnLongClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup.LayoutParams;
 import android.view.ViewTreeObserver;
-import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -98,6 +96,7 @@ public class MainActivity extends Activity implements EditTextEmojSelected, Chat
 	static final int REQUEST_IMAGE_CAPTURE = 0;
 	static final int REQUEST_IMAGE_PICK = 1;
 	static final int REQUEST_VIDEO_CAPTURE = 2;
+	static final int SHARE_MAP = 3;
 	static final int MAX_VIDEO_SIZE = 15000000;
 	String thumbnailFileId = "";
 
@@ -325,6 +324,15 @@ public class MainActivity extends Activity implements EditTextEmojSelected, Chat
 			}
 		});
 		
+		
+		ImageView takeMap = (ImageView)findViewById(R.id.takemap_button);
+		takeMap.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+			     Intent intent = new Intent(activity, SendMapViewActivity.class);
+			     startActivityForResult(intent, SHARE_MAP);
+			}
+		});
+		
 		checkKeyboardHeight(parentLayout);
 		setSpeakButtonAction(speakButton);
 		//deleteCountHistory();
@@ -479,6 +487,10 @@ public class MainActivity extends Activity implements EditTextEmojSelected, Chat
 		    	  sendVideoIM(imageReturnedIntent);
 		       }
 		       break;
+		case SHARE_MAP:
+			 if (resultCode == RESULT_OK){
+		        Log.i("", "");		 
+			 }
 		}
 	}
 
@@ -554,6 +566,18 @@ public class MainActivity extends Activity implements EditTextEmojSelected, Chat
 		moreOptions.setVisibility(View.GONE);
 		moreButtons.setImageResource(R.drawable.plus256);
     }
+    
+    private void sendMapIM(String path){
+    	
+    	dismissMoreOptionPanel();
+    	IM im = ImageHandler.buildMapIMMessage(path);
+    	long chatTime = System.currentTimeMillis(); 
+		im.setChatTime(chatTime);
+		im.setFrom(ApplicationInstance.getInstance().getLoginName());
+    	im.setTo(receiver);
+		
+    }
+    
     
     private void sendImageIM(String path){
     	dismissMoreOptionPanel();

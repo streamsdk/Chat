@@ -31,6 +31,13 @@ public class ImageHandler {
 		 
 	}
 	
+	public static IM buildMapIMMessage(String path){
+		 IM im = new IM();
+		 im.setMap(true);
+		 im.setSelf(true);
+		 im.storeSendImage(path);
+		 return im;
+	}
 	
 	public static File createImageFile() {
 	     File file = FileCache.getInstance().getOutputFilePath();

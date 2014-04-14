@@ -4,17 +4,13 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-
-import com.streamsdk.chat.ApplicationInstance;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.Environment;
-import android.util.Log;
+
+import com.streamsdk.chat.ApplicationInstance;
 
 public class ImageCache {
 

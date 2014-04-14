@@ -4,6 +4,15 @@
   android:layout_height="wrap_content"
   android:background="@drawable/custom_info_bubble"
   android:orientation="vertical">
+  <TextView
+      android:id="@+id/snippet"
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content"
+      android:textColor="@android:color/darker_gray"
+      android:text="Click To Share"
+      android:textStyle="bold"
+      android:textSize="16dp"
+      android:visibility="gone"/>
     <TextView
       android:id="@+id/title"
       android:layout_width="wrap_content"
@@ -15,13 +24,5 @@
       android:textSize="14dp"
       android:text="you are here"
       android:textStyle="bold"/>
-    <TextView
-      android:id="@+id/snippet"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:ellipsize="end"
-      android:singleLine="true"
-      android:textColor="#ff7f7f7f"
-      android:text="share location"
-      android:textSize="14dp"/>
+  
 </LinearLayout>

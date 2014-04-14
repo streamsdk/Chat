@@ -4,9 +4,7 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
-import android.util.Log;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.GoogleMap.InfoWindowAdapter;
@@ -15,9 +13,11 @@ import com.google.android.gms.maps.model.Marker;
 public class CustomInfoWindowAdapter implements InfoWindowAdapter{
 
 	private View view;
+	private boolean buttonShow = false;
 	
-	public CustomInfoWindowAdapter(Activity activity){
-		view = activity.getLayoutInflater().inflate(R.layout.custominfo_layout, null);
+	
+	public CustomInfoWindowAdapter(Activity ac){
+		view = ac.getLayoutInflater().inflate(R.layout.custominfo_layout, null);
 	}
 	
 	public View getInfoContents(Marker arg0) {
@@ -27,6 +27,10 @@ public class CustomInfoWindowAdapter implements InfoWindowAdapter{
 	public View getInfoWindow(Marker marker) {
 		 render(marker, view);
          return view;
+	}
+	
+	public void setButtonShow(){
+		buttonShow = true;
 	}
 	
 	 private void render(Marker marker, View view) {
@@ -41,18 +45,12 @@ public class CustomInfoWindowAdapter implements InfoWindowAdapter{
          } else {
              titleUi.setText("");
          }
+        
          
-         String snippet = marker.getSnippet();
-         TextView snippetUi = ((TextView) view.findViewById(R.id.snippet));
-         if (snippet != null && snippet.length() > 12) {
-             SpannableString snippetText = new SpannableString(snippet);
-             snippetText.setSpan(new ForegroundColorSpan(Color.MAGENTA), 0, 10, 0);
-             snippetText.setSpan(new ForegroundColorSpan(Color.BLUE), 12, snippet.length(), 0);
-             snippetUi.setText(snippetText);
-         } else {
-             snippetUi.setText("");
+         if (buttonShow){
+             TextView snippetUi = ((TextView) view.findViewById(R.id.snippet));
+             snippetUi.setVisibility(View.VISIBLE);
          }
-     
      }
 
 	
