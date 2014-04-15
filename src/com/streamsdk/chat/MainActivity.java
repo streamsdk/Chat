@@ -577,6 +577,7 @@ public class MainActivity extends Activity implements EditTextEmojSelected, Chat
 		im.setFrom(ApplicationInstance.getInstance().getLoginName());
     	im.setTo(receiver);
     	messages.add(im);
+    	ApplicationInstance.getInstance().getMessagingHistoryDB().insert(im);
     	updateData();
     	ApplicationInstance.getInstance().setMapTaken(null);
     	byte imageButes[] = ImageCache.getInstance().getImageBytes(sm.getPath());

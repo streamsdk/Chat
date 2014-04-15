@@ -85,7 +85,7 @@ public class IM {
 	   
 	   if (isMap && ImageCache.getInstance().getChatImage(path) == null){
 		   Bitmap sBitMap = BitmapUtils.loadImageForFullScreen(path,  230, 230, 300);
-		   Bitmap textBitmap = BitmapUtils.drawText(ApplicationInstance.getInstance().getMapTaken().getAddress(), sBitMap, "\n");
+		   Bitmap textBitmap = BitmapUtils.drawText(address, sBitMap, "\n");
 		   ImageCache.getInstance().putChatImages(path, textBitmap);
 		}
 		selfSendImagePath = path;
