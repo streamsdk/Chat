@@ -21,7 +21,7 @@ public class MessagingAckDB {
     private SQLiteDatabase db;
     private SQLiteStatement mInsertStmt;
 	private DatabaseHelper helper;
-    private static final String MINSERT = "insert into mrdb (id, type, fromuser, touser, message, fileid, duration, tid) values (?,?,?,?,?,?,?,?)";
+    private static final String MINSERT = "insert into mrdb (id, type, fromuser, touser, message, fileid, duration, tid, lat, lon, address) values (?,?,?,?,?,?,?,?,?,?,?)";
 	
 	
 	public MessagingAckDB(Context context){
@@ -43,6 +43,9 @@ public class MessagingAckDB {
               String fileid = c.getString(5);
               String duration = c.getString(6);
               String tid = c.getString(7);
+              String lat = c.getString(8);
+              String lon = c.getString(9);
+              String address = c.getString(10);
               StreamXMPPMessage xmpp = new StreamXMPPMessage();
               xmpp.setId(id);
               xmpp.setType(type);
@@ -52,6 +55,9 @@ public class MessagingAckDB {
               xmpp.setFileId(fileid);
               xmpp.setDuration(duration);
               xmpp.setThumbnailId(tid);
+              xmpp.setLatitude(lat);
+              xmpp.setLongitude(lon);
+              xmpp.setAddress(address);
               
               acks.add(xmpp);
              	
@@ -70,9 +76,29 @@ public class MessagingAckDB {
 		mInsertStmt.bindString(5, "");
 		mInsertStmt.bindString(6, fileId);
 		mInsertStmt.bindString(7, String.valueOf(im.getRecordingTime()));
+		mInsertStmt.bindString(8, "");
+		mInsertStmt.bindString(9, "");
+		mInsertStmt.bindString(10, "");
 		mInsertStmt.executeInsert();
 	
 	}
+	
+	public void insertMapMessage(IM im, String fileId){
+		
+		mInsertStmt.bindString(1, String.valueOf(im.getChatTime()));
+		mInsertStmt.bindString(2, "map");
+		mInsertStmt.bindString(3, im.getFrom());
+		mInsertStmt.bindString(4, im.getTo());
+		mInsertStmt.bindString(5, "");
+		mInsertStmt.bindString(6, fileId);
+		mInsertStmt.bindString(7, "");
+		mInsertStmt.bindString(8, im.getLatitude());
+		mInsertStmt.bindString(9, im.getLongitude());
+		mInsertStmt.bindString(10, im.getAddress());
+		mInsertStmt.executeInsert();
+		
+	}
+	
 	
 	public void insertImageMessage(IM im, String fileId){
 
@@ -83,6 +109,9 @@ public class MessagingAckDB {
 		mInsertStmt.bindString(5, "");
 		mInsertStmt.bindString(6, fileId);
 		mInsertStmt.bindString(7, im.getTimeout());
+		mInsertStmt.bindString(8, "");
+		mInsertStmt.bindString(9, "");
+		mInsertStmt.bindString(10, "");
 		mInsertStmt.executeInsert();
 		
 	}
@@ -104,6 +133,8 @@ public class MessagingAckDB {
 		mInsertStmt.bindString(6, fileId);
 		mInsertStmt.bindString(7, im.getTimeout());
 		mInsertStmt.bindString(8, "");
+		mInsertStmt.bindString(9, "");
+		mInsertStmt.bindString(10, "");
 		mInsertStmt.executeInsert();
 		
 	}
@@ -118,6 +149,9 @@ public class MessagingAckDB {
 		mInsertStmt.bindString(5, body);
 		mInsertStmt.bindString(6, "");
 		mInsertStmt.bindString(7, "");
+		mInsertStmt.bindString(8, "");
+		mInsertStmt.bindString(9, "");
+		mInsertStmt.bindString(10, "");
 		mInsertStmt.executeInsert();
 	
 	}
@@ -136,7 +170,7 @@ public class MessagingAckDB {
         }
 
         public void onCreate(SQLiteDatabase db) {
-			 db.execSQL("CREATE TABLE mrdb (id TEXT PRIMARY KEY, type TEXT, fromuser TEXT, touser TEXT, message TEXT,fileid TEXT, duration TEXT, tid TEXT)");
+			 db.execSQL("CREATE TABLE mrdb (id TEXT PRIMARY KEY, type TEXT, fromuser TEXT, touser TEXT, message TEXT,fileid TEXT, duration TEXT, tid TEXT, lat TEXT, lon TEXT, address TEXT)");
 		}
 
 		public void onUpgrade(SQLiteDatabase db, int arg1, int arg2) {

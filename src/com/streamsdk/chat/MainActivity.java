@@ -571,7 +571,7 @@ public class MainActivity extends Activity implements EditTextEmojSelected, Chat
     private void sendMapIM(SendMap sm){
     	
     	dismissMoreOptionPanel();
-    	IM im = ImageHandler.buildMapIMMessage(sm);
+    	final IM im = ImageHandler.buildMapIMMessage(sm);
     	long chatTime = System.currentTimeMillis(); 
 		im.setChatTime(chatTime);
 		im.setFrom(ApplicationInstance.getInstance().getLoginName());
@@ -579,6 +579,23 @@ public class MainActivity extends Activity implements EditTextEmojSelected, Chat
     	messages.add(im);
     	updateData();
     	ApplicationInstance.getInstance().setMapTaken(null);
+    	byte imageButes[] = ImageCache.getInstance().getImageBytes(sm.getPath());
+		Map<String, String> usermetaData = ApplicationInstance.getInstance().getFriendMetadata(receiver);
+        String token = usermetaData != null ? usermetaData.get(ApplicationInstance.TOEKN) : "";
+		if (imageButes != null){
+		    Map<String, Object> metaData = new HashMap<String, Object>();
+		    metaData.put("lat", sm.getLat());
+			metaData.put("lon", sm.getLon());
+			metaData.put("address", sm.getAddress());
+			StreamXMPP.getInstance().sendBytes(new StreamCallback() {
+			    public void result(boolean succeed, String errorMessage) {
+				    if (succeed){
+				    	Log.i("", "");
+				    	ApplicationInstance.getInstance().getMessagingAckDB().insertMapMessage(im, errorMessage);
+				    }
+			    }
+		     }, null, imageButes, metaData, ApplicationInstance.APPID + receiver, ApplicationInstance.getInstance().getLoginName(), "map", -1, chatTime, "", token);
+		 }
     }
     
     private void sendImageIM(String path){
