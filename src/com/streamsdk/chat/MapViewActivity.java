@@ -1,6 +1,7 @@
 package com.streamsdk.chat;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -17,7 +18,7 @@ public class MapViewActivity extends Activity{
     private String longt = "";
     private String address = "";
     private GoogleMap mMap;
-    
+  
 	protected  void onCreate(Bundle savedInstanceState) {
 		 super.onCreate(savedInstanceState);
 		 setContentView(R.layout.mapview_layout);
@@ -29,11 +30,12 @@ public class MapViewActivity extends Activity{
 		 showMyLocation();
 	}
 	
+	
 	private void showMyLocation(){
-		
+	
 	     mMap.setInfoWindowAdapter(new CustomInfoWindowAdapter(this));
 	     LatLng ll = new LatLng(Double.parseDouble(lat), Double.parseDouble(longt));
-         Marker maker = mMap.addMarker(new MarkerOptions()
+	     Marker maker = mMap.addMarker(new MarkerOptions()
          .position(ll)
          .title(address));
         
@@ -48,6 +50,6 @@ public class MapViewActivity extends Activity{
 	            mMap = mf.getMap();
 	        }
 	 }
-	
+
 
 }

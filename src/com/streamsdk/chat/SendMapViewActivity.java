@@ -8,13 +8,18 @@ import java.io.IOException;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.SearchView;
+import android.widget.SearchView.OnQueryTextListener;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallbacks;
@@ -31,7 +36,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.streamsdk.cache.FileCache;
-import com.streamsdk.cache.ImageCache;
 import com.streamsdk.chat.domain.SendMap;
 
 public class SendMapViewActivity extends Activity implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener{
@@ -87,6 +91,68 @@ public class SendMapViewActivity extends Activity implements ConnectionCallbacks
 	  	 mMap.snapshot(callback);
 	 }
 	 
+    public boolean onCreateOptionsMenu(Menu menu){
+		 
+		 final SearchView searchView = new SearchView(getActionBar().getThemedContext());
+		 searchView.setQueryHint("enter location");
+			
+		   searchView.setOnQueryTextListener(new OnQueryTextListener() {
+			public boolean onQueryTextSubmit(final String query) {
+				//getActionBar().selectTab(searchTab);
+				InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+				imm.hideSoftInputFromWindow(searchView.getWindowToken(), 0);
+				searchView.clearFocus();
+				searchView.setQuery("", false);
+				//showDialog("searching location... " + query);
+				address = "";
+				Geocoder geo = new Geocoder(getApplicationContext());
+		            try {
+						List<Address> addes = geo.getFromLocationName(query, 5);
+						 for (Address ad : addes){
+						    	int line = ad.getMaxAddressLineIndex();
+						    	int index = 0;
+						    	while(line >=0 ){
+						    		String lineStr = ad.getAddressLine(index);
+						    		if (line != 0)
+						    		   address = address + lineStr + "\n";
+						    		else
+						    		   address = address + lineStr;
+						    	
+						    		line--;
+						    		index++;
+						    	}
+						    	double lat = ad.getLatitude();
+						    	double longt = ad.getLongitude();
+						    	LatLng ll = new LatLng(lat, longt);
+						        Marker maker = mMap.addMarker(new MarkerOptions()
+					                           .position(ll)
+					                           .title(address));
+						        maker.showInfoWindow();
+						        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(ll, 15));
+						    	break;
+						    }
+						
+						
+					} catch (IOException e1) {
+						
+					}
+			 
+	            
+				return false;
+			}
+			
+			public boolean onQueryTextChange(String newText) {
+				return false;
+			}
+		});
+		 
+		 menu.add("Search").setIcon(R.drawable.ic_search).setActionView(searchView).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS | MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
+		 menu.add("Refresh").setIcon(R.drawable.ic_refresh).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+					
+		 return true;
+	 }
+	 
+	 
 	 public void showMyLocation() {
 	      if (mLocationClient != null && mLocationClient.isConnected()) {
 	            LatLng ll = new LatLng(mLocationClient.getLastLocation().getLatitude(), mLocationClient.getLastLocation().getLongitude());
@@ -94,7 +160,7 @@ public class SendMapViewActivity extends Activity implements ConnectionCallbacks
 	            ca.setButtonShow();
 	            mMap.setInfoWindowAdapter(ca);
 	            
-	           
+	            address = "";
 	            Geocoder geo = new Geocoder(getApplicationContext());
 	            try {
 					List<Address> all = geo.getFromLocation(mLocationClient.getLastLocation().getLatitude(), mLocationClient.getLastLocation().getLongitude(), 5);
@@ -145,10 +211,18 @@ public class SendMapViewActivity extends Activity implements ConnectionCallbacks
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int itemId = item.getItemId();
+		String title = (String)item.getTitle();
 		switch (itemId) {
 		  case android.R.id.home:
 			   onBackPressed();
 			   return true;
+			case 0:
+				 if (title.equals("Refresh")){
+			        showMyLocation();
+				 }else{
+					 
+				 }
+			     return true;   
 		  default:
 			 return super.onOptionsItemSelected(item);
 		}

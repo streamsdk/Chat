@@ -235,6 +235,15 @@ public class ChatWindowAdapter extends BaseAdapter{
 			   viewHolder.imgAvatarSelf.setVisibility(View.VISIBLE);
 			   viewHolder.selfPickImage.setVisibility(View.VISIBLE);
 			   viewHolder.selfPickImage.setImageBitmap(im.getSelfSendImage());
+			   viewHolder.selfPickImage.setOnClickListener(new View.OnClickListener() {
+				   public void onClick(View arg0) {
+					   Intent intent = new Intent(activity.getApplicationContext(), MapViewActivity.class);
+					   intent.putExtra("lat", im.getLatitude());
+					   intent.putExtra("longt", im.getLongitude());
+					   intent.putExtra("address", im.getAddress());
+					   activity.startActivity(intent);
+				   }
+			  });
 			   RelativeLayout.LayoutParams params =  (android.widget.RelativeLayout.LayoutParams) viewHolder.imgAvatarSelf.getLayoutParams();
 			   params.addRule(RelativeLayout.ALIGN_BOTTOM, viewHolder.selfPickImage.getId());
 			   params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
