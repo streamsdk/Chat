@@ -20,6 +20,7 @@ import com.streamsdk.cache.MessagingHistoryDB;
 import com.streamsdk.cache.StatusDB;
 import com.streamsdk.chat.domain.IM;
 import com.streamsdk.chat.domain.OnlineOffineUpdate;
+import com.streamsdk.chat.domain.SendMap;
 
 public class ApplicationInstance {
 	
@@ -63,6 +64,7 @@ public class ApplicationInstance {
 	private Activity firstPageActivity;
 	private String recordingVideoPath;
 	private String photoTakenPath;
+	private SendMap mapTaken;
 	
 	private MessagingCountDB messagingCountDB;
 	private MessagingAckDB messagingAckDB;
@@ -232,6 +234,14 @@ public class ApplicationInstance {
 
 	public void setPhotoTakenPath(String photoTakenPath) {
 		this.photoTakenPath = photoTakenPath;
+	}
+	
+	public SendMap getMapTaken() {
+		return mapTaken;
+	}
+
+	public void setMapTaken(SendMap mapTaken) {
+		this.mapTaken = mapTaken;
 	}
 
 	public MessagingCountDB getMessagingCountDB() {

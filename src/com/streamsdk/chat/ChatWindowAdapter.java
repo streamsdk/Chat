@@ -135,7 +135,7 @@ public class ChatWindowAdapter extends BaseAdapter{
 		   if (bm != null){
 			   viewHolder.imgAvatarSelf.setImageBitmap(bm); 
 		   }
-		   if ((!im.isVoice() && !im.isImage() && !im.isVideo()) || im.isDisappear()){
+		   if ((!im.isVoice() && !im.isImage() && !im.isVideo() && !im.isMap()) || im.isDisappear()){
 			   viewHolder.txtMessageFriend.setVisibility(View.GONE);
 			   viewHolder.imgAvatarFriend.setVisibility(View.GONE);
 			   viewHolder.bSelfVoicePlay.setVisibility(View.GONE);
@@ -223,6 +223,22 @@ public class ChatWindowAdapter extends BaseAdapter{
 			   params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
 			   viewHolder.imgAvatarSelf.setLayoutParams(params);
 			   
+			   
+		   }else if(im.isMap()){
+			   viewHolder.selfPickImage.setVideo(false); 
+			   viewHolder.txtMessageFriend.setVisibility(View.GONE);
+			   viewHolder.imgAvatarFriend.setVisibility(View.GONE);
+			   viewHolder.bSelfVoicePlay.setVisibility(View.GONE);
+			   viewHolder.bPlayFriend.setVisibility(View.GONE);
+			   viewHolder.txtMessageSelf.setVisibility(View.GONE);
+			   viewHolder.friendPickImage.setVisibility(View.GONE);
+			   viewHolder.imgAvatarSelf.setVisibility(View.VISIBLE);
+			   viewHolder.selfPickImage.setVisibility(View.VISIBLE);
+			   viewHolder.selfPickImage.setImageBitmap(im.getSelfSendImage());
+			   RelativeLayout.LayoutParams params =  (android.widget.RelativeLayout.LayoutParams) viewHolder.imgAvatarSelf.getLayoutParams();
+			   params.addRule(RelativeLayout.ALIGN_BOTTOM, viewHolder.selfPickImage.getId());
+			   params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+			   viewHolder.imgAvatarSelf.setLayoutParams(params);
 			   
 		   }else{
 			   viewHolder.txtMessageFriend.setVisibility(View.GONE);
@@ -371,7 +387,7 @@ public class ChatWindowAdapter extends BaseAdapter{
 				viewHolder.imgAvatarFriend.setVisibility(View.VISIBLE);
 				viewHolder.friendPickImage.setVisibility(View.VISIBLE);
 				Bitmap bm = im.getReceivedFriendImageBitmap();
-				Bitmap snapshot = BitmapUtils.drawText(im.getAddress(), bm);
+				Bitmap snapshot = BitmapUtils.drawText(im.getAddress(), bm, ",");
 				viewHolder.friendPickImage.setImageBitmap(snapshot);
 				viewHolder.friendPickImage.setOnClickListener(new View.OnClickListener() {
 					public void onClick(View v) {

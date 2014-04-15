@@ -63,6 +63,7 @@ import com.streamsdk.cache.MessagingCountDB;
 import com.streamsdk.cache.MessagingHistoryDB;
 import com.streamsdk.cache.StatusDB;
 import com.streamsdk.chat.domain.IM;
+import com.streamsdk.chat.domain.SendMap;
 import com.streamsdk.chat.emoji.EmojiEditText;
 import com.streamsdk.chat.emoji.EmojiParser;
 import com.streamsdk.chat.emoji.EmotionPagerAdapter;
@@ -489,7 +490,7 @@ public class MainActivity extends Activity implements EditTextEmojSelected, Chat
 		       break;
 		case SHARE_MAP:
 			 if (resultCode == RESULT_OK){
-		        Log.i("", "");		 
+		          sendMapIM(ApplicationInstance.getInstance().getMapTaken());		 
 			 }
 		}
 	}
@@ -567,17 +568,18 @@ public class MainActivity extends Activity implements EditTextEmojSelected, Chat
 		moreButtons.setImageResource(R.drawable.plus256);
     }
     
-    private void sendMapIM(String path){
+    private void sendMapIM(SendMap sm){
     	
     	dismissMoreOptionPanel();
-    	IM im = ImageHandler.buildMapIMMessage(path);
+    	IM im = ImageHandler.buildMapIMMessage(sm);
     	long chatTime = System.currentTimeMillis(); 
 		im.setChatTime(chatTime);
 		im.setFrom(ApplicationInstance.getInstance().getLoginName());
     	im.setTo(receiver);
-		
+    	messages.add(im);
+    	updateData();
+    	ApplicationInstance.getInstance().setMapTaken(null);
     }
-    
     
     private void sendImageIM(String path){
     	dismissMoreOptionPanel();

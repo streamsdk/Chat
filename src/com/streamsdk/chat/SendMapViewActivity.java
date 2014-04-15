@@ -32,6 +32,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.streamsdk.cache.FileCache;
 import com.streamsdk.cache.ImageCache;
+import com.streamsdk.chat.domain.SendMap;
 
 public class SendMapViewActivity extends Activity implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener{
 	
@@ -72,7 +73,12 @@ public class SendMapViewActivity extends Activity implements ConnectionCallbacks
 	                } catch (FileNotFoundException e) {
 	             
 	                } catch (IOException e) {}
-	                ImageCache.getInstance().putChatImages(mapFile.getAbsolutePath(), snapshot);
+	            	SendMap sm = new SendMap();
+	            	sm.setAddress(address);
+	            	sm.setLat(String.valueOf(mLocationClient.getLastLocation().getLatitude()));
+	            	sm.setLon(String.valueOf(mLocationClient.getLastLocation().getLongitude()));
+	            	sm.setPath(mapFile.getAbsolutePath());
+	                ApplicationInstance.getInstance().setMapTaken(sm);
 	            	setResult(RESULT_OK);
 			        finish();  
 	            }
@@ -108,7 +114,7 @@ public class SendMapViewActivity extends Activity implements ConnectionCallbacks
 				    }
 	            
 	            } catch (IOException e) {
-				
+				       Log.i("", "");
 				}
 	            
 	            

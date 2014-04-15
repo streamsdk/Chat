@@ -14,6 +14,7 @@ import com.stream.api.StreamFile;
 import com.streamsdk.cache.FileCache;
 import com.streamsdk.cache.ImageCache;
 import com.streamsdk.chat.domain.IM;
+import com.streamsdk.chat.domain.SendMap;
 import com.streamsdk.util.BitmapUtils;
 
 public class ImageHandler {
@@ -31,11 +32,14 @@ public class ImageHandler {
 		 
 	}
 	
-	public static IM buildMapIMMessage(String path){
+	public static IM buildMapIMMessage(SendMap sm){
 		 IM im = new IM();
 		 im.setMap(true);
 		 im.setSelf(true);
-		 im.storeSendImage(path);
+		 im.setLatitude(sm.getLat());
+	     im.setLongitude(sm.getLon());
+	     im.setAddress(sm.getAddress());
+		 im.storeSendImage(sm.getPath());
 		 return im;
 	}
 	

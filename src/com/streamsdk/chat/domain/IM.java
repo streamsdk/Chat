@@ -5,6 +5,7 @@ import android.media.ThumbnailUtils;
 import android.provider.MediaStore;
 
 import com.streamsdk.cache.ImageCache;
+import com.streamsdk.chat.ApplicationInstance;
 import com.streamsdk.util.BitmapUtils;
 
 public class IM {
@@ -84,7 +85,8 @@ public class IM {
 	   
 	   if (isMap && ImageCache.getInstance().getChatImage(path) == null){
 		   Bitmap sBitMap = BitmapUtils.loadImageForFullScreen(path,  230, 230, 300);
-		   ImageCache.getInstance().putChatImages(path, sBitMap);
+		   Bitmap textBitmap = BitmapUtils.drawText(ApplicationInstance.getInstance().getMapTaken().getAddress(), sBitMap, "\n");
+		   ImageCache.getInstance().putChatImages(path, textBitmap);
 		}
 		selfSendImagePath = path;
 	}

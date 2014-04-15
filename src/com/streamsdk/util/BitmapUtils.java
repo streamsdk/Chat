@@ -18,7 +18,7 @@ import android.util.Log;
 
 public class BitmapUtils {
 
-	public static Bitmap drawText(String text, Bitmap snapshot){
+	public static Bitmap drawText(String text, Bitmap snapshot, String dim){
 		
     	snapshot = snapshot.copy(snapshot.getConfig(), true);
         Canvas canvas = new Canvas(snapshot);
@@ -35,7 +35,7 @@ public class BitmapUtils {
         Rect bounds = new Rect();
         paint.getTextBounds(text, 0, text.length(), bounds);
         int movey=10;
-        for(String line: text.split(",")){
+        for(String line: text.split(dim)){
         	canvas.drawText(line, 10, movey, paint);
             movey=movey+20;
         }
