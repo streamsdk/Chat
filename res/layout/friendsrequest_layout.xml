@@ -2,34 +2,34 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="horizontal"
-    android:padding="10dip" >
+    android:padding="5dip" >
 
     <ImageView
         android:id="@+id/imgAvatar"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:scaleType="centerCrop"
-        android:layout_marginLeft="5dp"
+         android:layout_centerVertical="true"
         android:src="@drawable/yahoo_no_avatar" />
 
     <TextView
         android:id="@+id/txtFriendName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
+        android:layout_marginLeft="5dp"
         android:text="friend name"
-        android:textSize="23sp"
+        android:textSize="20sp"
         android:textStyle="bold"
         android:gravity="center_vertical"      
         android:layout_toRightOf="@id/imgAvatar" />
     
      <TextView
             android:id="@+id/txtMyfriendstatusInAddFriendPage"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="5dp"
             android:layout_marginTop="5dp"
-            android:textSize="15sp"
+            android:textSize="12sp"
             android:text="Hey there! I am using CoolChat."
             android:layout_toRightOf="@+id/imgAvatar"
             android:layout_below="@+id/txtFriendName" />
@@ -37,8 +37,8 @@
 
     <ImageView
         android:id="@+id/acceptFriend"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:src="@drawable/addfriend" 

@@ -18,7 +18,7 @@
         android:layout_height="60dp"
         android:layout_marginLeft="5dp"
         android:scaleType="centerCrop"
-         android:gravity="center_vertical"
+         android:layout_centerVertical="true"
         android:src="@drawable/yahoo_no_avatar"
        />
       
