@@ -20,11 +20,24 @@ import com.streamsdk.chat.ApplicationInstance;
 
 public class UsersLoadThread implements Runnable{
 
+	private String startPoint = "";
+	private int maxNum;
+	private LoadingDoneCallback callback;
+	
+	public UsersLoadThread(String maker, int max){
+		startPoint = maker;
+		maxNum = max;
+	}
+	
+	public void setCallback(LoadingDoneCallback cb){
+		callback = cb;
+	}
+	
 	public void run() {
 	
 		StreamUser su = new StreamUser();
 		su.setCurrentUserName(ApplicationInstance.getInstance().getLoginName());
-		List<Map<String, String>> allUsers = su.getAllUsers();
+		List<Map<String, String>> allUsers = su.getAllUsersByPage(startPoint, maxNum);
 		ApplicationInstance.getInstance().setAllUsers(allUsers);
 		FriendDB db = ApplicationInstance.getInstance().getFriendDB();
 		String names[] = db.getFriendsArray();
@@ -58,6 +71,9 @@ public class UsersLoadThread implements Runnable{
 					ApplicationInstance.getInstance().addUserProfile(name, fileId);
 				}
 			}
+		}
+		if (callback != null){
+			callback.loadUsersDone();
 		}
 		Log.i("", String.valueOf(allUsers.size()));
 		

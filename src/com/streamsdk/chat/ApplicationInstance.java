@@ -24,14 +24,14 @@ import com.streamsdk.chat.domain.SendMap;
 
 public class ApplicationInstance {
 	
-	//public static String STATUS_APPID = "7E95CF60694890DCD4CEFBF79BC3BAE4";
-	public static String STATUS_APPID = "0093D2FD61600099DE1027E50C6C3F8D";
+	public static String STATUS_APPID = "7E95CF60694890DCD4CEFBF79BC3BAE4";
+	//public static String STATUS_APPID = "0093D2FD61600099DE1027E50C6C3F8D";
 	//public  static final String APPID = "0093D2FD61600099DE1027E50C6C3F8D";
 	//public  static final String APPID = "7E95CF60694890DCD4CEFBF79BC3BAE4";
 	
-	public static String APPID="0093D2FD61600099DE1027E50C6C3F8D";
+	/*public static String APPID="0093D2FD61600099DE1027E50C6C3F8D";
 	public static String cKey = "01D901D6EFBA42145E54F52E465F407B";
-	public static String sKey = "4EF482C15D849D04BA5D7BC940526EA3";
+	public static String sKey = "4EF482C15D849D04BA5D7BC940526EA3";*/
 	public static final String messageHistory = "messaginghistory";
 	
 	/*private static String APPID="C06B58F6700462E5597E94723D7B105C";
@@ -39,16 +39,16 @@ public class ApplicationInstance {
 	private static String sKey = "78771227A606BFD96797E6281D518614";*/
 	
 	//dev
-	/*public static String APPID="7E95CF60694890DCD4CEFBF79BC3BAE4";
+	public static String APPID="7E95CF60694890DCD4CEFBF79BC3BAE4";
 	public static String cKey = "4768674EDC06477EC63AEEF8FEAB0CF8";
-	public static String sKey = "73B7C757A511B1574FDF63B3FEB638B7";*/
+	public static String sKey = "73B7C757A511B1574FDF63B3FEB638B7";
 	
 	//pro
 	/*public static String APPID="A82C2F6E73F3D911F5E424953A1C8E62";
 	public static String cKey = "C8BB14A1A961E9D391196D9F411B18D8";
 	public static String sKey = "A3C7D9386C4A4063CDE1B4A8B3820BD2";*/
 	
-	public static String HOST_PREFIX = "@streamsdk.cn";
+	public static String HOST_PREFIX = "@streamsdk.com";
 	public static final String USER_INFO = "MyPrefsFile";
     public static final String PROFILE_IMAGE = "profileImageId";
     public static final String TOEKN = "token";
@@ -320,8 +320,8 @@ public class ApplicationInstance {
 		return allUsers;
 	}
 
-	public void setAllUsers(List<Map<String, String>> allUsers) {
-		this.allUsers = allUsers;
+	public void setAllUsers(List<Map<String, String>> users) {
+		allUsers.addAll(users);
 	}
 
 	public String getCurrentStatus() {

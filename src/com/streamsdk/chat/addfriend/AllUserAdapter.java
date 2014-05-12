@@ -37,9 +37,13 @@ public class AllUserAdapter extends BaseAdapter{
 	
 	
 	public AllUserAdapter(Activity ac){
+		 activity = ac;
+		 reload();    
+	}
+	
+	public void reload(){
 		 users = new ArrayList<Map<String, String>>();
 		 List<Map<String, String>> tempUsers = ApplicationInstance.getInstance().getAllUsers();
-	     activity = ac;
 	     List<String> history = ApplicationInstance.getInstance().getInivitationDB().getInvitations();
 	     List<FriendRequest> all = ApplicationInstance.getInstance().getFriendDB().getFriendRequestList();
 	     List<String> names = new ArrayList<String>();
@@ -54,7 +58,7 @@ public class AllUserAdapter extends BaseAdapter{
 	    		users.add(user);
 	    	 }
 	     }
-	     
+	    
 	}
 	
 	private void removeUser(String name){
