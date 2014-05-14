@@ -70,6 +70,8 @@ import com.streamsdk.chat.emoji.EmotionPagerAdapter;
 import com.streamsdk.chat.handler.AudioHandler;
 import com.streamsdk.chat.handler.ImageHandler;
 import com.streamsdk.chat.settings.ChatSettingsDialog;
+import com.streamsdk.search.SearchImageActivity;
+import com.streamsdk.search.SearchThread;
 
 
 public class MainActivity extends Activity implements EditTextEmojSelected, ChatListener, RefreshUI{
@@ -329,8 +331,10 @@ public class MainActivity extends Activity implements EditTextEmojSelected, Chat
 		ImageView takeMap = (ImageView)findViewById(R.id.takemap_button);
 		takeMap.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-			     Intent intent = new Intent(activity, SendMapViewActivity.class);
-			     startActivityForResult(intent, SHARE_MAP);
+			     //Intent intent = new Intent(activity, SendMapViewActivity.class);
+			    // startActivityForResult(intent, SHARE_MAP);
+				Intent intent = new Intent(activity, SearchImageActivity.class);
+				startActivity(intent);
 			}
 		});
 		

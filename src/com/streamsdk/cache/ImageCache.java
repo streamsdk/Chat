@@ -69,6 +69,10 @@ public class ImageCache {
 		return chatImages.get(path);
 	}
 	
+	public Bitmap justGetImage(String id){
+		return images.get(id);
+	}
+	
 	public Bitmap getFriendImage(String id){
 		Bitmap bitmap = images.get(id);
 		if (bitmap != null){
