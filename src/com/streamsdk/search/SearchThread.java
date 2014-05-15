@@ -30,9 +30,11 @@ public class SearchThread implements Runnable{
 
 	private int startPage;
     private SearchDoneCallback searchDoneCallback;
-	
-	public SearchThread(int start){
+	private String searchTerm;
+    
+	public SearchThread(int start, String term){
 		startPage = start;
+		searchTerm = term;
 	}
 	
 	public void setSearchDoneCallback(SearchDoneCallback sdc){
@@ -43,7 +45,7 @@ public class SearchThread implements Runnable{
 	
 	    String url = "https://ajax.googleapis.com/ajax/services/search/images?";
 	    try {
-	    	String queryPart = "v=1.0&q=car&imgsz=" +   URLEncoder.encode("small|medium|large|xlarge", "UTF-8") + "&rsz=8&as_filetype=jpg&start=" + startPage;
+	    	String queryPart = "v=1.0&q=" + URLEncoder.encode(searchTerm, "UTF-8") + "&imgsz=" +   URLEncoder.encode("small|medium|large|xlarge", "UTF-8") + "&rsz=8&as_filetype=jpg&start=" + startPage;
 			String jsonResponse = executeGet(url + queryPart);
 			JSONObject jsonData = new JSONObject(jsonResponse);
 			JSONObject responseData = jsonData.getJSONObject("responseData");
