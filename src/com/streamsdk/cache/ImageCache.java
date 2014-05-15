@@ -9,6 +9,7 @@ import java.util.Map;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Build;
 
 import com.streamsdk.chat.ApplicationInstance;
 
@@ -16,6 +17,7 @@ public class ImageCache {
 
 	private static ImageCache imageCache;
 	private Map<String, Bitmap> images = new HashMap<String, Bitmap>();
+	private Map<String, Bitmap> tempImages = new HashMap<String, Bitmap>();
 	private Map<String, Bitmap> chatImages = new HashMap<String, Bitmap>();
 	private List<String> ids = new ArrayList<String>();
 	private Map<String, Bitmap> permnent = new HashMap<String, Bitmap>();
@@ -69,8 +71,16 @@ public class ImageCache {
 		return chatImages.get(path);
 	}
 	
+	public void clearTempImages(){
+		tempImages.clear();
+	}
+	
+	public void addTempImages(String id, Bitmap bitmap){
+		tempImages.put(id, bitmap);
+	}
+	
 	public Bitmap justGetImage(String id){
-		return images.get(id);
+		return tempImages.get(id);
 	}
 	
 	public Bitmap getFriendImage(String id){

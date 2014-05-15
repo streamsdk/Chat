@@ -54,7 +54,7 @@ public class SearchThread implements Runnable{
 				String imageUrl = jo.getString("url");
 				InputStream in = HttpUtils.executeGet(imageUrl);
 				Bitmap img = BitmapFactory.decodeStream(in);
-				ImageCache.getInstance().putNew(imageUrl, img);
+				ImageCache.getInstance().addTempImages(imageUrl, img);
 				if (i != size - 1){
 					searchDoneCallback.searchDone(imageUrl, false);
 				}else{
