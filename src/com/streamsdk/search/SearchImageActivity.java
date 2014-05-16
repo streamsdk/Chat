@@ -1,5 +1,6 @@
 package com.streamsdk.search;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,12 +8,19 @@ import android.app.Activity;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.RotateAnimation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.SearchView;
 import android.widget.SearchView.OnQueryTextListener;
 
@@ -23,7 +31,7 @@ public class SearchImageActivity  extends ListActivity implements SearchDoneCall
 
 	List<String> images;
 	SearchImageAdapter adapter;
-	Activity activity;
+	SearchImageActivity activity;
 	boolean loading = false;
 	int startPage=0;
 	ProgressDialog pd;
@@ -53,7 +61,52 @@ public class SearchImageActivity  extends ListActivity implements SearchDoneCall
 	private void showDialog(String message) {
 			pd = ProgressDialog.show(this, "", message, true, true);
     }
-		
+	
+	private void stopAnimation(){
+		  LinearLayout sll = (LinearLayout)findViewById(R.id.spinnerSearchSection);
+		  ImageView iv = (ImageView)sll.findViewById(R.id.sp);
+		  sll.setVisibility(View.GONE);
+		  iv.setAnimation(null);
+	}
+	
+	private void showAnimation(){
+		// Create an animation
+		  RotateAnimation rotation = new RotateAnimation(
+		      0f,
+		      360f,
+		      Animation.RELATIVE_TO_SELF,
+		      0.5f,
+		      Animation.RELATIVE_TO_SELF,
+		      0.5f);
+		  rotation.setDuration(1200);
+		  rotation.setInterpolator(new LinearInterpolator());
+		  rotation.setRepeatMode(Animation.RESTART);
+		  rotation.setRepeatCount(Animation.INFINITE);
+
+		  LinearLayout sll = (LinearLayout)findViewById(R.id.spinnerSearchSection);
+		  ImageView iv = (ImageView)sll.findViewById(R.id.sp);
+		  sll.setVisibility(View.VISIBLE);
+		  iv.startAnimation(rotation);
+		  
+	}
+	
+	public void sendTo(Bitmap bitmap){
+		ByteArrayOutputStream stream = new ByteArrayOutputStream();
+		bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+		byte[] byteArray = stream.toByteArray();
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			 clearCurrentSearch();
+			 onBackPressed();
+			 return true;
+		default:
+			 return super.onOptionsItemSelected(item);
+		}
+	}
 	
 	public boolean onCreateOptionsMenu(final Menu menu){
 	
@@ -89,7 +142,8 @@ public class SearchImageActivity  extends ListActivity implements SearchDoneCall
 	private void update(){
 		runOnUiThread(new Runnable(){
 			public void run() {
-		        adapter.notifyDataSetChanged();	
+				stopAnimation();
+				adapter.notifyDataSetChanged();	
 			}
 	    });
 	}
@@ -98,6 +152,7 @@ public class SearchImageActivity  extends ListActivity implements SearchDoneCall
 		startPage = 0;
 		images.clear();
 		ImageCache.getInstance().clearTempImages();
+		adapter.clearList();
 		update();
 	}
 	
@@ -116,6 +171,7 @@ public class SearchImageActivity  extends ListActivity implements SearchDoneCall
 		
 		boolean loadMore =  firstVisibleItem + visibleItemCount + 1 >= adapter.getCount() && adapter.getCount()!=0 && startPage < 56;
 		if (loadMore && !loading){
+			showAnimation();
 			SearchThread st = new SearchThread(startPage, searchTerm);
 			st.setSearchDoneCallback(this);
 			new Thread(st).start();

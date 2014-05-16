@@ -16,4 +16,19 @@
             android:layout_weight="1"
     />
  
+   <LinearLayout 
+         android:id="@+id/spinnerSearchSection"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_gravity="center_horizontal"
+         android:visibility="gone"
+       >
+     <ImageView 
+       android:id="@+id/sp"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:src="@drawable/spinner"
+       /> 
+   </LinearLayout>
+ 
  </LinearLayout>

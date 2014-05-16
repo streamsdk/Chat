@@ -2,7 +2,6 @@ package com.streamsdk.search;
 
 import java.util.List;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.view.LayoutInflater;
@@ -17,11 +16,15 @@ import com.streamsdk.chat.R;
 public class SearchImageAdapter extends BaseAdapter{
 
 	private List<String> images;
-	private Activity activity;
+	private SearchImageActivity activity;
 	
-	public SearchImageAdapter(List<String> im, Activity ac){
+	public SearchImageAdapter(List<String> im, SearchImageActivity ac){
 		images = im;
 		activity = ac;
+	}
+	
+	public void clearList(){
+		images.clear();
 	}
 	
 	public int getCount() {
@@ -50,9 +53,14 @@ public class SearchImageAdapter extends BaseAdapter{
 			viewHolder = (ViewHolder)view.getTag();
 		}
 		String url = images.get(position);
-		Bitmap bitmap = ImageCache.getInstance().justGetImage(url);
+		final Bitmap bitmap = ImageCache.getInstance().justGetImage(url);
 		if (bitmap != null){
 			viewHolder.searchImage.setImageBitmap(bitmap);
+			viewHolder.searchImage.setOnClickListener(new View.OnClickListener() {
+				public void onClick(View v) {
+				     activity.sendTo(bitmap);	
+				}
+			});
 		}else{
 			
 		}
