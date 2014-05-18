@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import org.jivesoftware.smack.packet.Message;
 import org.json.JSONException;
@@ -355,22 +356,29 @@ public class MainActivity extends Activity implements EditTextEmojSelected, Chat
 		final StreamObject so = new StreamObject();
 		so.loadStreamObject(receiver + "status", new StreamCallback() {
 			public void result(boolean succeed, String errorMessage) {
-				if (succeed){
+				
 					String lastSeen = (String)so.get("lastseen");
 					String online = (String)so.get("online");
 					String displayString = "";
+					long lastSeenLong = 0;
+					if (lastSeen == null || lastSeen.equals("")){
+						Random rand = new Random(); 
+						int pickedNumber = rand.nextInt(24 * 3600 * 1000); 
+						lastSeenLong = System.currentTimeMillis() - pickedNumber; 
+					}
+					
 					if (online != null && online.equals("YES")){
 						displayString = "online";
-					}else if (lastSeen != null && !lastSeen.equals("")){
-						long lastSeenLong = Long.parseLong(lastSeen);
-						if (lastSeen.length() == 10){
-							lastSeenLong = lastSeenLong * 1000;
-						}
-						SimpleDateFormat sdf = new SimpleDateFormat("dd MMM, yyyy HH:mm");
-					    Date resultdate = new Date(lastSeenLong);
-					    displayString = sdf.format(resultdate);
 					}
-					if (!displayString.equals("")){
+				   if (lastSeenLong == 0)	
+				      lastSeenLong = Long.parseLong(lastSeen);
+				   if (lastSeen != null && lastSeen.length() == 10){
+					   lastSeenLong = lastSeenLong * 1000;
+					}
+				   SimpleDateFormat sdf = new SimpleDateFormat("dd MMM, yyyy HH:mm");
+				   Date resultdate = new Date(lastSeenLong);
+				   displayString = sdf.format(resultdate);
+				   if (!displayString.equals("")){
 						final String displayStr = displayString;
 						runOnUiThread(new Runnable(){
 							public void run() {
@@ -381,7 +389,7 @@ public class MainActivity extends Activity implements EditTextEmojSelected, Chat
 							}
 						});
 					}
-				}
+				
 			}
 		});
 	}
