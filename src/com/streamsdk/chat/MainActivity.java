@@ -329,16 +329,6 @@ public class MainActivity extends Activity implements EditTextEmojSelected, Chat
 		});
 		
 		
-		ImageView takeMap = (ImageView)findViewById(R.id.takemap_button);
-		takeMap.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-			     //Intent intent = new Intent(activity, SendMapViewActivity.class);
-			    // startActivityForResult(intent, SHARE_MAP);
-				Intent intent = new Intent(activity, SearchImageActivity.class);
-				startActivity(intent);
-			}
-		});
-		
 		checkKeyboardHeight(parentLayout);
 		setSpeakButtonAction(speakButton);
 		//deleteCountHistory();

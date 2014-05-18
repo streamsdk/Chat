@@ -17,7 +17,7 @@ import android.util.Log;
 public class MessagingAckDB {
 
 	private static final String DATABASE_NAME = "mrdb";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
     private SQLiteDatabase db;
     private SQLiteStatement mInsertStmt;
 	private DatabaseHelper helper;

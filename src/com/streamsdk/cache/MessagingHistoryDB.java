@@ -19,7 +19,7 @@ public class MessagingHistoryDB {
 
 	
 	private static final String DATABASE_NAME = "mhdb";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
     private SQLiteDatabase db;
     private SQLiteStatement mInsertStmt;
     private static final String MINSERT = "insert into mhdb (id, chattime, type, content, fromuser, touser,recordingtime,duration,viewed,lat,longt,address) values (?,?,?,?,?,?,?,?,?,?,?,?)";

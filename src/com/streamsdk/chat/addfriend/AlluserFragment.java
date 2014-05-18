@@ -78,7 +78,7 @@ public class AlluserFragment extends ListFragment implements OnScrollListener, L
 		Map<String, String> currentLastUser = users.get(users.size() - 1);
 		String nextMarker = currentLastUser.get("nextmarker");
 		if (nextMarker != null && loadMore && !loading){
-			UsersLoadThread userLoad = new UsersLoadThread(nextMarker, 15);
+			UsersLoadThread userLoad = new UsersLoadThread(nextMarker, 100);
 			userLoad.setCallback(this);
 			loading = true;
 			showAnimation();
@@ -90,10 +90,10 @@ public class AlluserFragment extends ListFragment implements OnScrollListener, L
 	private void updateData(){
 			this.getActivity().runOnUiThread(new Runnable(){
 					public void run() {
+						loading = false;
+						stopAnimation();
 						allUserAdapter.reload();
 						allUserAdapter.notifyDataSetChanged();
-						stopAnimation();
-						loading = false;
 					}
 			});
 	}
