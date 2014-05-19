@@ -335,7 +335,7 @@ public class MainActivity extends Activity implements EditTextEmojSelected, Chat
 			     //Intent intent = new Intent(activity, SendMapViewActivity.class);
 			    // startActivityForResult(intent, SHARE_MAP);
 				Intent intent = new Intent(activity, SearchImageActivity.class);
-				startActivity(intent);
+				startActivityForResult(intent,REQUEST_IMAGE_PICK);
 			}
 		});
 		

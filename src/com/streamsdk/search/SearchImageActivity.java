@@ -1,6 +1,8 @@
 package com.streamsdk.search;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +26,9 @@ import android.widget.LinearLayout;
 import android.widget.SearchView;
 import android.widget.SearchView.OnQueryTextListener;
 
+import com.streamsdk.cache.FileCache;
 import com.streamsdk.cache.ImageCache;
+import com.streamsdk.chat.ApplicationInstance;
 import com.streamsdk.chat.R;
 
 public class SearchImageActivity  extends ListActivity implements SearchDoneCallback, OnScrollListener{
@@ -94,6 +98,14 @@ public class SearchImageActivity  extends ListActivity implements SearchDoneCall
 		ByteArrayOutputStream stream = new ByteArrayOutputStream();
 		bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
 		byte[] byteArray = stream.toByteArray();
+		ByteArrayInputStream in = new ByteArrayInputStream(byteArray);
+		String id = String.valueOf(System.currentTimeMillis());
+		FileCache.getInstance().writeFileToDisk(id, in);
+		File file = FileCache.getInstance().loadFile(id);
+		String path = file.getAbsolutePath();
+		ApplicationInstance.getInstance().setPhotoTakenPath(path);
+		setResult(RESULT_OK);
+        finish();
 	}
 	
 	@Override
