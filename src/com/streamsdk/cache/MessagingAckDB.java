@@ -173,9 +173,15 @@ public class MessagingAckDB {
 			 db.execSQL("CREATE TABLE mrdb (id TEXT PRIMARY KEY, type TEXT, fromuser TEXT, touser TEXT, message TEXT,fileid TEXT, duration TEXT, tid TEXT, lat TEXT, lon TEXT, address TEXT)");
 		}
 
-		public void onUpgrade(SQLiteDatabase db, int arg1, int arg2) {
-			 db.execSQL("DROP TABLE IF EXISTS mrdb");
-	         onCreate(db);
+		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+			 if (oldVersion == 1 && newVersion == 2){
+				 db.execSQL("ALTER TABLE mrdb ADD COLUMN lat TEXT");
+				 db.execSQL("ALTER TABLE mrdb ADD COLUMN lon TEXT");
+				 db.execSQL("ALTER TABLE mrdb ADD COLUMN address TEXT");	 
+			 }else{
+				 db.execSQL("DROP TABLE IF EXISTS mrdb");
+		         onCreate(db);	 
+			 }
 		}
     }    
 	
