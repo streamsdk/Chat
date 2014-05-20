@@ -1,28 +1,26 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/parentLayout"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    
-
-        <ListView
-            android:id="@+id/listView1"
-             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:listSelector="@android:color/transparent" 
-            android:divider="#00000000"
-            android:stackFromBottom="true"
-            android:transcriptMode="alwaysScroll" >
-        </ListView>
+    <ListView
+        android:id="@+id/listView1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:divider="#00000000"
+        android:listSelector="@android:color/transparent"
+        android:stackFromBottom="true"
+        android:transcriptMode="alwaysScroll" >
+    </ListView>
 
     <include
         android:id="@+id/footer_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         layout="@layout/footer" />
-    
+
     <LinearLayout
         android:id="@+id/footer_for_emoticons"
         android:layout_width="match_parent"
@@ -30,60 +28,136 @@
         android:background="@android:color/transparent"
         android:orientation="horizontal"
         android:visibility="gone" />
- 
-     <LinearLayout
+
+    <TableLayout
         android:id="@+id/footer_for_more"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:orientation="horizontal"
-        android:background="@android:color/white"
-        android:divider="@drawable/vertical_divider_1"
-        android:dividerPadding="12dip"
-        android:showDividers="middle"
-        android:visibility="gone" >
-    
-     <ImageView
-                 android:id="@+id/emoticons_button"
-                 android:layout_width="0dp"
-                 android:layout_height="40dp"
-                 android:layout_weight="1"
-                  android:layout_gravity="center_vertical"
-                 android:src="@drawable/face150" />
-      
-      <ImageView
-                 android:id="@+id/pickpic_button"
-                 android:layout_width="0dp"
-                 android:layout_height="40dp"
-                 android:layout_weight="1"
-                  android:layout_gravity="center_vertical"
-                 android:src="@drawable/photog150" />
-       
-       
-        <ImageView
-                 android:id="@+id/takepic_button"
-                 android:layout_width="0dp"
-                 android:layout_height="40dp"
-                 android:layout_weight="1"
-                  android:layout_gravity="center_vertical"
-                 android:src="@drawable/camera_icon150" />
-        
-        
-        <ImageView
-                 android:id="@+id/takevideo_button"
-                 android:layout_width="0dp"
-                 android:layout_height="40dp"
-                 android:layout_weight="1"
-                  android:layout_gravity="center_vertical"
-                 android:src="@drawable/video150" />
-        
-          <ImageView
-                 android:id="@+id/takemap_button"
-                 android:layout_width="0dp"
-                 android:layout_height="40dp"
-                 android:layout_weight="1"
-                  android:layout_gravity="center_vertical"
-                 android:src="@drawable/map" />
-         
-     </LinearLayout>
-       
+        android:layout_height="160dp"
+        android:layout_marginLeft="40dp"
+        android:shrinkColumns="*"
+        android:stretchColumns="*" >
+
+        <TableRow
+            android:id="@+id/tableRow1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="5dip" >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
+
+                <ImageView
+                    android:id="@+id/emoticons_button"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/face150" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/emoticons_button"
+                    android:gravity="center_vertical"
+                    android:text="emotion" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
+
+                <ImageView
+                    android:id="@+id/pickpic_button"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/photog150" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/pickpic_button"
+                    android:gravity="center_vertical"
+                    android:text="gallery" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
+
+                <ImageView
+                    android:id="@+id/takepic_button"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/camera_icon150" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/takepic_button"
+                    android:gravity="center_vertical"
+                    android:text="camera" />
+            </RelativeLayout>
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRow2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="5dip" >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
+
+                <ImageView
+                    android:id="@+id/takevideo_button"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/video150" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/takevideo_button"
+                    android:gravity="center_vertical"
+                    android:text="video" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
+
+                <ImageView
+                    android:id="@+id/takemap_button"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/map" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/takemap_button"
+                    android:gravity="center_vertical"
+                    android:text="map" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
+
+                <ImageView
+                    android:id="@+id/searchimage_button"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/searchphotog150" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/searchimage_button"
+                    android:gravity="center_vertical"
+                    android:text="search" />
+            </RelativeLayout>
+        </TableRow>
+    </TableLayout>
+
 </LinearLayout>

@@ -41,12 +41,14 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
+import android.widget.GridLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.PopupWindow.OnDismissListener;
+import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -94,7 +96,7 @@ public class MainActivity extends Activity implements EditTextEmojSelected, Chat
 	private boolean isKeyBoardVisible;
 	private EmotionPagerAdapter eAdapter;
 	private EmojiEditText messageText;
-	private LinearLayout moreOptions;
+	private TableLayout moreOptions;
 	private boolean isMoreOptionShown = true;
 	private ImageView moreButtons;
 	static final int REQUEST_IMAGE_CAPTURE = 0;
@@ -181,7 +183,7 @@ public class MainActivity extends Activity implements EditTextEmojSelected, Chat
 		popUpView = getLayoutInflater().inflate(R.layout.emoticons_popup, null);
         parentLayout = (LinearLayout)findViewById(R.id.parentLayout);
         emoticonsCover = (LinearLayout) findViewById(R.id.footer_for_emoticons);
-        moreOptions = (LinearLayout)findViewById(R.id.footer_for_more);
+        moreOptions = (TableLayout)findViewById(R.id.footer_for_more);
         
         
        final ImageView emoticonsButton = (ImageView) findViewById(R.id.emoticons_button);
@@ -332,9 +334,15 @@ public class MainActivity extends Activity implements EditTextEmojSelected, Chat
 		ImageView takeMap = (ImageView)findViewById(R.id.takemap_button);
 		takeMap.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-			     //Intent intent = new Intent(activity, SendMapViewActivity.class);
-			    // startActivityForResult(intent, SHARE_MAP);
-				Intent intent = new Intent(activity, SearchImageActivity.class);
+			     Intent intent = new Intent(activity, SendMapViewActivity.class);
+			     startActivityForResult(intent, SHARE_MAP);
+			}
+		});
+		
+		ImageView search = (ImageView)findViewById(R.id.searchimage_button);
+		search.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+			    Intent intent = new Intent(activity, SearchImageActivity.class);
 				startActivityForResult(intent,REQUEST_IMAGE_PICK);
 			}
 		});
