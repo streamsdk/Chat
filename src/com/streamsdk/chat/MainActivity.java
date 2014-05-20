@@ -366,18 +366,21 @@ public class MainActivity extends Activity implements EditTextEmojSelected, Chat
 						int pickedNumber = rand.nextInt(24 * 3600 * 1000); 
 						lastSeenLong = System.currentTimeMillis() - pickedNumber; 
 					}
-					
+					boolean isOnline = false;
 					if (online != null && online.equals("YES")){
 						displayString = "online";
+						isOnline = true;
 					}
 				   if (lastSeenLong == 0)	
 				      lastSeenLong = Long.parseLong(lastSeen);
 				   if (lastSeen != null && lastSeen.length() == 10){
 					   lastSeenLong = lastSeenLong * 1000;
 					}
-				   SimpleDateFormat sdf = new SimpleDateFormat("dd MMM, yyyy HH:mm");
-				   Date resultdate = new Date(lastSeenLong);
-				   displayString = sdf.format(resultdate);
+				   if (!isOnline){
+				      SimpleDateFormat sdf = new SimpleDateFormat("dd MMM, yyyy HH:mm");
+				      Date resultdate = new Date(lastSeenLong);
+				      displayString = sdf.format(resultdate);
+				   }
 				   if (!displayString.equals("")){
 						final String displayStr = displayString;
 						runOnUiThread(new Runnable(){
