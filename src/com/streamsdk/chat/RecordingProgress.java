@@ -3,12 +3,12 @@ package com.streamsdk.chat;
 import java.util.Timer;
 import java.util.TimerTask;
 
-
-import android.os.Bundle;
 import android.app.DialogFragment;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 
 public class RecordingProgress extends DialogFragment{
 	
@@ -38,9 +38,7 @@ public class RecordingProgress extends DialogFragment{
 	            },
 	            0, //Delay before first execution
 	            TIMER_FREQ); 
-	        
-	        
-	        
+	           
 	        return view;
 	    
 	}

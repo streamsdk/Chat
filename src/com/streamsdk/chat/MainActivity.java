@@ -41,7 +41,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
-import android.widget.GridLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -74,7 +73,6 @@ import com.streamsdk.chat.handler.AudioHandler;
 import com.streamsdk.chat.handler.ImageHandler;
 import com.streamsdk.chat.settings.ChatSettingsDialog;
 import com.streamsdk.search.SearchImageActivity;
-import com.streamsdk.search.SearchThread;
 
 
 public class MainActivity extends Activity implements EditTextEmojSelected, ChatListener, RefreshUI{
@@ -105,6 +103,7 @@ public class MainActivity extends Activity implements EditTextEmojSelected, Chat
 	static final int SHARE_MAP = 3;
 	static final int MAX_VIDEO_SIZE = 15000000;
 	String thumbnailFileId = "";
+	int downX, upX;
 
 	@Override
     public void onPause()
@@ -780,59 +779,84 @@ public class MainActivity extends Activity implements EditTextEmojSelected, Chat
 		
 		speakButton.setOnTouchListener(new OnTouchListener() {
 			public boolean onTouch(View v, MotionEvent event) {
-				switch (event.getAction() ) { 
-			       case MotionEvent.ACTION_DOWN: 
+				int x = (int) event.getX();
+				switch (event.getAction() ) {
+				   case MotionEvent.ACTION_DOWN: 
 			    	    Log.i("", "");
+			    	    downX  = x;
+			    	    Log.i("x down", String.valueOf(x));
 			    	    break;
-				 
-			       case MotionEvent.ACTION_UP:
+				   case MotionEvent.ACTION_UP:
 			    	    Log.i("", "");
-			    	    stopRecording();
-			            break;
-				}
-				return false;
+			            upX = x;
+			    	    Log.i("x up", String.valueOf(x));
+			    	    if (upX < 0 || (upX - downX) < -150){
+			    	    	Log.i("diff smaller", "stop recording");
+			    	    	stopRecording();
+			    	    }else{
+			    	    	stopRecordingAndSend();
+			    	    }
+			    	    downX = 0;
+			    	    upX = 0;
+			    	    break;
+			     }
+				 return false;
 			}
 		});
 		
 	}
 	
+	private void stopRecordingAndSend(){
+		 if (mRecorder != null){
+	         
+			 mRecorder.stop();
+	         mRecorder.release();
+	         mRecorder = null;
+	         dismissRecordingProgress();
+	         
+	         File file = new File(currentRecordingFileName);
+	         Map<String, Object> metaData = new HashMap<String, Object>();
+	         
+	         //start sending this as a file
+	     	final IM voiceIm = AudioHandler.buildIMMessage(currentRecordingFileName, rp.getTime()/1000);
+	     	voiceIm.setFrom(ApplicationInstance.getInstance().getLoginName());
+	     	voiceIm.setTo(receiver);
+	     	
+	     	metaData.put("from", voiceIm.getFrom());
+			metaData.put("to", voiceIm.getTo());
+			metaData.put("type", "voice");
+			
+	     	long chatTime = System.currentTimeMillis();
+			voiceIm.setChatTime(chatTime);
+			messages.add(voiceIm);
+			updateData();
+			currentRecordingFileName = "";
+			Map<String, String> usermetaData = ApplicationInstance.getInstance().getFriendMetadata(receiver);
+	        String token = usermetaData != null ? usermetaData.get(ApplicationInstance.TOEKN) : "";
+			
+	        StreamXMPP.getInstance().sendFile(null, new StreamCallback() {
+				     public void result(boolean succeed, String errorMessage) {
+						if (succeed) {
+							ApplicationInstance.getInstance().getMessagingHistoryDB().insert(voiceIm);
+							ApplicationInstance.getInstance().getMessagingAckDB().insertVoiceMessage(voiceIm, errorMessage);
+						}
+				}
+			 }, null, file, metaData, ApplicationInstance.APPID + receiver,  ApplicationInstance.getInstance().getLoginName(), String.valueOf(rp.getTime()/1000), -1, chatTime, null, token);
+		   }
+	}
+	
 	private void stopRecording() {
-	 if (mRecorder != null){
-         
-		 mRecorder.stop();
-         mRecorder.release();
-         mRecorder = null;
-         dismissRecordingProgress();
-         
-         File file = new File(currentRecordingFileName);
-         Map<String, Object> metaData = new HashMap<String, Object>();
-         
-         //start sending this as a file
-     	final IM voiceIm = AudioHandler.buildIMMessage(currentRecordingFileName, rp.getTime()/1000);
-     	voiceIm.setFrom(ApplicationInstance.getInstance().getLoginName());
-     	voiceIm.setTo(receiver);
-     	
-     	metaData.put("from", voiceIm.getFrom());
-		metaData.put("to", voiceIm.getTo());
-		metaData.put("type", "voice");
-		
-     	long chatTime = System.currentTimeMillis();
-		voiceIm.setChatTime(chatTime);
-		messages.add(voiceIm);
-		updateData();
-		currentRecordingFileName = "";
-		Map<String, String> usermetaData = ApplicationInstance.getInstance().getFriendMetadata(receiver);
-        String token = usermetaData != null ? usermetaData.get(ApplicationInstance.TOEKN) : "";
-		
-        StreamXMPP.getInstance().sendFile(null, new StreamCallback() {
-			     public void result(boolean succeed, String errorMessage) {
-					if (succeed) {
-						ApplicationInstance.getInstance().getMessagingHistoryDB().insert(voiceIm);
-						ApplicationInstance.getInstance().getMessagingAckDB().insertVoiceMessage(voiceIm, errorMessage);
-					}
-			}
-		 }, null, file, metaData, ApplicationInstance.APPID + receiver,  ApplicationInstance.getInstance().getLoginName(), String.valueOf(rp.getTime()/1000), -1, chatTime, null, token);
-	   }
+	   
+	   if (mRecorder != null){
+     	   mRecorder.stop();
+           mRecorder.release();
+           mRecorder = null;
+           dismissRecordingProgress();
+           File file = new File(currentRecordingFileName);
+           file.delete();
+           currentRecordingFileName = "";
+        }
+	   
     }
 	
 	private void startRecording() {
