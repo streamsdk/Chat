@@ -1,18 +1,11 @@
 package com.streamsdk.chat;
 
+import java.nio.charset.Charset;
+import java.nio.charset.CharsetEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import com.stream.api.StreamCallback;
-import com.stream.api.StreamCategoryObject;
-import com.stream.api.StreamObject;
-import com.stream.api.StreamUser;
-import com.stream.xmpp.StreamXMPP;
-import com.streamsdk.cache.StatusDB;
-import com.streamsdk.chat.domain.FriendRequest;
-import com.streamsdk.xmpp.ApplicationXMPPListener;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -31,11 +24,20 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.stream.api.StreamCallback;
+import com.stream.api.StreamCategoryObject;
+import com.stream.api.StreamObject;
+import com.stream.api.StreamUser;
+import com.stream.xmpp.StreamXMPP;
+import com.streamsdk.chat.domain.FriendRequest;
+import com.streamsdk.xmpp.ApplicationXMPPListener;
+
 public class SignupActivity extends Activity{
 
 	ProgressDialog pd;
 	String userName;
 	String errorMessage = "";
+	CharsetEncoder asciiEncoder =  Charset.forName("US-ASCII").newEncoder();
 	
 	private boolean isUserNameValid(String userName){
 		
@@ -47,6 +49,10 @@ public class SignupActivity extends Activity{
 			}
 		}
 		return true;
+	}
+	
+	private boolean isPureAscii(String str){
+		return asciiEncoder.canEncode(str);
 	}
 	
 	public void onCreate(Bundle savedInstanceState) {
@@ -94,6 +100,12 @@ public class SignupActivity extends Activity{
 				
 				if (userName.contains(" ")){
 					errorMessage = "user name can not contain space";
+				 	handler.sendEmptyMessage(0); 
+			    	return;
+			    }
+				
+				if (!isPureAscii(userName)){
+					errorMessage = "user name can only contain ASCII characters";
 				 	handler.sendEmptyMessage(0); 
 			    	return;
 			    }

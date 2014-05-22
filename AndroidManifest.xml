@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.streamsdk.chat"
-    android:versionCode="7"
-    android:versionName="1.0.6" >
+    android:versionCode="8"
+    android:versionName="1.0.7" >
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -45,8 +45,6 @@
          <activity android:name="com.streamsdk.chat.MapViewActivity" android:label="@string/app_name" android:screenOrientation="portrait"></activity>
          <activity android:name="com.streamsdk.chat.SendMapViewActivity" android:label="@string/app_name" android:screenOrientation="portrait"></activity>
          <activity android:name="com.streamsdk.search.SearchImageActivity" android:label="@string/app_name" android:screenOrientation="portrait"></activity>
-         <meta-data    android:name="com.google.android.gms.version"    android:value="@integer/google_play_services_version" />
-         <meta-data android:name="com.google.android.maps.v2.API_KEY" android:value="AIzaSyAbXZNZ8XngAFgxjIUwClJBPVAYJhtiEOU"/>
          <service android:name="com.streamsdk.xmpp.XMPPConnectionService"/>
          <receiver android:name=".BootCompletedReceiver" >
              <intent-filter>
@@ -62,8 +60,5 @@
   <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
   <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
   <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-  <!-- The following two permissions are not required to use     Google Maps Android API v2, but are recommended. -->
-  <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-  <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-  
+ 
 </manifest>

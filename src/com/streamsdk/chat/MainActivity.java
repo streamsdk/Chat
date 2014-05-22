@@ -71,8 +71,6 @@ import com.streamsdk.chat.emoji.EmotionPagerAdapter;
 import com.streamsdk.chat.handler.AudioHandler;
 import com.streamsdk.chat.handler.ImageHandler;
 import com.streamsdk.chat.settings.ChatSettingsDialog;
-import com.streamsdk.search.SearchImageActivity;
-import com.streamsdk.search.SearchThread;
 
 
 public class MainActivity extends Activity implements EditTextEmojSelected, ChatListener, RefreshUI{
@@ -103,6 +101,7 @@ public class MainActivity extends Activity implements EditTextEmojSelected, Chat
 	static final int SHARE_MAP = 3;
 	static final int MAX_VIDEO_SIZE = 15000000;
 	String thumbnailFileId = "";
+	private int downX,upX;
 
 	@Override
     public void onPause()
@@ -346,40 +345,42 @@ public class MainActivity extends Activity implements EditTextEmojSelected, Chat
 		final StreamObject so = new StreamObject();
 		so.loadStreamObject(receiver + "status", new StreamCallback() {
 			public void result(boolean succeed, String errorMessage) {
-				
-					String lastSeen = (String)so.get("lastseen");
-					String online = (String)so.get("online");
-					String displayString = "";
-					long lastSeenLong = 0;
-					if (lastSeen == null || lastSeen.equals("")){
-						Random rand = new Random(); 
-						int pickedNumber = rand.nextInt(24 * 3600 * 1000); 
-						lastSeenLong = System.currentTimeMillis() - pickedNumber; 
-					}
-					
-					if (online != null && online.equals("YES")){
-						displayString = "online";
-					}
-				   if (lastSeenLong == 0)	
-				      lastSeenLong = Long.parseLong(lastSeen);
-				   if (lastSeen != null && lastSeen.length() == 10){
-					   lastSeenLong = lastSeenLong * 1000;
-					}
-				   SimpleDateFormat sdf = new SimpleDateFormat("dd MMM, yyyy HH:mm");
-				   Date resultdate = new Date(lastSeenLong);
-				   displayString = sdf.format(resultdate);
-				   if (!displayString.equals("")){
-						final String displayStr = displayString;
-						runOnUiThread(new Runnable(){
-							public void run() {
-								if (!displayStr.equals("online"))
-								    tv.setText("last seen " + displayStr);
-								else
-								    tv.setText(displayStr);
-							}
-						});
-					}
-				
+			
+				String lastSeen = (String)so.get("lastseen");
+				String online = (String)so.get("online");
+				String displayString = "";
+				long lastSeenLong = 0;
+				if (lastSeen == null || lastSeen.equals("")){
+					Random rand = new Random(); 
+					int pickedNumber = rand.nextInt(24 * 3600 * 1000); 
+					lastSeenLong = System.currentTimeMillis() - pickedNumber; 
+				}
+				boolean isOnline = false;
+				if (online != null && online.equals("YES")){
+					displayString = "online";
+					isOnline = true;
+				}
+			   if (lastSeenLong == 0)	
+			      lastSeenLong = Long.parseLong(lastSeen);
+			   if (lastSeen != null && lastSeen.length() == 10){
+				   lastSeenLong = lastSeenLong * 1000;
+				}
+			   if (!isOnline){
+			      SimpleDateFormat sdf = new SimpleDateFormat("dd MMM, yyyy HH:mm");
+			      Date resultdate = new Date(lastSeenLong);
+			      displayString = sdf.format(resultdate);
+			   }
+			   if (!displayString.equals("")){
+					final String displayStr = displayString;
+					runOnUiThread(new Runnable(){
+						public void run() {
+							if (!displayStr.equals("online"))
+							    tv.setText("last seen " + displayStr);
+							else
+							    tv.setText(displayStr);
+						}
+					});
+				}
 			}
 		});
 	}
@@ -759,23 +760,48 @@ public class MainActivity extends Activity implements EditTextEmojSelected, Chat
 		
 		speakButton.setOnTouchListener(new OnTouchListener() {
 			public boolean onTouch(View v, MotionEvent event) {
-				switch (event.getAction() ) { 
-			       case MotionEvent.ACTION_DOWN: 
+				int x = (int) event.getX();
+				switch (event.getAction() ) {
+				   case MotionEvent.ACTION_DOWN: 
 			    	    Log.i("", "");
+			    	    downX  = x;
+			    	    Log.i("x down", String.valueOf(x));
 			    	    break;
-				 
-			       case MotionEvent.ACTION_UP:
+				   case MotionEvent.ACTION_UP:
 			    	    Log.i("", "");
-			    	    stopRecording();
-			            break;
-				}
-				return false;
+			            upX = x;
+			    	    Log.i("x up", String.valueOf(x));
+			    	    if (upX < 0 || (upX - downX) < -150){
+			    	    	Log.i("diff smaller", "stop recording");
+			    	    	stopRecording();
+			    	    }else{
+			    	    	stopRecordingAndSend();
+			    	    }
+			    	    downX = 0;
+			    	    upX = 0;
+			    	    break;
+			     }
+				 return false;
 			}
 		});
 		
 	}
 	
 	private void stopRecording() {
+		   
+		   if (mRecorder != null){
+	     	   mRecorder.stop();
+	           mRecorder.release();
+	           mRecorder = null;
+	           dismissRecordingProgress();
+	           File file = new File(currentRecordingFileName);
+	           file.delete();
+	           currentRecordingFileName = "";
+	        }
+		   
+	    }
+	
+	private void stopRecordingAndSend() {
 	 if (mRecorder != null){
          
 		 mRecorder.stop();
