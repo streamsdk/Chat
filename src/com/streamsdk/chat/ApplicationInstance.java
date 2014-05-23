@@ -320,6 +320,10 @@ public class ApplicationInstance {
 		return allUsers;
 	}
 
+	public void removeAllUsers(){
+		allUsers.clear();
+	}
+	
 	public void setAllUsers(List<Map<String, String>> users) {
 		allUsers.addAll(users);
 	}

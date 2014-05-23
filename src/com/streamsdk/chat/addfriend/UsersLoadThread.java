@@ -38,6 +38,9 @@ public class UsersLoadThread implements Runnable{
 		StreamUser su = new StreamUser();
 		su.setCurrentUserName(ApplicationInstance.getInstance().getLoginName());
 		List<Map<String, String>> allUsers = su.getAllUsersByPage(startPoint, maxNum);
+		if (startPoint.equals("0")){
+			ApplicationInstance.getInstance().removeAllUsers();
+		}
 		ApplicationInstance.getInstance().setAllUsers(allUsers);
 		FriendDB db = ApplicationInstance.getInstance().getFriendDB();
 		String names[] = db.getFriendsArray();
