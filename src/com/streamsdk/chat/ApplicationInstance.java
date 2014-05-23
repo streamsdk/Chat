@@ -323,6 +323,10 @@ public class ApplicationInstance {
 	public void setAllUsers(List<Map<String, String>> users) {
 		allUsers.addAll(users);
 	}
+	
+	public void removeAllUsers(){
+		allUsers.clear();
+	}
 
 	public String getCurrentStatus() {
 		return currentStatus;
