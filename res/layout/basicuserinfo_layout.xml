@@ -51,6 +51,17 @@
        android:textColor="@android:color/darker_gray"
        android:layout_gravity="center_horizontal"
        android:layout_marginTop="10dp"/>
+  
+    <Button
+       android:id="@+id/userDetailProfile"
+       android:layout_width="fill_parent"
+       android:layout_height="wrap_content"
+       android:text="Detail Information"
+       android:textSize="18sp"
+       android:background="@android:color/white"    
+       android:textColor="@android:color/darker_gray"
+       android:layout_gravity="center_horizontal"
+       android:layout_marginTop="10dp"/>
     
 
 </LinearLayout>
