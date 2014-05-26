@@ -7,6 +7,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -77,7 +78,10 @@ public class NamesBaseAdaper extends BaseAdapter implements SectionIndexer, OnSc
 		if (metaData != null){
 			String status = metaData.get("status");
 			if (status != null && !status.equals("")){
+				Log.i(friendName + " status", status);
 				viewHolder.statusTextView.setText(status);
+			}else{
+				viewHolder.statusTextView.setText("Hey there! I am using CoolChat.");
 			}
 		}
 		
