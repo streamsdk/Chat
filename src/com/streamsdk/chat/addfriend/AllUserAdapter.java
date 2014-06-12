@@ -137,6 +137,8 @@ public class AllUserAdapter extends BaseAdapter{
 			String status = user.get("status");
 			if (status != null && !status.equals("")){
 				viewHolder.allFriendCurrentStatus.setText(status);
+			}else{
+				viewHolder.allFriendCurrentStatus.setText("Hey there! I am using CoolChat.");
 			}
 		}
 		

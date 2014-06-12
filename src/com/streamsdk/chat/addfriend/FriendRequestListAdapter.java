@@ -104,6 +104,8 @@ public class FriendRequestListAdapter extends BaseAdapter{
 			String status = metaData.get("status");
 			if (status != null && !status.equals("")){
 				viewHolder.txtFriendStatus.setText(status);
+			}else{
+				viewHolder.txtFriendStatus.setText("Hey there! I am using CoolChat.");
 			}
 		}
 		
