@@ -91,6 +91,7 @@ public class SignupActivity extends Activity{
 			    	return;
 			    }
 				
+				inputUserName = inputUserName.replace("\n", "");
 				userName = inputUserName.toLowerCase();
 				if (!isUserNameValid(userName)){
 			    	errorMessage = "user name can not include " + "!*'();:@&=+$,/?%#[].";
