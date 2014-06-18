@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 import android.app.Activity;
 import android.content.Context;
@@ -39,18 +40,20 @@ public class ApplicationInstance {
 	private static String sKey = "78771227A606BFD96797E6281D518614";*/
 	
 	//dev
-	public static String APPID="7E95CF60694890DCD4CEFBF79BC3BAE4";
+	/*public static String APPID="7E95CF60694890DCD4CEFBF79BC3BAE4";
 	public static String cKey = "4768674EDC06477EC63AEEF8FEAB0CF8";
-	public static String sKey = "73B7C757A511B1574FDF63B3FEB638B7";
+	public static String sKey = "73B7C757A511B1574FDF63B3FEB638B7";*/
 	
 	//pro
-	/*public static String APPID="A82C2F6E73F3D911F5E424953A1C8E62";
+	public static String APPID="A82C2F6E73F3D911F5E424953A1C8E62";
 	public static String cKey = "C8BB14A1A961E9D391196D9F411B18D8";
-	public static String sKey = "A3C7D9386C4A4063CDE1B4A8B3820BD2";*/
+	public static String sKey = "A3C7D9386C4A4063CDE1B4A8B3820BD2";
 	
 	public static String HOST_PREFIX = "@streamsdk.com";
 	public static final String USER_INFO = "MyPrefsFile";
     public static final String PROFILE_IMAGE = "profileImageId";
+    public static final String BLOOD_TYPE = "bloodType";
+    public static final String HEIGHT = "height";
     public static final String TOEKN = "token";
     public static final int FINISH_ALL= 1515;
 	

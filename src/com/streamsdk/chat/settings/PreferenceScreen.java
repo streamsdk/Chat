@@ -141,6 +141,13 @@ public class PreferenceScreen extends Activity{
 			    showBloodTypeSetting();	
 			}
 		});
+		
+		RelativeLayout rHeight = (RelativeLayout)userInfo.findViewById(R.id.rHeight);
+		rHeight.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+			    showHeightSetting();	
+			}
+		});
 		 
 		popUpView = getLayoutInflater().inflate(R.layout.numberpicker_layout, null);
 		popUpView.setBackgroundColor(getResources().getColor(android.R.color.darker_gray));
@@ -247,14 +254,44 @@ public class PreferenceScreen extends Activity{
 		  });
 	}
 	
+    private void showHeightSetting(){
+		
+        np = (NumberPicker)popUpView.findViewById(R.id.numPicker);
+        final TextView bTxt = (TextView)userInfo.findViewById(R.id.txtHeight);
+        np.setMinValue(0);
+        np.setMaxValue(7);
+        final String values[] = { "<155cm", "155~160cm", "161~165cm", "166~170cm", "171~175cm", "176~180cm", "181~185cm", ">185cm"};
+        np.setDisplayedValues(values);
+        np.setWrapSelectorWheel(true);
+		TextView tv = (TextView)popUpView.findViewById(R.id.numPickerText);
+		tv.setText("Select Height");
+		popupWindow.showAtLocation(userInfo, Gravity.BOTTOM, 0, 0);
+		   
+        Button buttonOK = (Button)popUpView.findViewById(R.id.numPickerButtonOK);
+        buttonOK.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				 String type = userMetadata.get(ApplicationInstance.HEIGHT);
+				 int indexValue = np.getValue();
+				 String selectedValue = values[indexValue];
+				 if (type == null || (!type.equals(selectedValue))){
+					 updatedMetadata.put(ApplicationInstance.HEIGHT, selectedValue);
+					 bTxt.setText(selectedValue);
+				 }
+				 popupWindow.dismiss();
+			}
+		});
+    
+    }
+	
 	
 	private void showBloodTypeSetting(){
 		
         np = (NumberPicker)popUpView.findViewById(R.id.numPicker);
+        final TextView bTxt = (TextView)userInfo.findViewById(R.id.txtBloodType);
         np.setMinValue(0);
         np.setMaxValue(4);
         final String values[] = { "A", "B", "O", "AB", "Other"};
-        np.setDisplayedValues( new String[] { "A", "B", "O", "AB", "Other" });
+        np.setDisplayedValues(values);
         np.setWrapSelectorWheel(true);
 		TextView tv = (TextView)popUpView.findViewById(R.id.numPickerText);
 		tv.setText("Select Type");
@@ -268,6 +305,7 @@ public class PreferenceScreen extends Activity{
 				 String selectedValue = values[indexValue];
 				 if (type == null || (!type.equals(selectedValue))){
 					 updatedMetadata.put(ApplicationInstance.BLOOD_TYPE, selectedValue);
+					 bTxt.setText(selectedValue);
 				 }
 				 popupWindow.dismiss();
 			}
