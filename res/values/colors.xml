@@ -20,5 +20,6 @@
     <color name="redLogin">#E63C3C</color>
     <color name="greenSignup">#3CE64D</color>
     <color name="firstPageTexColor">#FFFFFF</color>
+    <color name="transprantBlack">#95000000</color>
     
 </resources>

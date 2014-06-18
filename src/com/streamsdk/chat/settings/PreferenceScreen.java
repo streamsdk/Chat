@@ -1,5 +1,8 @@
 package com.streamsdk.chat.settings;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -9,12 +12,18 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.NumberPicker;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.LinearLayout.LayoutParams;
 
 import com.stream.api.StreamCallback;
 import com.stream.api.StreamFile;
@@ -36,6 +45,13 @@ public class PreferenceScreen extends Activity{
 	ImageView profileImageView;
 	Activity activity;
 	Button setStatus;
+	LinearLayout userInfo;
+	PopupWindow popupWindow;
+	View popUpView;
+	NumberPicker np;
+	Map<String, String> userMetadata;
+	Map<String, String> updatedMetadata;
+	
 	@Override
     public void onPause(){
 		super.onPause();
@@ -78,12 +94,14 @@ public class PreferenceScreen extends Activity{
 	
 	public void onCreate(Bundle savedInstanceState) {
 		 super.onCreate(savedInstanceState);
+		 userMetadata = ApplicationInstance.getInstance().getFriendMetadata(ApplicationInstance.getInstance().getLoginName());
+		 updatedMetadata = new HashMap<String, String>();
 		 getActionBar().setDisplayHomeAsUpEnabled(true);
 		 setContentView(R.layout.settings_layout);
 		 activity = this;
 		 
 		 //basic user info
-		 LinearLayout userInfo = (LinearLayout)findViewById(R.id.preBasicUserinfo);
+		 userInfo = (LinearLayout)findViewById(R.id.preBasicUserinfo);
 		 TextView userView = (TextView)userInfo.findViewById(R.id.preUsername);
 		 userView.setText(ApplicationInstance.getInstance().getLoginName());
 		 profileImageView = (ImageView)userInfo.findViewById(R.id.preProfileImage);
@@ -116,8 +134,27 @@ public class PreferenceScreen extends Activity{
 		 });
 		 
 		 
+		//new profile setting page 
+		RelativeLayout rl = (RelativeLayout)userInfo.findViewById(R.id.bloodTypePicker);
+		rl.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+			    showBloodTypeSetting();	
+			}
+		});
+		 
+		popUpView = getLayoutInflater().inflate(R.layout.numberpicker_layout, null);
+		popUpView.setBackgroundColor(getResources().getColor(android.R.color.darker_gray));
+        popupWindow = new PopupWindow(popUpView, LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, false);
+        
+		Button buttonCancel = (Button)popUpView.findViewById(R.id.numPickerButtonCancel);
+	        buttonCancel.setOnClickListener(new View.OnClickListener() {
+				public void onClick(View v) {
+				     popupWindow.dismiss();	
+				}
+		});
+	         
 		 //invitation section
-		 LinearLayout invitationLayout = (LinearLayout)findViewById(R.id.inviLayout);
+		 /*LinearLayout invitationLayout = (LinearLayout)findViewById(R.id.inviLayout);
 		 Button inviSMS = (Button)invitationLayout.findViewById(R.id.inviSMSButton);
 		 inviSMS.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
@@ -163,7 +200,7 @@ public class PreferenceScreen extends Activity{
 			    intent.putExtra("url", "http://streamsdk.com/coolchat/privacypolicy.html");
 				startActivity(intent);
 			}
-		 });
+		 });*/
 		
 		 TextView logout = (TextView)findViewById(R.id.logout);
 		 logout.setOnClickListener(new View.OnClickListener() {
@@ -208,6 +245,35 @@ public class PreferenceScreen extends Activity{
 						alertDialog.show();
 			  }
 		  });
+	}
+	
+	
+	private void showBloodTypeSetting(){
+		
+        np = (NumberPicker)popUpView.findViewById(R.id.numPicker);
+        np.setMinValue(0);
+        np.setMaxValue(4);
+        final String values[] = { "A", "B", "O", "AB", "Other"};
+        np.setDisplayedValues( new String[] { "A", "B", "O", "AB", "Other" });
+        np.setWrapSelectorWheel(true);
+		TextView tv = (TextView)popUpView.findViewById(R.id.numPickerText);
+		tv.setText("Select Type");
+		popupWindow.showAtLocation(userInfo, Gravity.BOTTOM, 0, 0);
+		   
+        Button buttonOK = (Button)popUpView.findViewById(R.id.numPickerButtonOK);
+        buttonOK.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				 String type = userMetadata.get(ApplicationInstance.BLOOD_TYPE);
+				 int indexValue = np.getValue();
+				 String selectedValue = values[indexValue];
+				 if (type == null || (!type.equals(selectedValue))){
+					 updatedMetadata.put(ApplicationInstance.BLOOD_TYPE, selectedValue);
+				 }
+				 popupWindow.dismiss();
+			}
+		});
+        
+       
 	}
 	
 	@Override

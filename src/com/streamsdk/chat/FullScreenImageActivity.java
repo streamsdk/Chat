@@ -1,6 +1,7 @@
 package com.streamsdk.chat;
 
 import java.io.File;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -39,10 +40,11 @@ public class FullScreenImageActivity extends Activity{
 	 TextView timeText;
 	 int count;
 	 ImageView savePhotoButton;
-	 private PopupWindow popupWindow;
-	 private View popUpView;
-	 private NumberPicker np;
-	 private int timeout = -1;
+	 PopupWindow popupWindow;
+	 View popUpView;
+	 NumberPicker np;
+	 int timeout = -1;
+	 Map<String, String> userMetadata;
 	 
 	 public void onCreate(Bundle savedInstanceState) {
 		    
