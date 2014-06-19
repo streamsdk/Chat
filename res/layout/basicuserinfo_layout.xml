@@ -56,6 +56,7 @@
    
 
     <RelativeLayout
+        android:id="@+id/agePicker"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginTop="10dp"
@@ -72,6 +73,7 @@
         </TextView>
 
         <TextView
+            android:id="@+id/ageTxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -138,6 +140,7 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/bodyTypePicker"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginTop="10dp"
@@ -154,6 +157,7 @@
         </TextView>
 
         <TextView
+            android:id="@+id/bodyTypeTxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -164,6 +168,7 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/fasionTypePicker"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginTop="10dp"
@@ -180,6 +185,7 @@
         </TextView>
 
         <TextView
+            android:id="@+id/fasionTypeTxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -190,6 +196,7 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/dietTypePicker"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginTop="10dp"
@@ -206,6 +213,7 @@
         </TextView>
 
         <TextView
+            android:id="@+id/dietTypeTxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -216,6 +224,7 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/characterTypePicker"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginTop="10dp"
@@ -232,6 +241,7 @@
         </TextView>
 
         <TextView
+            android:id="@+id/characterTypeTxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"

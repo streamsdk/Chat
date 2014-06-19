@@ -48,7 +48,6 @@ public class PreferenceScreen extends Activity{
 	LinearLayout userInfo;
 	PopupWindow popupWindow;
 	View popUpView;
-	NumberPicker np;
 	Map<String, String> userMetadata;
 	Map<String, String> updatedMetadata;
 	
@@ -148,18 +147,42 @@ public class PreferenceScreen extends Activity{
 			    showHeightSetting();	
 			}
 		});
-		 
-		popUpView = getLayoutInflater().inflate(R.layout.numberpicker_layout, null);
-		popUpView.setBackgroundColor(getResources().getColor(android.R.color.darker_gray));
-        popupWindow = new PopupWindow(popUpView, LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, false);
-        
-		Button buttonCancel = (Button)popUpView.findViewById(R.id.numPickerButtonCancel);
-	        buttonCancel.setOnClickListener(new View.OnClickListener() {
-				public void onClick(View v) {
-				     popupWindow.dismiss();	
-				}
+		
+		RelativeLayout age = (RelativeLayout)userInfo.findViewById(R.id.agePicker);
+		age.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+			    showAgeSetting();	
+			}
 		});
-	         
+		
+		RelativeLayout rBodyType = (RelativeLayout)userInfo.findViewById(R.id.bodyTypePicker);
+		rBodyType.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+			    showBodyTypeSetting();	
+			}
+		});
+		
+		RelativeLayout rFasionType = (RelativeLayout)userInfo.findViewById(R.id.fasionTypePicker);
+		rFasionType.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+			    showFashionTypeSetting();	
+			}
+		});
+		
+		RelativeLayout rDietType = (RelativeLayout)userInfo.findViewById(R.id.dietTypePicker);
+		rDietType.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+			    showDietTypeSetting();	
+			}
+		});
+		
+		RelativeLayout rCharacterType = (RelativeLayout)userInfo.findViewById(R.id.characterTypePicker);
+		rCharacterType.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+			    showCharacterTypeSetting();
+			}
+		});
+		     
 		 //invitation section
 		 /*LinearLayout invitationLayout = (LinearLayout)findViewById(R.id.inviLayout);
 		 Button inviSMS = (Button)invitationLayout.findViewById(R.id.inviSMSButton);
@@ -254,9 +277,180 @@ public class PreferenceScreen extends Activity{
 		  });
 	}
 	
+	private void reinitilize(){
+		popUpView = getLayoutInflater().inflate(R.layout.numberpicker_layout, null);
+		popUpView.setBackgroundColor(getResources().getColor(android.R.color.darker_gray));
+        popupWindow = new PopupWindow(popUpView, LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, false);
+        Button buttonCancel = (Button)popUpView.findViewById(R.id.numPickerButtonCancel);
+        buttonCancel.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+			     popupWindow.dismiss();	
+			}
+	    });
+	}
+	
+	private void showCharacterTypeSetting(){
+	
+		reinitilize();
+		final NumberPicker np = (NumberPicker)popUpView.findViewById(R.id.numPicker);
+        final TextView bTxt = (TextView)userInfo.findViewById(R.id.characterTypeTxt);
+        np.setMinValue(0);
+        np.setMaxValue(12);
+        final String values[] = { "Gentle", "Pure", "Honest", "Optimistic", "Sociable", "Interesting", "Shy", "Cold", "Romantic", "Lonely", "Easy-going", "Decisive", "Stern"};
+        np.setDisplayedValues(values);
+        np.setWrapSelectorWheel(true);
+		TextView tv = (TextView)popUpView.findViewById(R.id.numPickerText);
+		tv.setText("Select Type");
+		popupWindow.showAtLocation(userInfo, Gravity.BOTTOM, 0, 0);
+		   
+        Button buttonOK = (Button)popUpView.findViewById(R.id.numPickerButtonOK);
+        buttonOK.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				 String type = userMetadata.get(ApplicationInstance.CHARACTER_TYPE);
+				 int indexValue = np.getValue();
+				 String selectedValue = values[indexValue];
+				 if (type == null || (!type.equals(selectedValue))){
+					 updatedMetadata.put(ApplicationInstance.CHARACTER_TYPE, selectedValue);
+					 bTxt.setText(selectedValue);
+				 }
+				 popupWindow.dismiss();
+			}
+		});
+       
+    }
+	
+	
+	private void showDietTypeSetting(){
+		
+		    reinitilize();	
+		    final NumberPicker np = (NumberPicker)popUpView.findViewById(R.id.numPicker);
+	        final TextView bTxt = (TextView)userInfo.findViewById(R.id.dietTypeTxt);
+	        np.setMinValue(0);
+	        np.setMaxValue(3);
+	        final String values[] = { "Vegetarian", "Healthy", "Meat and Potatoes", "Whatever"};
+	        np.setDisplayedValues(values);
+	        np.setWrapSelectorWheel(true);
+			TextView tv = (TextView)popUpView.findViewById(R.id.numPickerText);
+			tv.setText("Select Diet");
+			popupWindow.showAtLocation(userInfo, Gravity.BOTTOM, 0, 0);
+			   
+	        Button buttonOK = (Button)popUpView.findViewById(R.id.numPickerButtonOK);
+	        buttonOK.setOnClickListener(new View.OnClickListener() {
+				public void onClick(View v) {
+					 String type = userMetadata.get(ApplicationInstance.DIET);
+					 int indexValue = np.getValue();
+					 String selectedValue = values[indexValue];
+					 if (type == null || (!type.equals(selectedValue))){
+						 updatedMetadata.put(ApplicationInstance.DIET, selectedValue);
+						 bTxt.setText(selectedValue);
+					 }
+					 popupWindow.dismiss();
+				}
+			});
+	       
+	}
+	
+	
+	
+	private void showFashionTypeSetting(){
+	
+		    reinitilize();
+		    final NumberPicker np = (NumberPicker)popUpView.findViewById(R.id.numPicker);
+	        final TextView bTxt = (TextView)userInfo.findViewById(R.id.fasionTypeTxt);
+	        np.setMinValue(0);
+	        np.setMaxValue(13);
+	        final String values[] = { "Casual", "Street", "Model", "Beach", "Uniform", "Cute", "Sexy", "Gorgeous", "Goblin", "Wild", "Visual", "Mori", "Moe", "Akiba Style"};
+	        np.setDisplayedValues(values);
+	        np.setWrapSelectorWheel(true);
+			TextView tv = (TextView)popUpView.findViewById(R.id.numPickerText);
+			tv.setText("Select Type");
+			popupWindow.showAtLocation(userInfo, Gravity.BOTTOM, 0, 0);
+			   
+	        Button buttonOK = (Button)popUpView.findViewById(R.id.numPickerButtonOK);
+	        buttonOK.setOnClickListener(new View.OnClickListener() {
+				public void onClick(View v) {
+					 String type = userMetadata.get(ApplicationInstance.FASION_TYPE);
+					 int indexValue = np.getValue();
+					 String selectedValue = values[indexValue];
+					 if (type == null || (!type.equals(selectedValue))){
+						 updatedMetadata.put(ApplicationInstance.FASION_TYPE, selectedValue);
+						 bTxt.setText(selectedValue);
+					 }
+					 popupWindow.dismiss();
+				}
+			});
+	       
+	}
+	
+	
+   private void showBodyTypeSetting(){
+		
+	    reinitilize();
+	    final NumberPicker np = (NumberPicker)popUpView.findViewById(R.id.numPicker);
+        final TextView bTxt = (TextView)userInfo.findViewById(R.id.bodyTypeTxt);
+        np.setMinValue(0);
+        np.setMaxValue(8);
+        final String values[] = { "Secret", "Bony", "Slim", "Average figure", "Galmourous", "Muscular", "Baby fat", "Chubby", "Plump"};
+        np.setDisplayedValues(values);
+        np.setWrapSelectorWheel(true);
+		TextView tv = (TextView)popUpView.findViewById(R.id.numPickerText);
+		tv.setText("Select Type");
+		popupWindow.showAtLocation(userInfo, Gravity.BOTTOM, 0, 0);
+		   
+        Button buttonOK = (Button)popUpView.findViewById(R.id.numPickerButtonOK);
+        buttonOK.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				 String type = userMetadata.get(ApplicationInstance.BODY_TYPE);
+				 int indexValue = np.getValue();
+				 String selectedValue = values[indexValue];
+				 if (type == null || (!type.equals(selectedValue))){
+					 updatedMetadata.put(ApplicationInstance.BODY_TYPE, selectedValue);
+					 bTxt.setText(selectedValue);
+				 }
+				 popupWindow.dismiss();
+			}
+		});
+       
+	}
+	
+	
+	private void showAgeSetting(){
+		
+		reinitilize();
+		final NumberPicker np = (NumberPicker)popUpView.findViewById(R.id.numPicker);
+        final TextView bTxt = (TextView)userInfo.findViewById(R.id.ageTxt);
+        np.setMinValue(0);
+        np.setMaxValue(63);
+        final String values[] = new String[64];
+        for (int i=0; i < 64; i++){
+        	values[i] = String.valueOf(i + 12);
+        }
+        np.setDisplayedValues(values);
+        np.setWrapSelectorWheel(true);
+		TextView tv = (TextView)popUpView.findViewById(R.id.numPickerText);
+		tv.setText("Select Age");
+		popupWindow.showAtLocation(userInfo, Gravity.BOTTOM, 0, 0);
+		
+		Button buttonOK = (Button)popUpView.findViewById(R.id.numPickerButtonOK);
+	        buttonOK.setOnClickListener(new View.OnClickListener() {
+				public void onClick(View v) {
+					 String type = userMetadata.get(ApplicationInstance.AGE);
+					 int indexValue = np.getValue();
+					 String selectedValue = values[indexValue];
+					 if (type == null || (!type.equals(selectedValue))){
+						 updatedMetadata.put(ApplicationInstance.AGE, selectedValue);
+						 bTxt.setText(selectedValue);
+					 }
+					 popupWindow.dismiss();
+				}
+			});
+		
+	}
+	
     private void showHeightSetting(){
 		
-        np = (NumberPicker)popUpView.findViewById(R.id.numPicker);
+    	reinitilize();
+    	final NumberPicker np = (NumberPicker)popUpView.findViewById(R.id.numPicker);
         final TextView bTxt = (TextView)userInfo.findViewById(R.id.txtHeight);
         np.setMinValue(0);
         np.setMaxValue(7);
@@ -286,7 +480,8 @@ public class PreferenceScreen extends Activity{
 	
 	private void showBloodTypeSetting(){
 		
-        np = (NumberPicker)popUpView.findViewById(R.id.numPicker);
+		reinitilize();
+		final NumberPicker np = (NumberPicker)popUpView.findViewById(R.id.numPicker);
         final TextView bTxt = (TextView)userInfo.findViewById(R.id.txtBloodType);
         np.setMinValue(0);
         np.setMaxValue(4);

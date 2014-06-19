@@ -53,7 +53,12 @@ public class ApplicationInstance {
 	public static final String USER_INFO = "MyPrefsFile";
     public static final String PROFILE_IMAGE = "profileImageId";
     public static final String BLOOD_TYPE = "bloodType";
+    public static final String BODY_TYPE = "bodyType";
+    public static final String FASION_TYPE = "fasionType";
+    public static final String CHARACTER_TYPE = "characterType";
+    public static final String DIET = "diet";
     public static final String HEIGHT = "height";
+    public static final String AGE = "age";
     public static final String TOEKN = "token";
     public static final int FINISH_ALL= 1515;
 	
