@@ -2,6 +2,7 @@ package com.streamsdk.chat.settings;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -182,6 +183,8 @@ public class PreferenceScreen extends Activity{
 			    showCharacterTypeSetting();
 			}
 		});
+		
+		initiLabels();
 		     
 		 //invitation section
 		 /*LinearLayout invitationLayout = (LinearLayout)findViewById(R.id.inviLayout);
@@ -289,11 +292,56 @@ public class PreferenceScreen extends Activity{
 	    });
 	}
 	
+	private void initiLabels(){
+		TextView bTxt = (TextView)userInfo.findViewById(R.id.characterTypeTxt);
+        String type = userMetadata.get(ApplicationInstance.CHARACTER_TYPE);
+        if (type != null){
+        	bTxt.setText(type);
+        }
+        
+        TextView bTxt1 = (TextView)userInfo.findViewById(R.id.dietTypeTxt);
+		String type1 = userMetadata.get(ApplicationInstance.DIET);
+	    if (type1 != null){
+        	bTxt1.setText(type1);
+        }
+	    
+	    TextView bTxt2 = (TextView)userInfo.findViewById(R.id.fasionTypeTxt);
+		String type2 = userMetadata.get(ApplicationInstance.FASION_TYPE);
+		if (type2 != null){
+        	bTxt2.setText(type2);
+        }
+		
+		TextView bTxt3 = (TextView)userInfo.findViewById(R.id.bodyTypeTxt);
+	    String type3 = userMetadata.get(ApplicationInstance.BODY_TYPE);
+		if (type3 != null){
+	         bTxt3.setText(type3);
+	    }
+		 
+		TextView bTxt4 = (TextView)userInfo.findViewById(R.id.ageTxt);
+		String type4 = userMetadata.get(ApplicationInstance.AGE);
+		if (type4 != null){
+	         bTxt4.setText(type4);
+	     }
+		 
+		TextView bTxt5 = (TextView)userInfo.findViewById(R.id.txtHeight);
+		String type5 = userMetadata.get(ApplicationInstance.HEIGHT);
+		if (type5 != null){
+	        bTxt5.setText(type5);
+	     }
+		 
+		TextView bTxt6 = (TextView)userInfo.findViewById(R.id.txtBloodType);
+		String type6 = userMetadata.get(ApplicationInstance.BLOOD_TYPE);
+		if (type6 != null){
+	        bTxt6.setText(type6);
+		}
+	}
+	
 	private void showCharacterTypeSetting(){
 	
 		reinitilize();
 		final NumberPicker np = (NumberPicker)popUpView.findViewById(R.id.numPicker);
         final TextView bTxt = (TextView)userInfo.findViewById(R.id.characterTypeTxt);
+        final String type = userMetadata.get(ApplicationInstance.CHARACTER_TYPE);
         np.setMinValue(0);
         np.setMaxValue(12);
         final String values[] = { "Gentle", "Pure", "Honest", "Optimistic", "Sociable", "Interesting", "Shy", "Cold", "Romantic", "Lonely", "Easy-going", "Decisive", "Stern"};
@@ -302,11 +350,9 @@ public class PreferenceScreen extends Activity{
 		TextView tv = (TextView)popUpView.findViewById(R.id.numPickerText);
 		tv.setText("Select Type");
 		popupWindow.showAtLocation(userInfo, Gravity.BOTTOM, 0, 0);
-		   
-        Button buttonOK = (Button)popUpView.findViewById(R.id.numPickerButtonOK);
+	    Button buttonOK = (Button)popUpView.findViewById(R.id.numPickerButtonOK);
         buttonOK.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				 String type = userMetadata.get(ApplicationInstance.CHARACTER_TYPE);
 				 int indexValue = np.getValue();
 				 String selectedValue = values[indexValue];
 				 if (type == null || (!type.equals(selectedValue))){
@@ -325,7 +371,8 @@ public class PreferenceScreen extends Activity{
 		    reinitilize();	
 		    final NumberPicker np = (NumberPicker)popUpView.findViewById(R.id.numPicker);
 	        final TextView bTxt = (TextView)userInfo.findViewById(R.id.dietTypeTxt);
-	        np.setMinValue(0);
+			final String type = userMetadata.get(ApplicationInstance.DIET);
+		    np.setMinValue(0);
 	        np.setMaxValue(3);
 	        final String values[] = { "Vegetarian", "Healthy", "Meat and Potatoes", "Whatever"};
 	        np.setDisplayedValues(values);
@@ -337,7 +384,6 @@ public class PreferenceScreen extends Activity{
 	        Button buttonOK = (Button)popUpView.findViewById(R.id.numPickerButtonOK);
 	        buttonOK.setOnClickListener(new View.OnClickListener() {
 				public void onClick(View v) {
-					 String type = userMetadata.get(ApplicationInstance.DIET);
 					 int indexValue = np.getValue();
 					 String selectedValue = values[indexValue];
 					 if (type == null || (!type.equals(selectedValue))){
@@ -357,7 +403,8 @@ public class PreferenceScreen extends Activity{
 		    reinitilize();
 		    final NumberPicker np = (NumberPicker)popUpView.findViewById(R.id.numPicker);
 	        final TextView bTxt = (TextView)userInfo.findViewById(R.id.fasionTypeTxt);
-	        np.setMinValue(0);
+			final String type = userMetadata.get(ApplicationInstance.FASION_TYPE);
+		    np.setMinValue(0);
 	        np.setMaxValue(13);
 	        final String values[] = { "Casual", "Street", "Model", "Beach", "Uniform", "Cute", "Sexy", "Gorgeous", "Goblin", "Wild", "Visual", "Mori", "Moe", "Akiba Style"};
 	        np.setDisplayedValues(values);
@@ -369,7 +416,6 @@ public class PreferenceScreen extends Activity{
 	        Button buttonOK = (Button)popUpView.findViewById(R.id.numPickerButtonOK);
 	        buttonOK.setOnClickListener(new View.OnClickListener() {
 				public void onClick(View v) {
-					 String type = userMetadata.get(ApplicationInstance.FASION_TYPE);
 					 int indexValue = np.getValue();
 					 String selectedValue = values[indexValue];
 					 if (type == null || (!type.equals(selectedValue))){
@@ -388,7 +434,8 @@ public class PreferenceScreen extends Activity{
 	    reinitilize();
 	    final NumberPicker np = (NumberPicker)popUpView.findViewById(R.id.numPicker);
         final TextView bTxt = (TextView)userInfo.findViewById(R.id.bodyTypeTxt);
-        np.setMinValue(0);
+		final String type = userMetadata.get(ApplicationInstance.BODY_TYPE);
+	    np.setMinValue(0);
         np.setMaxValue(8);
         final String values[] = { "Secret", "Bony", "Slim", "Average figure", "Galmourous", "Muscular", "Baby fat", "Chubby", "Plump"};
         np.setDisplayedValues(values);
@@ -400,7 +447,6 @@ public class PreferenceScreen extends Activity{
         Button buttonOK = (Button)popUpView.findViewById(R.id.numPickerButtonOK);
         buttonOK.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				 String type = userMetadata.get(ApplicationInstance.BODY_TYPE);
 				 int indexValue = np.getValue();
 				 String selectedValue = values[indexValue];
 				 if (type == null || (!type.equals(selectedValue))){
@@ -419,7 +465,8 @@ public class PreferenceScreen extends Activity{
 		reinitilize();
 		final NumberPicker np = (NumberPicker)popUpView.findViewById(R.id.numPicker);
         final TextView bTxt = (TextView)userInfo.findViewById(R.id.ageTxt);
-        np.setMinValue(0);
+		final String type = userMetadata.get(ApplicationInstance.AGE);
+		np.setMinValue(0);
         np.setMaxValue(63);
         final String values[] = new String[64];
         for (int i=0; i < 64; i++){
@@ -434,7 +481,6 @@ public class PreferenceScreen extends Activity{
 		Button buttonOK = (Button)popUpView.findViewById(R.id.numPickerButtonOK);
 	        buttonOK.setOnClickListener(new View.OnClickListener() {
 				public void onClick(View v) {
-					 String type = userMetadata.get(ApplicationInstance.AGE);
 					 int indexValue = np.getValue();
 					 String selectedValue = values[indexValue];
 					 if (type == null || (!type.equals(selectedValue))){
@@ -452,7 +498,8 @@ public class PreferenceScreen extends Activity{
     	reinitilize();
     	final NumberPicker np = (NumberPicker)popUpView.findViewById(R.id.numPicker);
         final TextView bTxt = (TextView)userInfo.findViewById(R.id.txtHeight);
-        np.setMinValue(0);
+		final String type = userMetadata.get(ApplicationInstance.HEIGHT);
+		np.setMinValue(0);
         np.setMaxValue(7);
         final String values[] = { "<155cm", "155~160cm", "161~165cm", "166~170cm", "171~175cm", "176~180cm", "181~185cm", ">185cm"};
         np.setDisplayedValues(values);
@@ -464,7 +511,6 @@ public class PreferenceScreen extends Activity{
         Button buttonOK = (Button)popUpView.findViewById(R.id.numPickerButtonOK);
         buttonOK.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				 String type = userMetadata.get(ApplicationInstance.HEIGHT);
 				 int indexValue = np.getValue();
 				 String selectedValue = values[indexValue];
 				 if (type == null || (!type.equals(selectedValue))){
@@ -483,7 +529,8 @@ public class PreferenceScreen extends Activity{
 		reinitilize();
 		final NumberPicker np = (NumberPicker)popUpView.findViewById(R.id.numPicker);
         final TextView bTxt = (TextView)userInfo.findViewById(R.id.txtBloodType);
-        np.setMinValue(0);
+		final  String type = userMetadata.get(ApplicationInstance.BLOOD_TYPE);
+		np.setMinValue(0);
         np.setMaxValue(4);
         final String values[] = { "A", "B", "O", "AB", "Other"};
         np.setDisplayedValues(values);
@@ -495,7 +542,6 @@ public class PreferenceScreen extends Activity{
         Button buttonOK = (Button)popUpView.findViewById(R.id.numPickerButtonOK);
         buttonOK.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				 String type = userMetadata.get(ApplicationInstance.BLOOD_TYPE);
 				 int indexValue = np.getValue();
 				 String selectedValue = values[indexValue];
 				 if (type == null || (!type.equals(selectedValue))){
@@ -513,12 +559,28 @@ public class PreferenceScreen extends Activity{
     public boolean onOptionsItemSelected(MenuItem item) {
     switch (item.getItemId()) {
         case android.R.id.home:
+        	updateUserMetadata();
             onBackPressed();
             return true;
         default:
             return super.onOptionsItemSelected(item);
       }
     }
+	
+	private void updateUserMetadata(){
+		
+		if (updatedMetadata.size() > 0){
+			StreamUser user = new StreamUser();
+			Set<String> keys = updatedMetadata.keySet();
+			for (String key :  keys){
+				user.updateUserMetadata(key, updatedMetadata.get(key));
+			} 
+			user.updateUserMetadataInBackground(ApplicationInstance.getInstance().getLoginName());
+			Map<String, String> metadata = ApplicationInstance.getInstance().getFriendMetadata(ApplicationInstance.getInstance().getLoginName());
+			metadata.putAll(updatedMetadata);
+			ApplicationInstance.getInstance().updateFriendMetadata(ApplicationInstance.getInstance().getLoginName(), metadata);
+		}
+	}
 	
 	protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) { 
 		super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
