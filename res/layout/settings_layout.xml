@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         layout="@layout/basicuserinfo_layout" />
 
-  <!--   <TextView
+     <TextView
         android:layout_width="match_parent"
         android:layout_height="30dip"
         android:background="@android:color/background_dark"
@@ -58,7 +58,7 @@
     <include
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        layout="@layout/tc_layout" /> -->
+        layout="@layout/tc_layout" /> 
     
     <TextView
         android:id="@+id/logout"  
