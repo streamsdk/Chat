@@ -1,9 +1,12 @@
 package com.streamsdk.chat.settings;
 
+import com.stream.api.ThreadPoolService;
+import com.streamsdk.cache.ImageCache;
 import com.streamsdk.chat.ApplicationInstance;
 import com.streamsdk.chat.R;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -16,12 +19,15 @@ public class UserDetailsViewActivity extends PreferenceScreen{
 	String userName;
 	public void onCreate(Bundle savedInstanceState) {
 		
-		 super.onCreate(savedInstanceState);
 		 Intent intent = getIntent();
          userName = intent.getExtras().getString("username");
-         userMetadata = ApplicationInstance.getInstance().getFriendMetadata(userName);
-         activity = this;
+         super.onCreate(savedInstanceState);
+		 activity = this;
 		 
+	}
+	
+	protected void getUserMetaData(){
+		 userMetadata = ApplicationInstance.getInstance().getFriendMetadata(userName);
 	}
 	
 	protected void setUserInfo(){
@@ -53,8 +59,39 @@ public class UserDetailsViewActivity extends PreferenceScreen{
 		 String profileImages = userMetadata.get(ApplicationInstance.PROFILE_IMAGE);
 		 LinearLayout profileImageLayout = (LinearLayout)userInfo.findViewById(R.id.profileImageViewLayout);
 		 if (profileImages != null && !profileImages.equals("")){
-			 ImageView iv = crateImageView();
-		     profileImageLayout.addView(iv);
+			 if (profileImages.contains("|")){
+					String images[] = profileImages.split("\\|");
+					for (int i=0; i < images.length; i++){
+						Bitmap bitmap = null;
+						if (i == 0){
+							bitmap = ImageCache.getInstance().getFriendImage(userName);
+					    }else{
+							bitmap = ImageCache.getInstance().getFriendImage(userName + i);
+						}
+						if (bitmap != null){
+							ImageView iv = crateImageView();
+					        iv.setImageBitmap(bitmap);
+					        profileImageLayout.addView(iv);
+						}else{
+							ImageView iv = crateImageView();
+						    profileImageLayout.addView(iv);
+						    if (i != 0){
+						       DownloadProfileImageThread dpt = new DownloadProfileImageThread(this, images[i], i, userName);
+						       ThreadPoolService.getInstance().submitTask(dpt);
+						   }
+						}
+					}
+					ImageView iv = crateImageView();
+				    profileImageLayout.addView(iv);
+				 }else{
+					Bitmap bitmap = ImageCache.getInstance().getFriendImage(userName);
+			        ImageView iv = crateImageView();
+			        if (bitmap != null)
+			            iv.setImageBitmap(bitmap);
+			        ImageView iv1 = crateImageView();
+			        profileImageLayout.addView(iv);
+			        profileImageLayout.addView(iv1);
+			     }
 		 }else{
 			 ImageView iv = crateImageView();
 		     profileImageLayout.addView(iv);

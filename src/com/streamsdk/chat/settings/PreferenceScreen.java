@@ -100,7 +100,7 @@ public class PreferenceScreen extends Activity implements RefreshUI{
 	
 	public void onCreate(Bundle savedInstanceState) {
 		 super.onCreate(savedInstanceState);
-		 userMetadata = ApplicationInstance.getInstance().getFriendMetadata(ApplicationInstance.getInstance().getLoginName());
+		 getUserMetaData();
 		 updatedMetadata = new HashMap<String, String>();
 		 getActionBar().setDisplayHomeAsUpEnabled(true);
 		 setContentView(R.layout.settings_layout);
@@ -163,6 +163,10 @@ public class PreferenceScreen extends Activity implements RefreshUI{
 		 });*/
 		
 		
+	}
+	
+	protected void getUserMetaData(){
+		 userMetadata = ApplicationInstance.getInstance().getFriendMetadata(ApplicationInstance.getInstance().getLoginName());
 	}
 	
 	protected void setUserInfo(){
