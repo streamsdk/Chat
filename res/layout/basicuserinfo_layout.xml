@@ -6,14 +6,28 @@
     android:listSelector="@android:color/transparent"
     android:orientation="vertical" >
 
-    <ImageView
+    <!-- <ImageView
         android:id="@+id/preProfileImage"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/yahoo_no_avatar" />
+        android:src="@drawable/yahoo_no_avatar" /> -->
+   <HorizontalScrollView
+        android:id="@+id/profileImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp" >
+
+        <LinearLayout
+            android:id="@+id/profileImageViewLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+          
+        </LinearLayout>
+    </HorizontalScrollView>
 
     <Button
         android:id="@+id/userStatus"
@@ -252,6 +266,7 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/hobbyTypePicker"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginTop="10dp"
@@ -268,6 +283,7 @@
         </TextView>
 
         <TextView
+            android:id="@+id/hobbyTypeTxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -278,6 +294,7 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/occupationTypePicker"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginTop="10dp"
@@ -294,6 +311,7 @@
         </TextView>
 
         <TextView
+            android:id="@+id/occupationTypeTxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -304,6 +322,7 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/eyeColorTypePicker"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginTop="10dp"
@@ -315,11 +334,12 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:text="Hair Color"
+            android:text="Eye Color"
             android:textSize="18sp" >
         </TextView>
 
         <TextView
+            android:id="@+id/eyeColorTypeTxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"

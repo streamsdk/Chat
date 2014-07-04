@@ -1,8 +1,12 @@
 package com.streamsdk.chat.settings;
 
+import java.io.File;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+
+import org.json.JSONArray;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -29,6 +33,7 @@ import android.widget.LinearLayout.LayoutParams;
 import com.stream.api.StreamCallback;
 import com.stream.api.StreamFile;
 import com.stream.api.StreamUser;
+import com.stream.api.ThreadPoolService;
 import com.stream.xmpp.StreamXMPP;
 import com.streamsdk.cache.FileCache;
 import com.streamsdk.cache.ImageCache;
@@ -36,11 +41,12 @@ import com.streamsdk.cache.StatusDB;
 import com.streamsdk.chat.ApplicationInstance;
 import com.streamsdk.chat.FirstPageActivity;
 import com.streamsdk.chat.R;
+import com.streamsdk.chat.RefreshUI;
 import com.streamsdk.chat.handler.ImageHandler;
 import com.streamsdk.util.BitmapUtils;
 import com.streamsdk.util.UpdateUtils;
 
-public class PreferenceScreen extends Activity{
+public class PreferenceScreen extends Activity implements RefreshUI{
 	
 	static final int REQUEST_IMAGE_PICK = 1;
 	ImageView profileImageView;
@@ -99,92 +105,13 @@ public class PreferenceScreen extends Activity{
 		 getActionBar().setDisplayHomeAsUpEnabled(true);
 		 setContentView(R.layout.settings_layout);
 		 activity = this;
-		 
-		 //basic user info
-		 userInfo = (LinearLayout)findViewById(R.id.preBasicUserinfo);
-		 TextView userView = (TextView)userInfo.findViewById(R.id.preUsername);
-		 userView.setText(ApplicationInstance.getInstance().getLoginName());
-		 profileImageView = (ImageView)userInfo.findViewById(R.id.preProfileImage);
-		 profileImageView.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				Intent pickPhoto = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-				startActivityForResult(pickPhoto , REQUEST_IMAGE_PICK);	
-			}
-		});
-		 Bitmap bitmap = ImageCache.getInstance().getPermImage(ApplicationInstance.getInstance().getLoginName());
-		 if (bitmap != null)
-			 profileImageView.setImageBitmap(bitmap);
-		 else{
-			Bitmap bm = BitmapFactory.decodeResource(getResources(), R.drawable.yahoo_no_avatar);
-			profileImageView.setImageBitmap(bm);
-		  }
-		 
-		 
-		 setStatus = (Button)userInfo.findViewById(R.id.userStatus);
-		 if (shouldInsertStatus()){
-			 insertStatus();
-		 }
-         ApplicationInstance.getInstance().setCurrentStatus(getCurrentStatus());
-		 setStatus.setText(ApplicationInstance.getInstance().getCurrentStatus());
-		 setStatus.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-		        Intent intent = new Intent(activity, StatusSettingActivity.class);
-		        startActivity(intent);
-			}
-		 });
-		 
-		 
-		//new profile setting page 
-		RelativeLayout rl = (RelativeLayout)userInfo.findViewById(R.id.bloodTypePicker);
-		rl.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-			    showBloodTypeSetting();	
-			}
-		});
 		
-		RelativeLayout rHeight = (RelativeLayout)userInfo.findViewById(R.id.rHeight);
-		rHeight.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-			    showHeightSetting();	
-			}
-		});
-		
-		RelativeLayout age = (RelativeLayout)userInfo.findViewById(R.id.agePicker);
-		age.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-			    showAgeSetting();	
-			}
-		});
-		
-		RelativeLayout rBodyType = (RelativeLayout)userInfo.findViewById(R.id.bodyTypePicker);
-		rBodyType.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-			    showBodyTypeSetting();	
-			}
-		});
-		
-		RelativeLayout rFasionType = (RelativeLayout)userInfo.findViewById(R.id.fasionTypePicker);
-		rFasionType.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-			    showFashionTypeSetting();	
-			}
-		});
-		
-		RelativeLayout rDietType = (RelativeLayout)userInfo.findViewById(R.id.dietTypePicker);
-		rDietType.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-			    showDietTypeSetting();	
-			}
-		});
-		
-		RelativeLayout rCharacterType = (RelativeLayout)userInfo.findViewById(R.id.characterTypePicker);
-		rCharacterType.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-			    showCharacterTypeSetting();
-			}
-		});
-		
-		initiLabels();
+		 setUserInfo();
+		 setStatus();
+		 buildProfileImages();
+		 setProfileImageListener();
+		 initiLabels();
+		 logout();
 		     
 		 //invitation section
 		 /*LinearLayout invitationLayout = (LinearLayout)findViewById(R.id.inviLayout);
@@ -235,6 +162,18 @@ public class PreferenceScreen extends Activity{
 			}
 		 });*/
 		
+		
+	}
+	
+	protected void setUserInfo(){
+		 //basic user info
+		 userInfo = (LinearLayout)findViewById(R.id.preBasicUserinfo);
+		 TextView userView = (TextView)userInfo.findViewById(R.id.preUsername);
+		 userView.setText(ApplicationInstance.getInstance().getLoginName());
+	}
+	
+	protected void logout(){
+		
 		 TextView logout = (TextView)findViewById(R.id.logout);
 		 logout.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View arg0) {
@@ -272,12 +211,214 @@ public class PreferenceScreen extends Activity{
 									   StreamXMPP.getInstance().disconnect();
 									}
 								}).start();
+								ApplicationInstance.getInstance().resetInstance();
 							}
 						});
 						AlertDialog alertDialog = alertDialogBuilder.create();
 						alertDialog.show();
 			  }
 		  });
+		
+		
+	}
+	
+	protected void setStatus(){
+		
+		 setStatus = (Button)userInfo.findViewById(R.id.userStatus);
+		 if (shouldInsertStatus()){
+			 insertStatus();
+		 }
+         ApplicationInstance.getInstance().setCurrentStatus(getCurrentStatus());
+		 setStatus.setText(ApplicationInstance.getInstance().getCurrentStatus());
+		 setStatus.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+		        Intent intent = new Intent(activity, StatusSettingActivity.class);
+		        startActivity(intent);
+			}
+		 });
+		
+	}
+	
+	
+	protected void editListener(){
+		
+		        //new profile setting page 
+				RelativeLayout rl = (RelativeLayout)userInfo.findViewById(R.id.bloodTypePicker);
+				rl.setOnClickListener(new View.OnClickListener() {
+					public void onClick(View v) {
+					    showBloodTypeSetting();	
+					}
+				});
+				
+				RelativeLayout rHeight = (RelativeLayout)userInfo.findViewById(R.id.rHeight);
+				rHeight.setOnClickListener(new View.OnClickListener() {
+					public void onClick(View v) {
+					    showHeightSetting();	
+					}
+				});
+				
+				RelativeLayout age = (RelativeLayout)userInfo.findViewById(R.id.agePicker);
+				age.setOnClickListener(new View.OnClickListener() {
+					public void onClick(View v) {
+					    showAgeSetting();	
+					}
+				});
+				
+				RelativeLayout rBodyType = (RelativeLayout)userInfo.findViewById(R.id.bodyTypePicker);
+				rBodyType.setOnClickListener(new View.OnClickListener() {
+					public void onClick(View v) {
+					    showBodyTypeSetting();	
+					}
+				});
+				
+				RelativeLayout rFasionType = (RelativeLayout)userInfo.findViewById(R.id.fasionTypePicker);
+				rFasionType.setOnClickListener(new View.OnClickListener() {
+					public void onClick(View v) {
+					    showFashionTypeSetting();	
+					}
+				});
+				
+				RelativeLayout rDietType = (RelativeLayout)userInfo.findViewById(R.id.dietTypePicker);
+				rDietType.setOnClickListener(new View.OnClickListener() {
+					public void onClick(View v) {
+					    showDietTypeSetting();	
+					}
+				});
+				
+				RelativeLayout rCharacterType = (RelativeLayout)userInfo.findViewById(R.id.characterTypePicker);
+				rCharacterType.setOnClickListener(new View.OnClickListener() {
+					public void onClick(View v) {
+					    showCharacterTypeSetting();
+					}
+				});
+				
+				RelativeLayout rHobbyType = (RelativeLayout)userInfo.findViewById(R.id.hobbyTypePicker);
+				rHobbyType.setOnClickListener(new View.OnClickListener() {
+					public void onClick(View v) {
+					    showHobbyListSetting();
+					}
+				});
+				
+				RelativeLayout rOccupationType = (RelativeLayout)userInfo.findViewById(R.id.occupationTypePicker);
+				rOccupationType.setOnClickListener(new View.OnClickListener() {
+					public void onClick(View v) {
+					    showOccupationSetting();
+					}
+				});
+				
+				RelativeLayout rEyeColorType = (RelativeLayout)userInfo.findViewById(R.id.eyeColorTypePicker);
+				rEyeColorType.setOnClickListener(new View.OnClickListener() {
+					public void onClick(View v) {
+					    showEyeColor();
+					}
+				});
+				
+		
+	}
+	
+	public synchronized void updateUI(boolean add){
+		LinearLayout profileImageLayout = (LinearLayout)userInfo.findViewById(R.id.profileImageViewLayout);
+		 int count = profileImageLayout.getChildCount();
+		 for (int i=0; i<count; i++){
+			 ImageView view = (ImageView)profileImageLayout.getChildAt(i);
+			 if (i != 0){
+				 Bitmap bitmap = ImageCache.getInstance().getPermImage(ApplicationInstance.getInstance().getLoginName() + i);
+				 if (bitmap != null){
+					 view.setImageBitmap(bitmap);
+				 }
+			 }else{
+				 Bitmap bitmap = ImageCache.getInstance().getPermImage(ApplicationInstance.getInstance().getLoginName());
+				 if (bitmap != null){
+					 view.setImageBitmap(bitmap);
+				 }
+			 }
+		 }
+		 if (add){
+			 ImageView iv = crateImageView();
+			 profileImageLayout.addView(iv);
+			 setProfileImageListener();
+		 }
+		 profileImageLayout.invalidate();
+	}
+	
+	
+	public void refresh(){
+		runOnUiThread(new Runnable(){
+			public void run() {
+			   updateUI(false);
+			}
+		});	
+	}
+	
+	public void refreshAndAdd(){
+		runOnUiThread(new Runnable(){
+			public void run() {
+			   updateUI(true);
+			}
+		});	
+	}
+	
+	protected void buildProfileImages(){
+		
+		 String profileImages = userMetadata.get(ApplicationInstance.PROFILE_IMAGE);
+		 LinearLayout profileImageLayout = (LinearLayout)userInfo.findViewById(R.id.profileImageViewLayout);
+		 //profileImageLayout.removeAllViews();
+		 if (profileImages != null && !profileImages.equals("")){
+			 if (profileImages.contains("|")){
+				String images[] = profileImages.split("\\|");
+				for (int i=0; i < images.length; i++){
+					Bitmap bitmap = null;
+					if (i == 0){
+						bitmap = ImageCache.getInstance().getPermImage(ApplicationInstance.getInstance().getLoginName());
+				    }else{
+						bitmap = ImageCache.getInstance().getPermImage(ApplicationInstance.getInstance().getLoginName() + i);
+					}
+					if (bitmap != null){
+						ImageView iv = crateImageView();
+				        iv.setImageBitmap(bitmap);
+				        profileImageLayout.addView(iv);
+					}else{
+						ImageView iv = crateImageView();
+					    profileImageLayout.addView(iv);
+					    if (i != 0){
+					       DownloadProfileImageThread dpt = new DownloadProfileImageThread(this, images[i], i, ApplicationInstance.getInstance().getLoginName());
+					       ThreadPoolService.getInstance().submitTask(dpt);
+					   }
+					}
+				}
+				ImageView iv = crateImageView();
+			    profileImageLayout.addView(iv);
+			 }else{
+				Bitmap bitmap = ImageCache.getInstance().getPermImage(ApplicationInstance.getInstance().getLoginName());
+		        ImageView iv = crateImageView();
+		        iv.setImageBitmap(bitmap);
+		        ImageView iv1 = crateImageView();
+		        profileImageLayout.addView(iv);
+		        profileImageLayout.addView(iv1);
+		     }
+		 }else{
+			 ImageView iv = crateImageView();
+		     profileImageLayout.addView(iv);
+		 }
+		 profileImageLayout.invalidate();
+	}
+	
+	protected void setProfileImageListener(){
+		
+		LinearLayout profileImageLayout = (LinearLayout)userInfo.findViewById(R.id.profileImageViewLayout);
+		int count = profileImageLayout.getChildCount();
+		for (int i=0; i < count; i++){
+			View v = profileImageLayout.getChildAt(i);
+			v.setOnClickListener(null);
+		}
+		View v = profileImageLayout.getChildAt(count - 1);
+		v.setOnClickListener(new View.OnClickListener() {
+				public void onClick(View view) {
+					 Log.i("", "");
+					 Intent pickPhoto = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+					 startActivityForResult(pickPhoto , REQUEST_IMAGE_PICK);	
+				}
+		});
 	}
 	
 	private void reinitilize(){
@@ -292,7 +433,17 @@ public class PreferenceScreen extends Activity{
 	    });
 	}
 	
-	private void initiLabels(){
+	protected ImageView crateImageView(){
+         LinearLayout.LayoutParams imagePrams = new LinearLayout.LayoutParams(300, 300);
+	     ImageView iv = new ImageView(this);
+	     iv.setLayoutParams(imagePrams);
+	     iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
+	     iv.setPadding(40, 0, 0, 0);
+	     iv.setImageDrawable(getResources().getDrawable(R.drawable.yahoo_no_avatar));
+	     return iv;
+	}
+	
+	protected void initiLabels(){
 		TextView bTxt = (TextView)userInfo.findViewById(R.id.characterTypeTxt);
         String type = userMetadata.get(ApplicationInstance.CHARACTER_TYPE);
         if (type != null){
@@ -334,6 +485,110 @@ public class PreferenceScreen extends Activity{
 		if (type6 != null){
 	        bTxt6.setText(type6);
 		}
+		
+		TextView bTxt7 = (TextView)userInfo.findViewById(R.id.hobbyTypeTxt);
+		String type7 = userMetadata.get(ApplicationInstance.HOBBY_TYPE);
+		if (type7 != null){
+	        bTxt7.setText(type7);
+		}
+		
+		TextView bTxt8 = (TextView)userInfo.findViewById(R.id.occupationTypeTxt);
+		String type8 = userMetadata.get(ApplicationInstance.OCCUPATION_TYPE);
+		if (type8 != null){
+	        bTxt8.setText(type8);
+		}
+		
+		TextView bTxt9 = (TextView)userInfo.findViewById(R.id.eyeColorTypeTxt);
+		String type9 = userMetadata.get(ApplicationInstance.EYE_COLOR_TYPE);
+		if (type9 != null){
+	        bTxt9.setText(type9);
+		}
+	}
+	
+	private void showOccupationSetting(){
+		
+		reinitilize();
+		final NumberPicker np = (NumberPicker)popUpView.findViewById(R.id.numPicker);
+		final TextView bTxt = (TextView)userInfo.findViewById(R.id.occupationTypeTxt);
+        final String type = userMetadata.get(ApplicationInstance.OCCUPATION_TYPE);
+        np.setMinValue(0);
+        np.setMaxValue(10);
+        final String values[] = {"Clerk", "Technology", "Business", "Sales", "Service", "Teacher", "Self-employed", "Student", "Housewife", "Management", "Other"};
+    	np.setDisplayedValues(values);
+	    np.setWrapSelectorWheel(true);
+	    TextView tv = (TextView)popUpView.findViewById(R.id.numPickerText);
+	    tv.setText("Select Occupation");
+	    popupWindow.showAtLocation(userInfo, Gravity.BOTTOM, 0, 0);
+	    Button buttonOK = (Button)popUpView.findViewById(R.id.numPickerButtonOK);
+	    buttonOK.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				 int indexValue = np.getValue();
+				 String selectedValue = values[indexValue];
+				 if (type == null || (!type.equals(selectedValue))){
+					 updatedMetadata.put(ApplicationInstance.OCCUPATION_TYPE, selectedValue);
+					 bTxt.setText(selectedValue);
+				 }
+				 popupWindow.dismiss();
+			}
+		});
+   
+   }
+	
+	private void showEyeColor(){
+		
+		reinitilize();
+		final NumberPicker np = (NumberPicker)popUpView.findViewById(R.id.numPicker);
+		final TextView bTxt = (TextView)userInfo.findViewById(R.id.eyeColorTypeTxt);
+		final String type = userMetadata.get(ApplicationInstance.EYE_COLOR_TYPE);
+		np.setMinValue(0);
+        np.setMaxValue(7);
+       final String values[] = {"Amber", "Black", "Blue", "Brown", "Gray", "Green", "Hazel", "Other"};
+		np.setDisplayedValues(values);
+	    np.setWrapSelectorWheel(true);
+	    TextView tv = (TextView)popUpView.findViewById(R.id.numPickerText);
+	    tv.setText("Select Eye Color");
+	    popupWindow.showAtLocation(userInfo, Gravity.BOTTOM, 0, 0);
+	    Button buttonOK = (Button)popUpView.findViewById(R.id.numPickerButtonOK);
+	    buttonOK.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				 int indexValue = np.getValue();
+				 String selectedValue = values[indexValue];
+				 if (type == null || (!type.equals(selectedValue))){
+					 updatedMetadata.put(ApplicationInstance.EYE_COLOR_TYPE, selectedValue);
+					 bTxt.setText(selectedValue);
+				 }
+				 popupWindow.dismiss();
+			}
+		});
+	}
+	
+	private void showHobbyListSetting(){
+		
+		reinitilize();
+		final NumberPicker np = (NumberPicker)popUpView.findViewById(R.id.numPicker);
+        final TextView bTxt = (TextView)userInfo.findViewById(R.id.hobbyTypeTxt);
+        final String type = userMetadata.get(ApplicationInstance.HOBBY_TYPE);
+        np.setMinValue(0);
+        np.setMaxValue(10);
+		final String values[] = {"Movies", "Doing Sports", "Music", "Karaoke", "Cooking", "Drinking", "Shopping", "Travel", "Art", "Reading", "Games"};
+		np.setDisplayedValues(values);
+	    np.setWrapSelectorWheel(true);
+	    TextView tv = (TextView)popUpView.findViewById(R.id.numPickerText);
+	    tv.setText("Select Hobby");
+	    popupWindow.showAtLocation(userInfo, Gravity.BOTTOM, 0, 0);
+	    Button buttonOK = (Button)popUpView.findViewById(R.id.numPickerButtonOK);
+        buttonOK.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				 int indexValue = np.getValue();
+				 String selectedValue = values[indexValue];
+				 if (type == null || (!type.equals(selectedValue))){
+					 updatedMetadata.put(ApplicationInstance.HOBBY_TYPE, selectedValue);
+					 bTxt.setText(selectedValue);
+				 }
+				 popupWindow.dismiss();
+			}
+		});
+	    
 	}
 	
 	private void showCharacterTypeSetting(){
@@ -587,8 +842,9 @@ public class PreferenceScreen extends Activity{
 		switch(requestCode) {
 		
 		   case REQUEST_IMAGE_PICK:
-		      if(resultCode == RESULT_OK){  
-		    	  String path = ImageHandler.getImgPath(imageReturnedIntent.getData(), this);
+		      if(resultCode == RESULT_OK){
+		    	  //first version
+		    	  /*String path = ImageHandler.getImgPath(imageReturnedIntent.getData(), this);
 		    	  Bitmap bitmap = BitmapUtils.loadImageForFullScreen(path, 230, 230, 300);
 		    	  profileImageView.setImageBitmap(bitmap);
 		    	  ImageCache.getInstance().addPermnent(ApplicationInstance.getInstance().getLoginName(), bitmap);
@@ -602,11 +858,62 @@ public class PreferenceScreen extends Activity{
 					    	  su.updateUserMetadataInBackground(ApplicationInstance.getInstance().getLoginName());
 					      }
 					}
-				});
+				  });*/
+		    	  //second version
+		    	  String path = ImageHandler.getImgPath(imageReturnedIntent.getData(), this);
+		    	  final int imageIndex = currentImageIndex();
+		    	  Bitmap bitmap = BitmapUtils.loadImageForFullScreen(path, 230, 230, 300);
+		    	  byte profileImageBytes[] = null;
+		    	  if (imageIndex != 0){
+		    	     ImageCache.getInstance().addPermnent(ApplicationInstance.getInstance().getLoginName() + imageIndex, bitmap);
+		    	     profileImageBytes = ImageCache.getInstance().getImagePem(ApplicationInstance.getInstance().getLoginName() + imageIndex);
+		    	  }else{
+		    		 ImageCache.getInstance().addPermnent(ApplicationInstance.getInstance().getLoginName(), bitmap);
+		    		 profileImageBytes = ImageCache.getInstance().getImagePem(ApplicationInstance.getInstance().getLoginName());
+				  }
+		    	  refreshAndAdd();
+		    	  
+		    	  final StreamFile sf = new StreamFile();
+		    	  sf.postBytes(profileImageBytes, new StreamCallback() {
+					public void result(boolean succeed, String errorMessage) {
+					      if (succeed){
+					    	  StreamUser su = new StreamUser();
+					    	  String profileImages = recreateImageIndex(sf.getId());
+					    	  su.updateUserMetadata(ApplicationInstance.PROFILE_IMAGE, profileImages);
+					    	  su.updateUserMetadataInBackground(ApplicationInstance.getInstance().getLoginName());
+					    	  //update in memeory
+					    	  userMetadata.put(ApplicationInstance.PROFILE_IMAGE, profileImages);
+					    	  ApplicationInstance.getInstance().updateFriendMetadata(ApplicationInstance.getInstance().getLoginName(), userMetadata);
+					    	  
+					      }
+					 }
+				  });
 		      }
 		      break;
 		}
 		
+	}
+	
+	private String recreateImageIndex(String fileId){
+		  String profileImages = userMetadata.get(ApplicationInstance.PROFILE_IMAGE);
+    	  if (profileImages != null && !profileImages.equals("")){
+    		  profileImages = profileImages + "|" + fileId;
+    	      return profileImages;
+    	  }
+    	  return fileId;
+	}
+	
+	private int currentImageIndex(){
+		  String profileImages = userMetadata.get(ApplicationInstance.PROFILE_IMAGE);
+    	  if (profileImages != null && !profileImages.equals("")){
+    		  if (profileImages.contains("|")){
+    			  String pImage[] = profileImages.split("\\|");
+    			  return pImage.length;    			  
+    		  }else{
+    			  return 1;
+    		  }
+    	  }
+    	  return 0;
 	}
 
 }

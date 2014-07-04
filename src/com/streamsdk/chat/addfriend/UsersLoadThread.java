@@ -51,6 +51,7 @@ public class UsersLoadThread implements Runnable{
 		for (int i=0; i < allUsers.size(); i++){
 			Map<String, String> metaData = allUsers.get(i);
 			String fileId = metaData.get(ApplicationInstance.PROFILE_IMAGE);
+			fileId = getStringFileId(fileId);
 			String name = metaData.get("name");
 			if (fileId != null && !fileId.equals("") && !nameSet.contains(name) && name!=null){
 				boolean exists = FileCache.getInstance().generateProfileImagePathIfDoesNotExists(fileId);
@@ -80,6 +81,14 @@ public class UsersLoadThread implements Runnable{
 		}
 		Log.i("", String.valueOf(allUsers.size()));
 		
+	}
+	
+	private String getStringFileId(String ids){
+		if (ids != null && ids.contains("|")){
+		   String imageIds[] = ids.split("\\|");
+		   return imageIds[0];
+		}
+		return ids;
 	}
 	
 }

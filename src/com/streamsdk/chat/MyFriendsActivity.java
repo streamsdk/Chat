@@ -168,6 +168,7 @@ public class MyFriendsActivity extends ListActivity implements RefreshUI{
 				ApplicationInstance.getInstance().updateFriendMetadata(sUser.getUserName(), userMetadata);
 				String fileId = userMetadata.get(ApplicationInstance.PROFILE_IMAGE);
 				if (fileId != null && !fileId.equals("")){
+					fileId = getStringFileId(fileId);
 					boolean exists = FileCache.getInstance().generateProfileImagePathIfDoesNotExists(fileId);
 					File profileImageFile;
 					Bitmap bitmap;
@@ -195,6 +196,14 @@ public class MyFriendsActivity extends ListActivity implements RefreshUI{
 				}
 			}
 		});
+	}
+	
+	private String getStringFileId(String ids){
+		if (ids.contains("|")){
+		   String imageIds[] = ids.split("\\|");
+		   return imageIds[0];
+		}
+		return ids;
 	}
 	
 	private String[] convertToLowerCase(String strings[]){

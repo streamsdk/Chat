@@ -4,9 +4,11 @@ import java.util.Map;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.sax.StartElementListener;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +24,7 @@ import android.widget.TextView;
 import com.streamsdk.cache.ImageCache;
 import com.streamsdk.chat.ApplicationInstance;
 import com.streamsdk.chat.R;
+import com.streamsdk.chat.settings.UserDetailsViewActivity;
 
 public class NamesBaseAdaper extends BaseAdapter implements SectionIndexer, OnScrollListener, PinnedHeaderAdapter{
 
@@ -55,7 +58,7 @@ public class NamesBaseAdaper extends BaseAdapter implements SectionIndexer, OnSc
 	public View getView(int position, View view, ViewGroup parent) {
 		LayoutInflater inflater = (LayoutInflater)activity.getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		
-		String friendName = (String)getItem(position);
+		final String friendName = (String)getItem(position);
 		ViewHolder viewHolder;
 		View v = null;
 		if (view == null){
@@ -93,6 +96,14 @@ public class NamesBaseAdaper extends BaseAdapter implements SectionIndexer, OnSc
 			Bitmap bm = BitmapFactory.decodeResource(activity.getResources(), R.drawable.yahoo_no_avatar);
 			viewHolder.imageView.setImageBitmap(bm);
 		}
+		
+		viewHolder.imageView.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				Intent intent = new Intent(activity.getApplicationContext(), UserDetailsViewActivity.class);
+				intent.putExtra("username", friendName);
+				activity.startActivity(intent);	
+			}
+		});
 		
 		//friend message count
 		Map<String, String> mCounts = ApplicationInstance.getInstance().getMessagingCountDB().getMessagingCount(friendName);
