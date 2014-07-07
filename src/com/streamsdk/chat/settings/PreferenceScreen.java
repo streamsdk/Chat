@@ -110,6 +110,7 @@ public class PreferenceScreen extends Activity implements RefreshUI{
 		 setStatus();
 		 buildProfileImages();
 		 setProfileImageListener();
+		 editListener();
 		 initiLabels();
 		 logout();
 		     

@@ -30,6 +30,10 @@ public class UserDetailsViewActivity extends PreferenceScreen{
 		 userMetadata = ApplicationInstance.getInstance().getFriendMetadata(userName);
 	}
 	
+	protected void editListener(){
+		
+	}
+	
 	protected void setUserInfo(){
 		 //basic user info
 		 userInfo = (LinearLayout)findViewById(R.id.preBasicUserinfo);
@@ -108,16 +112,12 @@ public class UserDetailsViewActivity extends PreferenceScreen{
 						   }
 						}
 					}
-					ImageView iv = crateImageView();
-				    profileImageLayout.addView(iv);
 				 }else{
 					Bitmap bitmap = ImageCache.getInstance().getFriendImage(userName);
 			        ImageView iv = crateImageView();
 			        if (bitmap != null)
 			            iv.setImageBitmap(bitmap);
-			        ImageView iv1 = crateImageView();
 			        profileImageLayout.addView(iv);
-			        profileImageLayout.addView(iv1);
 			     }
 		 }else{
 			 ImageView iv = crateImageView();

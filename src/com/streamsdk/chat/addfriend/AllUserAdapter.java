@@ -12,6 +12,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
@@ -29,6 +30,7 @@ import com.streamsdk.cache.ImageCache;
 import com.streamsdk.chat.ApplicationInstance;
 import com.streamsdk.chat.R;
 import com.streamsdk.chat.domain.FriendRequest;
+import com.streamsdk.chat.settings.UserDetailsViewActivity;
 
 public class AllUserAdapter extends BaseAdapter{
 
@@ -131,6 +133,15 @@ public class AllUserAdapter extends BaseAdapter{
 			viewHolder.allImageAvatar.setImageBitmap(bm);
 		}
 		viewHolder.allTxtFriendName.setText(userName);
+		
+		viewHolder.allImageAvatar.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				Intent intent = new Intent(activity.getApplicationContext(), UserDetailsViewActivity.class);
+				intent.putExtra("username", userName);
+				ApplicationInstance.getInstance().updateFriendMetadata(userName, user);
+				activity.startActivity(intent);	
+			}
+		});
 		
 		// friend status
 		if (user != null){

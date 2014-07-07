@@ -514,6 +514,11 @@ public class MainActivity extends Activity implements EditTextEmojSelected, Chat
 			 if (resultCode == RESULT_OK){
 		          sendMapIM(ApplicationInstance.getInstance().getMapTaken());		 
 			 }
+			 break;
+		case  ApplicationInstance.FINISH_ALL:
+		      if(resultCode == RESULT_OK){        		    	  
+		    	  finish();
+		       }
 		}
 	}
 

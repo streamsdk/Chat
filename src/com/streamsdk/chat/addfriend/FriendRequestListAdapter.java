@@ -11,6 +11,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
@@ -28,6 +29,7 @@ import com.streamsdk.cache.ImageCache;
 import com.streamsdk.chat.ApplicationInstance;
 import com.streamsdk.chat.R;
 import com.streamsdk.chat.domain.FriendRequest;
+import com.streamsdk.chat.settings.UserDetailsViewActivity;
 
 public class FriendRequestListAdapter extends BaseAdapter{
 
@@ -96,6 +98,15 @@ public class FriendRequestListAdapter extends BaseAdapter{
 			Bitmap bm = BitmapFactory.decodeResource(activity.getResources(), R.drawable.yahoo_no_avatar);
 			viewHolder.imageAvatar.setImageBitmap(bm);
 		}
+		
+		viewHolder.imageAvatar.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				Intent intent = new Intent(activity.getApplicationContext(), UserDetailsViewActivity.class);
+				intent.putExtra("username", friendRequest.getFriendName());
+				activity.startActivity(intent);	
+			}
+		});
+		
 		viewHolder.txtFriendName.setText(friendRequest.getFriendName());
 		
 		// friend status

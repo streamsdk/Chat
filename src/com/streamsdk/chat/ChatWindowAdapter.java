@@ -35,6 +35,8 @@ import android.widget.TextView;
 import com.streamsdk.cache.FileCache;
 import com.streamsdk.cache.ImageCache;
 import com.streamsdk.chat.domain.IM;
+import com.streamsdk.chat.settings.PreferenceScreen;
+import com.streamsdk.chat.settings.UserDetailsViewActivity;
 import com.streamsdk.util.BitmapUtils;
 
 public class ChatWindowAdapter extends BaseAdapter{
@@ -135,6 +137,12 @@ public class ChatWindowAdapter extends BaseAdapter{
 		   if (bm != null){
 			   viewHolder.imgAvatarSelf.setImageBitmap(bm); 
 		   }
+		   viewHolder.imgAvatarSelf.setOnClickListener(new View.OnClickListener() {
+			   public void onClick(View v) {
+				   Intent intent = new Intent(activity, PreferenceScreen.class);
+				   activity.startActivityForResult(intent, ApplicationInstance.FINISH_ALL);
+			   }
+		   });
 		   if ((!im.isVoice() && !im.isImage() && !im.isVideo() && !im.isMap()) || im.isDisappear()){
 			   viewHolder.txtMessageFriend.setVisibility(View.GONE);
 			   viewHolder.imgAvatarFriend.setVisibility(View.GONE);
@@ -274,6 +282,13 @@ public class ChatWindowAdapter extends BaseAdapter{
 		   if (fAvtar != null){
 			  viewHolder.imgAvatarFriend.setImageBitmap(fAvtar); 
 		   }
+		   viewHolder.imgAvatarFriend.setOnClickListener(new View.OnClickListener() {
+			  public void onClick(View v) {
+				  Intent intent = new Intent(activity.getApplicationContext(), UserDetailsViewActivity.class);
+				  intent.putExtra("username", im.getFrom());
+				  activity.startActivity(intent);	
+			  }
+		  });
 		   if ((!im.isVoice() && !im.isImage() && !im.isVideo() && !im.isMap())|| im.isDisappear()){
 			  viewHolder.txtMessageFriend.setVisibility(View.VISIBLE);
 			  viewHolder.imgAvatarFriend.setVisibility(View.VISIBLE);
