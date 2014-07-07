@@ -17,6 +17,7 @@ import com.streamsdk.cache.FileCache;
 import com.streamsdk.cache.FriendDB;
 import com.streamsdk.cache.ImageCache;
 import com.streamsdk.chat.ApplicationInstance;
+import com.streamsdk.chat.settings.ProfileImageUtils;
 
 public class UsersLoadThread implements Runnable{
 
@@ -50,7 +51,7 @@ public class UsersLoadThread implements Runnable{
 		
 		for (int i=0; i < allUsers.size(); i++){
 			Map<String, String> metaData = allUsers.get(i);
-			String fileId = metaData.get(ApplicationInstance.PROFILE_IMAGE);
+			String fileId = ProfileImageUtils.getProfileImages(metaData);
 			fileId = getStringFileId(fileId);
 			String name = metaData.get("name");
 			if (fileId != null && !fileId.equals("") && !nameSet.contains(name) && name!=null){

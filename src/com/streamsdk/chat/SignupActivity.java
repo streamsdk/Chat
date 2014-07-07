@@ -115,7 +115,7 @@ public class SignupActivity extends Activity{
 				final String password = passwordText.getText().toString();
 				StreamUser su = new StreamUser();
 			    Map<String, String> metaData = new HashMap<String, String>();
-			    metaData.put(ApplicationInstance.PROFILE_IMAGE, "");
+			    metaData.put(ApplicationInstance.NEW_PROFILE_IMAGE, "");
 			    metaData.put("name", userName);
 			    metaData.put("password", password);
 			    metaData.put("OS", "android");

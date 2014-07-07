@@ -46,7 +46,9 @@ public class UserDetailsViewActivity extends PreferenceScreen{
 	
 	protected void setStatus(){
 		 setStatus = (Button)userInfo.findViewById(R.id.userStatus);
-		 String status = userMetadata.get(ApplicationInstance.STATUS);
+		 String status = null;
+		 if (userMetadata != null)
+		     status = userMetadata.get(ApplicationInstance.STATUS);
 		 if (status != null){
 			 setStatus.setText(status);
 		 }else{
@@ -54,9 +56,34 @@ public class UserDetailsViewActivity extends PreferenceScreen{
 		 }
 	}
 	
+	public synchronized void updateUI(boolean add){
+		LinearLayout profileImageLayout = (LinearLayout)userInfo.findViewById(R.id.profileImageViewLayout);
+		 int count = profileImageLayout.getChildCount();
+		 for (int i=0; i<count; i++){
+			 ImageView view = (ImageView)profileImageLayout.getChildAt(i);
+			 if (i != 0){
+				 Bitmap bitmap = ImageCache.getInstance().getFriendImage(userName + i);
+				 if (bitmap != null){
+					 view.setImageBitmap(bitmap);
+				 }
+			 }else{
+				 Bitmap bitmap = ImageCache.getInstance().getFriendImage(userName);
+				 if (bitmap != null){
+					 view.setImageBitmap(bitmap);
+				 }
+			 }
+		 }
+		 if (add){
+			 ImageView iv = crateImageView();
+			 profileImageLayout.addView(iv);
+			 setProfileImageListener();
+		 }
+		 profileImageLayout.invalidate();
+	}
+	
 	protected void buildProfileImages(){
 		
-		 String profileImages = userMetadata.get(ApplicationInstance.PROFILE_IMAGE);
+		 String profileImages = ProfileImageUtils.getProfileImages(userMetadata);
 		 LinearLayout profileImageLayout = (LinearLayout)userInfo.findViewById(R.id.profileImageViewLayout);
 		 if (profileImages != null && !profileImages.equals("")){
 			 if (profileImages.contains("|")){

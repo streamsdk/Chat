@@ -364,7 +364,7 @@ public class PreferenceScreen extends Activity implements RefreshUI{
 	
 	protected void buildProfileImages(){
 		
-		 String profileImages = userMetadata.get(ApplicationInstance.PROFILE_IMAGE);
+		 String profileImages = ProfileImageUtils.getProfileImages(userMetadata);
 		 LinearLayout profileImageLayout = (LinearLayout)userInfo.findViewById(R.id.profileImageViewLayout);
 		 //profileImageLayout.removeAllViews();
 		 if (profileImages != null && !profileImages.equals("")){
@@ -883,10 +883,10 @@ public class PreferenceScreen extends Activity implements RefreshUI{
 					      if (succeed){
 					    	  StreamUser su = new StreamUser();
 					    	  String profileImages = recreateImageIndex(sf.getId());
-					    	  su.updateUserMetadata(ApplicationInstance.PROFILE_IMAGE, profileImages);
+					    	  su.updateUserMetadata(ApplicationInstance.NEW_PROFILE_IMAGE, profileImages);
 					    	  su.updateUserMetadataInBackground(ApplicationInstance.getInstance().getLoginName());
 					    	  //update in memeory
-					    	  userMetadata.put(ApplicationInstance.PROFILE_IMAGE, profileImages);
+					    	  userMetadata.put(ApplicationInstance.NEW_PROFILE_IMAGE, profileImages);
 					    	  ApplicationInstance.getInstance().updateFriendMetadata(ApplicationInstance.getInstance().getLoginName(), userMetadata);
 					    	  
 					      }
@@ -899,7 +899,7 @@ public class PreferenceScreen extends Activity implements RefreshUI{
 	}
 	
 	private String recreateImageIndex(String fileId){
-		  String profileImages = userMetadata.get(ApplicationInstance.PROFILE_IMAGE);
+		  String profileImages = ProfileImageUtils.getProfileImages(userMetadata);
     	  if (profileImages != null && !profileImages.equals("")){
     		  profileImages = profileImages + "|" + fileId;
     	      return profileImages;
@@ -908,7 +908,7 @@ public class PreferenceScreen extends Activity implements RefreshUI{
 	}
 	
 	private int currentImageIndex(){
-		  String profileImages = userMetadata.get(ApplicationInstance.PROFILE_IMAGE);
+		  String profileImages = ProfileImageUtils.getProfileImages(userMetadata);
     	  if (profileImages != null && !profileImages.equals("")){
     		  if (profileImages.contains("|")){
     			  String pImage[] = profileImages.split("\\|");

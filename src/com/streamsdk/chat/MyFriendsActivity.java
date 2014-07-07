@@ -41,6 +41,7 @@ import com.streamsdk.chat.addfriend.UsersLoadThread;
 import com.streamsdk.chat.domain.FriendRequest;
 import com.streamsdk.chat.handler.MessageHistoryHandler;
 import com.streamsdk.chat.settings.PreferenceScreen;
+import com.streamsdk.chat.settings.ProfileImageUtils;
 import com.streamsdk.header.NamesBaseAdaper;
 import com.streamsdk.header.PinnedHeaderListView;
 import com.streamsdk.xmpp.XMPPConnectionService;
@@ -166,7 +167,7 @@ public class MyFriendsActivity extends ListActivity implements RefreshUI{
 			public void result(boolean succeed, String errorMessage) {
 				Map<String, String> userMetadata = sUser.getUserMetadata();
 				ApplicationInstance.getInstance().updateFriendMetadata(sUser.getUserName(), userMetadata);
-				String fileId = userMetadata.get(ApplicationInstance.PROFILE_IMAGE);
+				String fileId = ProfileImageUtils.getProfileImages(userMetadata);
 				if (fileId != null && !fileId.equals("")){
 					fileId = getStringFileId(fileId);
 					boolean exists = FileCache.getInstance().generateProfileImagePathIfDoesNotExists(fileId);
