@@ -350,6 +350,7 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/smokingPicker"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginTop="10dp"
@@ -366,6 +367,7 @@
         </TextView>
 
         <TextView
+            android:id="@+id/smokingTxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -376,6 +378,7 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/drinkingPicker"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginTop="10dp"
@@ -392,6 +395,7 @@
         </TextView>
 
         <TextView
+            android:id="@+id/drinkingTxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -402,6 +406,7 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/ethnicityPicker"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginTop="10dp"
@@ -418,6 +423,7 @@
         </TextView>
 
         <TextView
+            android:id="@+id/ethnicityTxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"

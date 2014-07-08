@@ -19,6 +19,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -318,7 +319,27 @@ public class PreferenceScreen extends Activity implements RefreshUI{
 					}
 				});
 				
-		
+				RelativeLayout smoking = (RelativeLayout)userInfo.findViewById(R.id.smokingPicker);
+				smoking.setOnClickListener(new View.OnClickListener() {
+					public void onClick(View v) {
+					    showSmokingSetting();
+					}
+				});
+				
+				RelativeLayout drinking = (RelativeLayout)userInfo.findViewById(R.id.drinkingPicker);
+				drinking.setOnClickListener(new View.OnClickListener() {
+					public void onClick(View v) {
+					     showDrinkingSetting();
+					}
+				});
+				
+				RelativeLayout eth = (RelativeLayout)userInfo.findViewById(R.id.ethnicityPicker);
+				eth.setOnClickListener(new View.OnClickListener() {
+					public void onClick(View v) {
+					     showETH();
+					}
+				});
+				
 	}
 	
 	public synchronized void updateUI(boolean add){
@@ -508,6 +529,111 @@ public class PreferenceScreen extends Activity implements RefreshUI{
 		if (type9 != null){
 	        bTxt9.setText(type9);
 		}
+		
+		TextView bTxt10 = (TextView)userInfo.findViewById(R.id.smokingTxt);
+		String type10 = userMetadata.get(ApplicationInstance.SMOKING);
+		if (type10 != null){
+	        bTxt10.setText(type10);
+		}
+		
+		TextView bTxt11 = (TextView)userInfo.findViewById(R.id.drinkingTxt);
+		String type11 = userMetadata.get(ApplicationInstance.DRINKING);
+		if (type11 != null){
+	        bTxt11.setText(type11);
+		}
+		
+		TextView bTxt12 = (TextView)userInfo.findViewById(R.id.ethnicityTxt);
+		String type12 = userMetadata.get(ApplicationInstance.ETH);
+		if (type12 != null){
+	        bTxt12.setText(type12);
+		}
+		
+	}
+	
+	private void showETH(){
+		
+		reinitilize();
+		final NumberPicker np = (NumberPicker)popUpView.findViewById(R.id.numPicker);
+		final TextView bTxt = (TextView)userInfo.findViewById(R.id.ethnicityTxt);
+        final String type = userMetadata.get(ApplicationInstance.ETH);
+        final String values[] = {"Asian", "Black/African", "Latino/Hispanic", "Indian", "Middle Easter", "Native American", "Pacific Islander", "White/Caucasian", "Mixed", "Other"};
+        np.setMinValue(0);
+        np.setMaxValue(9);
+    	np.setDisplayedValues(values);
+	    np.setWrapSelectorWheel(true);
+	    TextView tv = (TextView)popUpView.findViewById(R.id.numPickerText);
+	    tv.setText("Select Ethnicity");
+	    popupWindow.showAtLocation(userInfo, Gravity.BOTTOM, 0, 0);
+	    Button buttonOK = (Button)popUpView.findViewById(R.id.numPickerButtonOK);
+	    buttonOK.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				 int indexValue = np.getValue();
+				 String selectedValue = values[indexValue];
+				 if (type == null || (!type.equals(selectedValue))){
+					 updatedMetadata.put(ApplicationInstance.ETH, selectedValue);
+					 bTxt.setText(selectedValue);
+				 }
+				 popupWindow.dismiss();
+			}
+		});
+		
+	}
+	
+	private void showDrinkingSetting(){
+		
+		reinitilize();
+		final NumberPicker np = (NumberPicker)popUpView.findViewById(R.id.numPicker);
+		final TextView bTxt = (TextView)userInfo.findViewById(R.id.drinkingTxt);
+        final String type = userMetadata.get(ApplicationInstance.DRINKING);
+        final String values[] = {"No", "Sometimes", "Yes"};
+        np.setMinValue(0);
+        np.setMaxValue(2);
+    	np.setDisplayedValues(values);
+	    np.setWrapSelectorWheel(true);
+	    TextView tv = (TextView)popUpView.findViewById(R.id.numPickerText);
+	    tv.setText("Drinking?");
+	    popupWindow.showAtLocation(userInfo, Gravity.BOTTOM, 0, 0);
+	    Button buttonOK = (Button)popUpView.findViewById(R.id.numPickerButtonOK);
+	    buttonOK.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				 int indexValue = np.getValue();
+				 String selectedValue = values[indexValue];
+				 if (type == null || (!type.equals(selectedValue))){
+					 updatedMetadata.put(ApplicationInstance.DRINKING, selectedValue);
+					 bTxt.setText(selectedValue);
+				 }
+				 popupWindow.dismiss();
+			}
+		});
+	}
+	
+	private void showSmokingSetting(){
+	
+		reinitilize();
+		final NumberPicker np = (NumberPicker)popUpView.findViewById(R.id.numPicker);
+		final TextView bTxt = (TextView)userInfo.findViewById(R.id.smokingTxt);
+        final String type = userMetadata.get(ApplicationInstance.OCCUPATION_TYPE);
+        final String values[] = {"No", "Sometimes", "Yes"};
+        np.setMinValue(0);
+        np.setMaxValue(2);
+    	np.setDisplayedValues(values);
+	    np.setWrapSelectorWheel(true);
+	    TextView tv = (TextView)popUpView.findViewById(R.id.numPickerText);
+	    tv.setText("Smoking?");
+	    popupWindow.showAtLocation(userInfo, Gravity.BOTTOM, 0, 0);
+	    Button buttonOK = (Button)popUpView.findViewById(R.id.numPickerButtonOK);
+	    buttonOK.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				 int indexValue = np.getValue();
+				 String selectedValue = values[indexValue];
+				 if (type == null || (!type.equals(selectedValue))){
+					 updatedMetadata.put(ApplicationInstance.SMOKING, selectedValue);
+					 bTxt.setText(selectedValue);
+				 }
+				 popupWindow.dismiss();
+			}
+		});
+	    
 	}
 	
 	private void showOccupationSetting(){
@@ -816,6 +942,16 @@ public class PreferenceScreen extends Activity implements RefreshUI{
 	}
 	
 	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+	     if ((keyCode == KeyEvent.KEYCODE_BACK)) {
+	        	updateUserMetadata();
+          }
+	    return super.onKeyDown(keyCode, event);
+	}
+
+	
+	
+	@Override
     public boolean onOptionsItemSelected(MenuItem item) {
     switch (item.getItemId()) {
         case android.R.id.home:
@@ -848,23 +984,7 @@ public class PreferenceScreen extends Activity implements RefreshUI{
 		
 		   case REQUEST_IMAGE_PICK:
 		      if(resultCode == RESULT_OK){
-		    	  //first version
-		    	  /*String path = ImageHandler.getImgPath(imageReturnedIntent.getData(), this);
-		    	  Bitmap bitmap = BitmapUtils.loadImageForFullScreen(path, 230, 230, 300);
-		    	  profileImageView.setImageBitmap(bitmap);
-		    	  ImageCache.getInstance().addPermnent(ApplicationInstance.getInstance().getLoginName(), bitmap);
-		    	  byte profileImageBytes[] = ImageCache.getInstance().getImagePem(ApplicationInstance.getInstance().getLoginName());
-		    	  final StreamFile sf = new StreamFile();
-		    	  sf.postBytes(profileImageBytes, new StreamCallback() {
-					public void result(boolean succeed, String errorMessage) {
-					      if (succeed){
-					    	  StreamUser su = new StreamUser();
-					    	  su.updateUserMetadata(ApplicationInstance.PROFILE_IMAGE, sf.getId());
-					    	  su.updateUserMetadataInBackground(ApplicationInstance.getInstance().getLoginName());
-					      }
-					}
-				  });*/
-		    	  //second version
+		    	
 		    	  String path = ImageHandler.getImgPath(imageReturnedIntent.getData(), this);
 		    	  final int imageIndex = currentImageIndex();
 		    	  Bitmap bitmap = BitmapUtils.loadImageForFullScreen(path, 230, 230, 300);

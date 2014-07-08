@@ -8,6 +8,8 @@ public class ProfileImageUtils {
 
 	public static String getProfileImages(Map<String, String> metaData){
 		
+		 if (metaData == null)
+			 return null;
 		 String profileImages = metaData.get(ApplicationInstance.NEW_PROFILE_IMAGE);
 		 if (profileImages != null)
 			 return profileImages;

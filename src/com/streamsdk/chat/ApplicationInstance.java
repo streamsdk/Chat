@@ -57,6 +57,9 @@ public class ApplicationInstance {
     public static final String HOBBY_TYPE = "hobbyType";
     public static final String OCCUPATION_TYPE = "occupationType";
     public static final String EYE_COLOR_TYPE = "eyeColorType";
+    public static final String SMOKING = "smoking";
+    public static final String DRINKING = "drinking";
+    public static final String ETH = "ethnicity";
     public static final String BODY_TYPE = "bodyType";
     public static final String FASION_TYPE = "fasionType";
     public static final String CHARACTER_TYPE = "characterType";
