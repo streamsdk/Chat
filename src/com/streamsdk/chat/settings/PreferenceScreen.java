@@ -169,6 +169,9 @@ public class PreferenceScreen extends Activity implements RefreshUI{
 	
 	protected void getUserMetaData(){
 		 userMetadata = ApplicationInstance.getInstance().getFriendMetadata(ApplicationInstance.getInstance().getLoginName());
+		 if (userMetadata == null){
+			 userMetadata = new HashMap<String, String>();
+		 }
 	}
 	
 	protected void setUserInfo(){
@@ -698,10 +701,9 @@ public class PreferenceScreen extends Activity implements RefreshUI{
 		reinitilize();
 		final NumberPicker np = (NumberPicker)popUpView.findViewById(R.id.numPicker);
         final TextView bTxt = (TextView)userInfo.findViewById(R.id.hobbyTypeTxt);
-        final String type = userMetadata.get(ApplicationInstance.HOBBY_TYPE);
         np.setMinValue(0);
         np.setMaxValue(10);
-		final String values[] = {"Movies", "Doing Sports", "Music", "Karaoke", "Cooking", "Drinking", "Shopping", "Travel", "Art", "Reading", "Games"};
+        final String values[] = {"Movies", "Doing Sports", "Music", "Karaoke", "Cooking", "Drinking", "Shopping", "Travel", "Art", "Reading", "Games"};
 		np.setDisplayedValues(values);
 	    np.setWrapSelectorWheel(true);
 	    TextView tv = (TextView)popUpView.findViewById(R.id.numPickerText);
@@ -710,11 +712,27 @@ public class PreferenceScreen extends Activity implements RefreshUI{
 	    Button buttonOK = (Button)popUpView.findViewById(R.id.numPickerButtonOK);
         buttonOK.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				 int indexValue = np.getValue();
+				String type = userMetadata.get(ApplicationInstance.HOBBY_TYPE);
+		        int indexValue = np.getValue();
 				 String selectedValue = values[indexValue];
-				 if (type == null || (!type.equals(selectedValue))){
-					 updatedMetadata.put(ApplicationInstance.HOBBY_TYPE, selectedValue);
-					 bTxt.setText(selectedValue);
+				 String newType = "";
+				 boolean update = false;
+				 if (type != null && !type.contains(selectedValue)){
+					 newType = type + "\n" + selectedValue;
+					 update = true;
+				 }
+				 if (type != null && type.contains(selectedValue)){
+					 newType = type.replace(selectedValue+"\n", "");
+					 update = true;
+				 }
+				 if (type == null){
+					 newType = selectedValue;
+					 update = true;
+				 }
+				 if (update){
+					 updatedMetadata.put(ApplicationInstance.HOBBY_TYPE, newType);
+					 userMetadata.put(ApplicationInstance.HOBBY_TYPE, newType);
+					 bTxt.setText(newType);
 				 }
 				 popupWindow.dismiss();
 			}
@@ -727,7 +745,6 @@ public class PreferenceScreen extends Activity implements RefreshUI{
 		reinitilize();
 		final NumberPicker np = (NumberPicker)popUpView.findViewById(R.id.numPicker);
         final TextView bTxt = (TextView)userInfo.findViewById(R.id.characterTypeTxt);
-        final String type = userMetadata.get(ApplicationInstance.CHARACTER_TYPE);
         np.setMinValue(0);
         np.setMaxValue(12);
         final String values[] = { "Gentle", "Pure", "Honest", "Optimistic", "Sociable", "Interesting", "Shy", "Cold", "Romantic", "Lonely", "Easy-going", "Decisive", "Stern"};
@@ -739,13 +756,30 @@ public class PreferenceScreen extends Activity implements RefreshUI{
 	    Button buttonOK = (Button)popUpView.findViewById(R.id.numPickerButtonOK);
         buttonOK.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				 int indexValue = np.getValue();
+				 String type = userMetadata.get(ApplicationInstance.CHARACTER_TYPE);
+		         int indexValue = np.getValue();
 				 String selectedValue = values[indexValue];
-				 if (type == null || (!type.equals(selectedValue))){
-					 updatedMetadata.put(ApplicationInstance.CHARACTER_TYPE, selectedValue);
-					 bTxt.setText(selectedValue);
+				 String newType = "";
+				 boolean update = false;
+				 if (type != null && !type.contains(selectedValue)){
+					 newType = type + "\n" + selectedValue;
+					 update = true;
+				 }
+				 if (type != null && type.contains(selectedValue)){
+					 newType = type.replace(selectedValue+"\n", "");
+					 update = true;
+				 }
+				 if (type == null){
+					 newType = selectedValue;
+					 update = true;
+				 }
+				 if (update){
+					 updatedMetadata.put(ApplicationInstance.CHARACTER_TYPE, newType);
+					 userMetadata.put(ApplicationInstance.CHARACTER_TYPE, newType);
+					 bTxt.setText(newType);
 				 }
 				 popupWindow.dismiss();
+				
 			}
 		});
        

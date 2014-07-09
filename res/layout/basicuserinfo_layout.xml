@@ -240,7 +240,7 @@
     <RelativeLayout
         android:id="@+id/characterTypePicker"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:background="@android:color/white"
         android:textColor="@android:color/darker_gray" >
@@ -261,6 +261,8 @@
             android:layout_alignParentRight="true"
             android:layout_marginRight="5dp"
             android:layout_centerVertical="true"
+            android:inputType="textMultiLine"
+            android:singleLine="false"
             android:text="Not Set"
             android:textSize="16sp" />
     </RelativeLayout>
@@ -268,7 +270,7 @@
     <RelativeLayout
         android:id="@+id/hobbyTypePicker"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:background="@android:color/white"
         android:textColor="@android:color/darker_gray" >
@@ -289,6 +291,8 @@
             android:layout_alignParentRight="true"
             android:layout_marginRight="5dp"
             android:layout_centerVertical="true"
+            android:inputType="textMultiLine"
+            android:singleLine="false"
             android:text="Not Set"
             android:textSize="16sp" />
     </RelativeLayout>
