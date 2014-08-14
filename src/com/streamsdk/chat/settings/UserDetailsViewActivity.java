@@ -46,7 +46,9 @@ public class UserDetailsViewActivity extends PreferenceScreen{
 		 logout.setVisibility(View.GONE);
 	}
 	
-	protected void setProfileImageListener(){}
+	protected void setProfileImageListener(String name){
+		super.setProfileImageListener(userName);
+	}
 	
 	protected void setStatus(){
 		 setStatus = (Button)userInfo.findViewById(R.id.userStatus);
@@ -80,7 +82,7 @@ public class UserDetailsViewActivity extends PreferenceScreen{
 		 if (add){
 			 ImageView iv = crateImageView();
 			 profileImageLayout.addView(iv);
-			 setProfileImageListener();
+			 setProfileImageListener(userName);
 		 }
 		 profileImageLayout.invalidate();
 	}

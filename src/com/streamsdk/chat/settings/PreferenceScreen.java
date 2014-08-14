@@ -110,7 +110,7 @@ public class PreferenceScreen extends Activity implements RefreshUI{
 		 setUserInfo();
 		 setStatus();
 		 buildProfileImages();
-		 setProfileImageListener();
+		 setProfileImageListener(ApplicationInstance.getInstance().getLoginName());
 		 editListener();
 		 initiLabels();
 		 logout();
@@ -365,7 +365,7 @@ public class PreferenceScreen extends Activity implements RefreshUI{
 		 if (add){
 			 ImageView iv = crateImageView();
 			 profileImageLayout.addView(iv);
-			 setProfileImageListener();
+			 setProfileImageListener(ApplicationInstance.getInstance().getLoginName());
 		 }
 		 profileImageLayout.invalidate();
 	}
@@ -402,18 +402,19 @@ public class PreferenceScreen extends Activity implements RefreshUI{
 				    }else{
 						bitmap = ImageCache.getInstance().getPermImage(ApplicationInstance.getInstance().getLoginName() + i);
 					}
+					ImageView iv = null;
 					if (bitmap != null){
-						ImageView iv = crateImageView();
+						iv = crateImageView();
 				        iv.setImageBitmap(bitmap);
 				        profileImageLayout.addView(iv);
 					}else{
-						ImageView iv = crateImageView();
+						iv = crateImageView();
 					    profileImageLayout.addView(iv);
 					    if (i != 0){
 					       DownloadProfileImageThread dpt = new DownloadProfileImageThread(this, images[i], i, ApplicationInstance.getInstance().getLoginName());
 					       ThreadPoolService.getInstance().submitTask(dpt);
 					   }
-					}
+					}		
 				}
 				ImageView iv = crateImageView();
 			    profileImageLayout.addView(iv);
@@ -432,22 +433,43 @@ public class PreferenceScreen extends Activity implements RefreshUI{
 		 profileImageLayout.invalidate();
 	}
 	
-	protected void setProfileImageListener(){
+	protected void setProfileImageListener(final String userName){
 		
 		LinearLayout profileImageLayout = (LinearLayout)userInfo.findViewById(R.id.profileImageViewLayout);
 		int count = profileImageLayout.getChildCount();
 		for (int i=0; i < count; i++){
 			View v = profileImageLayout.getChildAt(i);
-			v.setOnClickListener(null);
+			final int currentIndex = i;
+			v.setOnClickListener(new View.OnClickListener() {
+				public void onClick(View arg0) {
+			         Intent intent = new Intent(activity, FullScreenProfileImage.class);
+			         String path = "";
+			         if (currentIndex == 0){
+			        	 path = userName;
+			         }else{
+			        	 path = userName + currentIndex;
+			         }
+			         intent.putExtra("imageid", path);
+			         if (userName.equals(ApplicationInstance.getInstance().getLoginName())){
+			        	 intent.putExtra("friend", false);
+			         }else{
+			        	 intent.putExtra("friend", true);
+			         }
+			         activity.startActivity(intent);
+				}
+			});
 		}
-		View v = profileImageLayout.getChildAt(count - 1);
-		v.setOnClickListener(new View.OnClickListener() {
+		
+		if (userName.equals(ApplicationInstance.getInstance().getLoginName())){
+		    View v = profileImageLayout.getChildAt(count - 1);
+		    v.setOnClickListener(new View.OnClickListener() {
 				public void onClick(View view) {
 					 Log.i("", "");
 					 Intent pickPhoto = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 					 startActivityForResult(pickPhoto , REQUEST_IMAGE_PICK);	
 				}
-		});
+		    });
+		}
 	}
 	
 	private void reinitilize(){
