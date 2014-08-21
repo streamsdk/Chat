@@ -6,6 +6,7 @@ import java.util.Map;
 import com.streamsdk.chat.ApplicationInstance;
 import com.streamsdk.chat.R;
 
+import android.app.Activity;
 import android.app.ListFragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -72,23 +73,25 @@ public class AlluserFragment extends ListFragment implements OnScrollListener, L
 	@Override
 	public void onScroll(AbsListView view, int firstVisibleItem,
 			int visibleItemCount, int totalItemCount) {
-		
 		boolean loadMore =  firstVisibleItem + visibleItemCount + 1 >= allUserAdapter.getCount() && allUserAdapter.getCount()!=0;
 		List<Map<String, String>> users = ApplicationInstance.getInstance().getAllUsers();
-		Map<String, String> currentLastUser = users.get(users.size() - 1);
-		String nextMarker = currentLastUser.get("nextmarker");
-		if (nextMarker != null && loadMore && !loading){
-			UsersLoadThread userLoad = new UsersLoadThread(nextMarker, 15);
-			userLoad.setCallback(this);
-			loading = true;
-			showAnimation();
-			new Thread(userLoad).start();
-		}
-		
+		if (users.size() != 0){ //avoid out of index exception
+		   Map<String, String> currentLastUser = users.get(users.size() - 1);
+		   String nextMarker = currentLastUser.get("nextmarker");
+		   if (nextMarker != null && loadMore && !loading){
+			  UsersLoadThread userLoad = new UsersLoadThread(nextMarker, 15);
+			  userLoad.setCallback(this);
+			  loading = true;
+			  showAnimation();
+			  new Thread(userLoad).start();
+		 }
+	  }
 	}
 	
 	private void updateData(){
-			this.getActivity().runOnUiThread(new Runnable(){
+		 Activity activity  = this.getActivity();
+		 if (activity != null){ //avoid null pointer exception
+			activity.runOnUiThread(new Runnable(){
 					public void run() {
 						allUserAdapter.reload();
 						allUserAdapter.notifyDataSetChanged();
@@ -96,6 +99,7 @@ public class AlluserFragment extends ListFragment implements OnScrollListener, L
 						loading = false;
 					}
 			});
+		 }
 	}
 	
 	public void loadUsersDone() {
