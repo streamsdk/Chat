@@ -9,7 +9,7 @@
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:textColor="@android:color/darker_gray"
-      android:text="Click To Share"
+      android:text="Click To Send"
       android:textStyle="bold"
       android:textSize="16dp"
       android:visibility="gone"/>
