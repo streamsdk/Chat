@@ -140,7 +140,7 @@ public class MyFriendsActivity extends ListActivity implements RefreshUI{
 		
 		new Thread(new MessageHistoryHandler(ApplicationInstance.getInstance().getLoginName(), getApplicationContext())).start();
 		//new Thread(new ConnectionCheck(this)).start();
-		new Thread(new UsersLoadThread("0", 15)).start();
+		new Thread(new UsersLoadThread("0", 100)).start();
 		
 		setContentView(R.layout.mainpage_layout);
 	    

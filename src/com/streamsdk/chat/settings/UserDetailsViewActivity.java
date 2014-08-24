@@ -31,7 +31,7 @@ public class UserDetailsViewActivity extends PreferenceScreen{
 	}
 	
 	protected void editListener(){
-		
+		editLisnter = false;
 	}
 	
 	protected void setUserInfo(){

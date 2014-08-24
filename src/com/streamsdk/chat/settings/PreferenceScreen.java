@@ -1,12 +1,8 @@
 package com.streamsdk.chat.settings;
 
-import java.io.File;
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-
-import org.json.JSONArray;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -14,8 +10,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -25,11 +19,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.NumberPicker;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.LinearLayout.LayoutParams;
 
 import com.stream.api.StreamCallback;
 import com.stream.api.StreamFile;
@@ -58,6 +52,7 @@ public class PreferenceScreen extends Activity implements RefreshUI{
 	View popUpView;
 	Map<String, String> userMetadata;
 	Map<String, String> updatedMetadata;
+	boolean editLisnter = true;
 	
 	@Override
     public void onPause(){
@@ -68,7 +63,7 @@ public class PreferenceScreen extends Activity implements RefreshUI{
 	protected void onResume(){
 		super.onResume();
 		ApplicationInstance.getInstance().setVisiable(true);
-		if (setStatus != null){
+		if (setStatus != null && editLisnter){
 			 setStatus.setText(ApplicationInstance.getInstance().getCurrentStatus());
 		}
 	}
@@ -343,6 +338,13 @@ public class PreferenceScreen extends Activity implements RefreshUI{
 					}
 				});
 				
+				RelativeLayout sex = (RelativeLayout)userInfo.findViewById(R.id.sexPicker);
+				sex.setOnClickListener(new View.OnClickListener() {
+					public void onClick(View v) {
+					     showSexSetting();
+					}
+				});
+				
 	}
 	
 	public synchronized void updateUI(boolean add){
@@ -573,6 +575,12 @@ public class PreferenceScreen extends Activity implements RefreshUI{
 	        bTxt12.setText(type12);
 		}
 		
+		TextView bTxt13 = (TextView)userInfo.findViewById(R.id.sexTxt);
+		String type13 = userMetadata.get(ApplicationInstance.SEX);
+		if (type13 != null){
+	         bTxt13.setText(type13);
+	    }
+		
 	}
 	
 	private void showETH(){
@@ -603,6 +611,35 @@ public class PreferenceScreen extends Activity implements RefreshUI{
 		});
 		
 	}
+
+	private void showSexSetting(){
+		
+		reinitilize();
+		final NumberPicker np = (NumberPicker)popUpView.findViewById(R.id.numPicker);
+		final TextView bTxt = (TextView)userInfo.findViewById(R.id.sexTxt);
+        final String type = userMetadata.get(ApplicationInstance.SEX);
+        final String values[] = {"Guy", "Girl", "Both"};
+        np.setMinValue(0);
+        np.setMaxValue(2);
+    	np.setDisplayedValues(values);
+	    np.setWrapSelectorWheel(true);
+	    TextView tv = (TextView)popUpView.findViewById(R.id.numPickerText);
+	    tv.setText("Interest In?");
+	    popupWindow.showAtLocation(userInfo, Gravity.BOTTOM, 0, 0);
+	    Button buttonOK = (Button)popUpView.findViewById(R.id.numPickerButtonOK);
+	    buttonOK.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				 int indexValue = np.getValue();
+				 String selectedValue = values[indexValue];
+				 if (type == null || (!type.equals(selectedValue))){
+					 updatedMetadata.put(ApplicationInstance.SEX, selectedValue);
+					 bTxt.setText(selectedValue);
+				 }
+				 popupWindow.dismiss();
+			}
+		});
+	}
+	
 	
 	private void showDrinkingSetting(){
 		
