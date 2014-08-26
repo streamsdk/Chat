@@ -28,6 +28,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.streamsdk.cache.FileCache;
+import com.streamsdk.chat.group.FullScreenImageDrawing;
 
 public class AndroidPhotoCapture extends Activity{
 
@@ -38,10 +39,12 @@ public class AndroidPhotoCapture extends Activity{
     private int cameraId;
     private int rotation = 0;
     private SurfaceHolder mHolder;
+    private String from = null;
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Intent intent = getIntent();
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.photocapture_layout);
@@ -49,6 +52,9 @@ public class AndroidPhotoCapture extends Activity{
        // final LinearLayout parentLayout = (LinearLayout)findViewById(R.id.androidPhotoCaptureLayout);
         cameraId = CameraInfo.CAMERA_FACING_BACK;
         myCamera = getCameraInstance(cameraId);
+        Bundle bundle = intent.getExtras();
+        if (bundle != null)
+            from = bundle.getString("from");
         Camera.Parameters params = getCameraParameters();
         
         try{
@@ -189,14 +195,18 @@ public class AndroidPhotoCapture extends Activity{
             } catch (IOException e) {
             
             }
-                       
-            Intent intent = new Intent(activity, FullScreenImageActivity.class);
+            
+            Intent intent = null;
+            if (from == null){           
+                intent = new Intent(activity, FullScreenImageActivity.class);
+                intent.putExtra("send", "true");
+            }else{
+                intent = new Intent(activity, FullScreenImageDrawing.class);
+            }
             intent.putExtra("path", pictureFile.getAbsolutePath());
-            intent.putExtra("send", "true");
             startActivity(intent);
             releaseCamera();
             finish();
-            
         }
     };
    

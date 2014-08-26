@@ -63,7 +63,7 @@ public class SplashActivity extends Activity{
 							} catch (Exception e) {
 								Log.i("", e.getMessage());
 							}
-							Intent intent = new Intent(activity, MyFriendsActivity.class);
+							Intent intent = new Intent(activity, CoolChatMainActivity.class);
 							startActivity(intent);
 							finish();
 					    }else{

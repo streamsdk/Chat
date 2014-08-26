@@ -1,0 +1,13 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item
+        android:id="@+id/menu_ref"
+        android:icon="@drawable/addfri"
+        android:showAsAction="always"
+        android:title="Refresh"/>
+    <item
+        android:id="@+id/menu_set"
+        android:icon="@drawable/set"
+        android:showAsAction="always"
+        android:title="Settings"/>
+
+</menu>

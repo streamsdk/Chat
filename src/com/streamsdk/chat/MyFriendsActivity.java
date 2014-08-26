@@ -240,40 +240,6 @@ public class MyFriendsActivity extends ListActivity implements RefreshUI{
 	     }
 	    return super.onKeyDown(keyCode, event);
 	}
-
-	public boolean onOptionsItemSelected(MenuItem item) {
-
-		String title = (String) item.getTitle();
-		if (title.equals("Refresh")) {
-			Intent intent = new Intent(activity, AddFriendMainActivity.class);
-			startActivity(intent);
-		}
-		if (title.equals("Settings")) {
-			Intent intent = new Intent(activity, PreferenceScreen.class);
-			startActivityForResult(intent, ApplicationInstance.FINISH_ALL);
-		}
-
-		return super.onOptionsItemSelected(item);
-
-	}
-	
-	protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) { 
-		super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
-		switch(requestCode) {
-		 case  ApplicationInstance.FINISH_ALL:
-		      if(resultCode == RESULT_OK){        		    	  
-		    	  finish();
-		       }
-		       break; 
-		}
-	}
-	
-   public boolean onCreateOptionsMenu(Menu menu){
-		 menu.add("Refresh").setIcon(R.drawable.addfri).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-		 menu.add("Settings").setIcon(R.drawable.set).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-		 return true;
-   }
-		
    
    private void updateData(){
 		

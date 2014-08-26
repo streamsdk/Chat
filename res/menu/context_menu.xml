@@ -7,4 +7,5 @@
         android:title="delete"
         android:orderInCategory="0"
         android:showAsAction="always" />
+    
 </menu>
