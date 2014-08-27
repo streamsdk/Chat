@@ -16,22 +16,25 @@
       <FrameLayout
             android:id="@+id/fullImageDrawFrame"
             android:layout_width="fill_parent"
-            android:layout_height="70dp"
-            android:background="#30000000"
-            android:layout_centerInParent="true"
+            android:layout_height="60dp"
+            android:background="#60000000"
             >
         <EditText
            android:id="@+id/drawText"
+           android:inputType="textMultiLine"
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
            android:textCursorDrawable="@drawable/color_cursor"
            android:layout_marginTop="10dp"
+           android:singleLine="false" 
+           android:lines="2"
+           android:textColor="@color/firstPageTexColor"
            android:background="@null"
            android:textSize="20dp" />
           
      </FrameLayout>
      
-     <ImageView
+     <ImageView 
             android:id="@+id/postPhtotButton"
             android:layout_width="50dp"
             android:layout_height="50dp"
@@ -39,5 +42,15 @@
             android:layout_alignParentBottom="true"
             android:layout_marginRight="10dp"
             android:src="@drawable/forward"/>
+     
+     <ImageView
+            android:id="@+id/textOptionsButton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginBottom="5dp"
+            android:src="@drawable/settings"
+            />
     
 </RelativeLayout>

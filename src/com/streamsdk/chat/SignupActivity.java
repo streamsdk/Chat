@@ -143,7 +143,7 @@ public class SignupActivity extends Activity{
 						    
 						    establishXMPP();
 							pd.dismiss();
-							Intent intent = new Intent(activity,MyFriendsActivity.class);
+							Intent intent = new Intent(activity,CoolChatMainActivity.class);
 							startActivity(intent);
 							finish();
 							ApplicationInstance.getInstance().getFirstPageActivity().finish();
