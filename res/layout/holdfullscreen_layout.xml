@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@android:color/black"
+    android:minHeight="1000dp"
+    android:minWidth="1000dp" >
+
+    <TextView
+        android:id="@+id/txtHoldFullScreen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:textColor="@android:color/white"
+        android:text="Loading..."
+        android:textSize="18sp" />
+
+</RelativeLayout>

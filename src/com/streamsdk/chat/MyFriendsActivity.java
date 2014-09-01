@@ -25,6 +25,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.TextView;
 
 import com.stream.api.StreamCallback;
+import com.stream.api.StreamCategoryObject;
 import com.stream.api.StreamFile;
 import com.stream.api.StreamUser;
 import com.streamsdk.cache.ChatBackgroundDB;
@@ -141,6 +142,15 @@ public class MyFriendsActivity extends ListActivity implements RefreshUI{
 		new Thread(new MessageHistoryHandler(ApplicationInstance.getInstance().getLoginName(), getApplicationContext())).start();
 		//new Thread(new ConnectionCheck(this)).start();
 		new Thread(new UsersLoadThread("0", 15)).start();
+		
+		final StreamCategoryObject groupPosts = new StreamCategoryObject("groupphotos");
+		groupPosts.loadStreamObjects(new StreamCallback() {
+			public void result(boolean succeed, String errorMessage) {
+			    if (succeed){
+			    	ApplicationInstance.getInstance().setGroupPosts(groupPosts);
+			    }
+			}
+		});
 		
 		setContentView(R.layout.mainpage_layout);
 	    

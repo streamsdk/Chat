@@ -4,6 +4,12 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
     
-    
+     <ListView
+            android:id="@android:id/list"
+            android:cacheColorHint="@android:color/transparent" 
+            android:listSelector="@android:color/transparent"  
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+     />
     
 </LinearLayout>    

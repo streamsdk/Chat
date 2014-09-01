@@ -1,7 +1,12 @@
 package com.streamsdk.chat.group;
 
+import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
+import java.util.List;
+
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -11,27 +16,29 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.text.Layout.Alignment;
+import android.text.StaticLayout;
+import android.text.TextPaint;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
-import android.view.View.MeasureSpec;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
+import com.stream.api.StreamCallback;
+import com.stream.api.StreamCategoryObject;
+import com.stream.api.StreamFile;
+import com.stream.api.StreamObject;
+import com.streamsdk.chat.ApplicationInstance;
 import com.streamsdk.chat.R;
 import com.streamsdk.util.BitmapUtils;
 
@@ -45,6 +52,8 @@ public class FullScreenImageDrawing extends Activity{
 	PopupWindow popupWindow;
 	RadioGroup txtOptionsGroup;
 	boolean top = false;
+	boolean showTxt = false;
+	ProgressDialog pd;
 	
 	public void onCreate(Bundle savedInstanceState) {
 		
@@ -80,32 +89,33 @@ public class FullScreenImageDrawing extends Activity{
                  }
              }
          });
+    
+         popupView = getLayoutInflater().inflate(R.layout.videodisappearoptions_layout, null);
+         popupWindow = new PopupWindow(popupView, LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, false); 
          
-         et.addTextChangedListener(new TextWatcher(){
-			public void afterTextChanged(Editable ed) {
-				Log.i("", "");
-			}
-			public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-				Log.i("", "");
-			}
-
-			public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-				Log.i("","");
-			}
-         });
+         final ImageView txtOptions = (ImageView)findViewById(R.id.textOptionsButton);
+         txtOptions.setOnClickListener(new View.OnClickListener() {
+  		 public void onClick(View v) {
+  			   popupWindow.showAtLocation(parentLayout, Gravity.BOTTOM, 0, 0);
+  		   }
+  	     });
          
          ImageView postPhoto = (ImageView)findViewById(R.id.postPhtotButton);
          postPhoto.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View view) {
 				String mText = et.getText().toString();
-	            if (mText.length() > 140){
-					showAlertDialog();
+				if (mText.length() > 85){
+					 showAlertDialog();
 				}else{
-				    Bitmap bm = drawText(bitmap, et.getText().toString());
-				    iv.setImageBitmap(bm);
-				    fl.setVisibility(View.GONE);
+				  if (showTxt){
+				     Bitmap bm = drawText(bitmap, et.getText().toString());
+				     iv.setImageBitmap(bm);
+				     fl.setVisibility(View.GONE);
+				     txtOptions.setVisibility(View.GONE);
+				     postImages(bm);
+				  }
 				}
-			}
+			 }
 		 });
          
          fl.setOnClickListener(new View.OnClickListener() {
@@ -114,16 +124,20 @@ public class FullScreenImageDrawing extends Activity{
 			}
 		});
          
+        ImageView useTxt = (ImageView)findViewById(R.id.useTxtButton);
+        useTxt.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View arg0) {
+			  if (!showTxt){
+		         fl.setVisibility(View.VISIBLE);
+		         txtOptions.setVisibility(View.VISIBLE);
+			  }else{
+				 fl.setVisibility(View.GONE);
+			     txtOptions.setVisibility(View.GONE);
+			  }
+			  showTxt = !showTxt;
+			}
+		 });
          
-         popupView = getLayoutInflater().inflate(R.layout.videodisappearoptions_layout, null);
-         popupWindow = new PopupWindow(popupView, LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, false); 
-         
-         ImageView txtOptions = (ImageView)findViewById(R.id.textOptionsButton);
-         txtOptions.setOnClickListener(new View.OnClickListener() {
-  		 public void onClick(View v) {
-  			   popupWindow.showAtLocation(parentLayout, Gravity.BOTTOM, 0, 0);
-  		   }
-  	     });
          
          txtOptionsGroup = (RadioGroup)popupView.findViewById(R.id.radioVideoOptions);
          RadioButton rbTop = (RadioButton)txtOptionsGroup.findViewById(R.id.radioApp);
@@ -155,6 +169,51 @@ public class FullScreenImageDrawing extends Activity{
     
 	}
 	
+	private void showDialog(String message) {
+		pd = ProgressDialog.show(this, "", message, true, true);
+    }
+	
+	
+	private void gobackToMainScreen(){
+		pd.dismiss();
+		setResult(RESULT_OK);
+		finish();
+	}
+	
+    private void postImages(Bitmap bm){
+    	
+    	showDialog("Posting Image...");
+    	final StreamFile sf = new StreamFile();
+    	sf.postBytes(getImageBytes(bm), new StreamCallback() {
+			public void result(boolean succeed, String errorMessage) {
+			   if (succeed){
+				  gobackToMainScreen(); 
+				  List<StreamObject> sos = new ArrayList<StreamObject>();
+				  StreamObject so = new StreamObject();
+				  so.put("postedBy", ApplicationInstance.getInstance().getLoginName());
+				  String fileId = sf.getId();
+				  so.put("fileId", fileId);
+				  sos.add(so);
+				  ApplicationInstance.getInstance().addGroupPosts(so);
+				  StreamCategoryObject sco = new StreamCategoryObject("groupphotos");
+				  sco.updateSteamCategoryObjects(sos);
+			   }else{
+				   
+			   }
+			}
+		});
+    	
+    }
+    
+    private byte[] getImageBytes(Bitmap bm){
+    	
+    	ByteArrayOutputStream stream = new ByteArrayOutputStream();
+		bm.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+		byte[] byteArray = stream.toByteArray();
+	    return byteArray;
+    	
+    }
+	
 	public void showKeyboard() {
 	    if (activity != null) {
 	        activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
@@ -170,7 +229,7 @@ public class FullScreenImageDrawing extends Activity{
 	private void showAlertDialog(){		
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder
-				.setMessage("The maximum words allowed to use are 40")
+				.setMessage("The maximum words allowed to use are 85")
 				.setCancelable(false)
 				.setNegativeButton("TRY AGAIN",new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog,int id) {
@@ -181,38 +240,12 @@ public class FullScreenImageDrawing extends Activity{
 				alertDialog.show();
 	}
 	
-	private String wrapString(String string, int charWrap) {
-	    int lastBreak = 0;
-	    int nextBreak = charWrap;
-	    if (string.length() > charWrap) {
-	        String setString = "";
-	        do {
-	            while (string.charAt(nextBreak) != ' ' && nextBreak > lastBreak) {
-	                nextBreak--;
-	            }
-	            if (nextBreak == lastBreak) {
-	                nextBreak = lastBreak + charWrap;
-	            }
-	            setString += string.substring(lastBreak, nextBreak).trim() + "\n";
-	            lastBreak = nextBreak;
-	            nextBreak += charWrap;
-
-	        } while (nextBreak < string.length());
-	        setString += string.substring(lastBreak).trim();
-	        return setString;
-	    } else {
-	        return string;
-	    }
-	}
-	
 	private Bitmap drawText(Bitmap bitmap, String mText){
-		
-		
 		
 		Bitmap mutableBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
 		if (!top) {
 			Canvas canvas = new Canvas(mutableBitmap);
-			Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+			TextPaint paint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
 			Rect bounds = new Rect();
 			RectF rectF = new RectF();
 			int y = (bitmap.getHeight() + bounds.height()) / 2;
@@ -221,11 +254,15 @@ public class FullScreenImageDrawing extends Activity{
 			paint1.setARGB(60, 0, 0, 0);
 			rectF.set(0, y - (30 * scale), bitmap.getWidth(), (30 * scale + y));
 			canvas.drawRect(rectF, paint1);
-			
+		
 			paint.setColor(getResources().getColor(R.color.firstPageTexColor));
 			paint.setTextSize(scale * 20);
 			paint.setShadowLayer(1f, 0f, 1f, Color.TRANSPARENT);
-			canvas.drawText(mText, 0, y, paint);
+			StaticLayout mTextLayout = new StaticLayout(mText, paint, canvas.getWidth(), Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+			canvas.save();
+			canvas.translate(0, y - (30 * scale));
+			mTextLayout.draw(canvas);
+			canvas.restore();		
 
 		}else{
 			Canvas canvas = new Canvas(mutableBitmap);
@@ -236,25 +273,19 @@ public class FullScreenImageDrawing extends Activity{
 			rectF.set(0, 0, bitmap.getWidth(), 60 * scale);
 			canvas.drawRect(rectF, paint1);
 			
-			Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+			TextPaint paint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
 			paint.setColor(getResources().getColor(R.color.firstPageTexColor));
 			paint.setTextSize(scale * 20);
-			
 			paint.setShadowLayer(1f, 0f, 1f, Color.TRANSPARENT);
-			
-			int s = (int)paint.getFontSpacing();
-			String str = wrapString(mText, 34);
-			String st[] = str.split("\n");
-			
-			canvas.drawText(str, 0, 30 * scale, paint);
-	
-			
+			StaticLayout mTextLayout = new StaticLayout(mText, paint, canvas.getWidth(), Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+			canvas.save();
+			canvas.translate(0, 0);
+			mTextLayout.draw(canvas);
+			canvas.restore();			
 		}
 		
 		return mutableBitmap;
 		
 	}
-	
-	
 
 }
