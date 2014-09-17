@@ -231,7 +231,7 @@ public class FullScreenImageDrawing extends Activity{
 	private void showAlertDialog(){		
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder
-				.setMessage("The maximum words allowed to use are 85")
+				.setMessage("The maximum words allowed to use are 100")
 				.setCancelable(false)
 				.setNegativeButton("TRY AGAIN",new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog,int id) {

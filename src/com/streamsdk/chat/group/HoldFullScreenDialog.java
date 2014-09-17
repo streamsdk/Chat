@@ -3,6 +3,7 @@ package com.streamsdk.chat.group;
 import java.io.File;
 import java.io.InputStream;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.graphics.Bitmap;
@@ -87,12 +88,15 @@ public class HoldFullScreenDialog extends DialogFragment{
 	  }
 	  
 	  public void show(final Bitmap bm){
-			getActivity().runOnUiThread(new Runnable(){
-				public void run() {
-				    iv.setImageBitmap(bm);
-				    iv.setVisibility(View.VISIBLE);
-				}
-			});	
+		  Activity activity = getActivity();
+		  if (activity != null){
+		       activity.runOnUiThread(new Runnable(){
+				  public void run() {
+				      iv.setImageBitmap(bm);
+				      iv.setVisibility(View.VISIBLE);
+				  }
+			   });
+		  }
 	  }
 	  
 	  public View onCreateView(LayoutInflater inflater, ViewGroup container,

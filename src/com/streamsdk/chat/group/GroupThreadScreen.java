@@ -44,7 +44,8 @@ public class GroupThreadScreen extends ListActivity implements OnItemLongClickLi
 	        boolean isReleased = event.getAction() == MotionEvent.ACTION_UP || event.getAction() == MotionEvent.ACTION_CANCEL;
 	        boolean isPressed = event.getAction() == MotionEvent.ACTION_DOWN;
 	        if (isReleased) {
-	           hu.dismiss();
+	           if (hu!=null)
+	               hu.dismiss();
 	        } else if (isPressed) {
 	          
 	        }
