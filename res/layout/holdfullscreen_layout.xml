@@ -14,5 +14,17 @@
         android:textColor="@android:color/white"
         android:text="Loading..."
         android:textSize="18sp" />
+    
+       <ImageView
+        android:id="@+id/imageHoldView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
+        android:visibility="gone"
+        android:scaleType="centerCrop" />
+    
 
 </RelativeLayout>

@@ -36,7 +36,7 @@ public class DownloadProfileImageThread implements Runnable{
 			StreamFile sf = new StreamFile();
 			InputStream in = sf.getFileObject(fileId);
 			FileCache.getInstance().writeFileToDisk(profileImageFile, in);
-			bitmap = BitmapFactory.decodeFile(profileImageFile.getAbsolutePath());
+			//bitmap = BitmapFactory.decodeFile(profileImageFile.getAbsolutePath());
 		 }else{
 			profileImageFile = FileCache.getInstance().loadFile(fileId);
 		 }

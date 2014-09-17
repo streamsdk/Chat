@@ -184,7 +184,8 @@ public class FullScreenImageDrawing extends Activity{
     	
     	showDialog("Posting Image...");
     	final StreamFile sf = new StreamFile();
-    	sf.postBytes(getImageBytes(bm), new StreamCallback() {
+    	final byte postBytes[] = getImageBytes(bm);
+    	sf.postBytes(postBytes, new StreamCallback() {
 			public void result(boolean succeed, String errorMessage) {
 			   if (succeed){
 				  gobackToMainScreen(); 
@@ -193,6 +194,7 @@ public class FullScreenImageDrawing extends Activity{
 				  so.put("postedBy", ApplicationInstance.getInstance().getLoginName());
 				  String fileId = sf.getId();
 				  so.put("fileId", fileId);
+				  so.put("length", String.valueOf(postBytes.length));
 				  sos.add(so);
 				  ApplicationInstance.getInstance().addGroupPosts(so);
 				  StreamCategoryObject sco = new StreamCategoryObject("groupphotos");
