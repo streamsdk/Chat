@@ -4,12 +4,14 @@ import android.app.Activity;
 import android.app.TabActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 
+import com.google.android.gms.internal.ac;
 import com.streamsdk.chat.addfriend.AddFriendMainActivity;
 import com.streamsdk.chat.group.GroupThreadScreen;
 import com.streamsdk.chat.settings.PreferenceScreen;
@@ -75,7 +77,13 @@ public class CoolChatMainActivity extends TabActivity {
 		super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
 		switch(requestCode) {
 		 case  ApplicationInstance.FINISH_ALL:
-		      if(resultCode == RESULT_OK){        		    	  
+			  String tabTag = getTabHost().getCurrentTabTag(); 
+	    	  Activity activity = getLocalActivityManager().getActivity(tabTag); 
+	    	  if (activity instanceof GroupThreadScreen){
+	    		 GroupThreadScreen gts = (GroupThreadScreen)activity;
+	    		 gts.updateAdapter();
+	    	  } 
+			 if(resultCode == RESULT_OK){        		    	  
 		    	  finish();
 		       }
 		       break; 

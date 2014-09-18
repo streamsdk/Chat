@@ -187,8 +187,8 @@ public class FullScreenImageDrawing extends Activity{
     	final byte postBytes[] = getImageBytes(bm);
     	sf.postBytes(postBytes, new StreamCallback() {
 			public void result(boolean succeed, String errorMessage) {
-			   if (succeed){
-				  gobackToMainScreen(); 
+				gobackToMainScreen(); 
+				if (succeed){
 				  List<StreamObject> sos = new ArrayList<StreamObject>();
 				  StreamObject so = new StreamObject();
 				  so.put("postedBy", ApplicationInstance.getInstance().getLoginName());
@@ -250,15 +250,15 @@ public class FullScreenImageDrawing extends Activity{
 			TextPaint paint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
 			Rect bounds = new Rect();
 			RectF rectF = new RectF();
-			int y = (bitmap.getHeight() + bounds.height()) / 2;
 			paint.getTextBounds(mText, 0, mText.length(), bounds);
+			int y = (bitmap.getHeight() + bounds.height()) / 2;
 			Paint paint1 = new Paint(Paint.ANTI_ALIAS_FLAG);
 			paint1.setARGB(60, 0, 0, 0);
 			rectF.set(0, y - (30 * scale), bitmap.getWidth(), (30 * scale + y));
 			canvas.drawRect(rectF, paint1);
 		
 			paint.setColor(getResources().getColor(R.color.firstPageTexColor));
-			paint.setTextSize(scale * 20);
+			paint.setTextSize(scale * 22);
 			paint.setShadowLayer(1f, 0f, 1f, Color.TRANSPARENT);
 			StaticLayout mTextLayout = new StaticLayout(mText, paint, canvas.getWidth(), Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
 			canvas.save();
@@ -272,7 +272,7 @@ public class FullScreenImageDrawing extends Activity{
 			RectF rectF = new RectF();
 			Paint paint1 = new Paint(Paint.ANTI_ALIAS_FLAG);
 			paint1.setARGB(60, 0, 0, 0);
-			rectF.set(0, 0, bitmap.getWidth(), 60 * scale);
+			rectF.set(0, 0, bitmap.getWidth(), 70 * scale);
 			canvas.drawRect(rectF, paint1);
 			
 			TextPaint paint = new TextPaint(Paint.ANTI_ALIAS_FLAG);

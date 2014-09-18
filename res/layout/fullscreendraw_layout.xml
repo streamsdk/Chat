@@ -16,7 +16,7 @@
       <FrameLayout
             android:id="@+id/fullImageDrawFrame"
             android:layout_width="fill_parent"
-            android:layout_height="60dp"
+            android:layout_height="80dp"
             android:background="#60000000"
             android:visibility="gone"
             >

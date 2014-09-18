@@ -29,6 +29,14 @@ public class GroupThreadScreen extends ListActivity implements OnItemLongClickLi
 		getListView().setOnTouchListener(this);
 		
 	}
+	
+	public void updateAdapter(){
+		runOnUiThread(new Runnable(){
+			public void run() {
+			  gta.notifyDataSetChanged();
+			}
+		});
+	}
 
 	public boolean onItemLongClick(AdapterView<?> av, View view, int index, long itemId) {
 	    StreamObject item = (StreamObject)gta.getItem(index);
