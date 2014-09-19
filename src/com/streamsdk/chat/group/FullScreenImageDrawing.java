@@ -277,7 +277,7 @@ public class FullScreenImageDrawing extends Activity{
 			
 			TextPaint paint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
 			paint.setColor(getResources().getColor(R.color.firstPageTexColor));
-			paint.setTextSize(scale * 20);
+			paint.setTextSize(scale * 22);
 			paint.setShadowLayer(1f, 0f, 1f, Color.TRANSPARENT);
 			StaticLayout mTextLayout = new StaticLayout(mText, paint, canvas.getWidth(), Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
 			canvas.save();

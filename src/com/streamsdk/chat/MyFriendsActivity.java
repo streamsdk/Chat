@@ -12,6 +12,7 @@ import android.app.ListActivity;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -122,6 +123,7 @@ public class MyFriendsActivity extends ListActivity implements RefreshUI{
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
 		activity =  this;
+		loadReadStatus();
 		
 		 FriendDB db = ApplicationInstance.getInstance().getFriendDB();
 		 if (db == null){
@@ -170,6 +172,14 @@ public class MyFriendsActivity extends ListActivity implements RefreshUI{
 	    
 	    Intent intent = new Intent(this, XMPPConnectionService.class);
 	    startService(intent);
+	}
+	
+	private void loadReadStatus(){
+		SharedPreferences settings = getSharedPreferences(ApplicationInstance.READ_STATUS, 0);
+		String status = settings.getString("read", null);
+		if (status != null){
+			ApplicationInstance.getInstance().setReadStatus(status.split(","));
+		}
 	}
 	
 	private void loadMetadataAndProfileImage(String friendName){

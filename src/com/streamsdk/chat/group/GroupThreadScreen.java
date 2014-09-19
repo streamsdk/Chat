@@ -1,6 +1,7 @@
 package com.streamsdk.chat.group;
 
 import android.app.ListActivity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.DisplayMetrics;
@@ -11,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
 
 import com.stream.api.StreamObject;
+import com.streamsdk.chat.ApplicationInstance;
 import com.streamsdk.chat.R;
 
 public class GroupThreadScreen extends ListActivity implements OnItemLongClickListener,OnTouchListener{
@@ -45,9 +47,24 @@ public class GroupThreadScreen extends ListActivity implements OnItemLongClickLi
 		DisplayMetrics metrics = new DisplayMetrics();
 	    getWindowManager().getDefaultDisplay().getMetrics(metrics);
 	    hu.startDownloading((String)item.get("fileId"), (String)item.get("length"), metrics);
+	    insertReadRescord(item.getId());
+	    ApplicationInstance.getInstance().addReadStatus(item.getId());
 	    return true;
 	}
-
+	
+	public void insertReadRescord(String id){
+		SharedPreferences settings = getSharedPreferences(ApplicationInstance.READ_STATUS, 0);
+	    SharedPreferences.Editor editor = settings.edit();
+		String readIds = (String)settings.getString("read", null);
+		if (readIds == null){
+			editor.putString("read", id);
+		}else{
+			readIds = readIds + "," + id;
+			editor.putString("read", readIds);
+		}
+		editor.commit();
+	}
+	
 	public boolean onTouch(View v, MotionEvent event) {
 	        boolean isReleased = event.getAction() == MotionEvent.ACTION_UP || event.getAction() == MotionEvent.ACTION_CANCEL;
 	        boolean isPressed = event.getAction() == MotionEvent.ACTION_DOWN;

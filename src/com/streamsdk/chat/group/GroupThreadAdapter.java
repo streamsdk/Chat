@@ -4,8 +4,10 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,6 +65,9 @@ public class GroupThreadAdapter extends BaseAdapter{
 			viewHolder = (ViewHolder)view.getTag();
 		}
 		viewHolder.posterName.setText(postedBy);
+		if (ApplicationInstance.getInstance().isRead(postedBy)){
+			viewHolder.posterName.setTypeface(null, Typeface.BOLD);
+		}
 		Bitmap bitmap = ImageCache.getInstance().getFriendImage(postedBy);
 		if (bitmap != null)
 		    viewHolder.imgGroup.setImageBitmap(bitmap);

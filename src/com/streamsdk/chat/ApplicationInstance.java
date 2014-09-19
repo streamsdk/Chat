@@ -1,6 +1,7 @@
 package com.streamsdk.chat;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -53,6 +54,7 @@ public class ApplicationInstance {
 	
 	public static String HOST_PREFIX = "@streamsdk.com";
 	public static final String USER_INFO = "MyPrefsFile";
+	public static final String READ_STATUS = "readStatus";
     public static final String PROFILE_IMAGE = "profileImageId";
     public static final String NEW_PROFILE_IMAGE = "newprofileimage";
     public static final String BLOOD_TYPE = "bloodType";
@@ -104,6 +106,7 @@ public class ApplicationInstance {
 	private OnlineOffineUpdate onlineOfflineUpdate;
 	private String currentStatus = "Hey there, I am using CoolChat";
 	private StreamCategoryObject groupPosts;
+	private List<String> readStatus = new ArrayList<String>();
 	
 	public static ApplicationInstance getInstance(){
 		
@@ -377,11 +380,22 @@ public class ApplicationInstance {
 	
 	public void addGroupPosts(StreamObject so){
 		if (this.groupPosts != null){
-			groupPosts.addStreamObject(so);
+			groupPosts.addStreamObjectAtIndex(so, 0);
 		}else{
 			this.groupPosts = new StreamCategoryObject("groupphotos");
 			this.groupPosts.addStreamObject(so);
 		}
 	}
 	
+	public void setReadStatus(String status[]){
+		readStatus = Arrays.asList(status);
+	}
+	
+	public void addReadStatus(String statusId){
+		readStatus.add(statusId);
+	}
+	
+	public boolean isRead(String statusId){
+		return readStatus.contains(statusId);
+	}
 }
