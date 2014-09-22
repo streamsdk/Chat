@@ -5,5 +5,11 @@
         android:icon="@drawable/set"
         android:showAsAction="always"
         android:title="GroupPhoto"/>
+    
+      <item
+        android:id="@+id/menu_text"
+        android:icon="@drawable/addfri"
+        android:showAsAction="always"
+        android:title="GroupText"/>
 
 </menu>
