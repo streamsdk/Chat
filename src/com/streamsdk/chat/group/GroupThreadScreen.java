@@ -3,7 +3,6 @@ package com.streamsdk.chat.group;
 import android.app.ListActivity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
@@ -19,7 +18,6 @@ public class GroupThreadScreen extends ListActivity implements OnItemLongClickLi
 	
 	GroupThreadAdapter gta;
 	HoldFullScreenDialog hu;
-	Handler mHandler;
 	
 	public void onCreate(Bundle savedInstanceState) {
 		
@@ -47,8 +45,10 @@ public class GroupThreadScreen extends ListActivity implements OnItemLongClickLi
 		DisplayMetrics metrics = new DisplayMetrics();
 	    getWindowManager().getDefaultDisplay().getMetrics(metrics);
 	    hu.startDownloading((String)item.get("fileId"), (String)item.get("length"), metrics);
-	    insertReadRescord(item.getId());
-	    ApplicationInstance.getInstance().addReadStatus(item.getId());
+	    if (!ApplicationInstance.getInstance().isRead(item.getId())){
+	        insertReadRescord(item.getId());
+	        ApplicationInstance.getInstance().addReadStatus(item.getId());
+	 	}
 	    return true;
 	}
 	

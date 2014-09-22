@@ -2,7 +2,7 @@ package com.streamsdk.chat;
 
 import java.io.File;
 import java.io.InputStream;
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -19,8 +19,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -39,11 +37,9 @@ import com.streamsdk.cache.MessagingAckDB;
 import com.streamsdk.cache.MessagingCountDB;
 import com.streamsdk.cache.MessagingHistoryDB;
 import com.streamsdk.cache.StatusDB;
-import com.streamsdk.chat.addfriend.AddFriendMainActivity;
 import com.streamsdk.chat.addfriend.UsersLoadThread;
 import com.streamsdk.chat.domain.FriendRequest;
 import com.streamsdk.chat.handler.MessageHistoryHandler;
-import com.streamsdk.chat.settings.PreferenceScreen;
 import com.streamsdk.chat.settings.ProfileImageUtils;
 import com.streamsdk.header.NamesBaseAdaper;
 import com.streamsdk.header.PinnedHeaderListView;
@@ -178,7 +174,11 @@ public class MyFriendsActivity extends ListActivity implements RefreshUI{
 		SharedPreferences settings = getSharedPreferences(ApplicationInstance.READ_STATUS, 0);
 		String status = settings.getString("read", null);
 		if (status != null){
-			ApplicationInstance.getInstance().setReadStatus(status.split(","));
+			String sta[] = status.split(",");
+			List<String> read = new ArrayList<String>();
+			for (String r :sta)
+				read.add(r);
+			ApplicationInstance.getInstance().setReadStatus(read);
 		}
 	}
 	

@@ -18,17 +18,18 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="40dp"
         android:textSize="23sp"
-        android:textStyle="normal"
+        android:textStyle="bold"
         android:layout_centerVertical="true"        
         android:layout_toRightOf="@id/imgGroup" />
     
     
        <TextView
-        android:id="@+id/txtNotes"
+        android:id="@+id/txtHoldView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
+        android:textStyle="bold"
         android:text="Hold View"
         android:layout_marginBottom="15dp"    />
 

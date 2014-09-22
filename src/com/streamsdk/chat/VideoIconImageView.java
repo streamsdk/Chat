@@ -7,8 +7,6 @@ import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
-import com.streamsdk.cache.ImageCache;
-
 public class VideoIconImageView extends ImageView{
 
     boolean video = false;

@@ -4,7 +4,7 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.SharedPreferences;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
@@ -20,6 +20,7 @@ import com.stream.api.StreamObject;
 import com.streamsdk.cache.ImageCache;
 import com.streamsdk.chat.ApplicationInstance;
 import com.streamsdk.chat.R;
+import com.streamsdk.chat.settings.UserDetailsViewActivity;
 
 public class GroupThreadAdapter extends BaseAdapter{
 
@@ -43,6 +44,14 @@ public class GroupThreadAdapter extends BaseAdapter{
 	    return sos.get(index);
 	}
 
+	public int getViewTypeCount() {                 
+	    return getCount();
+	}
+
+	public int getItemViewType(int position) {
+	    return position;
+	}
+	
 	public long getItemId(int index) {
 		return 0;
 	}
@@ -54,19 +63,21 @@ public class GroupThreadAdapter extends BaseAdapter{
 		ViewHolder viewHolder;
 		View v = null;
 		StreamObject so = (StreamObject)getItem(position);
-		String postedBy = (String)so.get("postedBy");
+		final String postedBy = (String)so.get("postedBy");
 		if (view == null){
 	    	v = inflater.inflate(R.layout.groupitems_layout, vg, false);
 			viewHolder = new ViewHolder();
 			viewHolder.posterName = (TextView)v.findViewById(R.id.txtGroupPosterName);
+			viewHolder.holdView = (TextView)v.findViewById(R.id.txtHoldView);
 			viewHolder.imgGroup = (ImageView)v.findViewById(R.id.imgGroup);
 		}else{
 			v = view;
 			viewHolder = (ViewHolder)view.getTag();
 		}
 		viewHolder.posterName.setText(postedBy);
-		if (ApplicationInstance.getInstance().isRead(postedBy)){
-			viewHolder.posterName.setTypeface(null, Typeface.BOLD);
+		if (ApplicationInstance.getInstance().isRead(so.getId())){
+			viewHolder.posterName.setTypeface(null, Typeface.NORMAL);
+			viewHolder.holdView.setTypeface(null, Typeface.NORMAL);
 		}
 		Bitmap bitmap = ImageCache.getInstance().getFriendImage(postedBy);
 		if (bitmap != null)
@@ -75,8 +86,13 @@ public class GroupThreadAdapter extends BaseAdapter{
 			Bitmap bm = BitmapFactory.decodeResource(activity.getResources(), R.drawable.yahoo_no_avatar);
 			viewHolder.imgGroup.setImageBitmap(bm);
 		}
-		
-		
+		viewHolder.imgGroup.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				Intent intent = new Intent(activity.getApplicationContext(), UserDetailsViewActivity.class);
+				intent.putExtra("username", postedBy);
+				activity.startActivity(intent);		
+			}
+		});
 		v.setTag(viewHolder);
 		return v;
 		
@@ -84,6 +100,7 @@ public class GroupThreadAdapter extends BaseAdapter{
 	
 	static class ViewHolder{
 		TextView posterName;
+		TextView holdView;
 		ImageView imgGroup;
 	}
 

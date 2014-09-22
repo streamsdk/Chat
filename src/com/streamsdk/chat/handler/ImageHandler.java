@@ -78,7 +78,6 @@ public class ImageHandler {
 				   ImageCache.getInstance().putChatImages(file.getAbsolutePath(), sBitMap);	
 				}else{
 				   im.setVideo(true);
-				   long length = file.length();
 				   Bitmap thumb = ThumbnailUtils.createVideoThumbnail(file.getAbsolutePath(), MediaStore.Images.Thumbnails.MINI_KIND);
 				   Bitmap resizedBitmap = Bitmap.createScaledBitmap(thumb, 230, 230, false);
 				   ImageCache.getInstance().putChatImages(file.getAbsolutePath(), resizedBitmap);

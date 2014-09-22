@@ -1,13 +1,11 @@
 package com.streamsdk.chat;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 
 import android.app.Activity;
 import android.content.Context;
@@ -155,9 +153,9 @@ public class ApplicationInstance {
 	}
 	
 	public synchronized Map<String, String> getFriendMetadata(String id){
-	    if (friendUserMetadata != null)
+	    if (friendUserMetadata != null && friendUserMetadata.containsKey(id))
 	    	return friendUserMetadata.get(id);
-	    return null;
+	    return new HashMap<String, String>();
 	}
 	
 	public InvitationDB getInivitationDB() {
@@ -387,12 +385,13 @@ public class ApplicationInstance {
 		}
 	}
 	
-	public void setReadStatus(String status[]){
-		readStatus = Arrays.asList(status);
+	public void setReadStatus(List<String> read){
+		readStatus = read;
 	}
 	
 	public void addReadStatus(String statusId){
-		readStatus.add(statusId);
+		if (!readStatus.contains(statusId))
+		    readStatus.add(statusId);
 	}
 	
 	public boolean isRead(String statusId){
