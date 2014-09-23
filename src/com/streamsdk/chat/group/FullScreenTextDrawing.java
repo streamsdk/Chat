@@ -40,6 +40,7 @@ public class FullScreenTextDrawing extends Activity{
 		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.fullscreentextdraw_layout);
+		getActionBar().setDisplayHomeAsUpEnabled(true);
 		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
 		metrics = new DisplayMetrics();
 	    getWindowManager().getDefaultDisplay().getMetrics(metrics);
@@ -49,6 +50,11 @@ public class FullScreenTextDrawing extends Activity{
 	}
 	
 	public boolean onOptionsItemSelected(MenuItem item) {
+		int itemId = item.getItemId();
+		if (itemId == android.R.id.home) {
+		     onBackPressed();
+			 return true;
+		}
 		String title = (String) item.getTitle();
 		if (title.equals("PostText")){
 			  Bitmap bm = drawText(et.getText().toString(), metrics);       

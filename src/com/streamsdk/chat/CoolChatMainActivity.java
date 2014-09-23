@@ -1,9 +1,12 @@
 package com.streamsdk.chat;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.TabActivity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -11,14 +14,17 @@ import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 
 import com.streamsdk.chat.addfriend.AddFriendMainActivity;
+import com.streamsdk.chat.group.FullScreenImageDrawing;
 import com.streamsdk.chat.group.FullScreenTextDrawing;
 import com.streamsdk.chat.group.GroupThreadScreen;
+import com.streamsdk.chat.handler.ImageHandler;
 import com.streamsdk.chat.settings.PreferenceScreen;
 
 public class CoolChatMainActivity extends TabActivity {
 	
 	Activity activity;
 	TabHost tabHost;
+	static final int REQUEST_IMAGE_PICK = 1;
 	
 	public void onCreate(Bundle savedInstanceState) {
 	  
@@ -63,10 +69,25 @@ public class CoolChatMainActivity extends TabActivity {
 			startActivityForResult(intent, ApplicationInstance.FINISH_ALL);
 		}
 		if (title.equals("GroupPhoto")) {
-			Intent intent = new Intent(activity, AndroidPhotoCapture.class);
-			intent.putExtra("from", "group");
-			startActivityForResult(intent, ApplicationInstance.FINISH_ALL);
+			
+			CharSequence colors[] = new CharSequence[] {"From Gallery", "From Camera"};
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			builder.setTitle("Pick Source");
+			builder.setItems(colors, new DialogInterface.OnClickListener() {
+			    public void onClick(DialogInterface dialog, int which) {
+                    if (which == 1){
+                    	Intent intent = new Intent(activity, AndroidPhotoCapture.class);
+            			intent.putExtra("from", "group");
+            			startActivityForResult(intent, ApplicationInstance.FINISH_ALL);
+            		}else{
+            			Intent pickPhoto = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        				startActivityForResult(pickPhoto , REQUEST_IMAGE_PICK);
+                    }
+			    }
+			});
+			builder.show();
 		}
+		
 		if (title.equals("GroupText")){
 			Intent intent = new Intent(activity, FullScreenTextDrawing.class);
 			startActivityForResult(intent, ApplicationInstance.FINISH_ALL);
@@ -89,7 +110,16 @@ public class CoolChatMainActivity extends TabActivity {
 			 if(resultCode == RESULT_OK){        		    	  
 		    	  finish();
 		       }
-		       break; 
+		       break;
+		       
+		       
+		 case REQUEST_IMAGE_PICK:
+		      if(resultCode == RESULT_OK){  
+		    	  String path = ImageHandler.getImgPath(imageReturnedIntent.getData(), this);
+		    	  Intent intent = new Intent (this, FullScreenImageDrawing.class);
+		    	  intent.putExtra("path", path);
+		    	  startActivityForResult(intent, ApplicationInstance.FINISH_ALL);
+		      }     
 		}
 	}
 	

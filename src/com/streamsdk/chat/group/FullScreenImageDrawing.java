@@ -176,7 +176,7 @@ public class FullScreenImageDrawing extends Activity{
 	
 	private void gobackToMainScreen(){
 		pd.dismiss();
-		setResult(RESULT_OK);
+		setResult(124);
 		finish();
 	}
 	
@@ -257,10 +257,12 @@ public class FullScreenImageDrawing extends Activity{
 			rectF.set(0, y - (30 * scale), bitmap.getWidth(), (30 * scale + y));
 			canvas.drawRect(rectF, paint1);
 		
+			DisplayMetrics metrics = new DisplayMetrics();
+		    getWindowManager().getDefaultDisplay().getMetrics(metrics);
 			paint.setColor(getResources().getColor(R.color.firstPageTexColor));
-			paint.setTextSize(scale * 22);
+			paint.setTextSize(scale * 25);
 			paint.setShadowLayer(1f, 0f, 1f, Color.TRANSPARENT);
-			StaticLayout mTextLayout = new StaticLayout(mText, paint, canvas.getWidth(), Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+			StaticLayout mTextLayout = new StaticLayout(mText, paint, metrics.widthPixels, Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
 			canvas.save();
 			canvas.translate(0, y - (30 * scale));
 			mTextLayout.draw(canvas);
@@ -268,7 +270,7 @@ public class FullScreenImageDrawing extends Activity{
 
 		}else{
 			Canvas canvas = new Canvas(mutableBitmap);
-		
+			Rect bounds = new Rect();
 			RectF rectF = new RectF();
 			Paint paint1 = new Paint(Paint.ANTI_ALIAS_FLAG);
 			paint1.setARGB(60, 0, 0, 0);
@@ -276,10 +278,13 @@ public class FullScreenImageDrawing extends Activity{
 			canvas.drawRect(rectF, paint1);
 			
 			TextPaint paint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+			paint.getTextBounds(mText, 0, mText.length(), bounds);
 			paint.setColor(getResources().getColor(R.color.firstPageTexColor));
-			paint.setTextSize(scale * 22);
+			paint.setTextSize(scale * 25);
 			paint.setShadowLayer(1f, 0f, 1f, Color.TRANSPARENT);
-			StaticLayout mTextLayout = new StaticLayout(mText, paint, canvas.getWidth(), Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+			DisplayMetrics metrics = new DisplayMetrics();
+		    getWindowManager().getDefaultDisplay().getMetrics(metrics);
+			StaticLayout mTextLayout = new StaticLayout(mText, paint, metrics.widthPixels, Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
 			canvas.save();
 			canvas.translate(0, 0);
 			mTextLayout.draw(canvas);
