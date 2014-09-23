@@ -4,14 +4,12 @@ import android.app.Activity;
 import android.app.TabActivity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 
-import com.google.android.gms.internal.ac;
 import com.streamsdk.chat.addfriend.AddFriendMainActivity;
 import com.streamsdk.chat.group.FullScreenTextDrawing;
 import com.streamsdk.chat.group.GroupThreadScreen;
@@ -71,7 +69,7 @@ public class CoolChatMainActivity extends TabActivity {
 		}
 		if (title.equals("GroupText")){
 			Intent intent = new Intent(activity, FullScreenTextDrawing.class);
-			startActivity(intent);
+			startActivityForResult(intent, ApplicationInstance.FINISH_ALL);
 		}
 
 		return super.onOptionsItemSelected(item);

@@ -4,13 +4,6 @@ import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.stream.api.StreamCallback;
-import com.stream.api.StreamCategoryObject;
-import com.stream.api.StreamFile;
-import com.stream.api.StreamObject;
-import com.streamsdk.chat.ApplicationInstance;
-import com.streamsdk.chat.R;
-
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.graphics.Bitmap;
@@ -19,35 +12,49 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.text.Layout.Alignment;
 import android.text.StaticLayout;
 import android.text.TextPaint;
-import android.text.Layout.Alignment;
 import android.util.DisplayMetrics;
-import android.view.View;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.WindowManager;
 import android.widget.EditText;
-import android.widget.ImageView;
+
+import com.stream.api.StreamCallback;
+import com.stream.api.StreamCategoryObject;
+import com.stream.api.StreamFile;
+import com.stream.api.StreamObject;
+import com.streamsdk.chat.ApplicationInstance;
+import com.streamsdk.chat.R;
 
 public class FullScreenTextDrawing extends Activity{
 
 	float scale;
 	ProgressDialog pd;
+	DisplayMetrics metrics;
+	EditText et;
 	
 	public void onCreate(Bundle savedInstanceState) {
 		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.fullscreentextdraw_layout);
-		final DisplayMetrics metrics = new DisplayMetrics();
+		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+		metrics = new DisplayMetrics();
 	    getWindowManager().getDefaultDisplay().getMetrics(metrics);
 	    scale = getResources().getDisplayMetrics().density;
-		final EditText et = (EditText)findViewById(R.id.fullscreenDrawText);
-		ImageView iv = (ImageView)findViewById(R.id.postTextButton);
-		iv.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-	            Bitmap bm = drawText(et.getText().toString(), metrics);       
-				postImages(bm);
-			}
-		});
+		et = (EditText)findViewById(R.id.fullscreenDrawText);
 		
+	}
+	
+	public boolean onOptionsItemSelected(MenuItem item) {
+		String title = (String) item.getTitle();
+		if (title.equals("PostText")){
+			  Bitmap bm = drawText(et.getText().toString(), metrics);       
+			  postImages(bm);
+		}
+		return super.onOptionsItemSelected(item);
 	}
 	
 	private void showDialog(String message) {
@@ -56,7 +63,7 @@ public class FullScreenTextDrawing extends Activity{
 	
 	private void gobackToMainScreen(){
 		pd.dismiss();
-		setResult(RESULT_OK);
+		setResult(123);
 		finish();
 	}
 	
@@ -114,4 +121,11 @@ public class FullScreenTextDrawing extends Activity{
 		return bmp;
 		
 	}
+	
+	public boolean onPrepareOptionsMenu(Menu menu) {
+          MenuInflater inflater = getMenuInflater();
+          menu.clear();
+          inflater.inflate(R.menu.posttext_menu, menu); 
+          return super.onPrepareOptionsMenu(menu);
+    }
 }
