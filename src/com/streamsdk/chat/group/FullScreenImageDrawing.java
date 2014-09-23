@@ -196,7 +196,6 @@ public class FullScreenImageDrawing extends Activity{
 				  so.put("fileId", fileId);
 				  so.put("length", String.valueOf(postBytes.length));
 				  sos.add(so);
-				  ApplicationInstance.getInstance().addGroupPosts(so);
 				  StreamCategoryObject sco = new StreamCategoryObject("groupphotos");
 				  sco.updateSteamCategoryObjects(sos);
 			   }else{

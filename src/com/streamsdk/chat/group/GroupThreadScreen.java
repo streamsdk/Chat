@@ -31,11 +31,17 @@ public class GroupThreadScreen extends ListActivity implements OnItemLongClickLi
 	}
 	
 	public void updateAdapter(){
+		gta.updateResults();
 		runOnUiThread(new Runnable(){
 			public void run() {
 			  gta.notifyDataSetChanged();
 			}
 		});
+	}
+	
+	public void resetAdapter(){
+		gta = new GroupThreadAdapter(this);
+		setListAdapter(gta);	
 	}
 
 	public boolean onItemLongClick(AdapterView<?> av, View view, int index, long itemId) {

@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 
@@ -51,6 +52,18 @@ public class CoolChatMainActivity extends TabActivity {
 	    tabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
 			public void onTabChanged(String tabId) {
 			    invalidateOptionsMenu();
+			}
+		});
+	    
+	    getTabWidget().getChildAt(1).setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				tabHost.setCurrentTab(1);
+				String tabTag = getTabHost().getCurrentTabTag(); 
+		    	Activity activity = getLocalActivityManager().getActivity(tabTag); 
+		    	if (activity instanceof GroupThreadScreen){
+		    		 GroupThreadScreen gts = (GroupThreadScreen)activity;
+		    		 gts.resetAdapter();
+		    	} 
 			}
 		});
 	  

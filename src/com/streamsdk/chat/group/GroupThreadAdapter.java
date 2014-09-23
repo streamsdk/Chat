@@ -44,8 +44,15 @@ public class GroupThreadAdapter extends BaseAdapter{
 	    return sos.get(index);
 	}
 
-	public int getViewTypeCount() {                 
-	    return getCount();
+	public void updateResults(){
+		posts = ApplicationInstance.getInstance().getGroupPosts();
+	}
+	
+	public int getViewTypeCount() {
+		int size = getCount();
+		if (size < 1)
+			return 1;
+	    return size;
 	}
 
 	public int getItemViewType(int position) {
@@ -58,7 +65,6 @@ public class GroupThreadAdapter extends BaseAdapter{
 
 	public View getView(int position, final View view, ViewGroup vg) {
 
-		posts = ApplicationInstance.getInstance().getGroupPosts();
 		LayoutInflater inflater = (LayoutInflater)activity.getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		ViewHolder viewHolder;
 		View v = null;

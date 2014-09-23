@@ -93,7 +93,6 @@ public class MyFriendsActivity extends ListActivity implements RefreshUI{
 		   reiniDB();
 	   }
 	   
-	   
 	   List<String> tempNames = ApplicationInstance.getInstance().getFriendDB().getFriends();
 	   if (tempNames.size() != names.length){
 		   names = ApplicationInstance.getInstance().getFriendDB().getFriendsArray();
@@ -120,6 +119,15 @@ public class MyFriendsActivity extends ListActivity implements RefreshUI{
 	    super.onCreate(savedInstanceState);
 		activity =  this;
 		loadReadStatus();
+	
+		final StreamCategoryObject groupPosts = new StreamCategoryObject("groupphotos");
+		groupPosts.loadStreamObjects(new StreamCallback() {
+			public void result(boolean succeed, String errorMessage) {
+			    if (succeed){
+			    	ApplicationInstance.getInstance().setGroupPosts(groupPosts);
+			    }
+			}
+		});
 		
 		 FriendDB db = ApplicationInstance.getInstance().getFriendDB();
 		 if (db == null){
@@ -141,15 +149,6 @@ public class MyFriendsActivity extends ListActivity implements RefreshUI{
 		new Thread(new MessageHistoryHandler(ApplicationInstance.getInstance().getLoginName(), getApplicationContext())).start();
 		//new Thread(new ConnectionCheck(this)).start();
 		new Thread(new UsersLoadThread("0", 15)).start();
-		
-		final StreamCategoryObject groupPosts = new StreamCategoryObject("groupphotos");
-		groupPosts.loadStreamObjects(new StreamCallback() {
-			public void result(boolean succeed, String errorMessage) {
-			    if (succeed){
-			    	ApplicationInstance.getInstance().setGroupPosts(groupPosts);
-			    }
-			}
-		});
 		
 		setContentView(R.layout.mainpage_layout);
 	    

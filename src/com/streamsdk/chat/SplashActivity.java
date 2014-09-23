@@ -13,6 +13,7 @@ import android.os.Message;
 import android.util.Log;
 
 import com.stream.api.StreamCallback;
+import com.stream.api.StreamCategoryObject;
 import com.stream.api.StreamFile;
 import com.stream.api.StreamSession;
 import com.stream.api.StreamUser;
@@ -50,6 +51,7 @@ public class SplashActivity extends Activity{
 				public void result(boolean succeed, String errorMessage) {
 					if (succeed){
 						//deleteFiles();
+						
 						if (userName != null && password != null && !userName.equals("") && !password.equals("")){
 							try {
 							  if (!StreamXMPP.getInstance().isConnected()){	

@@ -103,7 +103,7 @@ public class ApplicationInstance {
 	private Map<String, String> userProfileImage = new HashMap<String, String>();
 	private OnlineOffineUpdate onlineOfflineUpdate;
 	private String currentStatus = "Hey there, I am using CoolChat";
-	private StreamCategoryObject groupPosts;
+	private StreamCategoryObject groupPosts = new StreamCategoryObject("groupphotos");
 	private List<String> readStatus = new ArrayList<String>();
 	
 	public static ApplicationInstance getInstance(){
