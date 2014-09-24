@@ -14,6 +14,8 @@ import android.view.View;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 
+import com.stream.api.StreamCallback;
+import com.stream.api.StreamCategoryObject;
 import com.streamsdk.chat.addfriend.AddFriendMainActivity;
 import com.streamsdk.chat.group.FullScreenImageDrawing;
 import com.streamsdk.chat.group.FullScreenTextDrawing;
@@ -26,6 +28,7 @@ public class CoolChatMainActivity extends TabActivity {
 	Activity activity;
 	TabHost tabHost;
 	static final int REQUEST_IMAGE_PICK = 1;
+	static long lastRunTime = 0;
 	
 	public void onCreate(Bundle savedInstanceState) {
 	  
@@ -58,16 +61,20 @@ public class CoolChatMainActivity extends TabActivity {
 	    getTabWidget().getChildAt(1).setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				tabHost.setCurrentTab(1);
-				String tabTag = getTabHost().getCurrentTabTag(); 
-		    	Activity activity = getLocalActivityManager().getActivity(tabTag); 
-		    	if (activity instanceof GroupThreadScreen){
-		    		 GroupThreadScreen gts = (GroupThreadScreen)activity;
-		    		 gts.resetAdapter();
-		    	} 
+				refresh();
 			}
 		});
 	  
 	  
+	 }
+	
+	 private void refresh(){
+		 String tabTag = getTabHost().getCurrentTabTag(); 
+	     Activity activity = getLocalActivityManager().getActivity(tabTag); 
+	     if (activity instanceof GroupThreadScreen){
+	    		 GroupThreadScreen gts = (GroupThreadScreen)activity;
+	    		 gts.resetAdapter();
+	    } 
 	 }
 	
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -105,10 +112,34 @@ public class CoolChatMainActivity extends TabActivity {
 			Intent intent = new Intent(activity, FullScreenTextDrawing.class);
 			startActivityForResult(intent, ApplicationInstance.FINISH_ALL);
 		}
+		
+		if (title.equals("RefreshGroup")){
+			  long diff = (System.currentTimeMillis() - lastRunTime) / (1000 * 60);
+			  if (lastRunTime !=0 && diff > 3){ 
+			      final StreamCategoryObject groupPosts = new StreamCategoryObject("groupphotos");
+			      groupPosts.loadStreamObjects(new StreamCallback() {
+				  public void result(boolean succeed, String errorMessage) {
+				       if (succeed){
+				    	   ApplicationInstance.getInstance().setGroupPosts(groupPosts);
+				    	   updateUI();
+				       }
+				   }
+			    });
+			}
+			lastRunTime = System.currentTimeMillis();  
+		}
 
 		return super.onOptionsItemSelected(item);
 
 	}
+	
+	private void updateUI(){
+			runOnUiThread(new Runnable(){
+				public void run() {
+				   refresh();
+				}
+			});
+	 }
 	
 	protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) { 
 		super.onActivityResult(requestCode, resultCode, imageReturnedIntent);

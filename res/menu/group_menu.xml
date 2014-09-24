@@ -11,5 +11,11 @@
         android:icon="@drawable/addfri"
         android:showAsAction="always"
         android:title="GroupText"/>
+      
+       <item
+        android:id="@+id/menu_re"
+        android:icon="@drawable/ic_refresh"
+        android:showAsAction="always"
+        android:title="RefreshGroup"/>
 
 </menu>

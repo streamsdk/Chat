@@ -183,6 +183,7 @@ public class FullScreenImageDrawing extends Activity{
     private void postImages(Bitmap bm){
     	
     	showDialog("Posting Image...");
+    	//gobackToMainScreen();
     	final StreamFile sf = new StreamFile();
     	final byte postBytes[] = getImageBytes(bm);
     	sf.postBytes(postBytes, new StreamCallback() {
@@ -244,22 +245,25 @@ public class FullScreenImageDrawing extends Activity{
 	private Bitmap drawText(Bitmap bitmap, String mText){
 		
 		Bitmap mutableBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
+		DisplayMetrics metrics = new DisplayMetrics();
+	    getWindowManager().getDefaultDisplay().getMetrics(metrics);
+	    
+		float actualScale = (mutableBitmap.getWidth() * scale) / metrics.widthPixels;
+		scale = actualScale;
+		
 		if (!top) {
 			Canvas canvas = new Canvas(mutableBitmap);
-			TextPaint paint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+			TextPaint paint = new TextPaint(Paint.ANTI_ALIAS_FLAG | Paint.LINEAR_TEXT_FLAG);
 			Rect bounds = new Rect();
 			RectF rectF = new RectF();
 			paint.getTextBounds(mText, 0, mText.length(), bounds);
 			int y = (bitmap.getHeight() + bounds.height()) / 2;
 			Paint paint1 = new Paint(Paint.ANTI_ALIAS_FLAG);
 			paint1.setARGB(60, 0, 0, 0);
-			rectF.set(0, y - (30 * scale), bitmap.getWidth(), (30 * scale + y));
+			rectF.set(0, y - (30 * scale), bitmap.getWidth(), (40 * scale + y));
 			canvas.drawRect(rectF, paint1);
-		
-			DisplayMetrics metrics = new DisplayMetrics();
-		    getWindowManager().getDefaultDisplay().getMetrics(metrics);
 			paint.setColor(getResources().getColor(R.color.firstPageTexColor));
-			paint.setTextSize(scale * 25);
+			paint.setTextSize(scale * 20);
 			paint.setShadowLayer(1f, 0f, 1f, Color.TRANSPARENT);
 			StaticLayout mTextLayout = new StaticLayout(mText, paint, metrics.widthPixels, Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
 			canvas.save();
@@ -279,10 +283,8 @@ public class FullScreenImageDrawing extends Activity{
 			TextPaint paint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
 			paint.getTextBounds(mText, 0, mText.length(), bounds);
 			paint.setColor(getResources().getColor(R.color.firstPageTexColor));
-			paint.setTextSize(scale * 25);
+			paint.setTextSize(scale * 20);
 			paint.setShadowLayer(1f, 0f, 1f, Color.TRANSPARENT);
-			DisplayMetrics metrics = new DisplayMetrics();
-		    getWindowManager().getDefaultDisplay().getMetrics(metrics);
 			StaticLayout mTextLayout = new StaticLayout(mText, paint, metrics.widthPixels, Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
 			canvas.save();
 			canvas.translate(0, 0);
