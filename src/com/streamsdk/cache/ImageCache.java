@@ -53,10 +53,16 @@ public class ImageCache {
 	public void rebuildPermImageMap(String loginName, int removedIndex, int total){
 		
 		for (int x=removedIndex; x < total - 1; x++){
-			String currentPath = loginName + x;
-			String pathNext = loginName + (x + 1);
-			Bitmap imageNext = permnent.get(pathNext);
-			permnent.put(currentPath,  imageNext);
+		   if (x != 0){
+			  String currentPath = loginName + x;
+			  String pathNext = loginName + (x + 1);
+			  Bitmap imageNext = permnent.get(pathNext);
+			  permnent.put(currentPath,  imageNext);
+		   }else{
+			  String pathNext = loginName + 1;
+			  Bitmap imageNext = permnent.get(pathNext);
+			  permnent.put(loginName,  imageNext);
+		   }
 		}
 		
 	}
