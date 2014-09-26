@@ -105,6 +105,7 @@ public class ApplicationInstance {
 	private String currentStatus = "Hey there, I am using CoolChat";
 	private StreamCategoryObject groupPosts = new StreamCategoryObject("groupphotos");
 	private List<String> readStatus = new ArrayList<String>();
+	private String deletedPhotoId;
 	
 	public static ApplicationInstance getInstance(){
 		
@@ -397,4 +398,13 @@ public class ApplicationInstance {
 	public boolean isRead(String statusId){
 		return readStatus.contains(statusId);
 	}
+	
+	public void setDeletedPhotoId(String id){
+		deletedPhotoId = id;
+	}
+	
+	public String getDeletedPhotoId(){
+		return deletedPhotoId;
+	}
+	
 }

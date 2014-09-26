@@ -44,6 +44,7 @@ import com.streamsdk.util.UpdateUtils;
 public class PreferenceScreen extends Activity implements RefreshUI{
 	
 	static final int REQUEST_IMAGE_PICK = 1;
+	static final int FULLSCREEN_SHOW = 2;
 	ImageView profileImageView;
 	Activity activity;
 	Button setStatus;
@@ -381,6 +382,26 @@ public class PreferenceScreen extends Activity implements RefreshUI{
 		});	
 	}
 	
+	private void removeProfileImages(int index){
+		
+		 String profileImages = ProfileImageUtils.getProfileImages(userMetadata);
+		 String indexImages = "";
+		 if (profileImages != null && !profileImages.equals("")){
+			 if (profileImages.contains("|")){
+				String images[] = profileImages.split("\\|");
+		        for (int i=0; i < images.length; i++){
+		        	if (i != index){
+		        	    indexImages = indexImages + images[i];
+		        	    if (i != images.length - 1){
+		        	    	indexImages = indexImages + "|";
+		        	    }
+		        	}
+		        }
+			 }
+		 }
+		 
+	}
+	
 	protected void buildProfileImages(){
 		
 		 String profileImages = ProfileImageUtils.getProfileImages(userMetadata);
@@ -444,12 +465,13 @@ public class PreferenceScreen extends Activity implements RefreshUI{
 			        	 path = userName + currentIndex;
 			         }
 			         intent.putExtra("imageid", path);
+			         intent.putExtra("index", String.valueOf(currentIndex));
 			         if (userName.equals(ApplicationInstance.getInstance().getLoginName())){
 			        	 intent.putExtra("friend", false);
 			         }else{
 			        	 intent.putExtra("friend", true);
 			         }
-			         activity.startActivity(intent);
+			         activity.startActivityForResult(intent, FULLSCREEN_SHOW);
 				}
 			});
 		}
@@ -1065,6 +1087,11 @@ public class PreferenceScreen extends Activity implements RefreshUI{
 				  });
 		      }
 		      break;
+		      
+		   case FULLSCREEN_SHOW:
+			  if (ApplicationInstance.getInstance().getDeletedPhotoId() != null){
+				  Log.i("", "");
+			  }
 		}
 		
 	}

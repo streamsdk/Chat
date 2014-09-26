@@ -7,6 +7,7 @@ import java.util.List;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -24,6 +25,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -79,16 +81,16 @@ public class FullScreenImageDrawing extends Activity{
  		 final Bitmap bitmap = BitmapUtils.loadImageForFullScreen(path, metrics.widthPixels, metrics.heightPixels, metrics.widthPixels);
          iv.setImageBitmap(bitmap);
  		 final EditText et = (EditText)findViewById(R.id.drawText);
-         et.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+         /*et.setOnFocusChangeListener(new View.OnFocusChangeListener() {
              @Override
              public void onFocusChange(View v, boolean hasFocus) {
                  if (!hasFocus) {
                      hideKeyboard();
                  } else {
-                     showKeyboard();
+                     showCursor();
                  }
              }
-         });
+         });*/
     
          popupView = getLayoutInflater().inflate(R.layout.videodisappearoptions_layout, null);
          popupWindow = new PopupWindow(popupView, LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, false); 
@@ -107,30 +109,30 @@ public class FullScreenImageDrawing extends Activity{
 				if (mText.length() > 85){
 					 showAlertDialog();
 				}else{
-				  if (showTxt){
 				     Bitmap bm = drawText(bitmap, et.getText().toString());
 				     iv.setImageBitmap(bm);
 				     fl.setVisibility(View.GONE);
 				     txtOptions.setVisibility(View.GONE);
 				     postImages(bm);
-				  }
 				}
 			 }
 		 });
          
-         fl.setOnClickListener(new View.OnClickListener() {
+       /*  fl.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				 showKeyboard();
+				 showCursor();
 			}
-		});
-         
+		  });
+         */
         ImageView useTxt = (ImageView)findViewById(R.id.useTxtButton);
         useTxt.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View arg0) {
 			  if (!showTxt){
+				 showKeyboard();
 		         fl.setVisibility(View.VISIBLE);
 		         txtOptions.setVisibility(View.VISIBLE);
 			  }else{
+				 hideKeyboard();
 				 fl.setVisibility(View.GONE);
 			     txtOptions.setVisibility(View.GONE);
 			  }
@@ -216,10 +218,21 @@ public class FullScreenImageDrawing extends Activity{
     	
     }
 	
+    private void showCursor(){
+    	 if (activity != null) {
+ 	        activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+ 	    }
+    }
+    
 	public void showKeyboard() {
-	    if (activity != null) {
+	   /* if (activity != null) {
 	        activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-	    }
+	    }*/
+		 InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+		 if (inputMethodManager != null) {
+		     inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+		 }
+		
 	}
 
 	public void hideKeyboard() {
@@ -243,6 +256,11 @@ public class FullScreenImageDrawing extends Activity{
 	}
 	
 	private Bitmap drawText(Bitmap bitmap, String mText){
+		
+		if (mText == null)
+			return bitmap;
+		if (mText != null && mText.equals(""))
+			return bitmap;
 		
 		Bitmap mutableBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
 		DisplayMetrics metrics = new DisplayMetrics();
