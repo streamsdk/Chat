@@ -50,6 +50,17 @@ public class ImageCache {
 		return permnent.get(path);
 	}
 	
+	public void rebuildPermImageMap(String loginName, int removedIndex, int total){
+		
+		for (int x=removedIndex; x < total - 1; x++){
+			String currentPath = loginName + x;
+			String pathNext = loginName + (x + 1);
+			Bitmap imageNext = permnent.get(pathNext);
+			permnent.put(currentPath,  imageNext);
+		}
+		
+	}
+	
 	
 	public void putNew(String id, Bitmap bitMap){
 		if (ids.size() > 40){
