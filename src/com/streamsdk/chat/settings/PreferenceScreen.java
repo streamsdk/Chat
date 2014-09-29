@@ -391,22 +391,25 @@ public class PreferenceScreen extends Activity implements RefreshUI{
 				String images[] = profileImages.split("\\|");
 		        for (int i=0; i < images.length; i++){
 		        	if (i != index){
-		        	    indexImages = indexImages + images[i];
-		        	    if (i != images.length - 1){
-		        	    	indexImages = indexImages + "|";
-		        	    }
-		        	}
-		        }
-			 }
-		 }
+		        	    indexImages = indexImages + images[i] + "|";
+		        	 }
+		         }
+		        indexImages = indexImages.substring(0, indexImages.length() - 1);
+		      }
+		   }
+		 
+		 userMetadata.put(ApplicationInstance.NEW_PROFILE_IMAGE, indexImages);
 		 
 	}
+	     
+		 
+	
 	
 	protected void buildProfileImages(){
 		
 		 String profileImages = ProfileImageUtils.getProfileImages(userMetadata);
 		 LinearLayout profileImageLayout = (LinearLayout)userInfo.findViewById(R.id.profileImageViewLayout);
-		 //profileImageLayout.removeAllViews();
+		 profileImageLayout.removeAllViews();
 		 if (profileImages != null && !profileImages.equals("")){
 			 if (profileImages.contains("|")){
 				String images[] = profileImages.split("\\|");
@@ -1090,6 +1093,14 @@ public class PreferenceScreen extends Activity implements RefreshUI{
 		      
 		   case FULLSCREEN_SHOW:
 			  if (ApplicationInstance.getInstance().getDeletedPhotoId() != null){
+				  removeProfileImages(Integer.parseInt(ApplicationInstance.getInstance().getDeletedPhotoId()));
+				  String profileImages = ProfileImageUtils.getProfileImages(userMetadata);
+				  String images[] = profileImages.split("\\|");
+				  ImageCache.getInstance().rebuildPermImageMap(ApplicationInstance.getInstance().getLoginName(),
+						  Integer.parseInt(ApplicationInstance.getInstance().getDeletedPhotoId()), images.length);
+				  buildProfileImages();
+				  setProfileImageListener(ApplicationInstance.getInstance().getLoginName());
+				  ApplicationInstance.getInstance().setDeletedPhotoId(null);
 				  Log.i("", "");
 			  }
 		}
