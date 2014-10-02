@@ -6,6 +6,8 @@ import com.streamsdk.chat.R;
 
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -18,11 +20,13 @@ public class FullScreenProfileImage extends Activity{
     
 	String imageId;
 	String index;
+	boolean isLoggedIn;
 	public void onCreate(Bundle savedInstanceState) {
 		 super.onCreate(savedInstanceState);
 	     Intent intent = getIntent();
 	     imageId = intent.getExtras().getString("imageid");
 	     index = intent.getExtras().getString("index");
+	     isLoggedIn = intent.getExtras().getBoolean("loggedin");
 	     getActionBar().setDisplayHomeAsUpEnabled(true);
 		 setContentView(R.layout.profileimagefullscreen_layout);
 	     ImageView iv = (ImageView)findViewById(R.id.profileImageFullscreen);
@@ -39,22 +43,40 @@ public class FullScreenProfileImage extends Activity{
 
 	
 	public boolean onPrepareOptionsMenu(Menu menu) {
-		 MenuInflater inflater = getMenuInflater();
-		 menu.clear();
-		 inflater.inflate(R.menu.delete_menu, menu); 
-		 return super.onPrepareOptionsMenu(menu);
+		if (isLoggedIn){
+		    MenuInflater inflater = getMenuInflater();
+		    menu.clear();
+		    inflater.inflate(R.menu.delete_menu, menu);
+		}
+		return super.onPrepareOptionsMenu(menu);
 	 }
 	
 	
 	@Override
     public boolean onOptionsItemSelected(MenuItem item) {
-		
 		String title = (String) item.getTitle();
 		if (title.equals("Delete")){
-			ApplicationInstance.getInstance().setDeletedPhotoId(index);
-			setResult(124);
-			finish();
+			AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+	        alertDialogBuilder.setTitle("Delete");
+	        alertDialogBuilder.setMessage("Are you sure to delete this photo ?")
+					.setCancelable(false)
+					.setPositiveButton("Yes",new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog,int id) {
+							ApplicationInstance.getInstance().setDeletedPhotoId(index);
+							setResult(124);
+							finish();
+						}
+					  })
+					.setNegativeButton("No",new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog,int id) {
+							dialog.cancel();
+						}
+					});
+	 	
+	        AlertDialog alertDialog = alertDialogBuilder.create();
+	 		alertDialog.show();
 		}
+		
 	    switch (item.getItemId()) {
             case android.R.id.home:
                onBackPressed();

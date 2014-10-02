@@ -68,6 +68,10 @@ public class PreferenceScreen extends Activity implements RefreshUI{
 		}
 	}
 	
+	protected boolean isFromLoggedInUser(){
+		return true;
+	}
+	
 	private void insertStatus(){
 		 StatusDB sdb = ApplicationInstance.getInstance().getStatusDB();
 		 sdb.insert("Hey there! I am using CoolChat.");
@@ -399,10 +403,9 @@ public class PreferenceScreen extends Activity implements RefreshUI{
 		   }
 		 
 		 userMetadata.put(ApplicationInstance.NEW_PROFILE_IMAGE, indexImages);
+		 updateProfileImagesOnServer(indexImages);
 		 
 	}
-	     
-		 
 	
 	
 	protected void buildProfileImages(){
@@ -469,6 +472,7 @@ public class PreferenceScreen extends Activity implements RefreshUI{
 			         }
 			         intent.putExtra("imageid", path);
 			         intent.putExtra("index", String.valueOf(currentIndex));
+			         intent.putExtra("loggedin", isFromLoggedInUser());
 			         if (userName.equals(ApplicationInstance.getInstance().getLoginName())){
 			        	 intent.putExtra("friend", false);
 			         }else{
@@ -1053,6 +1057,12 @@ public class PreferenceScreen extends Activity implements RefreshUI{
 		}
 	}
 	
+	private void updateProfileImagesOnServer(String profileImages){
+	    StreamUser su = new StreamUser();
+  	    su.updateUserMetadata(ApplicationInstance.NEW_PROFILE_IMAGE, profileImages);
+	    su.updateUserMetadataInBackground(ApplicationInstance.getInstance().getLoginName());
+	}
+	
 	protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) { 
 		super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
 		switch(requestCode) {
@@ -1077,10 +1087,8 @@ public class PreferenceScreen extends Activity implements RefreshUI{
 		    	  sf.postBytes(profileImageBytes, new StreamCallback() {
 					public void result(boolean succeed, String errorMessage) {
 					      if (succeed){
-					    	  StreamUser su = new StreamUser();
 					    	  String profileImages = recreateImageIndex(sf.getId());
-					    	  su.updateUserMetadata(ApplicationInstance.NEW_PROFILE_IMAGE, profileImages);
-					    	  su.updateUserMetadataInBackground(ApplicationInstance.getInstance().getLoginName());
+					    	  updateProfileImagesOnServer(profileImages);
 					    	  //update in memeory
 					    	  userMetadata.put(ApplicationInstance.NEW_PROFILE_IMAGE, profileImages);
 					    	  ApplicationInstance.getInstance().updateFriendMetadata(ApplicationInstance.getInstance().getLoginName(), userMetadata);

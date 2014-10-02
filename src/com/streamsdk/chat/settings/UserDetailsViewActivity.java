@@ -62,6 +62,11 @@ public class UserDetailsViewActivity extends PreferenceScreen{
 		 }
 	}
 	
+
+	protected boolean isFromLoggedInUser(){
+		return false;
+	}
+	
 	public synchronized void updateUI(boolean add){
 		LinearLayout profileImageLayout = (LinearLayout)userInfo.findViewById(R.id.profileImageViewLayout);
 		 int count = profileImageLayout.getChildCount();
