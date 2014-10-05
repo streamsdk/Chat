@@ -2,13 +2,13 @@
 
     <item
         android:id="@+id/menu_photo"
-        android:icon="@drawable/set"
+        android:icon="@drawable/phototake128"
         android:showAsAction="always"
         android:title="GroupPhoto"/>
     
       <item
         android:id="@+id/menu_text"
-        android:icon="@drawable/addfri"
+        android:icon="@drawable/textnew120"
         android:showAsAction="always"
         android:title="GroupText"/>
       

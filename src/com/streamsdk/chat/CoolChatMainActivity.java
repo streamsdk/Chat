@@ -37,12 +37,12 @@ public class CoolChatMainActivity extends TabActivity {
 	    activity = this;
 	    tabHost = getTabHost(); // The activity TabHost
 	    TabSpec u = tabHost.newTabSpec("Friends");
-	    u.setIndicator("Friends");
+	    u.setIndicator(null, getResources().getDrawable(R.drawable.friendstab48));
 	    Intent updatesIntent = new Intent(this, MyFriendsActivity.class);
 	    u.setContent(updatesIntent);
 
 	    TabSpec m = tabHost.newTabSpec("Demo");
-	    m.setIndicator("Demo");
+	    m.setIndicator(null, getResources().getDrawable(R.drawable.message48));
 	    Intent demo = new Intent(this, GroupThreadScreen.class);
 	    m.setContent(demo);
 	  
