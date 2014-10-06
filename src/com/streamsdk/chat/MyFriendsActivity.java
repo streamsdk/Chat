@@ -3,6 +3,8 @@ package com.streamsdk.chat;
 import java.io.File;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -27,6 +29,7 @@ import android.widget.TextView;
 import com.stream.api.StreamCallback;
 import com.stream.api.StreamCategoryObject;
 import com.stream.api.StreamFile;
+import com.stream.api.StreamObject;
 import com.stream.api.StreamUser;
 import com.streamsdk.cache.ChatBackgroundDB;
 import com.streamsdk.cache.FileCache;
@@ -120,22 +123,33 @@ public class MyFriendsActivity extends ListActivity implements RefreshUI{
 		activity =  this;
 		loadReadStatus();
 	
-		final StreamCategoryObject groupPosts = new StreamCategoryObject("groupphotos");
-		groupPosts.loadStreamObjects(new StreamCallback() {
-			public void result(boolean succeed, String errorMessage) {
-			    if (succeed){
-			    	ApplicationInstance.getInstance().setGroupPosts(groupPosts);
-			    }
-			}
-		});
-		
 		 FriendDB db = ApplicationInstance.getInstance().getFriendDB();
 		 if (db == null){
 			   reiniDB();
 			   db =  ApplicationInstance.getInstance().getFriendDB();
 		  }
 	
-		names = db.getFriendsArray();
+		 names = db.getFriendsArray();
+	
+		 final StreamCategoryObject groupPosts = new StreamCategoryObject("groupphotos");
+		 groupPosts.loadStreamObjects(new StreamCallback() {
+			public void result(boolean succeed, String errorMessage) {
+			    if (succeed){
+			    	ApplicationInstance.getInstance().setGroupPosts(groupPosts);
+			        Set<String> nameSet = new HashSet<String>(Arrays.asList(names));
+			        Set<String> loaded = new HashSet<String>();
+			        List<StreamObject> sos = groupPosts.getListOfStreamObject();
+			        for (StreamObject so : sos){
+			        	String postedBy = (String)so.get("postedBy");
+			        	if (postedBy != null && !nameSet.contains(postedBy) && !loaded.contains(postedBy)){
+			        		loaded.add(postedBy);
+			        		loadMetadataAndProfileImage(postedBy);
+			        	}
+			        }
+			    }
+			}
+		 });
+		
 		
 		loadMetadataAndProfileImage(ApplicationInstance.getInstance().getLoginName());
 		
