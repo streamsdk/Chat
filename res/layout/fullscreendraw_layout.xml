@@ -53,8 +53,8 @@
      
      <ImageView
             android:id="@+id/textOptionsButton"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:layout_marginBottom="5dp"
@@ -64,10 +64,10 @@
 
        <ImageView
             android:id="@+id/useTxtButton"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_centerHorizontal="true"
             android:layout_alignParentBottom="true"
-            android:src="@drawable/record"/>
+            android:src="@drawable/text128"/>
      
 </RelativeLayout>

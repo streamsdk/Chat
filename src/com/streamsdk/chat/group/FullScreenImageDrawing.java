@@ -4,6 +4,8 @@ import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jivesoftware.smack.packet.Message;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -21,6 +23,7 @@ import android.text.Layout.Alignment;
 import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -40,6 +43,7 @@ import com.stream.api.StreamCallback;
 import com.stream.api.StreamCategoryObject;
 import com.stream.api.StreamFile;
 import com.stream.api.StreamObject;
+import com.stream.xmpp.StreamXMPP;
 import com.streamsdk.chat.ApplicationInstance;
 import com.streamsdk.chat.R;
 import com.streamsdk.util.BitmapUtils;
@@ -131,12 +135,33 @@ public class FullScreenImageDrawing extends Activity{
 				 showKeyboard();
 		         fl.setVisibility(View.VISIBLE);
 		         txtOptions.setVisibility(View.VISIBLE);
+			     showTxt = true;
 			  }else{
-				 hideKeyboard();
-				 fl.setVisibility(View.GONE);
-			     txtOptions.setVisibility(View.GONE);
+				
 			  }
-			  showTxt = !showTxt;
+			  
+			  if (!et.getText().toString().equals("")){
+				  AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(activity);
+			        alertDialogBuilder
+					.setMessage("Do you want to remove the text?")
+					.setCancelable(false)
+					.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog, int which) {
+									 hideKeyboard();
+									 fl.setVisibility(View.GONE);
+								     txtOptions.setVisibility(View.GONE);
+								     et.setText("");
+								     showTxt = false;
+								}
+					}).setNegativeButton("NO", new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog, int which) {
+									dialog.cancel();
+								}
+					});
+					
+			        AlertDialog alertDialog = alertDialogBuilder.create();
+					alertDialog.show();	  
+			  }
 			}
 		 });
          
@@ -168,6 +193,13 @@ public class FullScreenImageDrawing extends Activity{
   				 }
   			 }
   		});
+         
+         Button bCancel = (Button)popupView.findViewById(R.id.videoOptionsButtonCancel);
+         bCancel.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View arg0) {
+			    popupWindow.dismiss();	
+			}
+		});
     
 	}
 	
