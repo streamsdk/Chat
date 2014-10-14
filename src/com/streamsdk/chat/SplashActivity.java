@@ -95,7 +95,7 @@ public class SplashActivity extends Activity{
 		
 		 super.onCreate(savedInstanceState);
 		 setContentView(R.layout.splash_layout);
-		 
+		 ApplicationInstance.getInstance().setContext(getApplicationContext());
 		 EmojiParser.getInstance(getApplicationContext()).getEmoMap();
 		 MessagingHistoryDB mdb = new MessagingHistoryDB(this);
 		 MessagingCountDB mcdb = new MessagingCountDB(this);

@@ -13,6 +13,7 @@ import com.stream.xmpp.StreamXMPPMessage;
 import com.streamsdk.chat.ApplicationInstance;
 import com.streamsdk.chat.domain.IM;
 import com.streamsdk.chat.emoji.EmojiParser;
+import com.streamsdk.util.AnonymousUsers;
 import com.streamsdk.xmpp.NotificationInterface;
 
 public class MessageHistoryHandler implements Runnable{
@@ -87,11 +88,15 @@ public class MessageHistoryHandler implements Runnable{
 
 			  im.setTo(userName);
 			  im.setFrom(xmppMessage.getFrom());
+			  
 		      im.setChatTime(Long.parseLong(timeKey));
 		      
 		      try{
 			      ApplicationInstance.getInstance().getMessagingHistoryDB().insert(im);
 			      ApplicationInstance.getInstance().getMessagingCountDB().insert(String.valueOf(im.getChatTime()), im.getFrom());
+			      if (!ApplicationInstance.getInstance().getFriendDB().userNameExists(xmppMessage.getFrom())){
+					  AnonymousUsers.addAnonymousUser(xmppMessage.getFrom(), ApplicationInstance.getInstance().getContext());
+				  }
 		      }catch(Throwable t){
 		         continue;
 		      }

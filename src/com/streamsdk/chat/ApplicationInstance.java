@@ -53,6 +53,7 @@ public class ApplicationInstance {
 	public static String HOST_PREFIX = "@streamsdk.com";
 	public static final String USER_INFO = "MyPrefsFile";
 	public static final String READ_STATUS = "readStatus";
+	public static final String ANO_USERS = "anonmousUsers";
     public static final String PROFILE_IMAGE = "profileImageId";
     public static final String NEW_PROFILE_IMAGE = "newprofileimage";
     public static final String BLOOD_TYPE = "bloodType";

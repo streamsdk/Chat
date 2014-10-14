@@ -21,6 +21,7 @@ import com.streamsdk.chat.domain.IM;
 import com.streamsdk.chat.emoji.EmojiParser;
 import com.streamsdk.chat.handler.AudioHandler;
 import com.streamsdk.chat.handler.ImageHandler;
+import com.streamsdk.util.AnonymousUsers;
 
 public class ApplicationXMPPListener {
 
@@ -105,7 +106,11 @@ public class ApplicationXMPPListener {
 				  Log.i("received double messaging", "return");
 				  return;
 				}
-				  
+				 
+				if (!ApplicationInstance.getInstance().getFriendDB().userNameExists(xmppMessage.getFrom())){
+					AnonymousUsers.addAnonymousUser(xmppMessage.getFrom(), ApplicationInstance.getInstance().getContext());
+				}
+				
 				if (ApplicationInstance.getInstance().getCurrentChatListener() != null){
 				    String receiver = ApplicationInstance.getInstance().getCurrentChatListener().getReceiver();
 				    if (receiver.equals(im.getFrom()))
@@ -186,6 +191,11 @@ public class ApplicationXMPPListener {
 						   StreamXMPP.getInstance().sendAck(ApplicationInstance.APPID + xmppMessage.getFrom(), xmppMessage.getId());
 					   }
 					   im.setBodyJSON(body);
+					   
+					   if (!ApplicationInstance.getInstance().getFriendDB().userNameExists(xmppMessage.getFrom())){
+							AnonymousUsers.addAnonymousUser(xmppMessage.getFrom(), ApplicationInstance.getInstance().getContext());
+					   }
+					   
 					   if (ApplicationInstance.getInstance().getCurrentChatListener() != null && processed){
 						    String receiver = ApplicationInstance.getInstance().getCurrentChatListener().getReceiver();
 						    if (receiver.equals(im.getFrom()))

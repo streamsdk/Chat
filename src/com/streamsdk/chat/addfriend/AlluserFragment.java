@@ -3,12 +3,11 @@ package com.streamsdk.chat.addfriend;
 import java.util.List;
 import java.util.Map;
 
-import com.streamsdk.chat.ApplicationInstance;
-import com.streamsdk.chat.R;
-
 import android.app.Activity;
 import android.app.ListFragment;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,9 +15,14 @@ import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
 import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.AbsListView.OnScrollListener;
+import android.widget.ListView;
+
+import com.streamsdk.chat.ApplicationInstance;
+import com.streamsdk.chat.MainActivity;
+import com.streamsdk.chat.R;
 
 public class AlluserFragment extends ListFragment implements OnScrollListener, LoadingDoneCallback{
 	
@@ -79,7 +83,7 @@ public class AlluserFragment extends ListFragment implements OnScrollListener, L
 		   Map<String, String> currentLastUser = users.get(users.size() - 1);
 		   String nextMarker = currentLastUser.get("nextmarker");
 		   if (nextMarker != null && loadMore && !loading){
-			  UsersLoadThread userLoad = new UsersLoadThread(nextMarker, 15);
+			  UsersLoadThread userLoad = new UsersLoadThread(nextMarker, 100);
 			  userLoad.setCallback(this);
 			  loading = true;
 			  showAnimation();
@@ -106,8 +110,16 @@ public class AlluserFragment extends ListFragment implements OnScrollListener, L
 		updateData();
 	}
 	
-     public void onScrollStateChanged(AbsListView arg0, int arg1) {
+    public void onScrollStateChanged(AbsListView arg0, int arg1) {
 		
 	}
+
+    public void onListItemClick(ListView l, View v, int position, long id) {
+         Map<String, String> metaData = allUserAdapter.getItem(position);
+         String userName = metaData.get("name");
+         Intent intent = new Intent(getActivity(), MainActivity.class);
+         intent.putExtra("receiver", userName);    
+         startActivity(intent);
+    }
 
 }
