@@ -6,7 +6,6 @@ import android.app.TabActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -45,9 +44,16 @@ public class CoolChatMainActivity extends TabActivity {
 	    m.setIndicator(null, getResources().getDrawable(R.drawable.message48));
 	    Intent demo = new Intent(this, GroupThreadScreen.class);
 	    m.setContent(demo);
+	    
+	    TabSpec ano = tabHost.newTabSpec("ano");
+	    ano.setIndicator(null, getResources().getDrawable(R.drawable.message48));
+	    Intent anoIntent = new Intent(this, AnonymousScreen.class);
+	    ano.setContent(anoIntent);
+	    
 	  
 	    tabHost.addTab(u);
 	    tabHost.addTab(m);
+	    tabHost.addTab(ano);
 	    
 	    
 	    tabHost.setCurrentTab(0);

@@ -22,7 +22,7 @@
             android:layout_marginLeft="15dp"
             android:textAppearance="?android:attr/textAppearanceListItem"
             android:textColor="@color/pinned_header_background"
-            android:layout_toRightOf="@+id/imgMainPageAvatar" />
+            android:layout_toRightOf="@+id/imgAnoMainPageAvatar" />
       
       <TextView
             android:id="@+id/txtAnoStatus"
@@ -32,8 +32,8 @@
             android:layout_marginTop="5dp"
             android:textSize="15sp"
             android:text="Hey there! I am using CoolChat."
-            android:layout_toRightOf="@+id/imgMainPageAvatar"
-            android:layout_below="@+id/txtMyfriendFriendName" />
+            android:layout_toRightOf="@+id/imgAnoMainPageAvatar"
+            android:layout_below="@+id/txtAnoName" />
       
       <FrameLayout
            android:id="@+id/messageAnoCountLayout"
