@@ -1,10 +1,5 @@
 package com.streamsdk.chat.settings;
 
-import com.stream.api.ThreadPoolService;
-import com.streamsdk.cache.ImageCache;
-import com.streamsdk.chat.ApplicationInstance;
-import com.streamsdk.chat.R;
-
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -13,6 +8,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.stream.api.ThreadPoolService;
+import com.streamsdk.cache.ImageCache;
+import com.streamsdk.chat.ApplicationInstance;
+import com.streamsdk.chat.MainActivity;
+import com.streamsdk.chat.R;
 
 public class UserDetailsViewActivity extends PreferenceScreen{
 	
@@ -44,6 +45,18 @@ public class UserDetailsViewActivity extends PreferenceScreen{
 	protected void logout(){
 		 TextView logout = (TextView)findViewById(R.id.logout);
 		 logout.setVisibility(View.GONE);
+	}
+	
+	protected void startChat(){
+		TextView tv = (TextView)findViewById(R.id.startchat);
+		tv.setVisibility(View.VISIBLE);
+		tv.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View arg0) {
+				Intent intent = new Intent(activity, MainActivity.class);
+	            intent.putExtra("receiver", userName);    
+	            startActivity(intent);
+			}
+		});
 	}
 	
 	protected void setProfileImageListener(String name){

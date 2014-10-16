@@ -113,6 +113,7 @@ public class PreferenceScreen extends Activity implements RefreshUI{
 		 editListener();
 		 initiLabels();
 		 logout();
+		 startChat();
 		     
 		 //invitation section
 		 /*LinearLayout invitationLayout = (LinearLayout)findViewById(R.id.inviLayout);
@@ -165,6 +166,8 @@ public class PreferenceScreen extends Activity implements RefreshUI{
 		
 		
 	}
+	
+	protected void startChat(){}
 	
 	protected void getUserMetaData(){
 		 userMetadata = ApplicationInstance.getInstance().getFriendMetadata(ApplicationInstance.getInstance().getLoginName());

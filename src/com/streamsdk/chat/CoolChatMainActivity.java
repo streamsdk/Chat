@@ -181,8 +181,10 @@ public class CoolChatMainActivity extends TabActivity {
            menu.clear();
            if (currentTab == 0) {
                inflater.inflate(R.menu.frineds_menu, menu); 
-           } else {
+           } else if (currentTab == 1) {
                inflater.inflate(R.menu.group_menu, menu); 
+           }else{
+               // do nothing
            }
          
            return super.onPrepareOptionsMenu(menu);
