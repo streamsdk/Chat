@@ -2,7 +2,7 @@
 
     <item
         android:id="@+id/menu_photo"
-        android:icon="@drawable/set"
+        android:icon="@drawable/posttext"
         android:showAsAction="always"
         android:title="PostText"/>
   

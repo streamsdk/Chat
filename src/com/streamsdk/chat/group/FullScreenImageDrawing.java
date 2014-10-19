@@ -137,10 +137,6 @@ public class FullScreenImageDrawing extends Activity{
 		         txtOptions.setVisibility(View.VISIBLE);
 			     showTxt = true;
 			  }else{
-				
-			  }
-			  
-			  if (!et.getText().toString().equals("")){
 				  AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(activity);
 			        alertDialogBuilder
 					.setMessage("Do you want to remove the text?")
@@ -160,7 +156,7 @@ public class FullScreenImageDrawing extends Activity{
 					});
 					
 			        AlertDialog alertDialog = alertDialogBuilder.create();
-					alertDialog.show();	  
+					alertDialog.show();	   
 			  }
 			}
 		 });

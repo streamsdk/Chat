@@ -46,7 +46,7 @@ public class CoolChatMainActivity extends TabActivity {
 	    m.setContent(demo);
 	    
 	    TabSpec ano = tabHost.newTabSpec("ano");
-	    ano.setIndicator(null, getResources().getDrawable(R.drawable.message48));
+	    ano.setIndicator(null, getResources().getDrawable(R.drawable.chatall));
 	    Intent anoIntent = new Intent(this, AnonymousScreen.class);
 	    ano.setContent(anoIntent);
 	    
