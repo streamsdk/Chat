@@ -64,6 +64,24 @@ public class FriendDB {
 		return false;
     }
     
+    public boolean isAFriend(String userName){
+    	
+    	Cursor c = db.rawQuery("SELECT username,status FROM frienddb", null);
+		if  (c!= null && c.moveToFirst()) {
+            do {
+            	
+            	String name = c.getString(0);
+            	String status = c.getString(1);
+            	if (name.equals(userName) && status.equals("friend"))
+            		return true;
+            	
+            }while (c.moveToNext());
+            c.close();
+        } 
+		
+		return false;
+    }
+    
     public void delete(String userName){
     	int result = db.delete("frienddb", "username=?", new String[]{userName});
         Log.i("", String.valueOf(result));

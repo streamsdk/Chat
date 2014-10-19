@@ -45,6 +45,10 @@ public class AnonymousScreen extends ListActivity{
 	 }
 	 
 	 private void updateData(){
+		 
+		Set<String> users = AnonymousUsers.getAllAnonymousUsers(getApplicationContext());
+		List<String> userList = new ArrayList<String>(users);
+		aa.setListUsers(userList); 
 		runOnUiThread(new Runnable(){
 				public void run() {
 					aa.notifyDataSetChanged();

@@ -94,7 +94,7 @@ public class MessageHistoryHandler implements Runnable{
 		      try{
 			      ApplicationInstance.getInstance().getMessagingHistoryDB().insert(im);
 			      ApplicationInstance.getInstance().getMessagingCountDB().insert(String.valueOf(im.getChatTime()), im.getFrom());
-			      if (!ApplicationInstance.getInstance().getFriendDB().userNameExists(xmppMessage.getFrom())){
+			      if (!ApplicationInstance.getInstance().getFriendDB().isAFriend(xmppMessage.getFrom())){
 					  AnonymousUsers.addAnonymousUser(xmppMessage.getFrom(), ApplicationInstance.getInstance().getContext());
 				  }
 		      }catch(Throwable t){

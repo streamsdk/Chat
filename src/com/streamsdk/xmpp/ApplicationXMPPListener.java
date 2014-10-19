@@ -107,7 +107,7 @@ public class ApplicationXMPPListener {
 				  return;
 				}
 				 
-				if (!ApplicationInstance.getInstance().getFriendDB().userNameExists(xmppMessage.getFrom())){
+				if (!ApplicationInstance.getInstance().getFriendDB().isAFriend(xmppMessage.getFrom())){
 					AnonymousUsers.addAnonymousUser(xmppMessage.getFrom(), ApplicationInstance.getInstance().getContext());
 				}
 				
@@ -192,7 +192,7 @@ public class ApplicationXMPPListener {
 					   }
 					   im.setBodyJSON(body);
 					   
-					   if (!ApplicationInstance.getInstance().getFriendDB().userNameExists(xmppMessage.getFrom())){
+					   if (!ApplicationInstance.getInstance().getFriendDB().isAFriend(xmppMessage.getFrom())){
 							AnonymousUsers.addAnonymousUser(xmppMessage.getFrom(), ApplicationInstance.getInstance().getContext());
 					   }
 					   

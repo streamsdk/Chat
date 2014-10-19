@@ -37,6 +37,10 @@ public class AnoymousAdapter extends BaseAdapter{
 	public Object getItem(int position) {
 		return users.get(position);
 	}
+	
+	public void setListUsers(List<String> u){
+		users = u;
+	}
 
 	public long getItemId(int arg0) {
 		return 0;
