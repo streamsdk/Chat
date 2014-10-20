@@ -14,7 +14,7 @@
             android:layout_height="fill_parent"
             android:gravity="center_vertical"
             android:textSize="18sp" 
-            android:text="you have not sent any invitation so far"
+            android:text="conversation with anonymous user will be shown here"
             android:visibility="gone"/>   
     
     

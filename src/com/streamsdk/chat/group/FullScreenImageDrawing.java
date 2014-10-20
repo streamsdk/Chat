@@ -212,7 +212,7 @@ public class FullScreenImageDrawing extends Activity{
 	
     private void postImages(Bitmap bm){
     	
-    	showDialog("Posting Image...");
+    	showDialog("Posting...");
     	//gobackToMainScreen();
     	final StreamFile sf = new StreamFile();
     	final byte postBytes[] = getImageBytes(bm);

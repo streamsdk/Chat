@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.TextView;
 
 import com.streamsdk.util.AnonymousUsers;
 
@@ -18,6 +19,7 @@ public class AnonymousScreen extends ListActivity{
 	
 	 AnoymousAdapter aa;
 	 Activity activity;
+	 TextView tv;
 	 
 	 protected void onResume(){
 		 super.onResume();
@@ -34,6 +36,10 @@ public class AnonymousScreen extends ListActivity{
 		 List<String> userList = new ArrayList<String>(users);
 		 aa = new AnoymousAdapter(userList, this);
 		 setListAdapter(aa);
+		 tv = (TextView)findViewById(R.id.txtAnoNoHistory);
+		 if (userList.size() == 0)
+			 tv.setVisibility(View.VISIBLE);
+		 
 		 getListView().setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> arg0, View view, int position, long arg3) {
 				String name = (String)aa.getItem(position);
@@ -48,7 +54,10 @@ public class AnonymousScreen extends ListActivity{
 		 
 		Set<String> users = AnonymousUsers.getAllAnonymousUsers(getApplicationContext());
 		List<String> userList = new ArrayList<String>(users);
-		aa.setListUsers(userList); 
+		aa.setListUsers(userList);
+		if (userList.size() > 0 && tv != null)
+			tv.setVisibility(View.GONE);
+		
 		runOnUiThread(new Runnable(){
 				public void run() {
 					aa.notifyDataSetChanged();

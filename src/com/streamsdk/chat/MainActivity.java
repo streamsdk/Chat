@@ -73,6 +73,7 @@ import com.streamsdk.chat.handler.AudioHandler;
 import com.streamsdk.chat.handler.ImageHandler;
 import com.streamsdk.chat.settings.ChatSettingsDialog;
 import com.streamsdk.search.SearchImageActivity;
+import com.streamsdk.util.AnonymousUsers;
 
 
 public class MainActivity extends Activity implements EditTextEmojSelected, ChatListener, RefreshUI{
@@ -146,6 +147,14 @@ public class MainActivity extends Activity implements EditTextEmojSelected, Chat
 	       }
 	    }
 	    updateData();
+	}
+	
+	private void checkUserAnonymous(){
+		if (messages.size() == 0){
+		    if (!ApplicationInstance.getInstance().getFriendDB().isAFriend(receiver)){
+	        	AnonymousUsers.addAnonymousUser(receiver, ApplicationInstance.getInstance().getContext());
+	        }
+		}
 	}
 	
 	@Override
@@ -223,6 +232,7 @@ public class MainActivity extends Activity implements EditTextEmojSelected, Chat
 		//this button is used for sending normal messaging
 		button.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
+				checkUserAnonymous();
 				IM im = new IM();
 				String mt = messageText.getText().toString();
 				if (mt.equals("")){
@@ -533,6 +543,7 @@ public class MainActivity extends Activity implements EditTextEmojSelected, Chat
     }
    
     private void sendVideoIM(final String path){
+    	checkUserAnonymous();
     	dismissMoreOptionPanel();
     	if (isVideoSizeExceedTheMax(path)){
     		ApplicationInstance.getInstance().setRecordingVideoPath(null);
@@ -596,7 +607,7 @@ public class MainActivity extends Activity implements EditTextEmojSelected, Chat
     }
     
     private void sendMapIM(SendMap sm){
-    	
+    	checkUserAnonymous();
     	dismissMoreOptionPanel();
     	final IM im = ImageHandler.buildMapIMMessage(sm);
     	long chatTime = System.currentTimeMillis(); 
@@ -627,6 +638,7 @@ public class MainActivity extends Activity implements EditTextEmojSelected, Chat
     }
     
     private void sendImageIM(String path){
+    	checkUserAnonymous();
     	dismissMoreOptionPanel();
     	final IM im = ImageHandler.buildImageIMMessage(path);
 		if (im.isVideo()){
@@ -821,7 +833,7 @@ public class MainActivity extends Activity implements EditTextEmojSelected, Chat
 	         
 	         File file = new File(currentRecordingFileName);
 	         Map<String, Object> metaData = new HashMap<String, Object>();
-	         
+	         checkUserAnonymous();
 	         //start sending this as a file
 	     	final IM voiceIm = AudioHandler.buildIMMessage(currentRecordingFileName, rp.getTime()/1000);
 	     	voiceIm.setFrom(ApplicationInstance.getInstance().getLoginName());

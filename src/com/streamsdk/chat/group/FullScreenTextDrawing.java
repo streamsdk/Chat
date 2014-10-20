@@ -82,7 +82,7 @@ public class FullScreenTextDrawing extends Activity{
 	
 	private void postImages(Bitmap bm){
 	    	
-	    	showDialog("Posting Image...");
+	    	showDialog("Posting...");
 	    	final StreamFile sf = new StreamFile();
 	    	final byte postBytes[] = getImageBytes(bm);
 	    	sf.postBytes(postBytes, new StreamCallback() {
