@@ -71,6 +71,7 @@ public class ApplicationInstance {
     public static final String AGE = "age";
     public static final String TOEKN = "token";
     public static final String STATUS = "status";
+    public static final String SEX = "sex";
     public static final int FINISH_ALL= 1515;
 	
 	private static ApplicationInstance applicationInstance = null;

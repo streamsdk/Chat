@@ -345,7 +345,44 @@ public class PreferenceScreen extends Activity implements RefreshUI{
 					}
 				});
 				
+				RelativeLayout sex = (RelativeLayout)userInfo.findViewById(R.id.sexPicker);
+				sex.setOnClickListener(new View.OnClickListener() {
+					public void onClick(View v) {
+					     showSexSetting();
+					}
+				});
+				
+				
 	}
+	
+    private void showSexSetting(){
+		
+		reinitilize();
+		final NumberPicker np = (NumberPicker)popUpView.findViewById(R.id.numPicker);
+		final TextView bTxt = (TextView)userInfo.findViewById(R.id.sexTxt);
+        final String type = userMetadata.get(ApplicationInstance.SEX);
+        final String values[] = {"Guy", "Girl", "Both"};
+        np.setMinValue(0);
+        np.setMaxValue(2);
+    	np.setDisplayedValues(values);
+	    np.setWrapSelectorWheel(true);
+	    TextView tv = (TextView)popUpView.findViewById(R.id.numPickerText);
+	    tv.setText("Interest In?");
+	    popupWindow.showAtLocation(userInfo, Gravity.BOTTOM, 0, 0);
+	    Button buttonOK = (Button)popUpView.findViewById(R.id.numPickerButtonOK);
+	    buttonOK.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				 int indexValue = np.getValue();
+				 String selectedValue = values[indexValue];
+				 if (type == null || (!type.equals(selectedValue))){
+					 updatedMetadata.put(ApplicationInstance.SEX, selectedValue);
+					 bTxt.setText(selectedValue);
+				 }
+				 popupWindow.dismiss();
+			}
+		});
+	}
+	
 	
 	public synchronized void updateUI(boolean add){
 		LinearLayout profileImageLayout = (LinearLayout)userInfo.findViewById(R.id.profileImageViewLayout);
