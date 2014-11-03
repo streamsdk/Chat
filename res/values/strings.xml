@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">CoolChat</string>
-    <string name="action_settings">Settings</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="radioDis">Expire after Playing</string>
-    <string name="radioApp">Never Expire</string>
+    <string name="app_name" translatable="false">CoolChat</string>
+    <string name="action_settings" translatable="false">Settings</string>
+    <string name="hello_world" translatable="false">Hello world!</string>
+    <string name="radioDis" translatable="false">Expire after Playing</string>
+    <string name="radioApp" translatable="false">Never Expire</string>
     
 
 </resources>

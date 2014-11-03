@@ -32,6 +32,7 @@ import com.streamsdk.cache.MessagingCountDB;
 import com.streamsdk.cache.MessagingHistoryDB;
 import com.streamsdk.cache.StatusDB;
 import com.streamsdk.chat.ApplicationInstance;
+import com.streamsdk.chat.CoolChatMainActivity;
 import com.streamsdk.chat.MyFriendsActivity;
 import com.streamsdk.chat.R;
 import com.streamsdk.chat.domain.OnlineOffineUpdate;
@@ -296,7 +297,7 @@ public class XMPPConnectionService extends Service implements NotificationInterf
 	public void sendNotification(String expandedTitle, String expandedText,
 			String message) {
 		
-		Intent intent = new Intent(this, MyFriendsActivity.class);
+		Intent intent = new Intent(this, CoolChatMainActivity.class);
 		intent.putExtra("nMessage", message);
 		StreamSession.nMessage = message;
 		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
