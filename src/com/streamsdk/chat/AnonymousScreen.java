@@ -29,6 +29,7 @@ public class AnonymousScreen extends ListActivity{
 	 
 	 public void onCreate(Bundle savedInstanceState){
 		 
+		 // doing a simple adding comment test
 		 super.onCreate(savedInstanceState);
 		 setContentView(R.layout.anonymouslist_layout);
 		 activity = this;
