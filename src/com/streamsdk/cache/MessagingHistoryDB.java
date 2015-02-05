@@ -19,7 +19,7 @@ public class MessagingHistoryDB {
 
 	
 	private static final String DATABASE_NAME = "mhdb";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
     private SQLiteDatabase db;
     private SQLiteStatement mInsertStmt;
     private static final String MINSERT = "insert into mhdb (id, chattime, type, content, fromuser, touser,recordingtime,duration,viewed,lat,longt,address) values (?,?,?,?,?,?,?,?,?,?,?,?)";
@@ -221,9 +221,15 @@ public class MessagingHistoryDB {
 			 db.execSQL("CREATE TABLE mhdb (id TEXT PRIMARY KEY, chattime TEXT, type TEXT, content TEXT, fromuser TEXT, touser TEXT,recordingtime TEXT, duration TEXT, viewed TEXT, lat TEXT, longt TEXT, address TEXT)");
 		}
 
-		public void onUpgrade(SQLiteDatabase db, int arg1, int arg2) {
-			 db.execSQL("DROP TABLE IF EXISTS mhdb");
-	         onCreate(db);
-		}
+        public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        	if (oldVersion == 1 && newVersion == 2){
+        	db.execSQL("ALTER TABLE mhdb ADD COLUMN lat TEXT");
+        	db.execSQL("ALTER TABLE mhdb ADD COLUMN longt TEXT");
+        	db.execSQL("ALTER TABLE mhdb ADD COLUMN address TEXT");
+        	}else{
+        	  db.execSQL("DROP TABLE IF EXISTS mhdb");
+        	  onCreate(db);
+        	}
+       }
     }    
 }

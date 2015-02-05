@@ -256,7 +256,7 @@ public class XMPPConnectionService extends Service implements NotificationInterf
 			if (mackdb == null){
 				reintiDB();
 			}
-			
+			 
 			boolean connected = true;
 			long receivedStatusUpdateLastTime = ApplicationInstance.getInstance().getReceiveStatusUpdatedTime();
 			long diff = (System.currentTimeMillis() - receivedStatusUpdateLastTime)/(60 * 1000);

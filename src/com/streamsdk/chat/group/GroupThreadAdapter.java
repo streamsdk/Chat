@@ -94,9 +94,11 @@ public class GroupThreadAdapter extends BaseAdapter{
 		}
 		viewHolder.imgGroup.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				Intent intent = new Intent(activity.getApplicationContext(), UserDetailsViewActivity.class);
-				intent.putExtra("username", postedBy);
-				activity.startActivity(intent);		
+			  if (!postedBy.equals(ApplicationInstance.getInstance().getLoginName())){	
+				 Intent intent = new Intent(activity.getApplicationContext(), UserDetailsViewActivity.class);
+				 intent.putExtra("username", postedBy);
+				 activity.startActivity(intent);
+			  }
 			}
 		});
 		v.setTag(viewHolder);
